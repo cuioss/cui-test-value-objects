@@ -39,10 +39,3 @@ There are a number of features that can be used. Therefore, there are different 
 * link:src/site/asciidoc/generator-system.adoc[Generator System]
 * link:src/site/asciidoc/reflection-system.adoc[Reflection System]
 * link:src/site/asciidoc/simple-canonical-object-methods.adoc[Simplified Testing of Canonical Object Methods]
-
-
-
-=== Further Steps
-
-* Review / Enable the elements under 'Security' Tab
-* Add (link) the resulting maven-documentation: https://github.com/cuioss/cuioss.github.io/edit/main/README.md[github.io-documentation] 
