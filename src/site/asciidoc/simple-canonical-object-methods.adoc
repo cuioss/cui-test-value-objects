@@ -4,7 +4,7 @@
 
 If you want to test the canonical object methods without much fuzz just implement the corresponding interface:
 
-[listing]
+[source,java]
 ----
 class ShouldHandleObjectContractsTest implements ShouldHandleObjectContracts<ComplexBean> {
 
@@ -15,7 +15,7 @@ class ShouldHandleObjectContractsTest implements ShouldHandleObjectContracts<Com
 ----
 
 The tests will be done by the default implementations of the Interface. See below for further explanation.
-If you want to test more thoroughly, take a look at link:testing-value-objects.md[Value-Object-Testing]
+If you want to test more thoroughly, take a look at link:testing-value-objects.adoc[Value-Object-Testing]
 
 === Canonical?
 
@@ -38,7 +38,7 @@ Defines a simple assertion verifying the given Object is not `null`. Base for la
 
 Verifies that the given Object implements `Object#equals()` and `Object#hashCode()`and checks some basic behavior like handling of `null` and symmetry. 
 
-[listing]
+[source,java]
 ----
 class ShouldHandleEqualsAndHashCodeTest implements ShouldImplementEqualsAndHashCode<ComplexBean> {
 
@@ -52,7 +52,7 @@ class ShouldHandleEqualsAndHashCodeTest implements ShouldImplementEqualsAndHashC
 
 Verifies that the given Object implements `Object#toString()`.
 
-[listing]
+[source,java]
 ----
 class ShouldHandleToStringTest implements ShouldImplementToString<ComplexBean> {
 
@@ -66,7 +66,7 @@ class ShouldHandleToStringTest implements ShouldImplementToString<ComplexBean> {
 
 Verifies that the given Object implements `java.io.Serializable` and checks the actual serialization / deserialization of the given object..
 
-[listing]
+[source,java]
 ----
 class ShouldHandleSerializableTest implements ShouldBeSerializable<ComplexBean> {
 

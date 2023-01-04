@@ -6,7 +6,7 @@ The generator system has many different facets, therefore combines many differen
 
 It sits on top of the quickcheck library, but perspectively this will be invisible as an implementation detail, especially when we start to use the Java-module system. For you as an user you should consider the package `net.java.quickcheck.*` as *effectively discouraged*. But the quickcheck way of generating test-data is the cornerstone of our generator-system.
 
-Another important aspect is a typed generator system for most Java-default types that is capable of creating a generator for nearly any of the given types automatically. This is essential for link:testing-value-objects.md[Value-Object-Testing] that relies on automatic creation of arbitrary objects with random data.
+Another important aspect is a typed generator system for most Java-default types that is capable of creating a generator for nearly any of the given types automatically. This is essential for link:testing-value-objects.adoc[Value-Object-Testing] that relies on automatic creation of arbitrary objects with random data.
 
 In addition there are hooks within the Value-Object-Testing to interact configure the generators as needed
 
@@ -37,7 +37,7 @@ The extension `net.java.quickcheck.junit5.SeedInfo` is already activated for the
 Central interface for a concrete generator instance. `TypedGenerator#next()` provides a random instance, `TypedGenerator#getType()` provides the types.
 Sample implementation: 
 
-[listing]
+[source,java]
 ----
 public class ZoneOffsetGenerator implements TypedGenerator<ZoneOffset> {
 
@@ -63,7 +63,7 @@ public class ZoneOffsetGenerator implements TypedGenerator<ZoneOffset> {
 
 Central factory for `TypedGenerator` for most java-built-in types and wrappers for `fixedValue` and `enumValue` variants
 
-[listing]
+[source,java]
 ----
  assertNotNull(Generators.strings().next());
  assertNotNull(Generators.letterStrings().next());
@@ -85,7 +85,7 @@ Central factory for `TypedGenerator` for most java-built-in types and wrappers f
 
 Wraps a given `TypedGenerator` and provides  additional methods for creating `Lists` and `Sets`
 
-[listing]
+[source,java]
 ----
  CollectionGenerator<String> generator = new CollectionGenerator<>(Generators.nonEmptyStrings());
  assertNotNull(generator.list());
@@ -102,7 +102,7 @@ Is the central element of the automatic Generator system. It create generator fo
 
 In order to be used there are two methods essential:
 
-[listing]
+[source,java]
 ----
  // Initializes the basic java-types
  TypedGeneratorRegistry.registerBasicTypes();
@@ -116,7 +116,7 @@ In the context of Junit-5-tests the setup and clearing is done by the extension 
 
 If setup is correctly obtaining a generator for a type is done by calling: 
 
-[listing]
+[source,java]
 ----
 public static <T> Optional<TypedGenerator<T>> getGenerator(final Class<T> type)
 ----

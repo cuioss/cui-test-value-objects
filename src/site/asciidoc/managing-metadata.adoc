@@ -2,7 +2,7 @@
 
 === Concepts
 
-In order to work with properties used for link:testing-value-objects.md[Value-Object-Testing] the framework provides certain ways to retrieve / define a metadata-model for a concrete value-object. In most cases this is done automatically by using link:reflection-system.md[Reflection].
+In order to work with properties used for link:testing-value-objects.adoc[Value-Object-Testing] the framework provides certain ways to retrieve / define a metadata-model for a concrete value-object. In most cases this is done automatically by using link:reflection-system.adoc[Reflection].
 The resulting metadata is always logged on info-level for eventual debugging / trouble-shooting.
 
 Sample output:
@@ -25,7 +25,7 @@ INFO: Properties detected by using reflection and PropertyConfig-annotation:
 ----
 
 The precise meta-model is documented by the type `de.icw.cui.test.valueobjects.property.PropertyMetadata`
-With this structure the framework is capable of creating instances an the corresponding fields using a flexible link:generator-system.md[Generator System].
+With this structure the framework is capable of creating instances an the corresponding fields using a flexible link:generator-system.adoc[Generator System].
 
 == Adjusting Metadata
 
@@ -41,7 +41,7 @@ Aspects for adjusting are usually:
 
 Sometimes you have to adjust a number of properties at once. This can be done for all tests by using the annotation `@PropertyReflectionConfig` , example:
 
-[listing]
+[source,java]
 ----
  @VerifyBuilder
  @PropertyReflectionConfig(required = { "name", "generator", "propertyClass" },
@@ -51,7 +51,7 @@ Sometimes you have to adjust a number of properties at once. This can be done fo
 
 In case you adjust properties for a specific tests you can use the attributes on the corresponding annotations, e.g.:
 
-[listing]
+[source,java]
 ----
  @VerifyBuilder(required = { "name", "generator", "propertyClass" },
          defaultValued = { "collectionType", "propertyMemberInfo", "propertyReadWrite", "propertyAccessStrategy" })
@@ -65,7 +65,7 @@ The same goes for `@VerifyFactoryMethod` or `@VerifyConstructor` as well.
 On very rare cases you need to define the meta-model manually. The reason is either a complete failure on reflection, usually caused by generic-nesting or having not scannable properties that are used for Constructor/Factory/Builder and are not reflected by the value-object structure. 
 This can be done by using the `@PropertyConfig` annotation, e.g.
 
-[listing]
+[source,java]
 ----
  @PropertyConfig(name = "name", propertyClass = String.class, required = true)
  @VerifyFactoryMethod(of = { "name", "number" })
@@ -74,7 +74,7 @@ This can be done by using the `@PropertyConfig` annotation, e.g.
 
 On even rarer cases, where the scanning fails completely you can skip reflection by using `@PropertyReflectionConfig` with `skip = true`. But in that case you must define all properties manually.
 
-[listing]
+[source,java]
 ----
  @PropertyReflectionConfig(skip = true)
  @PropertyConfig(name = "name", propertyClass = String.class, required = true)

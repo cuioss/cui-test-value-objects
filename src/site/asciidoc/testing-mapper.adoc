@@ -3,14 +3,14 @@
 === Concepts
 
 Sitting on top of the framework described at
-link:testing-value-objects.md[Value-Object-Testing] these tests allows to test a mapper implementing a `java.util.function.Function` to map a (pseudo-)DTO object based on whatever technology (eHF, FHIR, ...) to a DTO object. The actual test-method is `verifyMapper()`. The mapper-test-configuration is defined with `@VerifyMapperConfiguration`. 
+link:testing-value-objects.adoc[Value-Object-Testing] these tests allows to test a mapper implementing a `java.util.function.Function` to map a (pseudo-)DTO object based on whatever technology (eHF, FHIR, ...) to a DTO object. The actual test-method is `verifyMapper()`. The mapper-test-configuration is defined with `@VerifyMapperConfiguration`. 
 
 For simple uses-case, like well designed beans there is no special configuration needed.
-Again there is is a lot of reflection going on under the covers. See link:managing-metadata.md[Managing Metadata], and link:generator-system.md[Generator System] and link:reflection-system.md[Reflection System] for details.
+Again there is is a lot of reflection going on under the covers. See link:managing-metadata.adoc[Managing Metadata], and link:generator-system.adoc[Generator System] and link:reflection-system.adoc[Reflection System] for details.
 
 === Usage
 
-[listing]
+[source,java]
 ----
 @VerifyMapperConfiguration(equals = { "firstname:nameFirst", "lastname:nameLast", "attributeList:listOfAttributes" })
 class AbstractMapperTestTest extends AbstractMapperTest<SimpleMapper, SimpleSourceBean, SimpleTargetBean> {

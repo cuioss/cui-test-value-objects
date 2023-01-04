@@ -2,14 +2,14 @@
 
 === Concepts
 
-The link:managing-metadata.md[Metadata-System] for link:testing-value-objects.md[Value-Object-Testing] relies heavily on the reflection system. Internally it uses a number of features directly from the JRE, some code inspired by Google Guavas TypeToken, some own tricks, implemented at `cui-java-util` and an internal meta-model, documented at link:managing-metadata.md[Managing Metadata].
+The link:managing-metadata.adoc[Metadata-System] for link:testing-value-objects.adoc[Value-Object-Testing] relies heavily on the reflection system. Internally it uses a number of features directly from the JRE, some code inspired by Google Guavas TypeToken, some own tricks, implemented at `cui-java-util` and an internal meta-model, documented at link:managing-metadata.adoc[Managing Metadata].
 
 === Tweaking the system
 
 Although working for most of the times, a reflection based system can never cover all corner-cases. Therefore there a many different ways to adjust them.
 The central element therefore is `@PropertyReflectionConfig` providing a number of ways to adapt the behavior.
 
-[listing]
+[source,java]
 ----
  @PropertyReflectionConfig(skip = true)
  class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
@@ -19,7 +19,7 @@ This is more a kill-switch to be used for cases where the mechanism completely f
 
 A more subtle way is to exclude certain fields from scanning:
 
-[listing]
+[source,java]
 ----
  @PropertyReflectionConfig(exclude = "name")
  @PropertyConfig(name = "name", propertyClass = String.class, required = true)
@@ -30,7 +30,7 @@ Of course you need to configure that property manually
 
 Sometimes you have to adjust a number of properties at once:
 
-[listing]
+[source,java]
 ----
  @VerifyBuilder
  @PropertyReflectionConfig(required = { "name", "generator", "propertyClass" },
