@@ -1,0 +1,82 @@
+== Simplified Testing of Canonical Object Methods
+
+=== In Short
+
+If you want to test the canonical object methods without much fuzz just implement the corresponding interface:
+
+[listing]
+----
+class ShouldHandleObjectContractsTest implements ShouldHandleObjectContracts<ComplexBean> {
+
+    @Override
+    public ComplexBean getUnderTest() {
+        return new ComplexBean();
+    }
+----
+
+The tests will be done by the default implementations of the Interface. See below for further explanation.
+If you want to test more thoroughly, take a look at link:testing-value-objects.md[Value-Object-Testing]
+
+=== Canonical?
+
+The canonical object methods are the identity-related methods `Object#equals()` `Object#hashCode()`, the descriptive method `Object#toString()`. See 'Effective Java' for further information on why and how to implement them. 
+In addition we test the object-serialization, see `java.io.Serializable` in that context as well.
+
+=== General Structure
+
+The implicit testing of said methods is done within the default implementations of certain interfaces: 
+
+==== de.icw.cui.test.valueobjects.objects.TestObjectProvider<T>
+
+In order to have something to test the corresponding interfaces all extend the `TestObjectProvider`, that provides the the method `#getUnderTest()` that provides an object that can be tested
+
+==== de.icw.cui.test.valueobjects.junit5.contracts.ShouldBeNotNull<T>
+
+Defines a simple assertion verifying the given Object is not `null`. Base for later testing.
+
+==== de.icw.cui.test.valueobjects.junit5.contracts.ShouldImplementEqualsAndHashCode<T>
+
+Verifies that the given Object implements `Object#equals()` and `Object#hashCode()`and checks some basic behavior like handling of `null` and symmetry. 
+
+[listing]
+----
+class ShouldHandleEqualsAndHashCodeTest implements ShouldImplementEqualsAndHashCode<ComplexBean> {
+
+    @Override
+    public ComplexBean getUnderTest() {
+        return new ComplexBean();
+    }
+----
+
+==== de.icw.cui.test.valueobjects.junit5.contracts.ShouldImplementToString<T>
+
+Verifies that the given Object implements `Object#toString()`.
+
+[listing]
+----
+class ShouldHandleToStringTest implements ShouldImplementToString<ComplexBean> {
+
+    @Override
+    public ComplexBean getUnderTest() {
+        return new ComplexBean();
+    }
+----
+
+==== de.icw.cui.test.valueobjects.junit5.contracts.ShouldBeSerializable<T>
+
+Verifies that the given Object implements `java.io.Serializable` and checks the actual serialization / deserialization of the given object..
+
+[listing]
+----
+class ShouldHandleSerializableTest implements ShouldBeSerializable<ComplexBean> {
+
+    @Override
+    public ComplexBean getUnderTest() {
+        return new ComplexBean();
+    }
+----
+
+==== de.icw.cui.test.valueobjects.junit5.contracts.ShouldHandleObjectContracts<T>
+
+Bundles all previously described interfaces as one-stop implementation, see first example.
+

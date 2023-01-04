@@ -17,10 +17,16 @@
     <body>
         <links>
             <item name="Home"
-                href="https://github.com/cuioss/cui-java-module-template" />
+                href="https://github.com/cuioss/cui-test-value-objects" />
         </links>
         <menu name="Overview">
-        <item name="About" href="about.html"></item>
+            <item name="About" href="about.html" />
+            <item name="Value-Object-Testing" href="testing-value-objects.html"/>
+            <item name="Testing Mapper Classes" href="testing-mapper.html"/>
+            <item name="Managing Metadata" href="managing-metadata.html"/>
+            <item name="Generator System" href="generator-system.html"/>
+            <item name="Reflection System" href="eflection-system.html"/>
+            <item name="Simplified Testing of Canonical Object Methods" href="simple-canonical-object-methods.html"/>
             <item name="JavaDoc" href="apidocs/index.html" />
         </menu>
         <menu ref="reports" />

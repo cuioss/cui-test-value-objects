@@ -1,0 +1,129 @@
+== Generator System
+
+=== Concepts
+
+The generator system has many different facets, therefore combines many different concepts and technologies.
+
+It sits on top of the quickcheck library, but perspectively this will be invisible as an implementation detail, especially when we start to use the Java-module system. For you as an user you should consider the package `net.java.quickcheck.*` as *effectively discouraged*. But the quickcheck way of generating test-data is the cornerstone of our generator-system.
+
+Another important aspect is a typed generator system for most Java-default types that is capable of creating a generator for nearly any of the given types automatically. This is essential for link:testing-value-objects.md[Value-Object-Testing] that relies on automatic creation of arbitrary objects with random data.
+
+In addition there are hooks within the Value-Object-Testing to interact configure the generators as needed
+
+Finally there are a number of domain-specific Generators providing sensible data like names, addresses, person-data,...
+
+=== Usage
+
+The usage is straight forward `TypedGenerator#next()` always returns a random object that can be used for testing. See section 'Generators' on samples for concrete generators.
+
+==== Reproducing
+
+But what happens if a test fails only on a certain value? The actual idea of a generator based approach is to cover a broad range of values.
+The extension `net.java.quickcheck.junit5.SeedInfo` is your friend here. On a test failure it logs a special value called `seedInfo` that can be used to exactly reproduce the values of the complete generator-system. `net.java.quickcheck.junit5.SeedInfoInit` initializes the generator-system to reproduce the failure.
+The extension `net.java.quickcheck.junit5.SeedInfo` is already activated for the types:
+
+* `de.icw.cui.test.valueobjects.junit5.AbstractMapperTest<T>`
+* `de.icw.cui.test.valueobjects.junit5.PropertyAwareTest<T>`
+* `de.icw.cui.test.valueobjects.junit5.ValueObjectTest<T>`
+
+=== Structures
+
+==== Central Types
+
+===== TypedGenerator
+
+`de.icw.cui.test.generator.TypedGenerator<T>`
+
+Central interface for a concrete generator instance. `TypedGenerator#next()` provides a random instance, `TypedGenerator#getType()` provides the types.
+Sample implementation: 
+
+[listing]
+----
+public class ZoneOffsetGenerator implements TypedGenerator<ZoneOffset> {
+
+    private static final TypedGenerator<ZoneId> ZONE_IDS_GEN =
+        Generators.fixedValues(ZoneId.class, getAvailableZoneIds().stream().map(ZoneId::of).collect(toList()));
+
+    @Override
+    public java.time.ZoneOffset next() {
+        return LocalDateTime.now().atZone(ZONE_IDS_GEN.next()).getOffset();
+    }
+
+    @Override
+    public Class<ZoneOffset> getType() {
+        return ZoneOffset.class;
+    }
+
+}
+----
+
+===== Generators
+
+`de.icw.cui.test.generator.Generators`
+
+Central factory for `TypedGenerator` for most java-built-in types and wrappers for `fixedValue` and `enumValue` variants
+
+[listing]
+----
+ assertNotNull(Generators.strings().next());
+ assertNotNull(Generators.letterStrings().next());
+ assertFalse(isEmpty(Generators.nonEmptyStrings().next())); 
+ assertFalse(isEmpty(Generators.letterStrings(1, 2).next()));
+ 
+ assertNotNull(Generators.booleans().next());
+ assertNotNull(Generators.localTimes().next());
+ assertNotNull(Generators.fixedValues(String.class, "http://de.icw-global.com", "https://www.heise.de", "http://getbootstrap.com").next());
+ 
+ assertEquals(Temporal.class, Generators.temporals().getType());
+ assertNotNull(Generators.enumValues(PropertyMemberInfo.class).next());
+ assertEquals(PropertyMemberInfo.class, Generators.enumValues(PropertyMemberInfo.class).getType());
+----
+
+===== CollectionGenerator
+
+`de.icw.cui.test.generator.impl.CollectionGenerator<T>`
+
+Wraps a given `TypedGenerator` and provides  additional methods for creating `Lists` and `Sets`
+
+[listing]
+----
+ CollectionGenerator<String> generator = new CollectionGenerator<>(Generators.nonEmptyStrings());
+ assertNotNull(generator.list());
+ assertNotNull(generator.set());
+----
+
+==== TypedGeneratorRegistry
+
+`de.icw.cui.test.valueobjects.generator.TypedGeneratorRegistry`. 
+
+Is the central element of the automatic Generator system. It create generator for most of the types passed to it
+
+===== Initialization
+
+In order to be used there are two methods essential:
+
+[listing]
+----
+ // Initializes the basic java-types
+ TypedGeneratorRegistry.registerBasicTypes();
+ // Clears the registry
+ TypedGeneratorRegistry.clear();
+----
+
+In the context of Junit-5-tests the setup and clearing is done by the extension `GeneratorController` what is already present for the base-classes `AbstractMapperTest` and `ValueObjectTest`
+
+===== Obtaining a Generator
+
+If setup is correctly obtaining a generator for a type is done by calling: 
+
+[listing]
+----
+public static <T> Optional<TypedGenerator<T>> getGenerator(final Class<T> type)
+----
+
+Although returning an `Optional` for most of the case it will return a valid generator for the given type. 
+
+Depending on the given type there is a different quality regarding entropy of the instances. For Standard Java-Types, `Enum`-classes, value-objects with constructor having primitive types it is very high. 
+
+Types with a default Constructor, abstract-types / Interfaces have no entropy, because of the mechanism used to create them. They are useful for fulfilling a parameter contract for some other type. 
+

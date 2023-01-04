@@ -1,0 +1,84 @@
+== Managing Metadata
+
+=== Concepts
+
+In order to work with properties used for link:testing-value-objects.md[Value-Object-Testing] the framework provides certain ways to retrieve / define a metadata-model for a concrete value-object. In most cases this is done automatically by using link:reflection-system.md[Reflection].
+The resulting metadata is always logged on info-level for eventual debugging / trouble-shooting.
+
+Sample output:
+
+[listing]
+----
+INFO: Properties detected by using reflection and PropertyConfig-annotation: 
+-'city' (class java.lang.String), QuickCheckGeneratorAdapter(type=class java.lang.String), READ_WRITE, BEAN_PROPERTY
+-'contentForFormatterSupport' (interface de.icw.util.formatting.template.FormatterSupport), de.icw.cui.test.valueobjects.generator.dynamic.impl.InterfaceProxyGenerator@6b19b79, READ_ONLY, BEAN_PROPERTY
+-'country' (interface com.icw.ehf.cui.common.model.conceptkey.ConceptKeyType), de.icw.ips.namespace.management.facade.service.model.ConceptKeyTypeGenerator@60704c, READ_WRITE, BEAN_PROPERTY
+-'empty' (boolean), defaultValued, QuickCheckGeneratorAdapter(type=boolean), READ_ONLY, BEAN_PROPERTY
+-'houseNumber' (class java.lang.String), QuickCheckGeneratorAdapter(type=class java.lang.String), READ_WRITE, BEAN_PROPERTY
+-'id' (class java.lang.String), QuickCheckGeneratorAdapter(type=class java.lang.String), READ_WRITE, BEAN_PROPERTY
+-'postalCode' (class java.lang.String), QuickCheckGeneratorAdapter(type=class java.lang.String), READ_WRITE, BEAN_PROPERTY
+-'state' (interface com.icw.ehf.cui.common.model.conceptkey.ConceptKeyType), de.icw.ips.namespace.management.facade.service.model.ConceptKeyTypeGenerator@60704c, READ_WRITE, BEAN_PROPERTY
+-'streetName' (class java.lang.String), QuickCheckGeneratorAdapter(type=class java.lang.String), READ_WRITE, BEAN_PROPERTY
+-'type' (class de.icw.ips.namespace.management.facade.service.model.OrganizationAddressType), QuickCheckGeneratorAdapter(type=class de.icw.ips.namespace.management.facade.service.model.OrganizationAddressType), READ_WRITE, BEAN_PROPERTY
+-'unstructuredAddress' (class java.lang.String), QuickCheckGeneratorAdapter(type=class java.lang.String), READ_WRITE, BEAN_PROPERTY
+-'use' (class de.icw.ips.namespace.management.facade.service.model.OrganizationAddressUse), QuickCheckGeneratorAdapter(type=class de.icw.ips.namespace.management.facade.service.model.OrganizationAddressUse), READ_WRITE, BEAN_PROPERTY
+----
+
+The precise meta-model is documented by the type `de.icw.cui.test.valueobjects.property.PropertyMetadata`
+With this structure the framework is capable of creating instances an the corresponding fields using a flexible link:generator-system.md[Generator System].
+
+== Adjusting Metadata
+
+Although working for most of the times, a reflection based system can never cover all variants. Therefore there a many different ways to adjust them.
+Aspects for adjusting are usually:
+
+* *transient*: Whether the property is transient or not. This attribute has impact on the Serializable-tests, where only non-transient attributes are considered.
+* *defaultValued*: Indicate whether an attribute has a default value. For primitive-type this is always true but not for wrapper-types.
+* *required*: Indicates whether a property is required for construction, e.g. on Constructor/Factory/Builder tests.
+* *propertyReadWrite*: Indicates whether a property is read-write, read-only or write-only.
+
+=== Orthogonal Aspects
+
+Sometimes you have to adjust a number of properties at once. This can be done for all tests by using the annotation `@PropertyReflectionConfig` , example:
+
+[listing]
+----
+ @VerifyBuilder
+ @PropertyReflectionConfig(required = { "name", "generator", "propertyClass" },
+         defaultValued = { "collectionType", "propertyMemberInfo", "propertyReadWrite", "propertyAccessStrategy" })
+ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {...}
+----
+
+In case you adjust properties for a specific tests you can use the attributes on the corresponding annotations, e.g.:
+
+[listing]
+----
+ @VerifyBuilder(required = { "name", "generator", "propertyClass" },
+         defaultValued = { "collectionType", "propertyMemberInfo", "propertyReadWrite", "propertyAccessStrategy" })
+ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {...}
+----
+
+The same goes for `@VerifyFactoryMethod` or `@VerifyConstructor` as well.
+
+=== Explicit Property Configuration
+
+On very rare cases you need to define the meta-model manually. The reason is either a complete failure on reflection, usually caused by generic-nesting or having not scannable properties that are used for Constructor/Factory/Builder and are not reflected by the value-object structure. 
+This can be done by using the `@PropertyConfig` annotation, e.g.
+
+[listing]
+----
+ @PropertyConfig(name = "name", propertyClass = String.class, required = true)
+ @VerifyFactoryMethod(of = { "name", "number" })
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
+
+On even rarer cases, where the scanning fails completely you can skip reflection by using `@PropertyReflectionConfig` with `skip = true`. But in that case you must define all properties manually.
+
+[listing]
+----
+ @PropertyReflectionConfig(skip = true)
+ @PropertyConfig(name = "name", propertyClass = String.class, required = true)
+ @PropertyConfig(name = "number", propertyClass = Integer.class, required = true)
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
+

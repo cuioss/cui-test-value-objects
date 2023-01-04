@@ -1,0 +1,40 @@
+== Reflection System
+
+=== Concepts
+
+The link:managing-metadata.md[Metadata-System] for link:testing-value-objects.md[Value-Object-Testing] relies heavily on the reflection system. Internally it uses a number of features directly from the JRE, some code inspired by Google Guavas TypeToken, some own tricks, implemented at `cui-java-util` and an internal meta-model, documented at link:managing-metadata.md[Managing Metadata].
+
+=== Tweaking the system
+
+Although working for most of the times, a reflection based system can never cover all corner-cases. Therefore there a many different ways to adjust them.
+The central element therefore is `@PropertyReflectionConfig` providing a number of ways to adapt the behavior.
+
+[listing]
+----
+ @PropertyReflectionConfig(skip = true)
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
+
+This is more a kill-switch to be used for cases where the mechanism completely fails.
+
+A more subtle way is to exclude certain fields from scanning:
+
+[listing]
+----
+ @PropertyReflectionConfig(exclude = "name")
+ @PropertyConfig(name = "name", propertyClass = String.class, required = true)
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
+
+Of course you need to configure that property manually
+
+Sometimes you have to adjust a number of properties at once:
+
+[listing]
+----
+ @VerifyBuilder
+ @PropertyReflectionConfig(required = { "name", "generator", "propertyClass" },
+         defaultValued = { "collectionType", "propertyMemberInfo", "propertyReadWrite", "propertyAccessStrategy" })
+ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {...}
+----
+

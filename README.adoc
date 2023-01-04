@@ -1,52 +1,47 @@
-= cui-java-module-template
+= cui-test-value-objects
 
 == Status
 
-https://sonarcloud.io/summary/new_code?id=cuioss_cui-java-module-template[image:https://sonarcloud.io/api/project_badges/measure?project=cuioss_cui-java-module-template&metric=alert_status[Quality
+https://sonarcloud.io/summary/new_code?id=cuioss_cui-test-value-objects[image:https://sonarcloud.io/api/project_badges/measure?project=cuioss_cui-test-value-objects&metric=alert_status[Quality
 Gate Status]]
-image:https://github.com/cuioss/cui-java-module-template/actions/workflows/maven.yml/badge.svg[Java CI with Maven,link=https://github.com/cuioss/cui-java-module-template/actions/workflows/maven.yml]
+image:https://github.com/cuioss/cui-test-value-objects/actions/workflows/maven.yml/badge.svg[Java CI with Maven,link=https://github.com/cuioss/cui-test-value-objects/actions/workflows/maven.yml]
 image:http://img.shields.io/:license-apache-blue.svg[License,link=http://www.apache.org/licenses/LICENSE-2.0.html]
-image:https://maven-badges.herokuapp.com/maven-central/io.github.cuioss/cui-java-module-template/badge.svg[Maven Central,link=https://maven-badges.herokuapp.com/maven-central/io.github.cuioss/cui-java-module-template]
+image:https://maven-badges.herokuapp.com/maven-central/io.github.cuioss/cui-test-value-objects/badge.svg[Maven Central,link=https://maven-badges.herokuapp.com/maven-central/io.github.cuioss/cui-test-value-objects]
 
-https://cuioss.github.io/cui-java-module-template/index.html[Generated Documentation on github-pages]
+https://cuioss.github.io/cui-test-value-objects/index.html[Generated Documentation on github-pages]
 
 == What is it?
 
-This is a template repository for creating java-modules for cui-open-source-projects. This incorporates all necessary java-structures, including `pom.xml`, sensible project-documentation, 
-an predefined github pipelines. 
+A library to support creating unit-tests and much more. Compared to other, more behavior-oriented frameworks like 
+link:https://easymock.org/[EasyMock] or link:https://site.mockito.org/[Mockito], it focuses, as its name 
+implies, on testing and generating Value-Objects of all sorts. Therefore it is no replacement of said frameworks but 
+a supplement. Testing values-objects is about checking properties, constructors, factories, builder,... and the 
+dependent canonical object-methods. In addition, the library provides a feature rich generator system. 
 
-It is meant to be used as copy-paste-template.
-
-=== Maven Coordinates
+== Maven Coordinates
 
 [source,xml]
 ----
     <dependency>
         <groupId>io.github.cuioss</groupId>
-        <name>cui-java-module-template</name>
+        <name>cui-test-value-objects</name>
     </dependency>
 ----
 
-== Customization
+== Understanding Value-Object testing
 
-=== Names / Keys
+There are a number of features that can be used. Therefore, there are different documentation parts for the specific
+ features:
 
-Create a new Repository by clicking "Use this template"
-Replace all  of `cui-java-module-template` with the new project 'key' / name, e.g. `my-java-module`. Relevant Files are:
+* link:src/site/asciidoc/testing-value-objects.adoc[Value-Object-Testing]
+* link:src/site/asciidoc/testing-mapper.adoc[Testing Mapper Classes]
+* link:src/site/asciidoc/managing-metadata.adoc[Managing Metadata]
+* link:src/site/asciidoc/generator-system.adoc[Generator System]
+* link:src/site/asciidoc/reflection-system.adoc[Reflection System]
+* link:src/site/asciidoc/simple-canonical-object-methods.adoc[Simplified Testing of Canonical Object Methods]
 
-[CAUTION]
-====
-The key must *not* contain spaces. They are used for creating urls as well.
+=== Maven Coordinates
 
-====
-
-
-* `README.adoc` -> the badges on top
-* `pom.xml`
-* `SECURITY.adoc`
-* `.github/project.yml`
-* `src/site/site.xml`
-* `src/site/asciidoc/about.adoc`
 
 === Credentials
 

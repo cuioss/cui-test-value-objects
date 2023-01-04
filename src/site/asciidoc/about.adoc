@@ -1,3 +1,7 @@
 == About
 
-Some information about this project
+A library to support creating unit-tests and much more. Compared to other, more behavior-oriented frameworks like 
+link:https://easymock.org/[EasyMock] or link:https://site.mockito.org/[Mockito], it focuses, as its name 
+implies, on testing and generating Value-Objects of all sorts. Therefore it is no replacement of said frameworks but 
+a supplement. Testing values-objects is about checking properties, constructors, factories, builder,... and the 
+dependent canonical object-methods. In addition, the library provides a feature rich generator system. 

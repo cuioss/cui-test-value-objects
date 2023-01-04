@@ -1,0 +1,122 @@
+== Testing Value Objects
+
+=== Concepts
+
+Reflection-based examination and generators are the corner-stones of the tests. In essence the framework examines the value-object to be tested, creates a meta-model for all of its properties and provides generators for the object itself and all related properties. 
+See link:managing-metadata.md[Managing Metadata], and link:generator-system.md[Generator System] and link:reflection-system.md[Reflection System]  for details.
+The resulting metadata is always logged on info-level for eventual debugging / trouble-shooting.
+With this information-set the framework is now capable of testing the objects in all variants.
+
+=== How To use it
+
+Because of the many things you can do with it, we cover the features by use-cases. In common for all these tests is the extends of `ValueObjectTest<>` and logging at info-level what will be tested with which configuration / parameter.
+
+==== Testing Java-Beans
+
+Testing Java Beans is simple and flexible. Most of the heavy-lifting is done by the framework. For most use-cases one annotation is sufficient:
+
+[listing]
+----
+ @VerifyBeanProperty
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
+
+This will implicitly test all Getter/ Setter methods of the bean. As well it tests the canonical object methods. Caution: The type `SomeBean` should implement the JavaBeans API Specification and provide a public zero-argument constructor, otherwise the test may fail with certain exceptions. 
+
+The annotation `@VerifyBeanProperty` provides some attributes for fine-tuning the tests.
+
+==== Testing Builder
+
+If used on ValueObjectTest `@VerifyBuilder` checks / tests builder of value objects. 
+
+As default the test assumes a static factory method with the name "builder", e.g. `PropertyMetadataImpl.builder()` being present on the type to be tested. This can be controlled using `builderFactoryMethodName()`, `builderFactoryProvidingClass()` and `builderMethodName()`. In case you have a builder that can be instantiated directly by using a zero-argument public constructor directly you can use `builderClass()` instead. 
+
+The builder methods for the individual properties are assumed to use the property-name only as method-name, e.g. `PropertyMetadataBuilder.propertyClass(Class)`. In case you prefer a prefix you can either configure it using `methodPrefix()` or can do some more fine grained configuration with `@PropertyBuilderConfig`
+
+[listing]
+----
+ @VerifyBuilder
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
+
+==== Testing Constructor
+
+`@VerifyConstructor` tests concrete constructors. The different attributes are identified by their names.
+
+[listing]
+----
+ @VerifyConstructor(of = "name", required = "name")
+ @VerifyConstructor(of = { "name", "number" }, required = { "name", "number" })
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
+
+This will test the two distinct constructors defined by the type `SomeBean`. The tests will instantiate and check whether the property is available. In the case of `required` it will test passing `null` as parameter and expecting an exception to be thrown. In case of an attribute not being required it will as well pass `null` but no exception should occur. 
+
+The annotation `@VerifyConstructor` provides some attributes for fine-tuning the tests.
+
+==== Testing Factory Methods
+
+`@VerifyFactoryMethod` tests concrete factory-methods. The different attributes are identified by their names.
+
+[listing]
+----
+ @VerifyFactoryMethod(of = "name")
+ @VerifyFactoryMethod(of = { "name", "number" }, required = { "name", "number" })
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
+
+This will test the two distinct factory-methods defined by the type `SomeBean`. The tests will instantiate and check whether the property is available on the created instance. In the case of `required` it will test passing `null` as parameter and expecting an exception to be thrown. In case of an attribute not being required it will as well pass `null` but no exception should occur. 
+
+The annotation `@VerifyFactoryMethod` provides some attributes for fine-tuning the tests.
+
+== Canonical Object Methods
+
+=== Canonical?
+
+The canonical object methods are the identity-related methods `Object#equals()` `Object#hashCode()`, the descriptive method `Object#toString()`. See 'Effective Java' for further information on why and how to implement them. 
+
+In addition we test the object-serialization, see `java.io.Serializable` in that context as well.
+These tests are implicitly executed assuming a well implemented value-object implements all these methods.
+
+Compared to the standard testing executed in the context of link:simple-canonical-object-methods.md[Simplified Testing of Canonical Object Methods] these tests do real in-depth inspection, testing many variants iterating through all properties and its permutations. 
+
+=== How to disable certain tests
+
+Sometimes you have a  value-object without one our more of the said methods implemented. For these occasions you can ignore specific test by annotating them accordingly. 
+This is done by adding the `@VetoObjectTestContract` annotation:
+
+[listing]
+----
+ @VerifyFactoryMethod(of = "name")
+ @VetoObjectTestContract(ObjectTestContracts.TO_STRING)
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
+
+=== Tweaking Canonical Method Testing
+
+You can adjust the behavior by applying the `@ObjectTestConfig` annotation that can configure many aspects: 
+
+[listing]
+----
+ @VerifyBuilder
+ @ObjectTestConfig(equalsAndHashCodeExclude = "generator")
+ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {...}
+----
+
+If you set the property `equalsAndHashCodeBasicOnly` or `serializableBasicOnly` you will get exactly the same behavior as described within link:simple-canonical-object-methods.md[Simplified Testing of Canonical Object Methods].
+
+==== Sample Log Output for EqualsAndHashcode contract
+
+[listing]
+----
+INFO: Verifying de.icw.cui.test.valueobjects.contract.EqualsAndHashcodeContractImpl
+With configuration: de.icw.cui.test.valueobjects.objects.impl.BeanInstantiator
+Property Configuration: de.icw.cui.test.valueobjects.objects.RuntimeProperties
+Required properties: -
+Additional properties: country, streetName, city, use, postalCode, houseNumber, id, state, unstructuredAddress, type, contentForFormatterSupport, empty
+Default valued properties: empty
+Writable properties: country, streetName, city, use, postalCode, houseNumber, id, state, unstructuredAddress, type
+Okt 14, 2020 5:38:24 PM de.icw.cui.test.valueobjects.contract.EqualsAndHashcodeContractImpl executePropertyTests
+INFO: Configured attributes found for equalsAndHashCode-testing: [city, country, houseNumber, id, postalCode, state, streetName, type, unstructuredAddress, use]
+----
+
