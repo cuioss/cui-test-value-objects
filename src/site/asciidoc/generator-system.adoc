@@ -22,9 +22,9 @@ But what happens if a test fails only on a certain value? The actual idea of a g
 The extension `net.java.quickcheck.junit5.SeedInfo` is your friend here. On a test failure it logs a special value called `seedInfo` that can be used to exactly reproduce the values of the complete generator-system. `net.java.quickcheck.junit5.SeedInfoInit` initializes the generator-system to reproduce the failure.
 The extension `net.java.quickcheck.junit5.SeedInfo` is already activated for the types:
 
-* `de.icw.cui.test.valueobjects.junit5.AbstractMapperTest<T>`
-* `de.icw.cui.test.valueobjects.junit5.PropertyAwareTest<T>`
-* `de.icw.cui.test.valueobjects.junit5.ValueObjectTest<T>`
+* `io.cui.test.valueobjects.junit5.AbstractMapperTest<T>`
+* `io.cui.test.valueobjects.junit5.PropertyAwareTest<T>`
+* `io.cui.test.valueobjects.junit5.ValueObjectTest<T>`
 
 === Structures
 
@@ -32,7 +32,7 @@ The extension `net.java.quickcheck.junit5.SeedInfo` is already activated for the
 
 ===== TypedGenerator
 
-`de.icw.cui.test.generator.TypedGenerator<T>`
+`io.cui.test.generator.TypedGenerator<T>`
 
 Central interface for a concrete generator instance. `TypedGenerator#next()` provides a random instance, `TypedGenerator#getType()` provides the types.
 Sample implementation: 
@@ -59,7 +59,7 @@ public class ZoneOffsetGenerator implements TypedGenerator<ZoneOffset> {
 
 ===== Generators
 
-`de.icw.cui.test.generator.Generators`
+`io.cui.test.generator.Generators`
 
 Central factory for `TypedGenerator` for most java-built-in types and wrappers for `fixedValue` and `enumValue` variants
 
@@ -81,7 +81,7 @@ Central factory for `TypedGenerator` for most java-built-in types and wrappers f
 
 ===== CollectionGenerator
 
-`de.icw.cui.test.generator.impl.CollectionGenerator<T>`
+`io.cui.test.generator.impl.CollectionGenerator<T>`
 
 Wraps a given `TypedGenerator` and provides  additional methods for creating `Lists` and `Sets`
 
@@ -94,7 +94,7 @@ Wraps a given `TypedGenerator` and provides  additional methods for creating `Li
 
 ==== TypedGeneratorRegistry
 
-`de.icw.cui.test.valueobjects.generator.TypedGeneratorRegistry`. 
+`io.cui.test.valueobjects.generator.TypedGeneratorRegistry`. 
 
 Is the central element of the automatic Generator system. It create generator for most of the types passed to it
 
