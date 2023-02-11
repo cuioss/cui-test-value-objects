@@ -10,6 +10,7 @@
     <groupId>io.github.cuioss.test</groupId>
     <artifactId>cui-test-value-objects</artifactId>
     <name>cui value-object testing</name>
+    <packaging>jar</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <description>Provides classes and structures for testing java beans, builder, constructor, factory-methods, comparator and so on.
     </description>
