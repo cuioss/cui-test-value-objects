@@ -16,81 +16,11 @@ Finally there are a number of domain-specific Generators providing sensible data
 
 The usage is straight forward `TypedGenerator#next()` always returns a random object that can be used for testing. See section 'Generators' on samples for concrete generators.
 
-==== Reproducing
-
-But what happens if a test fails only on a certain value? The actual idea of a generator based approach is to cover a broad range of values.
-The extension `net.java.quickcheck.junit5.SeedInfo` is your friend here. On a test failure it logs a special value called `seedInfo` that can be used to exactly reproduce the values of the complete generator-system. `net.java.quickcheck.junit5.SeedInfoInit` initializes the generator-system to reproduce the failure.
-The extension `net.java.quickcheck.junit5.SeedInfo` is already activated for the types:
-
-* `io.cui.test.valueobjects.junit5.AbstractMapperTest<T>`
-* `io.cui.test.valueobjects.junit5.PropertyAwareTest<T>`
-* `io.cui.test.valueobjects.junit5.ValueObjectTest<T>`
 
 === Structures
 
 ==== Central Types
 
-===== TypedGenerator
-
-`io.cui.test.generator.TypedGenerator<T>`
-
-Central interface for a concrete generator instance. `TypedGenerator#next()` provides a random instance, `TypedGenerator#getType()` provides the types.
-Sample implementation: 
-
-[source,java]
-----
-public class ZoneOffsetGenerator implements TypedGenerator<ZoneOffset> {
-
-    private static final TypedGenerator<ZoneId> ZONE_IDS_GEN =
-        Generators.fixedValues(ZoneId.class, getAvailableZoneIds().stream().map(ZoneId::of).collect(toList()));
-
-    @Override
-    public java.time.ZoneOffset next() {
-        return LocalDateTime.now().atZone(ZONE_IDS_GEN.next()).getOffset();
-    }
-
-    @Override
-    public Class<ZoneOffset> getType() {
-        return ZoneOffset.class;
-    }
-
-}
-----
-
-===== Generators
-
-`io.cui.test.generator.Generators`
-
-Central factory for `TypedGenerator` for most java-built-in types and wrappers for `fixedValue` and `enumValue` variants
-
-[source,java]
-----
- assertNotNull(Generators.strings().next());
- assertNotNull(Generators.letterStrings().next());
- assertFalse(isEmpty(Generators.nonEmptyStrings().next())); 
- assertFalse(isEmpty(Generators.letterStrings(1, 2).next()));
- 
- assertNotNull(Generators.booleans().next());
- assertNotNull(Generators.localTimes().next());
- assertNotNull(Generators.fixedValues(String.class, "http://de.icw-global.com", "https://www.heise.de", "http://getbootstrap.com").next());
- 
- assertEquals(Temporal.class, Generators.temporals().getType());
- assertNotNull(Generators.enumValues(PropertyMemberInfo.class).next());
- assertEquals(PropertyMemberInfo.class, Generators.enumValues(PropertyMemberInfo.class).getType());
-----
-
-===== CollectionGenerator
-
-`io.cui.test.generator.impl.CollectionGenerator<T>`
-
-Wraps a given `TypedGenerator` and provides  additional methods for creating `Lists` and `Sets`
-
-[source,java]
-----
- CollectionGenerator<String> generator = new CollectionGenerator<>(Generators.nonEmptyStrings());
- assertNotNull(generator.list());
- assertNotNull(generator.set());
-----
 
 ==== TypedGeneratorRegistry
 
