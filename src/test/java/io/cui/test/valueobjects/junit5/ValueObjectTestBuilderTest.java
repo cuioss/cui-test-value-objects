@@ -2,6 +2,7 @@ package io.cui.test.valueobjects.junit5;
 
 import static io.cui.test.valueobjects.api.object.ObjectTestContracts.SERIALIZABLE;
 
+import io.cui.test.valueobjects.ValueObjectTest;
 import io.cui.test.valueobjects.api.contracts.VerifyBuilder;
 import io.cui.test.valueobjects.api.object.ObjectTestConfig;
 import io.cui.test.valueobjects.api.object.VetoObjectTestContract;

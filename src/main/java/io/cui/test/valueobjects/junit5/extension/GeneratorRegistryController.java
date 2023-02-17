@@ -18,9 +18,9 @@ import io.cui.test.valueobjects.util.GeneratorRegistry;
  * @author Oliver Wolff
  *
  */
-public class GeneratorController implements TestInstancePostProcessor, AfterAllCallback {
+public class GeneratorRegistryController implements TestInstancePostProcessor, AfterAllCallback {
 
-    private static final Logger log = LoggerFactory.getLogger(GeneratorController.class);
+    private static final Logger log = LoggerFactory.getLogger(GeneratorRegistryController.class);
 
     @Override
     public void postProcessTestInstance(Object testInstance, ExtensionContext context) {

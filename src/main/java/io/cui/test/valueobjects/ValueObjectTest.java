@@ -1,4 +1,4 @@
-package io.cui.test.valueobjects.junit5;
+package io.cui.test.valueobjects;
 
 import static io.cui.tools.collect.CollectionLiterals.immutableList;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -140,7 +140,7 @@ public class ValueObjectTest<T> extends PropertyAwareTest<T> implements ObjectCo
      * method for feeding the {@link #shouldImplementObjectContracts()}</li>
      * </ul>
      *
-     * @return an concrete vlaueObject, or null
+     * @return a concrete valueObject, or null
      */
     protected T anyValueObject() {
         if (!getObjectContractInstantiator().isEmpty()) {

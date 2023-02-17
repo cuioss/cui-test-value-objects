@@ -36,8 +36,8 @@ public class BuilderMetadata implements PropertyMetadata {
     private final String builderAddMethodName;
 
     /**
-     * Similar to {@link #getBuilderMethodName()} but for special cases described within
-     * {@link BuilderPropertyAccessStrategy#BUILDER_COLLECTION_AND_SINGLE_ELEMENT}
+     * Similar to {@link BuilderMetadataBuilder#builderMethodName(String)} but for special cases described within
+     * {@link PropertyAccessStrategy#BUILDER_COLLECTION_AND_SINGLE_ELEMENT}
      * There are two different steps for deriving the concrete method-name:
      * <ul>
      * <li>Base-name: In case

@@ -2,6 +2,7 @@ package io.cui.test.valueobjects.junit5;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+import io.cui.test.valueobjects.ValueObjectTest;
 import io.cui.test.valueobjects.junit5.testbeans.ComplexBean;
 
 class ValueObjectTestInlineInstantiatorTest extends ValueObjectTest<ComplexBean> {

@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import io.cui.test.valueobjects.BaseMapperTest;
 import io.cui.test.valueobjects.api.VerifyMapperConfiguration;
@@ -46,11 +45,6 @@ class BaseMapperEntryDtoToComplexBeanTest
         GeneratorAnnotationHelper.handleGeneratorsForTestClass(this,
                 registerAdditionalGenerators());
         super.intializeTypeInformation();
-    }
-
-    @Test
-    void shouldVerifyMapper() {
-        super.verifyMapper();
     }
 
     /**

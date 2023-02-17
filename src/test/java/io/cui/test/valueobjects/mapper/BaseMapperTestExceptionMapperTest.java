@@ -14,8 +14,9 @@ import io.cui.test.valueobjects.testbeans.mapper.SimpleTargetBean;
 class BaseMapperTestExceptionMapperTest
         extends BaseMapperTest<SimpleExceptionMapper, SimpleSourceBean, SimpleTargetBean> {
 
+    @Override
     @Test
-    void shouldAssertMapper() {
+    public void verifyMapper() {
         assertThrows(IllegalStateException.class, () -> super.verifyMapper());
     }
 }

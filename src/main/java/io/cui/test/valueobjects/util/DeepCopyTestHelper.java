@@ -30,7 +30,6 @@ public class DeepCopyTestHelper {
      *
      * @param source the source object
      * @param copy the result of the copy function
-     * @param <T> the type of the source and copy object
      */
     public static void testDeepCopy(Object source, Object copy) {
         testDeepCopy(source, copy, Collections.emptyList());
@@ -47,7 +46,6 @@ public class DeepCopyTestHelper {
      * @param source the source object
      * @param copy the result of the copy function
      * @param ignoreProperties The top-level attribute names to be ignored
-     * @param <T> the type of the source and copy object
      */
     public static void testDeepCopy(Object source, Object copy, Collection<String> ignoreProperties) {
         testDeepCopy(source, copy, null, ignoreProperties);

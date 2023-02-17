@@ -13,8 +13,9 @@ import io.cui.test.valueobjects.testbeans.mapper.SimpleTargetBean;
 @VerifyMapperConfiguration(equals = { "firstname:nameFirst", "lastname:nameLast", "attributeList:listOfAttributes" })
 class BaseMapperTestErrorMapperTest extends BaseMapperTest<SimpleErrorMapper, SimpleSourceBean, SimpleTargetBean> {
 
+    @Override
     @Test
-    void shouldAssertMapper() {
+    public void verifyMapper() {
         assertThrows(AssertionError.class, () -> super.verifyMapper());
     }
 }

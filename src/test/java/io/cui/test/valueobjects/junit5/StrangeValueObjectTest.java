@@ -1,5 +1,6 @@
 package io.cui.test.valueobjects.junit5;
 
+import io.cui.test.valueobjects.ValueObjectTest;
 import io.cui.test.valueobjects.api.contracts.VerifyBeanProperty;
 import io.cui.test.valueobjects.api.contracts.VerifyCopyConstructor;
 import io.cui.test.valueobjects.junit5.testbeans.StrangeInterface;

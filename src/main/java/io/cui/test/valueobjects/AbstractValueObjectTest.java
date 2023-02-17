@@ -82,7 +82,7 @@ public abstract class AbstractValueObjectTest<T> extends AbstractPropertyAwareTe
      * Resolves the concrete {@link TestContract}s to be tested. They are derived by the
      * corresponding annotations
      *
-     * @param initialMetadata
+     * @param initialMetadata identifying the derived metadata
      * @return
      */
     protected List<TestContract<T>> resolveTestContracts(final List<PropertyMetadata> initialMetadata) {
@@ -117,7 +117,7 @@ public abstract class AbstractValueObjectTest<T> extends AbstractPropertyAwareTe
     /**
      * <p>
      * Tests all configured {@link TestContract}s. The individual contracts are to be configured
-     * using class level annotations or overwriting {@link #resolveTestContracts(SortedSet)}
+     * using class level annotations or overwriting resolveTestContracts(SortedSet)
      * </p>
      */
 

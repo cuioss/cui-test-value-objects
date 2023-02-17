@@ -34,8 +34,4 @@ class BaseMapperTestTest extends BaseMapperTest<SimpleMapper, SimpleSourceBean, 
         assertEquals(3, super.resolveTargetPropertyMetadata(null).size());
     }
 
-    @Test
-    void shouldAssertMapper() {
-        super.verifyMapper();
-    }
 }

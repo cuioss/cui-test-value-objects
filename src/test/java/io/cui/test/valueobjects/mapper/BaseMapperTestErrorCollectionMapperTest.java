@@ -14,8 +14,9 @@ import io.cui.test.valueobjects.testbeans.mapper.SimpleTargetBean;
 class BaseMapperTestErrorCollectionMapperTest
         extends BaseMapperTest<SimpleErrorMapperWrongField, SimpleSourceBean, SimpleTargetBean> {
 
+    @Override
     @Test
-    void shouldAssertMapper() {
+    public void verifyMapper() {
         assertThrows(AssertionError.class, () -> super.verifyMapper());
     }
 }

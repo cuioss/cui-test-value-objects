@@ -17,6 +17,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Function;
 
+import org.junit.jupiter.api.Test;
+
 import io.cui.test.generator.TypedGenerator;
 import io.cui.test.valueobjects.api.VerifyMapperConfiguration;
 import io.cui.test.valueobjects.api.property.PropertyConfig;
@@ -113,6 +115,7 @@ public class BaseMapperTest<M extends Function<S, T>, S, T> implements Generator
      * Shorthand for calling {@link BaseMapperTest#verifyMapper(PropertyReflectionConfig)} with
      * {@code null}
      */
+    @Test
     public void verifyMapper() {
         verifyMapper(null);
     }

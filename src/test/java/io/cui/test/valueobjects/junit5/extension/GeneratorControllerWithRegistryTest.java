@@ -14,7 +14,7 @@ import io.cui.test.valueobjects.generator.TypedGeneratorRegistry;
 import io.cui.test.valueobjects.util.GeneratorRegistry;
 import io.cui.tools.property.PropertyReadWrite;
 
-@ExtendWith(GeneratorController.class)
+@ExtendWith(GeneratorRegistryController.class)
 class GeneratorControllerWithRegistryTest implements GeneratorRegistry {
 
     @Test
