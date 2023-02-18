@@ -9,9 +9,9 @@
  * There are two ways to configure the generator
  * <ul>
  * <li>{@link io.cui.test.valueobjects.api.generator.PropertyGeneratorHint}: Actually hints the
- * generator system which concrete implementation type to use for a declaredType:<br />
- * {@code @PropertyGeneratorHint(declaredType = Serializable.class, implementationType = Integer.class)}<br/>
- * defines that each {@link java.io.Serializable} should be an {@link java.lang.Integer}<br />
+ * generator system which concrete implementation type to use for a declaredType:
+ * {@code @PropertyGeneratorHint(declaredType = Serializable.class, implementationType = Integer.class)}
+ * defines that each {@link java.io.Serializable} should be an {@link java.lang.Integer}
  * <em>Caution</em>: The implementationType should always provide an accessible Constructor. Factory
  * or builder methods for object-creation will not be picked up at this level of configuration.
  * </li>

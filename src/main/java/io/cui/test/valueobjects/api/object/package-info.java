@@ -3,8 +3,8 @@
  * will implicitly be run by {@link io.cui.test.valueobjects.AbstractValueObjectTest}. If you
  * want to
  * skip a certain test you can use
- * {@link io.cui.test.valueobjects.api.object.VetoObjectTestContract} to do so:<br />
- * {@code @VetoObjectTestContract(ObjectTestContracts#SERIALIZABLE)} <br />
+ * {@link io.cui.test.valueobjects.api.object.VetoObjectTestContract} to do so:
+ * {@code @VetoObjectTestContract(ObjectTestContracts#SERIALIZABLE)}
  * will result in the
  * {@link io.cui.test.valueobjects.contract.SerializableContractImpl} not to being run.
  * The default contract tests are defined within
