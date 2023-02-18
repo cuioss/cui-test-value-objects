@@ -32,7 +32,7 @@ public abstract class AbstractOrderedArgsInstantiator<T> implements Parameterize
      *            to be used for the constructor:
      *            {@link RuntimeProperties#getAllProperties()}
      */
-    public AbstractOrderedArgsInstantiator(
+    protected AbstractOrderedArgsInstantiator(
             final RuntimeProperties runtimeProperties) {
         requireNonNull(runtimeProperties);
 
@@ -49,8 +49,8 @@ public abstract class AbstractOrderedArgsInstantiator<T> implements Parameterize
         if (null == parameter || parameter.isEmpty()) {
             return new Class<?>[0];
         }
-        final Class<?>[] parameterArray = new Class<?>[parameter.size()];
-        for (int i = 0; i < parameterArray.length; i++) {
+        final var parameterArray = new Class<?>[parameter.size()];
+        for (var i = 0; i < parameterArray.length; i++) {
             parameterArray[i] = parameter.get(i);
         }
         return parameterArray;
@@ -65,16 +65,15 @@ public abstract class AbstractOrderedArgsInstantiator<T> implements Parameterize
         for (final PropertySupport support : resolveFixedArgumentList()) {
             if (given.containsKey(support.getName())) {
                 // Use given element
-                final PropertySupport givenSupport =
+                final var givenSupport =
                     given.get(support.getName());
                 if (generatePropertyValues) {
                     givenSupport.generateTestValue();
                 }
                 parameter.add(givenSupport.getGeneratedValue());
-            } else if (null != support.getGeneratedValue()) {
-                parameter.add(support.getGeneratedValue());
             } else {
-                if (support.isRequired() || support.isPrimitive()) {
+                if (null != support.getGeneratedValue()) {
+                } else if (support.isRequired() || support.isPrimitive()) {
                     support.generateTestValue();
                 }
                 parameter.add(support.getGeneratedValue());

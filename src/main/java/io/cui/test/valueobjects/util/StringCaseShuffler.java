@@ -36,7 +36,7 @@ public class StringCaseShuffler {
         if (!Character.isAlphabetic(c)) {
             return c;
         }
-        if (Generators.booleans().next()) {
+        if (Generators.booleans().next().booleanValue()) {
             return Character.toUpperCase(c);
         }
         return Character.toLowerCase(c);

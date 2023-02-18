@@ -29,20 +29,20 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
     /**
      * Constructor.
      *
-     * @param type              identifying the actual type to be instantiated, must not be null
+     * @param type identifying the actual type to be instantiated, must not be null
      * @param runtimeProperties must not be null. defines the attributes in the exact order
-     *                          to be used for the constructor:
-     *                          {@link RuntimeProperties#getAllProperties()}
+     *            to be used for the constructor:
+     *            {@link RuntimeProperties#getAllProperties()}
      */
     public ConstructorBasedInstantiator(final Class<T> type,
-        final RuntimeProperties runtimeProperties) {
+            final RuntimeProperties runtimeProperties) {
 
         super(runtimeProperties);
         requireNonNull(type);
 
         final List<Class<?>> parameter = new ArrayList<>();
         runtimeProperties.getAllProperties()
-            .forEach(meta -> parameter.add(meta.resolveActualClass()));
+                .forEach(meta -> parameter.add(meta.resolveActualClass()));
         try {
             if (parameter.isEmpty()) {
                 this.constructor = type.getConstructor();
@@ -50,13 +50,13 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
                 this.constructor = type.getConstructor(toClassArray(parameter));
             }
             requireNonNull(this.constructor,
-                "Unable to find a constructor with signature " + parameter);
+                    "Unable to find a constructor with signature " + parameter);
         } catch (NoSuchMethodException | SecurityException e) {
-            final String message = new StringBuilder("Unable to find a constructor with signature ")
-                .append(parameter).append(", for type ").append(type.getName()).toString();
+            final var message = new StringBuilder("Unable to find a constructor with signature ")
+                    .append(parameter).append(", for type ").append(type.getName()).toString();
             log.error(message, e);
-            for (Constructor<?> constructor : type.getConstructors()) {
-                log.error("Found constructor: {}", constructor.toGenericString());
+            for (Constructor<?> tempConstructor : type.getConstructors()) {
+                log.error("Found constructor: {}", tempConstructor.toGenericString());
             }
             if (0 == type.getConstructors().length) {
                 log.error("No public constructor found!");
@@ -70,19 +70,19 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
         try {
             return this.constructor.newInstance(args);
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-            | InvocationTargetException e) {
-            final String message = new StringBuilder("Unable to invoke constructor ")
-                .append(", due to ").append(extractCauseMessageFromThrowable(e)).toString();
+                | InvocationTargetException e) {
+            final var message = new StringBuilder("Unable to invoke constructor ")
+                    .append(", due to ").append(extractCauseMessageFromThrowable(e)).toString();
             throw new AssertionError(message, e);
         }
     }
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder(getClass().getName());
+        final var builder = new StringBuilder(getClass().getName());
         builder.append("\nConstructor: ").append(this.constructor);
         builder.append("\nProperty Configuration: ")
-            .append(getRuntimeProperties().toString());
+                .append(getRuntimeProperties().toString());
         return builder.toString();
     }
 }
