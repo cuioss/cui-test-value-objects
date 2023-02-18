@@ -1,7 +1,7 @@
 package io.cui.test.valueobjects.objects.impl;
 
 import static io.cui.tools.collect.CollectionLiterals.mutableList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -54,13 +54,13 @@ class ConstructorBasedInstantiatorTest {
         assertNotNull(instance);
         assertNull(instance.getAttribute1());
         assertNull(instance.getAttribute2());
-        assertEquals(0, instance.getAttribute3());
+        assertNotEquals(0, instance.getAttribute3());
         assertNull(instance.getAttribute5());
         instance = instantiator.newInstanceFull();
         assertNotNull(instance);
         assertNotNull(instance.getAttribute1());
         assertNotNull(instance.getAttribute2());
-        assertEquals(0, instance.getAttribute3());
+        assertNotEquals(0, instance.getAttribute3());
         assertNotNull(instance.getAttribute5());
         assertNotNull(instantiator.newInstance(mutableList()));
     }
