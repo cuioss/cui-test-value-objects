@@ -5,6 +5,7 @@ import static io.cui.test.valueobjects.util.GeneratorAnnotationHelper.extractCon
 import static io.cui.test.valueobjects.util.GeneratorAnnotationHelper.handleGeneratorHints;
 import static io.cui.test.valueobjects.util.GeneratorAnnotationHelper.handlePropertyGenerator;
 import static io.cui.test.valueobjects.util.GeneratorAnnotationHelper.handleUnitClassImplementation;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -65,8 +66,8 @@ class GeneratorAnnotationHelperTest {
 
     @Test
     void shouldNotRegisterTestObjectAsGenerator() {
-        handleUnitClassImplementation(this);
-        handleUnitClassImplementation(null);
+        assertDoesNotThrow(() -> handleUnitClassImplementation(this));
+        assertDoesNotThrow(() -> handleUnitClassImplementation(null));
     }
 
     @Test

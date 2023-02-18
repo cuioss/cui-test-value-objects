@@ -17,6 +17,7 @@ import io.cui.test.generator.TypedGenerator;
 import io.cui.test.valueobjects.generator.TypedGeneratorRegistry;
 import io.cui.test.valueobjects.generator.dynamic.GeneratorResolver;
 import io.cui.test.valueobjects.objects.impl.ExceptionHelper;
+import io.cui.tools.lang.SecuritySupport;
 import io.cui.tools.logging.CuiLogger;
 import io.cui.tools.string.Joiner;
 import lombok.AccessLevel;
@@ -57,7 +58,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
                         e);
             }
         }
-        final ArrayList<Object> parameter = new ArrayList<>();
+        final var parameter = new ArrayList<Object>();
         this.constructorGenerators.forEach(gen -> parameter.add(gen.next()));
         try {
             logExtendedInformationAboutUsedConstructor(parameter);
@@ -72,7 +73,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
     }
 
     private void logExtendedInformationAboutUsedConstructor(final ArrayList<Object> parameterValues) {
-        final int constructorModifierValue = constructor.getModifiers();
+        final var constructorModifierValue = constructor.getModifiers();
         if (!Modifier.isPublic(constructorModifierValue)) {
 
             log.warn("!!! Attention : "
@@ -86,8 +87,8 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
                 parameterInfo.add(parameter.getType().getSimpleName() + " " + parameter.getName());
             }
 
-            final String modifier = Modifier.toString(constructorModifierValue);
-            final String constructorInfo = modifier + " " + constructor.getName()
+            final var modifier = Modifier.toString(constructorModifierValue);
+            final var constructorInfo = modifier + " " + constructor.getName()
                     + "(" + Joiner.on(", ").skipNulls().join(parameterInfo) + ")";
             log.info("Used constructor : {}", constructorInfo);
             log.info("Used constructor parameter : {}", logUsedValuesForConstructor(parameterValues));
@@ -165,7 +166,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
         if (null == type || type.isAnnotation()) {
             return false;
         }
-        return !(type.isEnum() || type.isInterface() || Modifier.isAbstract(type.getModifiers()));
+        return (!type.isEnum() && !type.isInterface() && !Modifier.isAbstract(type.getModifiers()));
     }
 
     private static <T> Optional<TypedGenerator<T>> findFittingConstructor(
@@ -178,7 +179,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
         for (final Constructor<?> con : constructorList) {
             // Ok, try to find a constructor where the parameter are already registered Generator
             final List<Class<?>> parameter = Arrays.asList(con.getParameterTypes());
-            boolean allGeneratorAvailable = true;
+            var allGeneratorAvailable = true;
             for (final Class<?> param : parameter) {
                 if (!TypedGeneratorRegistry.containsGenerator(param)) {
                     allGeneratorAvailable = false;
@@ -204,12 +205,9 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
     private static <T> Optional<TypedGenerator<T>> createForConstructor(
             final Class<T> type, final Constructor<?> con) {
         @SuppressWarnings("unchecked")
-        final Constructor<T> constructor = (Constructor<T>) con;
+        final var constructor = (Constructor<T>) con;
 
-        if (!con.isAccessible()) {
-            // Thats ok for testing
-            con.setAccessible(true);
-        }
+        SecuritySupport.setAccessible(constructor, true);
 
         final List<TypedGenerator<?>> generators = new ArrayList<>();
         for (final Class<?> parameterType : constructor.getParameterTypes()) {
