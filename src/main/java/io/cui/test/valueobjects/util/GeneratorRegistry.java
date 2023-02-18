@@ -13,7 +13,6 @@ import io.cui.test.valueobjects.property.PropertyMetadata;
  * Interface providing the capability for handling the {@link TypedGeneratorRegistry}
  * programmatically. Implementors of this interface, usually the base test-classes,
  * are supposed to take care about the runtime handling of the {@link TypedGeneratorRegistry}
- * <p>
  * The runtime handling consists of three steps
  * <ul>
  * <li>Initialize {@link TypedGeneratorRegistry} with the basic Java-types, by calling
@@ -25,7 +24,6 @@ import io.cui.test.valueobjects.property.PropertyMetadata;
  * {@link TypedGeneratorRegistry#clear()} using called in the context after all tests.
  * </li>
  * </ul>
- * </p>
  * <h2>Configuration</h2>
  * <ul>
  * <li>{@link PropertyMetadata}: The actual property values are generated using

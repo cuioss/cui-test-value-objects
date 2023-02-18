@@ -19,18 +19,17 @@ import lombok.Getter;
 
 /**
  * Base class for dynamically testing properties. It provides the handling of
- * {@link PropertyMetadata} and {@link TypedGenerator}. In addition, it computes the runtime class of
+ * {@link PropertyMetadata} and {@link TypedGenerator}. In addition, it computes the runtime class
+ * of
  * the Generic type T using Google Guava and exposes it accordingly, see
  * {@link #getTargetBeanClass()}
  * <h2>Configuration</h2>
- * <p>
  * The tests can be configured using certain annotations, depending on what you want to achieve:
  * <ul>
  * <li>Properties: The configuration of properties to be tested can be tweaked in multiple ways,
  * see {@link io.cui.test.valueobjects.api.property} for details</li>
  * <li>{@link TypedGenerator}: see {@link GeneratorRegistry} for documentation</li>
  * </ul>
- * </p>
  * Usage examples can be found at the package-documentation: {@link io.cui.test.valueobjects}
  *
  * @param <T> identifying the type to be tested is usually but not necessarily at least

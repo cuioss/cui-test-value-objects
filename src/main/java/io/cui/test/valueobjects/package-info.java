@@ -42,7 +42,7 @@
  * class SomeBeanTest extends ValueObjectTest&lt;SomeBean&gt;{...}</code>
  * </pre>
  *
- * <h3>Builder using {@link PropertyGeneratorHint}</h3>
+ * <h3>Builder using {@link io.cui.test.valueobjects.api.generator.PropertyGeneratorHint}</h3>
  *
  * <pre>
  * <code>
@@ -51,10 +51,10 @@
  * class SomeBeanTest extends ValueObjectTest&lt;SomeBean&gt;{...}</code>
  * </pre>
  *
- * <h3>Builder using {@link PropertyGenerator}</h3>
+ * <h3>Builder using {@link io.cui.test.valueobjects.api.generator.PropertyGenerator}</h3>
  * <p>
  * Synthetic example because
- * {@link de.icw.cui.test.generator.impl.FloatObjectGenerator} is part of the default
+ * {@link io.cui.test.generator.impl.FloatObjectGenerator} is part of the default
  * generators that are already available
  * </p>
  *

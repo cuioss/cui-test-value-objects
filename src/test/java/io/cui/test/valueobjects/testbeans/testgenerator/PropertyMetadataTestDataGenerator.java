@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class PropertyMetadataTestDataGenerator {
 
     /**
-     * Creates an instance of of {@link PropertyMetadata} for the field
+     * Creates an instance of {@link PropertyMetadata} for the field
      * {@link PropertyMetadata#getName()}.
      */
     public static final PropertyMetadataTestDataGenerator ATTRIBUTE_NAME =
@@ -29,7 +29,7 @@ public class PropertyMetadataTestDataGenerator {
                 Generators.letterStrings(1, 12), false);
 
     /**
-     * Creates an instance of of {@link PropertyMetadata} for the field
+     * Creates an instance of {@link PropertyMetadata} for the field
      * {@link PropertyMetadata#isDefaultValue()}.
      */
     public static final PropertyMetadataTestDataGenerator ATTRIBUTE_DEFAULT_VALUE =
@@ -37,7 +37,7 @@ public class PropertyMetadataTestDataGenerator {
                 Generators.booleans(), true);
 
     /**
-     * Creates an instance of of {@link PropertyMetadata} for the field
+     * Creates an instance of {@link PropertyMetadata} for the field
      * {@link PropertyMetadata#isRequired()}.
      */
     public static final PropertyMetadataTestDataGenerator ATTRIBUTE_REQUIRED =
@@ -45,8 +45,8 @@ public class PropertyMetadataTestDataGenerator {
                 Generators.booleans(), true);
 
     /**
-     * Creates an instance of of {@link PropertyMetadata} for the field
-     * {@link PropertyMetadata#getPropertyCreateStrategy()}.
+     * Creates an instance of {@link PropertyMetadata} for the field
+     * 'propertyAccessStrategy'.
      */
     public static final PropertyMetadataTestDataGenerator ATTRIBUTE_ACCESS_STRATEGY =
         new PropertyMetadataTestDataGenerator("propertyAccessStrategy",
@@ -54,7 +54,7 @@ public class PropertyMetadataTestDataGenerator {
                 true);
 
     /**
-     * Creates an instance of of {@link PropertyMetadata} for the field
+     * Creates an instance of {@link PropertyMetadata} for the field
      * {@link PropertyMetadata#getCollectionType()}.
      */
     public static final PropertyMetadataTestDataGenerator ATTRIBUTE_COLLECTION_WRAPPER =
@@ -63,8 +63,8 @@ public class PropertyMetadataTestDataGenerator {
                 false);
 
     /**
-     * Creates an instance of of {@link PropertyMetadata} for the field
-     * {@link PropertyMetadata#getPropertyCreateStrategy()}.
+     * Creates an instance of {@link PropertyMetadata} for the field
+     * 'propertyMemberInfo'.
      */
     public static final PropertyMetadataTestDataGenerator ATTRIBUTE_MEMBER_INFO =
         new PropertyMetadataTestDataGenerator("propertyMemberInfo",
@@ -72,7 +72,7 @@ public class PropertyMetadataTestDataGenerator {
                 true);
 
     /**
-     * Creates an instance of of {@link PropertyMetadata} for the field
+     * Creates an instance of {@link PropertyMetadata} for the field
      * {@link PropertyMetadata#getGenerator()} for string-generator.
      */
     public static final PropertyMetadataTestDataGenerator STRING_GENERATOR_GENERATOR =
@@ -82,7 +82,7 @@ public class PropertyMetadataTestDataGenerator {
                 false);
 
     /**
-     * Creates an instance of of {@link PropertyMetadata} for the field
+     * Creates an instance of {@link PropertyMetadata} for the field
      * {@link PropertyMetadata#getPropertyClass()} for string.
      */
     public static final PropertyMetadataTestDataGenerator STRING_CLASS_GENERATOR =
@@ -163,7 +163,6 @@ public class PropertyMetadataTestDataGenerator {
     /**
      * Creates a configured instance of {@link PropertyMetadata}
      *
-     * @param name of the property the {@link PropertyMetadata} is related to.
      * @return {@link PropertyMetadata} with the given name as
      *         {@link PropertyMetadata#getName()}, the corresponding
      *         {@link TypedGenerator} and {@link PropertyMetadata#getPropertyClass()}

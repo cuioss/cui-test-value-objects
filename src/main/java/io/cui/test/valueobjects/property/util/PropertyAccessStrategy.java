@@ -63,13 +63,12 @@ public enum PropertyAccessStrategy {
         }
     },
     /**
-     * <p>
      * In some cases the builder supports multiple ways to fill {@link Collection} based
      * elements, e.g. there is a field with the structure
      *
      * <pre>
      * <code>
-     *     private List<String> name;
+     *     private List&lt;String&gt; name;
      * </code>
      * </pre>
      *
@@ -77,7 +76,7 @@ public enum PropertyAccessStrategy {
      *
      * <pre>
      * <code>
-     *  public Builder names(List<String> names);
+     *  public Builder names(List&lt;String&gt; names);
      *  public Builder names(String name);
      * </code>
      * </pre>
@@ -86,20 +85,17 @@ public enum PropertyAccessStrategy {
      * {@link BuilderMetadata#getBuilderSingleAddMethodName()} in order to find the
      * single addMethod. The plural add method is supposed to be the name of the property itself
      * therefore derived by {@link BuilderMetadata#getBuilderAddMethodName()}.
-     * </p>
-     * <p>
      * In case there is different methodName for adding, e.g.
      *
      * <pre>
      * <code>
-     *  public Builder names(List<String> names);
+     *  public Builder names(List&lt;String&gt; names);
      *  public Builder name(String name);
      * </code>
      * </pre>
      *
      * you can specify the method-name explicitly by using
      * {@link BuilderMetadataBuilder#builderSingleAddMethodName(String)}
-     * </p>
      * <p>
      * The read method delegates to {@link PropertyAccessStrategy#BEAN_PROPERTY} because it
      * can not be read from an actual builder but from the later created bean.

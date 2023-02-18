@@ -9,7 +9,7 @@
  * <li>{@link io.cui.test.valueobjects.api.contracts.VerifyConstructor}</li>
  * <li>{@link io.cui.test.valueobjects.api.contracts.VerifyCopyConstructor}</li>
  * <li>{@link io.cui.test.valueobjects.api.contracts.VerifyFactoryMethod}</li>
- * <ul>
+ * </ul>
  *
  * @author Oliver Wolff
  */

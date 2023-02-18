@@ -7,13 +7,13 @@
  * The handling of properties is the core-aspect of testing value-objects. The individual properties
  * are represented by instances of {@link io.cui.test.valueobjects.property.PropertyMetadata}
  * </p>
- * <p>
  * The resolving of {@link io.cui.test.valueobjects.property.PropertyMetadata} consists of
  * three steps:
  * <ul>
  * <li>Initially the object to be tested will be scanned using Javas Bean Introspection for the
  * properties. This is done using
- * {@link io.cui.test.valueobjects.util.ReflectionHelper#scanBeanTypeForProperties(Object)}.
+ * {@link io.cui.test.valueobjects.util.ReflectionHelper#scanBeanTypeForProperties(java.lang.Class, io.cui.test.valueobjects.api.property.PropertyReflectionConfig)}
+ * (Object)}.
  * The scanning can be adjusted / skipped by using
  * {@link io.cui.test.valueobjects.api.property.PropertyReflectionConfig}.</li>
  * <li>The annotations {@link io.cui.test.valueobjects.api.property.PropertyConfig} and
@@ -28,7 +28,7 @@
  * <li>The same goes for the {@link java.lang.Object} contract tests, that can be adjusted using
  * {@link io.cui.test.valueobjects.api.object.ObjectTestConfig}</li>
  * </ul>
- * </p>
+ * 
  *
  * @author Oliver Wolff
  */

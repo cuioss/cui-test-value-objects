@@ -17,11 +17,11 @@ import io.cui.tools.property.PropertyReadWrite;
  * <p>
  * <em>Caution:</em> The implementation for this contract assumes a valid bean regarding Java-Bean
  * Spec, therefore a no-args public constructor is required.
- * <p>
+ * </p>
  * <p>
  * In essence it checks the getters and setters. As default it assumes the individual properties to
  * not provide a default value. This can be controlled using {@link #defaultValued()}
- * <p>
+ * </p>
  *
  * @author Oliver Wolff
  */
