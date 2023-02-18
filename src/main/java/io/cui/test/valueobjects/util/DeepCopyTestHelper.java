@@ -51,6 +51,7 @@ public class DeepCopyTestHelper {
         testDeepCopy(source, copy, null, ignoreProperties);
     }
 
+    @SuppressWarnings("java:S2259") // owolff: False positive: assertions are not considered here
     private static void testDeepCopy(Object source, Object copy, String propertyString,
             Collection<String> ignoreProperties) {
 
@@ -71,7 +72,8 @@ public class DeepCopyTestHelper {
 
                 // check for null
                 // No sense in checking Strings, primitives and enums
-                if (!checkNullContract(resultSource, resultCopy, currentPropertyString, propertyName) || resultSource.getClass().isPrimitive() || resultSource.getClass().isEnum()
+                if (!checkNullContract(resultSource, resultCopy, currentPropertyString, propertyName)
+                        || resultSource.getClass().isPrimitive() || resultSource.getClass().isEnum()
                         || String.class.equals(resultSource.getClass())) {
                     continue;
                 }

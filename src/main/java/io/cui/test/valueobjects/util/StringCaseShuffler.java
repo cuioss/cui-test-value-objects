@@ -1,4 +1,4 @@
-package io.cui.test.valueobjects;
+package io.cui.test.valueobjects.util;
 
 import static io.cui.tools.string.MoreStrings.isEmpty;
 

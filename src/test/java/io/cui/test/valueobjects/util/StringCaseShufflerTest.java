@@ -1,6 +1,6 @@
-package io.cui.test.valueobjects.mapper;
+package io.cui.test.valueobjects.util;
 
-import static io.cui.test.valueobjects.StringCaseShuffler.shuffleCase;
+import static io.cui.test.valueobjects.util.StringCaseShuffler.shuffleCase;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;

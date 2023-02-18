@@ -1,6 +1,6 @@
 package io.cui.test.valueobjects.junit5;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.cui.test.valueobjects.ValueObjectTest;
 import io.cui.test.valueobjects.junit5.testbeans.ComplexBean;
@@ -12,13 +12,14 @@ class ValueObjectTestInlineInstantiatorTest extends ValueObjectTest<ComplexBean>
     @Override
     public void shouldImplementObjectContracts() {
         // Should Fail Without any
+        var assertIsCorrect = true;
         try {
             super.shouldImplementObjectContracts();
-            fail("Should have thrown AssertionError");
+            assertIsCorrect = false;
         } catch (final AssertionError e) {
             // Expected
         }
-
+        assertTrue(assertIsCorrect, "Should have thrown AssertionError");
         any = new ComplexBean();
         super.shouldImplementObjectContracts();
     }
