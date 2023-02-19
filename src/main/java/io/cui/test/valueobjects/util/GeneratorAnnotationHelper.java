@@ -14,6 +14,7 @@ import io.cui.test.valueobjects.api.generator.PropertyGeneratorHints;
 import io.cui.test.valueobjects.api.generator.PropertyGenerators;
 import io.cui.test.valueobjects.generator.TypedGeneratorRegistry;
 import io.cui.test.valueobjects.generator.dynamic.GeneratorResolver;
+import io.cui.test.valueobjects.objects.impl.DefaultInstantiator;
 import io.cui.tools.collect.CollectionBuilder;
 import io.cui.tools.reflect.MoreReflection;
 import lombok.experimental.UtilityClass;
@@ -83,14 +84,10 @@ public final class GeneratorAnnotationHelper {
             final Class<?> annotated) {
         for (final PropertyGenerator config : extractConfiguredPropertyGenerator(annotated)) {
             for (final Class<?> typedClass : config.value()) {
-                try {
-                    TypedGeneratorRegistry
-                            .registerGenerator((TypedGenerator<?>) typedClass.newInstance());
-                } catch (final InstantiationException | IllegalAccessException e) {
-                    throw new IllegalArgumentException(
-                            UNABLE_TO_INSTANTIATE_GENERATOR + typedClass,
-                            e);
-                }
+                TypedGeneratorRegistry
+                        .registerGenerator(
+                                (TypedGenerator<?>) new DefaultInstantiator<>(typedClass)
+                                        .newInstance());
             }
         }
     }
@@ -119,7 +116,7 @@ public final class GeneratorAnnotationHelper {
     public static Set<PropertyGeneratorHint> extractConfiguredGeneratorHints(
             final Class<?> annotated) {
         requireNonNull(annotated);
-        final CollectionBuilder<PropertyGeneratorHint> builder = new CollectionBuilder<>();
+        final var builder = new CollectionBuilder<PropertyGeneratorHint>();
 
         MoreReflection.extractAllAnnotations(annotated, PropertyGeneratorHints.class)
                 .forEach(contract -> builder.add(Arrays.asList(contract.value())));
@@ -140,7 +137,7 @@ public final class GeneratorAnnotationHelper {
     public static Set<PropertyGenerator> extractConfiguredPropertyGenerator(
             final Class<?> annotated) {
         requireNonNull(annotated);
-        final CollectionBuilder<PropertyGenerator> builder = new CollectionBuilder<>();
+        final var builder = new CollectionBuilder<PropertyGenerator>();
 
         MoreReflection.extractAllAnnotations(annotated, PropertyGenerators.class)
                 .forEach(contract -> builder.add(Arrays.asList(contract.value())));

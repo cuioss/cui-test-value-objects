@@ -1,6 +1,5 @@
 package io.cui.test.valueobjects.util;
 
-import static io.cui.test.valueobjects.util.AnnotationHelper.UNABLE_TO_INSTANTIATE_GENERATOR;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import io.cui.test.generator.TypedGenerator;
 import io.cui.test.valueobjects.api.property.PropertyConfig;
 import io.cui.test.valueobjects.api.property.PropertyConfigs;
 import io.cui.test.valueobjects.generator.dynamic.DynamicTypedGenerator;
+import io.cui.test.valueobjects.objects.impl.DefaultInstantiator;
 import io.cui.test.valueobjects.property.PropertyMetadata;
 import io.cui.test.valueobjects.property.impl.PropertyMetadataImpl;
 import io.cui.test.valueobjects.property.util.CollectionType;
@@ -56,7 +56,7 @@ public class PropertyHelper {
     public static void logMessageForPropertyMetadata(
             final Collection<? extends PropertyMetadata> handled) {
         if (!propertyInformationLogged) {
-            final StringBuilder messageBuilder =
+            final var messageBuilder =
                 new StringBuilder(
                         "Properties detected by using reflection and PropertyConfig-annotation: ")
                                 .append("\n");
@@ -81,7 +81,7 @@ public class PropertyHelper {
     public static void logMessageForTargetPropertyMetadata(
             final Collection<? extends PropertyMetadata> handled) {
         if (!propertyTargetInformationLogged) {
-            final StringBuilder messageBuilder =
+            final var messageBuilder =
                 new StringBuilder(
                         "Properties detected for targetType: ")
                                 .append("\n");
@@ -111,7 +111,7 @@ public class PropertyHelper {
         if (metadata.isEmpty()) {
             return metadata;
         }
-        final CollectionBuilder<PropertyMetadata> builder = new CollectionBuilder<>();
+        final var builder = new CollectionBuilder<PropertyMetadata>();
         for (final PropertyMetadata propertyMetadata : metadata) {
             if (propertyMetadata.getPropertyClass().isPrimitive()
                     && CollectionType.NO_ITERABLE.equals(propertyMetadata.getCollectionType())) {
@@ -146,8 +146,8 @@ public class PropertyHelper {
      */
     public static final Set<PropertyMetadata> handlePropertyConfigAnnotations(
             final Collection<PropertyConfig> config) {
-        final CollectionBuilder<PropertyMetadata> builder =
-            new CollectionBuilder<>();
+        final var builder =
+            new CollectionBuilder<PropertyMetadata>();
 
         config.forEach(conf -> builder.add(propertyConfigToPropertyMetadata(conf)));
 
@@ -165,7 +165,7 @@ public class PropertyHelper {
     public static final Set<PropertyConfig> extractConfiguredPropertyConfigs(
             final Class<?> annotated) {
         requireNonNull(annotated);
-        final CollectionBuilder<PropertyConfig> builder = new CollectionBuilder<>();
+        final var builder = new CollectionBuilder<PropertyConfig>();
 
         MoreReflection.extractAllAnnotations(annotated, PropertyConfigs.class)
                 .forEach(contract -> builder.add(contract.value()));
@@ -180,13 +180,7 @@ public class PropertyHelper {
         final Class<? extends TypedGenerator> generatorClass = config.generator();
         final TypedGenerator<?> generator;
         if (!DynamicTypedGenerator.class.equals(generatorClass)) {
-            try {
-                generator = generatorClass.newInstance();
-            } catch (final InstantiationException | IllegalAccessException e) {
-                throw new IllegalArgumentException(
-                        UNABLE_TO_INSTANTIATE_GENERATOR + generatorClass,
-                        e);
-            }
+            generator = new DefaultInstantiator<>(generatorClass).newInstance();
         } else {
             generator = new DynamicTypedGenerator<>(config.propertyClass());
         }
@@ -228,7 +222,7 @@ public class PropertyHelper {
      */
     public static Map<String, PropertyMetadata> handleWhiteAndBlacklist(final String[] of,
             final String[] exclude, final Collection<PropertyMetadata> givenMetadata) {
-        Map<String, PropertyMetadata> map = PropertyHelper.toMapView(givenMetadata);
+        var map = PropertyHelper.toMapView(givenMetadata);
         if (of.length != 0) {
             // Whitelist takes precedence
             final Map<String, PropertyMetadata> copyMap = new HashMap<>();
@@ -260,9 +254,9 @@ public class PropertyHelper {
         if (null == givenMetadata || givenMetadata.isEmpty()) {
             return Collections.emptyList();
         }
-        final Map<String, PropertyMetadata> map =
+        final var map =
             handleWhiteAndBlacklist(of, exclude, givenMetadata);
-        final CollectionBuilder<PropertyMetadata> builder = new CollectionBuilder<>();
+        final var builder = new CollectionBuilder<PropertyMetadata>();
         for (final PropertyMetadata meta : givenMetadata) {
             if (map.containsKey(meta.getName())) {
                 builder.add(meta);

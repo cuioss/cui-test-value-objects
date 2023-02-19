@@ -8,6 +8,7 @@ import java.util.Set;
 import io.cui.test.valueobjects.contract.EqualsAndHashcodeContractImpl;
 import io.cui.test.valueobjects.contract.SerializableContractImpl;
 import io.cui.test.valueobjects.contract.ToStringContractImpl;
+import io.cui.test.valueobjects.objects.impl.DefaultInstantiator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -38,17 +39,13 @@ public enum ObjectTestContracts {
     SERIALIZABLE(SerializableContractImpl.class);
 
     @Getter
-    private final Class<?> implementationClass;
+    private final Class<? extends ObjectTestContract> implementationClass;
 
     /**
      * @return a new instance of a {@link ObjectTestContract}.
      */
     public ObjectTestContract newObjectTestInstance() {
-        try {
-            return (ObjectTestContract) implementationClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new IllegalStateException("Unable to instantiate objectContract due to ", e);
-        }
+        return new DefaultInstantiator<>(implementationClass).newInstance();
     }
 
     /** Identifies the contract that are specific to Object contracts. */
