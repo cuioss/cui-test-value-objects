@@ -29,7 +29,7 @@ With this structure the framework is capable of creating instances an the corres
 
 == Adjusting Metadata
 
-Although working for most of the times, a reflection based system can never cover all variants. Therefore there a many different ways to adjust them.
+Although working usually, a reflection based system can never cover all variants. Therefore, there a many ways to adjust them.
 Aspects for adjusting are usually:
 
 * *transient*: Whether the property is transient or not. This attribute has impact on the Serializable-tests, where only non-transient attributes are considered.
