@@ -30,7 +30,7 @@ class DynamicTypedGeneratorTest {
 
     @Test
     void shouldHandlePlainObjects() {
-        final var generator = new DynamicTypedGenerator<Integer>(Integer.class);
+        final var generator = new DynamicTypedGenerator<>(Integer.class);
         assertEquals(Integer.class, generator.getType());
         assertNotNull(generator.next());
         assertTrue(Integer.class.isAssignableFrom(generator.next().getClass()));
@@ -38,16 +38,15 @@ class DynamicTypedGeneratorTest {
 
     @Test
     void shouldHandleInterfaces() {
-        final var generator = new DynamicTypedGenerator<Formattable>(Formattable.class);
+        final var generator = new DynamicTypedGenerator<>(Formattable.class);
         assertEquals(Formattable.class, generator.getType());
         assertNotNull(generator.next());
         assertTrue(Formattable.class.isAssignableFrom(generator.next().getClass()));
     }
 
-    @SuppressWarnings("rawtypes")
     @Test
     void shouldHandleAbstractClasses() {
-        final var generator = new DynamicTypedGenerator<AbstractList>(AbstractList.class);
+        final var generator = new DynamicTypedGenerator<>(AbstractList.class);
         assertEquals(AbstractList.class, generator.getType());
         assertNotNull(generator.next());
         assertTrue(AbstractList.class.isAssignableFrom(generator.next().getClass()));
@@ -56,16 +55,15 @@ class DynamicTypedGeneratorTest {
     @Test
     void shouldHandleDifficultTypes() {
         final var generator =
-            new DynamicTypedGenerator<PropertyMetadataImpl>(PropertyMetadataImpl.class);
+            new DynamicTypedGenerator<>(PropertyMetadataImpl.class);
         assertEquals(PropertyMetadataImpl.class, generator.getType());
         assertNotNull(generator.next());
         assertTrue(PropertyMetadataImpl.class.isAssignableFrom(generator.next().getClass()));
     }
 
-    @SuppressWarnings("rawtypes")
     @Test
     void shouldHandleSortedSets() {
-        final var generator = new DynamicTypedGenerator<SortedSet>(SortedSet.class);
+        final var generator = new DynamicTypedGenerator<>(SortedSet.class);
         assertEquals(SortedSet.class, generator.getType());
         assertNotNull(generator.next());
         assertTrue(SortedSet.class.isAssignableFrom(generator.next().getClass()));

@@ -51,7 +51,7 @@ public class DynamicProxyGenerator<T> implements TypedGenerator<T> {
         if (null == type || type.isAnnotation() || type.isInterface() || type.isEnum()) {
             return Optional.empty();
         }
-        final ProxyFactory proxyFactory = new ProxyFactory();
+        final var proxyFactory = new ProxyFactory();
         proxyFactory.setSuperclass(type);
         proxyFactory.setFilter(m -> "equals".equals(m.getName()));
 

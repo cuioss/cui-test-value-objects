@@ -12,7 +12,7 @@ class EmptyMapGeneratorTest {
 
     @Test
     void shouldProduceMaps() {
-        final EmptyMapGenerator generator = new EmptyMapGenerator();
+        final var generator = new EmptyMapGenerator();
         assertEquals(Map.class, generator.getType());
         assertNotNull(generator.next());
         assertTrue(Map.class.isAssignableFrom(generator.next().getClass()));

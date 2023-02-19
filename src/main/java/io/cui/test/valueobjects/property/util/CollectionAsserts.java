@@ -72,8 +72,8 @@ public final class CollectionAsserts {
     private static void fail(final String template, final String propertyName,
             final Object expected,
             final Object actual) {
-        final String expectedString = String.valueOf(expected);
-        final String actualString = String.valueOf(actual);
+        final var expectedString = String.valueOf(expected);
+        final var actualString = String.valueOf(actual);
         throw new AssertionError(
                 String.format(template, propertyName, expectedString, actualString));
 

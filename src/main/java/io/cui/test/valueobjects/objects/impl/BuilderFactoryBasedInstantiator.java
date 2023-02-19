@@ -71,7 +71,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
             this.builderFactoryMethod = enclosingType.getDeclaredMethod(builderFactoryMethodName);
             this.builderClass = this.builderFactoryMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
-            final String message = String.format(UNABLE_TO_ACCESS_METHOD,
+            final var message = String.format(UNABLE_TO_ACCESS_METHOD,
                     builderFactoryMethodName, enclosingType.getName(),
                     extractCauseMessageFromThrowable(e));
             log.error(message, e);
@@ -82,7 +82,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
             this.builderMethod = this.builderClass.getDeclaredMethod(builderMethodName);
             this.targetClass = (Class<T>) this.builderMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
-            final String message = String.format(UNABLE_TO_ACCESS_METHOD,
+            final var message = String.format(UNABLE_TO_ACCESS_METHOD,
                     builderMethodName, this.builderClass, extractCauseMessageFromThrowable(e));
             log.error(message, e);
             throw new AssertionError(message, e);
@@ -95,7 +95,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         try {
             return this.builderFactoryMethod.invoke(null);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            final String message = String.format(UNABLE_TO_ACCESS_METHOD,
+            final var message = String.format(UNABLE_TO_ACCESS_METHOD,
                     this.builderFactoryMethod.getName(), targetClass,
                     extractCauseMessageFromThrowable(e));
             log.error(message, e);
@@ -109,7 +109,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         try {
             return (T) this.builderMethod.invoke(builder);
         } catch (IllegalAccessException | InvocationTargetException | RuntimeException e) {
-            final String message = String.format(UNABLE_TO_ACCESS_METHOD,
+            final var message = String.format(UNABLE_TO_ACCESS_METHOD,
                     this.builderMethod.getName(), this.builderClass.getName(),
                     extractCauseMessageFromThrowable(e));
             log.debug(message, e);

@@ -11,21 +11,19 @@ import java.util.TimeZone;
 import org.junit.jupiter.api.Test;
 
 import io.cui.test.valueobjects.generator.JavaTypesGenerator;
-import io.cui.test.valueobjects.property.PropertyMetadata;
-import io.cui.test.valueobjects.property.impl.PropertyMetadataImpl.PropertyMetadataBuilder;
 
 class JavaTypesGeneratorTest {
 
     @Test
     void shouldProvideStringGeneratorBuilder() {
-        final PropertyMetadataBuilder stringGenerator = JavaTypesGenerator.STRINGS.metadataBuilder("strings");
+        final var stringGenerator = JavaTypesGenerator.STRINGS.metadataBuilder("strings");
         assertNotNull(stringGenerator);
         assertEquals(String.class, stringGenerator.build().getPropertyClass());
     }
 
     @Test
     void shouldProvideStringGenerator() {
-        final PropertyMetadata stringGenerator = JavaTypesGenerator.STRINGS.metadata("strings");
+        final var stringGenerator = JavaTypesGenerator.STRINGS.metadata("strings");
         assertNotNull(stringGenerator);
         assertEquals(String.class, stringGenerator.getPropertyClass());
     }

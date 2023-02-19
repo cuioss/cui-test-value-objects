@@ -35,9 +35,9 @@ public class ArraysGenerator<T, C> implements TypedGenerator<T> {
     @SuppressWarnings("unchecked")
     @Override
     public T next() {
-        final List<C> collection = (List<C>) this.collectionGenerator.list();
+        final var collection = (List<C>) this.collectionGenerator.list();
         if (!componentType.isPrimitive()) {
-            final C[] array = (C[]) Array.newInstance(this.componentType, collection.size());
+            final var array = (C[]) Array.newInstance(this.componentType, collection.size());
             return (T) collection.toArray(array);
         }
         return (T) PrimitiveArrayGenerators.resolveForType(componentType).next();

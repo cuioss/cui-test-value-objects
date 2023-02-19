@@ -13,7 +13,6 @@ import java.util.SortedSet;
 
 import org.junit.jupiter.api.Test;
 
-import io.cui.test.generator.TypedGenerator;
 import io.cui.test.valueobjects.api.object.VetoObjectTestContract;
 import io.cui.tools.property.PropertyMemberInfo;
 
@@ -22,20 +21,19 @@ class InterfaceProxyGeneratorTest {
     @Test
     void shouldHandleMarkerInterface() {
         assertTrue(getGeneratorForType(Serializable.class).isPresent());
-        final TypedGenerator<Serializable> generator = getGeneratorForType(Serializable.class).get();
+        final var generator = getGeneratorForType(Serializable.class).get();
         assertEquals(Serializable.class, generator.getType());
-        final Serializable next = generator.next();
+        final var next = generator.next();
         assertNotNull(next);
         assertTrue(Serializable.class.isAssignableFrom(next.getClass()));
     }
 
-    @SuppressWarnings("rawtypes")
     @Test
     void shouldHandleComplexInterface() {
         assertTrue(getGeneratorForType(SortedSet.class).isPresent());
-        final TypedGenerator<SortedSet> generator = getGeneratorForType(SortedSet.class).get();
+        final var generator = getGeneratorForType(SortedSet.class).get();
         assertEquals(SortedSet.class, generator.getType());
-        final SortedSet next = generator.next();
+        final var next = generator.next();
         assertNotNull(next);
         assertTrue(SortedSet.class.isAssignableFrom(next.getClass()));
         // Actually there should happen nothing -> these are mocks

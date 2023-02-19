@@ -29,7 +29,7 @@ public class GeneratorRegistryController implements TestInstancePostProcessor, A
         if (testInstance instanceof GeneratorRegistry) {
             log.debug(() -> "Test-class '" + testInstance.getClass()
                     + "' is of type io.cui.test.valueobjects.util.GeneratorRegistry, initializing Generator framework");
-            GeneratorRegistry registry = (GeneratorRegistry) testInstance;
+            var registry = (GeneratorRegistry) testInstance;
             GeneratorAnnotationHelper.handleGeneratorsForTestClass(registry,
                     registry.registerAdditionalGenerators());
         } else {

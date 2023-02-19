@@ -35,9 +35,9 @@ class ToStringContractImplTest {
 
     @Test
     void shouldFailOnBadObjectBean() {
-        BeanInstantiator<BadObjectBean> instantiator =
-            new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBean.class), EMPTY_RUNTIME_INFORMATION);
-        ToStringContractImpl contract = new ToStringContractImpl();
+        var instantiator =
+            new BeanInstantiator<BadObjectBean>(new DefaultInstantiator<>(BadObjectBean.class), EMPTY_RUNTIME_INFORMATION);
+        var contract = new ToStringContractImpl();
         assertThrows(AssertionError.class, () -> contract.assertContract(
                 instantiator,
                 null));
@@ -45,9 +45,9 @@ class ToStringContractImplTest {
 
     @Test
     void shouldHandleBasicContract() {
-        ObjectTestConfig objectTestConfigFalse =
+        var objectTestConfigFalse =
             MoreReflection.extractAnnotation(ToStringAnnotatedUseMinimalFalse.class, ObjectTestConfig.class).get();
-        ObjectTestConfig objectTestConfigTrue =
+        var objectTestConfigTrue =
             MoreReflection.extractAnnotation(ToStringAnnotatedUseMinimalTrue.class, ObjectTestConfig.class).get();
         assertFalse(ToStringContractImpl.shouldUseMinimal(null));
         assertFalse(ToStringContractImpl.shouldUseMinimal(objectTestConfigFalse));

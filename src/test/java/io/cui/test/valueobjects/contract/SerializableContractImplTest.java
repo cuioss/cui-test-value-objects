@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +17,6 @@ import io.cui.test.valueobjects.objects.RuntimeProperties;
 import io.cui.test.valueobjects.objects.impl.BeanInstantiator;
 import io.cui.test.valueobjects.objects.impl.ConstructorBasedInstantiator;
 import io.cui.test.valueobjects.objects.impl.DefaultInstantiator;
-import io.cui.test.valueobjects.property.PropertyMetadata;
 import io.cui.test.valueobjects.testbeans.objectcontract.BadObjectBean;
 import io.cui.test.valueobjects.testbeans.serializable.SerializationBasicOnlyFalseContract;
 import io.cui.test.valueobjects.testbeans.serializable.SerializationBasicOnlyTrueContract;
@@ -44,7 +42,7 @@ class SerializableContractImplTest {
 
     @Test
     void shouldFailWithNullAsArgument() {
-        SerializableContractImpl contract = new SerializableContractImpl();
+        var contract = new SerializableContractImpl();
         assertThrows(NullPointerException.class, () -> {
             contract.assertContract(null, null);
         });
@@ -52,9 +50,9 @@ class SerializableContractImplTest {
 
     @Test
     void shouldFailOnBadObjectBean() {
-        BeanInstantiator<BadObjectBean> instantiator =
-            new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBean.class), EMPTY_RUNTIME_INFORMATION);
-        SerializableContractImpl contract = new SerializableContractImpl();
+        var instantiator =
+            new BeanInstantiator<BadObjectBean>(new DefaultInstantiator<>(BadObjectBean.class), EMPTY_RUNTIME_INFORMATION);
+        var contract = new SerializableContractImpl();
         assertThrows(AssertionError.class, () -> contract.assertContract(
                 instantiator,
                 null));
@@ -62,10 +60,10 @@ class SerializableContractImplTest {
 
     @Test
     void shouldFailOnSerializableReadFailure() {
-        ConstructorBasedInstantiator<SerializationReadFailure> instantiator =
-            new ConstructorBasedInstantiator<>(SerializationReadFailure.class,
+        var instantiator =
+            new ConstructorBasedInstantiator<SerializationReadFailure>(SerializationReadFailure.class,
                     new RuntimeProperties(Collections.emptyList()));
-        SerializableContractImpl contract = new SerializableContractImpl();
+        var contract = new SerializableContractImpl();
         assertThrows(AssertionError.class, () -> contract.assertContract(
                 instantiator,
                 null));
@@ -73,9 +71,9 @@ class SerializableContractImplTest {
 
     @Test
     void shouldFailOnSerializableWriteFailure() {
-        ConstructorBasedInstantiator<SerializationWriteFailure> instantiator = new ConstructorBasedInstantiator<>(
+        var instantiator = new ConstructorBasedInstantiator<SerializationWriteFailure>(
                 SerializationWriteFailure.class, new RuntimeProperties(Collections.emptyList()));
-        SerializableContractImpl contract = new SerializableContractImpl();
+        var contract = new SerializableContractImpl();
         assertThrows(AssertionError.class, () -> contract.assertContract(
                 instantiator,
                 null));
@@ -83,9 +81,9 @@ class SerializableContractImplTest {
 
     @Test
     void shouldHandleBasicContract() {
-        ObjectTestConfig objectTestConfigFalse =
+        var objectTestConfigFalse =
             MoreReflection.extractAnnotation(SerializationBasicOnlyFalseContract.class, ObjectTestConfig.class).get();
-        ObjectTestConfig objectTestConfigTrue =
+        var objectTestConfigTrue =
             MoreReflection.extractAnnotation(SerializationBasicOnlyTrueContract.class, ObjectTestConfig.class).get();
         assertFalse(SerializableContractImpl.checkTestBasicOnly(null));
         assertFalse(SerializableContractImpl.checkTestBasicOnly(objectTestConfigFalse));
@@ -100,9 +98,9 @@ class SerializableContractImplTest {
 
     @Test
     void shouldHandleEqualsOptOutContract() {
-        ObjectTestConfig objectTestConfigFalse =
+        var objectTestConfigFalse =
             MoreReflection.extractAnnotation(SerializationEqualsFalseContract.class, ObjectTestConfig.class).get();
-        ObjectTestConfig objectTestConfigTrue =
+        var objectTestConfigTrue =
             MoreReflection.extractAnnotation(SerializationEqualsTrueContract.class, ObjectTestConfig.class).get();
         assertTrue(SerializableContractImpl.checkForEqualsComparison(null));
         assertFalse(SerializableContractImpl.checkForEqualsComparison(objectTestConfigFalse));
@@ -115,11 +113,11 @@ class SerializableContractImplTest {
 
     @Test
     void shouldHandleEqualsExcludeAndOfContract() {
-        ObjectTestConfig objectTestConfigExclude =
+        var objectTestConfigExclude =
             MoreReflection.extractAnnotation(SerializationExclude.class, ObjectTestConfig.class).get();
-        ObjectTestConfig objectTestConfigOf =
+        var objectTestConfigOf =
             MoreReflection.extractAnnotation(SerializationOf.class, ObjectTestConfig.class).get();
-        List<PropertyMetadata> properties = FULL_BEAN_INSTANIATOR.getRuntimeProperties().getAllProperties();
+        var properties = FULL_BEAN_INSTANIATOR.getRuntimeProperties().getAllProperties();
         assertEquals(properties, SerializableContractImpl.filterProperties(properties, null));
         assertEquals(properties.size() - 1,
                 SerializableContractImpl.filterProperties(properties, objectTestConfigExclude).size());

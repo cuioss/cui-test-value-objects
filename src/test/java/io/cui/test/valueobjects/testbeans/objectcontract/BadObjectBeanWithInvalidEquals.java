@@ -12,9 +12,7 @@ public class BadObjectBeanWithInvalidEquals {
 
     @Override
     public boolean equals(final Object obj) {
-        if ((null == obj) || (this == obj)) {
-            // Bad Boy
-            return false;
+        if (null == obj || this == obj) {
         }
         return false;
     }

@@ -42,13 +42,13 @@ public class MapperContractImpl<S, T> {
      */
     public void assertContract() {
 
-        final StringBuilder builder = new StringBuilder("Verifying ");
+        final var builder = new StringBuilder("Verifying ");
         builder.append(getClass().getName()).append("\nWith source-configuration: ")
                 .append(sourceInstantiator.getRuntimeProperties().toString());
         builder.append("\nWith target-configuration: ")
                 .append(targetMetadata.toString());
         log.info(builder.toString());
-        MapperAttributesAsserts asserter =
+        var asserter =
             new MapperAttributesAsserts(config, targetMetadata,
                     sourceInstantiator.getRuntimeProperties());
         handleSimpleMapping(asserter);
@@ -66,7 +66,7 @@ public class MapperContractImpl<S, T> {
     private void verifyMapping(MapperAttributesAsserts asserter, List<PropertySupport> properties,
             String context) {
         S source = sourceInstantiator.newInstance(properties, false);
-        T target = mapper.apply(source);
+        var target = mapper.apply(source);
         List<String> names = properties.stream().map(PropertySupport::getName).collect(Collectors.toList());
         log.debug("Verifying mapper in context of {} with attributes {}", context, names);
         asserter.assertMappingForSourceAttributes(names, source, target);

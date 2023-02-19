@@ -16,6 +16,6 @@ class BaseMapperTestErrorMapperTest extends MapperTest<SimpleErrorMapper, Simple
     @Override
     @Test
     public void verifyMapper() {
-        assertThrows(AssertionError.class, () -> super.verifyMapper());
+        assertThrows(AssertionError.class, super::verifyMapper);
     }
 }

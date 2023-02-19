@@ -28,7 +28,7 @@
  * <li>The same goes for the {@link java.lang.Object} contract tests, that can be adjusted using
  * {@link io.cui.test.valueobjects.api.object.ObjectTestConfig}</li>
  * </ul>
- * 
+ *
  *
  * @author Oliver Wolff
  */

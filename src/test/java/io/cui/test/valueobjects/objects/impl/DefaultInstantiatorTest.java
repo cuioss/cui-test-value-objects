@@ -13,16 +13,16 @@ class DefaultInstantiatorTest {
 
     @Test
     void shouldInstantiateSimpleBean() {
-        final DefaultInstantiator<ComplexBean> instantiator = new DefaultInstantiator<>(ComplexBean.class);
-        final ComplexBean bean = instantiator.newInstance();
+        final var instantiator = new DefaultInstantiator<ComplexBean>(ComplexBean.class);
+        final var bean = instantiator.newInstance();
         assertNotNull(bean);
         assertEquals(ComplexBean.class, instantiator.getTargetClass());
     }
 
     @Test
     void shouldfailToInstantiateBeanWithoutDefaultConstructor() {
-        DefaultInstantiator<BeanWithSingleArgumentConstructor> instantiator =
-            new DefaultInstantiator<>(BeanWithSingleArgumentConstructor.class);
+        var instantiator =
+            new DefaultInstantiator<BeanWithSingleArgumentConstructor>(BeanWithSingleArgumentConstructor.class);
         assertThrows(AssertionError.class,
                 () -> instantiator.newInstance());
     }

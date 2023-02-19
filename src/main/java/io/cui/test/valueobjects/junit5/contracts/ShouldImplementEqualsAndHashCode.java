@@ -22,7 +22,7 @@ public interface ShouldImplementEqualsAndHashCode<T> extends TestObjectProvider<
      */
     @Test
     default void shouldImplementEqualsAndHashcode() {
-        T underTest = getUnderTest();
+        var underTest = getUnderTest();
         EqualsAndHashcodeContractImpl.assertBasicContractOnEquals(underTest);
         EqualsAndHashcodeContractImpl.assertBasicContractOnHashCode(underTest);
     }

@@ -17,6 +17,6 @@ class BaseMapperTestExceptionMapperTest
     @Override
     @Test
     public void verifyMapper() {
-        assertThrows(IllegalStateException.class, () -> super.verifyMapper());
+        assertThrows(IllegalStateException.class, super::verifyMapper);
     }
 }

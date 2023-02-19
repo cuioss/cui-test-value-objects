@@ -251,7 +251,7 @@ public final class ReflectionHelper {
             final PropertyReflectionConfig config, final SortedSet<PropertyMetadata> metatdata) {
         requireNonNull(metatdata);
 
-        if (metatdata.isEmpty() || (null == config)) {
+        if (metatdata.isEmpty() || null == config) {
             return metatdata;
         }
 

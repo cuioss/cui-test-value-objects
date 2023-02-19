@@ -20,7 +20,7 @@ import lombok.ToString;
 
 class DeepCopyTestHelperTest {
 
-    private CollectionGenerator<String> lists = Generators.asCollectionGenerator(nonEmptyStrings());
+    private final CollectionGenerator<String> lists = Generators.asCollectionGenerator(nonEmptyStrings());
 
     @Test
     void shouldHandleHappyCase() {
@@ -52,7 +52,7 @@ class DeepCopyTestHelperTest {
     class TestClass {
 
         @Getter
-        private String readOnly;
+        private final String readOnly;
 
         @Getter
         @Setter
@@ -64,7 +64,7 @@ class DeepCopyTestHelperTest {
         date;
 
         @Getter
-        private List<String> list;
+        private final List<String> list;
     }
 
     public TestClass any() {

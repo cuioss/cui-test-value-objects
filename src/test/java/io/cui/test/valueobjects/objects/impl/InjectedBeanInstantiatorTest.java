@@ -42,8 +42,8 @@ class InjectedBeanInstantiatorTest
 
     @Test
     void shouldHandleInstantiator() {
-        InjectedBeanInstantiator<ComplexBean> instantiator =
-            new InjectedBeanInstantiator<>(this, this, runtimeProperties);
+        var instantiator =
+            new InjectedBeanInstantiator<ComplexBean>(this, this, runtimeProperties);
         assertNotNull(instantiator.newInstanceFull());
         assertNotNull(instantiator.newInstanceMinimal());
         assertNotNull(instantiator.toString());

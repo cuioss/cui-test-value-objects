@@ -26,8 +26,8 @@ class CollectionTypeGeneratorTest {
     @Test
     void shouldHandleCollection() {
         @SuppressWarnings("rawtypes")
-        final CollectionTypeGenerator<SortedSet> generator =
-            new CollectionTypeGenerator<>(SortedSet.class, CollectionType.SORTED_SET);
+        final var generator =
+            new CollectionTypeGenerator<SortedSet>(SortedSet.class, CollectionType.SORTED_SET);
         assertNotNull(generator.next());
         assertTrue(SortedSet.class.isAssignableFrom(generator.next().getClass()));
     }

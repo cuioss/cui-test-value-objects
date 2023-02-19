@@ -17,6 +17,6 @@ class BaseMapperTestErrorCollectionMapperTest
     @Override
     @Test
     public void verifyMapper() {
-        assertThrows(AssertionError.class, () -> super.verifyMapper());
+        assertThrows(AssertionError.class, super::verifyMapper);
     }
 }

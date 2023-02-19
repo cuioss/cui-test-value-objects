@@ -7,7 +7,7 @@ public class SimpleErrorMapper implements Function<SimpleSourceBean, SimpleTarge
 
     @Override
     public SimpleTargetBean apply(SimpleSourceBean t) {
-        SimpleTargetBean target = new SimpleTargetBean();
+        var target = new SimpleTargetBean();
         target.setNameFirst(t.getLastname());
         target.setNameFirst(t.getFirstname());
         target.setListOfAttributes(t.getAttributeList());

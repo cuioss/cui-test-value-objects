@@ -58,7 +58,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
                         e);
             }
         }
-        final var parameter = new ArrayList<Object>();
+        final var parameter = new ArrayList<>();
         this.constructorGenerators.forEach(gen -> parameter.add(gen.next()));
         try {
             logExtendedInformationAboutUsedConstructor(parameter);
@@ -166,7 +166,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
         if (null == type || type.isAnnotation()) {
             return false;
         }
-        return (!type.isEnum() && !type.isInterface() && !Modifier.isAbstract(type.getModifiers()));
+        return !type.isEnum() && !type.isInterface() && !Modifier.isAbstract(type.getModifiers());
     }
 
     private static <T> Optional<TypedGenerator<T>> findFittingConstructor(

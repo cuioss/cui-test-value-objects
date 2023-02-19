@@ -47,9 +47,8 @@ public class MapperAttributesAsserts {
         super();
         var targetPropertyMap = targetProperties.asMapView(false);
         var sourcePropertyMap = sourceProperties.asMapView(false);
-        List<MappingTuple> mapping = new ArrayList<>();
+        List<MappingTuple> mapping = new ArrayList<>(MappingAssertStrategy.EQUALS.readConfiguration(config));
 
-        mapping.addAll(MappingAssertStrategy.EQUALS.readConfiguration(config));
         mapping.addAll(MappingAssertStrategy.NOT_NULL.readConfiguration(config));
 
         for (MappingTuple tuple : mapping) {

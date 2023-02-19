@@ -27,28 +27,28 @@ public class CallbackAwareInstantiator<T> implements ParameterizedInstantiator<T
     @Override
     public T newInstance(final List<PropertySupport> properties,
             final boolean generatePropertyValues) {
-        final T instance = parameterizedInstantiator.newInstance(properties, generatePropertyValues);
+        final var instance = parameterizedInstantiator.newInstance(properties, generatePropertyValues);
         callBackHandler.configure(instance);
         return instance;
     }
 
     @Override
     public T newInstance(final List<PropertyMetadata> properties) {
-        final T instance = parameterizedInstantiator.newInstance(properties);
+        final var instance = parameterizedInstantiator.newInstance(properties);
         callBackHandler.configure(instance);
         return instance;
     }
 
     @Override
     public T newInstanceMinimal() {
-        final T instance = parameterizedInstantiator.newInstanceMinimal();
+        final var instance = parameterizedInstantiator.newInstanceMinimal();
         callBackHandler.configure(instance);
         return instance;
     }
 
     @Override
     public T newInstanceFull() {
-        final T instance = parameterizedInstantiator.newInstanceFull();
+        final var instance = parameterizedInstantiator.newInstanceFull();
         callBackHandler.configure(instance);
         return instance;
     }

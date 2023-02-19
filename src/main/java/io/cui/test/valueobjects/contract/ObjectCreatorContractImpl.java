@@ -41,7 +41,7 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
 
     @Override
     public void assertContract() {
-        final StringBuilder builder = new StringBuilder("Verifying ");
+        final var builder = new StringBuilder("Verifying ");
         builder.append(getClass().getName()).append("\nWith configuration: ")
                 .append(this.instantiator.toString());
         log.info(builder.toString());
@@ -52,16 +52,16 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
     }
 
     private void shouldFailOnMissingRequiredAttributes() {
-        final RuntimeProperties information =
+        final var information =
             getInstantiator().getRuntimeProperties();
-        final List<PropertySupport> required = information.getRequiredAsPropertySupport(true);
+        final var required = information.getRequiredAsPropertySupport(true);
 
         for (final PropertySupport support : required) {
             if (!support.isPrimitive()) {
                 final List<PropertySupport> iterating = new ArrayList<>(required);
                 iterating.remove(support);
                 iterating.add(support.createCopy(false));
-                boolean failed = false;
+                var failed = false;
                 try {
                     getInstantiator().newInstance(iterating, false);
                     failed = true;
@@ -77,11 +77,11 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
     }
 
     private void shouldHandleRequiredAndDefaults() {
-        final RuntimeProperties information =
+        final var information =
             getInstantiator().getRuntimeProperties();
 
-        final List<PropertySupport> required = information.getRequiredAsPropertySupport(true);
-        final T instance = getInstantiator().newInstance(required, false);
+        final var required = information.getRequiredAsPropertySupport(true);
+        final var instance = getInstantiator().newInstance(required, false);
 
         for (final PropertySupport support : required) {
             if (support.isReadable()) {
@@ -104,10 +104,10 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
     }
 
     private void shouldPersistAllParameter() {
-        final List<PropertySupport> properties = this.instantiator
+        final var properties = this.instantiator
                 .getRuntimeProperties().getAllAsPropertySupport(true);
 
-        final T instance = this.instantiator.newInstance(properties, false);
+        final var instance = this.instantiator.newInstance(properties, false);
         for (final PropertySupport support : properties) {
             if (support.isReadable()) {
                 support.assertValueSet(instance);
@@ -138,11 +138,11 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
         requireNonNull(beanType, "beantype must not be null");
         requireNonNull(initialPropertyMetadata, "initialPropertyMetadata must not be null");
 
-        final CollectionBuilder<ObjectCreatorContractImpl<T>> builder = new CollectionBuilder<>();
+        final var builder = new CollectionBuilder<ObjectCreatorContractImpl<T>>();
         // VerifyConstructor
         for (final VerifyConstructor contract : AnnotationHelper
                 .extractConfiguredConstructorContracts(annotated)) {
-            final List<PropertyMetadata> properties =
+            final var properties =
                 AnnotationHelper.constructorConfigToPropertyMetadata(contract,
                         initialPropertyMetadata);
             final ParameterizedInstantiator<T> instantiator = new ConstructorBasedInstantiator<>(
@@ -152,7 +152,7 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
         // Verify Factory method
         for (final VerifyFactoryMethod contract : AnnotationHelper
                 .extractConfiguredFactoryContracts(annotated)) {
-            final List<PropertyMetadata> properties =
+            final var properties =
                 AnnotationHelper.factoryConfigToPropertyMetadata(contract,
                         initialPropertyMetadata);
             Class<?> enclosingType = beanType;

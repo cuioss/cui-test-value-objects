@@ -38,7 +38,7 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
 
     @Override
     public void assertContract() {
-        final StringBuilder builder = new StringBuilder("Verifying ");
+        final var builder = new StringBuilder("Verifying ");
         builder.append(getClass().getName()).append("\nWith configuration: ")
                 .append(getInstantiator().toString());
         log.info(builder.toString());
@@ -77,7 +77,7 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
     }
 
     private void checkDefaultContract() {
-        final List<PropertyMetadata> defaultProperties =
+        final var defaultProperties =
             getInstantiator().getRuntimeProperties().getDefaultProperties();
         if (defaultProperties.isEmpty()) {
             log.debug("No default properties configured");
@@ -124,8 +124,8 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
             log.warn("No configured properties found to be tested, offending class: " + annotated);
             return Optional.empty();
         }
-        final DefaultInstantiator<T> instantiator = new DefaultInstantiator<>(beanType);
-        final List<PropertyMetadata> metadata =
+        final var instantiator = new DefaultInstantiator<T>(beanType);
+        final var metadata =
             AnnotationHelper.handleMetadataForPropertyTest(annotated, initialPropertyMetadata);
 
         return Optional.of(new BeanPropertyContractImpl<>(

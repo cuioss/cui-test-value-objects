@@ -40,7 +40,7 @@ public final class BuilderPropertyHelper {
     public static List<PropertyMetadata> handleBuilderPropertyConfigAnnotations(
             final Class<?> annotated, final List<PropertyMetadata> givenMetadata) {
         requireNonNull(annotated);
-        final CollectionBuilder<PropertyMetadata> builder = new CollectionBuilder<>();
+        final var builder = new CollectionBuilder<PropertyMetadata>();
 
         extractConfiguredPropertyBuilderConfigs(annotated).forEach(config -> builder
                 .add(builderPropertyConfigToBuilderMetadata(config, givenMetadata)));
@@ -58,7 +58,7 @@ public final class BuilderPropertyHelper {
     public static Set<PropertyBuilderConfig> extractConfiguredPropertyBuilderConfigs(
             final Class<?> annotated) {
         requireNonNull(annotated);
-        final CollectionBuilder<PropertyBuilderConfig> builder = new CollectionBuilder<>();
+        final var builder = new CollectionBuilder<PropertyBuilderConfig>();
 
         MoreReflection.extractAllAnnotations(annotated, PropertyBuilderConfigs.class)
                 .forEach(contract -> builder.add(Arrays.asList(contract.value())));
@@ -75,7 +75,7 @@ public final class BuilderPropertyHelper {
         givenMetadata.forEach(meta -> map.put(meta.getName(), meta));
         PropertyHelper.assertPropertyExists(config.name(), map);
 
-        final PropertyMetadataImpl metatada =
+        final var metatada =
             PropertyMetadataImpl.builder(map.get(config.name()))
                     .propertyAccessStrategy(config.propertyAccessStrategy())
                     .build();

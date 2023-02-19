@@ -42,7 +42,7 @@ class DefaultInvocationHandler implements InvocationHandler {
         if (args.length == 1
                 && method.getName().equals("equals")
                 && method.getParameterTypes()[0] == Object.class) {
-            Object arg = args[0];
+            var arg = args[0];
             if (arg == null) {
                 return false;
             }

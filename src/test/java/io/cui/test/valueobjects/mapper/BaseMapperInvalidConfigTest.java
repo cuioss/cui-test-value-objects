@@ -16,6 +16,6 @@ class BaseMapperInvalidConfigTest extends MapperTest<SimpleErrorMapper, SimpleSo
     @Test
     @Override
     public void verifyMapper() {
-        assertThrows(AssertionError.class, () -> super.verifyMapper());
+        assertThrows(AssertionError.class, super::verifyMapper);
     }
 }

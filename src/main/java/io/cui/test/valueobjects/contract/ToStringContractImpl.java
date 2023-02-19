@@ -41,7 +41,7 @@ public class ToStringContractImpl implements ObjectTestContract {
     }
 
     static boolean shouldUseMinimal(final ObjectTestConfig objectTestConfig) {
-        return ((null != objectTestConfig) && objectTestConfig.toStringUseMinimalInstance());
+        return null != objectTestConfig && objectTestConfig.toStringUseMinimalInstance();
     }
 
 }
