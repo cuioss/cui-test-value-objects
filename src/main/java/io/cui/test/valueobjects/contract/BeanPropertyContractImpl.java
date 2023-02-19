@@ -124,7 +124,7 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
             log.warn("No configured properties found to be tested, offending class: " + annotated);
             return Optional.empty();
         }
-        final var instantiator = new DefaultInstantiator<T>(beanType);
+        final var instantiator = new DefaultInstantiator<>(beanType);
         final var metadata =
             AnnotationHelper.handleMetadataForPropertyTest(annotated, initialPropertyMetadata);
 

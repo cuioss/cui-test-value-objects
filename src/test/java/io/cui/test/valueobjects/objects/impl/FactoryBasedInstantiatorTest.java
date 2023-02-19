@@ -21,7 +21,7 @@ class FactoryBasedInstantiatorTest {
 
     @Test
     void shouldInstantiateWithNoArgsConstructor() {
-        var instantiaor = new FactoryBasedInstantiator<TwoFactoryBean>(TwoFactoryBean.class,
+        var instantiaor = new FactoryBasedInstantiator<>(TwoFactoryBean.class,
                 EMPTY_INFORMATION, TwoFactoryBean.class, TwoFactoryBean.CREATE_METHOD_NAME);
         log.info(instantiaor.toString());
         assertNotNull(instantiaor.newInstanceMinimal());
@@ -31,7 +31,7 @@ class FactoryBasedInstantiatorTest {
 
     @Test
     void shouldInstantiateWithSingleArgsConstructor() {
-        var instantiaor = new FactoryBasedInstantiator<TwoFactoryBean>(TwoFactoryBean.class,
+        var instantiaor = new FactoryBasedInstantiator<>(TwoFactoryBean.class,
                 TwoFactoryBean.INFORMATION, TwoFactoryBean.class, TwoFactoryBean.CREATE_METHOD_NAME);
         log.info(instantiaor.toString());
         assertNotNull(instantiaor.newInstanceMinimal());
@@ -47,7 +47,7 @@ class FactoryBasedInstantiatorTest {
     @Test
     void shouldFailOnExceptionMethod() {
         var instantiator =
-            new FactoryBasedInstantiator<BadFactoryBean>(BadFactoryBean.class, EMPTY_INFORMATION, BadFactoryBean.class,
+            new FactoryBasedInstantiator<>(BadFactoryBean.class, EMPTY_INFORMATION, BadFactoryBean.class,
                     "boom");
         assertThrows(AssertionError.class, () -> instantiator.newInstanceFull());
     }

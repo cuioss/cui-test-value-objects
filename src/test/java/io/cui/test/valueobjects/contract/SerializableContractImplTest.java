@@ -51,7 +51,7 @@ class SerializableContractImplTest {
     @Test
     void shouldFailOnBadObjectBean() {
         var instantiator =
-            new BeanInstantiator<BadObjectBean>(new DefaultInstantiator<>(BadObjectBean.class), EMPTY_RUNTIME_INFORMATION);
+            new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBean.class), EMPTY_RUNTIME_INFORMATION);
         var contract = new SerializableContractImpl();
         assertThrows(AssertionError.class, () -> contract.assertContract(
                 instantiator,
@@ -61,7 +61,7 @@ class SerializableContractImplTest {
     @Test
     void shouldFailOnSerializableReadFailure() {
         var instantiator =
-            new ConstructorBasedInstantiator<SerializationReadFailure>(SerializationReadFailure.class,
+            new ConstructorBasedInstantiator<>(SerializationReadFailure.class,
                     new RuntimeProperties(Collections.emptyList()));
         var contract = new SerializableContractImpl();
         assertThrows(AssertionError.class, () -> contract.assertContract(
@@ -71,7 +71,7 @@ class SerializableContractImplTest {
 
     @Test
     void shouldFailOnSerializableWriteFailure() {
-        var instantiator = new ConstructorBasedInstantiator<SerializationWriteFailure>(
+        var instantiator = new ConstructorBasedInstantiator<>(
                 SerializationWriteFailure.class, new RuntimeProperties(Collections.emptyList()));
         var contract = new SerializableContractImpl();
         assertThrows(AssertionError.class, () -> contract.assertContract(

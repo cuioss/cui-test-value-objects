@@ -9,7 +9,8 @@ import java.util.Arrays;
  * Abstract implementation of {@link InvocationHandler} that handles {@link Object#equals}, {@link
  * Object#hashCode} and {@link Object#toString}.:
  *
- * @author <a href="https://github.com/google/guava/blob/master/guava/src/com/google/common/reflect/DefaultInvocationHandler.java">...</a>
+ * @author <a href=
+ *         "https://github.com/google/guava/blob/master/guava/src/com/google/common/reflect/DefaultInvocationHandler.java">...</a>
  */
 class DefaultInvocationHandler implements InvocationHandler {
 

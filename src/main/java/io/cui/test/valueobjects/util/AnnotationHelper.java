@@ -77,7 +77,7 @@ public final class AnnotationHelper {
 
         if (config.allRequired()) {
             map.replaceAll(
-                (k, v) -> PropertyMetadataImpl.builder(v).required(true).build());
+                    (k, v) -> PropertyMetadataImpl.builder(v).required(true).build());
         }
 
         return orderPropertyMetadata(config.of(), handleWritableAttributes(map));

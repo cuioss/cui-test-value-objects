@@ -14,7 +14,8 @@ import io.cui.test.valueobjects.util.GeneratorRegistry;
 
 /**
  * Enables the test-generator handling, see {@link GeneratorRegistry} for details. The underlying
- * extension {@link GeneratorRegistryController} take care on all runtime aspects of the handling in a
+ * extension {@link GeneratorRegistryController} take care on all runtime aspects of the handling in
+ * a
  * junit-5 context.
  *
  * @author Oliver Wolff

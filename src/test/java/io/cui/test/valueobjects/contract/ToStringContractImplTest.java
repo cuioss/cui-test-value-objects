@@ -36,7 +36,7 @@ class ToStringContractImplTest {
     @Test
     void shouldFailOnBadObjectBean() {
         var instantiator =
-            new BeanInstantiator<BadObjectBean>(new DefaultInstantiator<>(BadObjectBean.class), EMPTY_RUNTIME_INFORMATION);
+            new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBean.class), EMPTY_RUNTIME_INFORMATION);
         var contract = new ToStringContractImpl();
         assertThrows(AssertionError.class, () -> contract.assertContract(
                 instantiator,

@@ -16,7 +16,6 @@ import io.cui.test.valueobjects.testbeans.veto.ClassWithTwoVetoes;
 import io.cui.test.valueobjects.testbeans.veto.InheritedVeto;
 import io.cui.test.valueobjects.testbeans.veto.InheritedVetoWithAdditionalVeto;
 
-
 class ObjectContractHelperTest {
 
     @Test
