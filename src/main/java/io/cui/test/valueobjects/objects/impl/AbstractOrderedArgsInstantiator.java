@@ -73,6 +73,7 @@ public abstract class AbstractOrderedArgsInstantiator<T> implements Parameterize
                 parameter.add(givenSupport.getGeneratedValue());
             } else {
                 if (null != support.getGeneratedValue()) {
+                    // A Test value is already set
                 } else if (support.isRequired() || support.isPrimitive()) {
                     support.generateTestValue();
                 }

@@ -2,6 +2,8 @@ package io.cui.test.valueobjects.objects.impl;
 
 import static io.cui.test.valueobjects.objects.impl.ExceptionHelper.extractCauseMessageFromThrowable;
 
+import java.lang.reflect.InvocationTargetException;
+
 import io.cui.test.valueobjects.objects.ObjectInstantiator;
 import lombok.Getter;
 import lombok.NonNull;
@@ -28,8 +30,9 @@ public class DefaultInstantiator<T> implements ObjectInstantiator<T> {
     @Override
     public T newInstance() {
         try {
-            return this.targetClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+            return this.targetClass.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
             throw new AssertionError(
                     "Unable to instantiate class due to " + extractCauseMessageFromThrowable(e), e);
         }
