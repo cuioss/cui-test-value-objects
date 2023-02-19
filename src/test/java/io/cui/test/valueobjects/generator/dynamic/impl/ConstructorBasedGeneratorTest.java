@@ -14,7 +14,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import io.cui.test.generator.TypedGenerator;
 import io.cui.test.valueobjects.api.object.VetoObjectTestContract;
 import io.cui.test.valueobjects.generator.TypedGeneratorRegistry;
 import io.cui.test.valueobjects.property.PropertyMetadata;
@@ -40,9 +39,9 @@ class ConstructorBasedGeneratorTest {
     @Test
     void shouldHandleDefaultConstructor() {
         assertTrue(getGeneratorForType(ComplexBean.class).isPresent());
-        final TypedGenerator<ComplexBean> generator = getGeneratorForType(ComplexBean.class).get();
+        final var generator = getGeneratorForType(ComplexBean.class).get();
         assertEquals(ComplexBean.class, generator.getType());
-        final ComplexBean next = generator.next();
+        final var next = generator.next();
         assertNotNull(next);
         assertEquals(ComplexBean.class, next.getClass());
     }
@@ -50,10 +49,10 @@ class ConstructorBasedGeneratorTest {
     @Test
     void shouldHandledOneArgumentConstructor() {
         assertTrue(getGeneratorForType(BeanWithSingleArgumentConstructor.class).isPresent());
-        final TypedGenerator<BeanWithSingleArgumentConstructor> generator =
+        final var generator =
             getGeneratorForType(BeanWithSingleArgumentConstructor.class).get();
         assertEquals(BeanWithSingleArgumentConstructor.class, generator.getType());
-        final BeanWithSingleArgumentConstructor next = generator.next();
+        final var next = generator.next();
         assertNotNull(next);
         assertEquals(BeanWithSingleArgumentConstructor.class, next.getClass());
         assertNotNull(next.getName());
@@ -62,10 +61,10 @@ class ConstructorBasedGeneratorTest {
     @Test
     void shouldHandledMultipleConstructor() {
         assertTrue(getGeneratorForType(BeanWithMultiplePublicConstructor.class).isPresent());
-        final TypedGenerator<BeanWithMultiplePublicConstructor> generator =
+        final var generator =
             getGeneratorForType(BeanWithMultiplePublicConstructor.class).get();
         assertEquals(BeanWithMultiplePublicConstructor.class, generator.getType());
-        final BeanWithMultiplePublicConstructor next = generator.next();
+        final var next = generator.next();
         assertNotNull(next);
         assertEquals(BeanWithMultiplePublicConstructor.class, next.getClass());
         assertNull(next.getName());
@@ -74,10 +73,10 @@ class ConstructorBasedGeneratorTest {
     @Test
     void shouldHandleComplexPublicConstructor() {
         assertTrue(getGeneratorForType(BeanWithMultipleArgumentConstructor.class).isPresent());
-        final TypedGenerator<BeanWithMultipleArgumentConstructor> generator =
+        final var generator =
             getGeneratorForType(BeanWithMultipleArgumentConstructor.class).get();
         assertEquals(BeanWithMultipleArgumentConstructor.class, generator.getType());
-        final BeanWithMultipleArgumentConstructor next = generator.next();
+        final var next = generator.next();
         assertNotNull(next);
         assertEquals(BeanWithMultipleArgumentConstructor.class, next.getClass());
         assertNotNull(next.getName());
@@ -85,13 +84,13 @@ class ConstructorBasedGeneratorTest {
         assertNotNull(next.getBuilderInstantiator());
         assertNotNull(next.getNameSet());
         assertNotNull(next.getPropertyMemberInfo());
-        assertNotNull(next.getObserver());
+        assertNotNull(next.getFormattable());
     }
 
     @Test
     void shouldHandleComplexPackagePrivateConstructor() {
         assertTrue(getGeneratorForType(PropertyMetadataImpl.class).isPresent());
-        final TypedGenerator<PropertyMetadataImpl> generator = getGeneratorForType(PropertyMetadataImpl.class).get();
+        final var generator = getGeneratorForType(PropertyMetadataImpl.class).get();
         assertEquals(PropertyMetadataImpl.class, generator.getType());
         final PropertyMetadata next = generator.next();
         assertNotNull(next);

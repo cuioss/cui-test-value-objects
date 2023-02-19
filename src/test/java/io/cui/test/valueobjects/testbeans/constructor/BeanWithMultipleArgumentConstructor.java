@@ -2,7 +2,7 @@ package io.cui.test.valueobjects.testbeans.constructor;
 
 import java.io.Serializable;
 import java.util.AbstractList;
-import java.util.Observer;
+import java.util.Formattable;
 import java.util.Set;
 
 import io.cui.test.valueobjects.objects.BuilderInstantiator;
@@ -29,7 +29,7 @@ public class BeanWithMultipleArgumentConstructor implements Serializable {
     private final BuilderInstantiator<String> builderInstantiator;
 
     @Getter
-    private final Observer observer;
+    private final Formattable formattable;
 
     @Getter
     private final AbstractList<String> abstractList;
