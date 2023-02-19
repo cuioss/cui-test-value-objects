@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import io.cui.test.valueobjects.AbstractValueObjectTest;
+import io.cui.test.valueobjects.ValueObjectTest;
 import io.cui.test.valueobjects.api.contracts.VerifyConstructor;
 import io.cui.test.valueobjects.api.object.ObjectTestContracts;
 import io.cui.test.valueobjects.api.object.VetoObjectTestContract;
@@ -24,7 +24,7 @@ import io.cui.test.valueobjects.testbeans.testgenerator.PropertyMetadataGenerato
         collectionType = CollectionType.LIST, generator = PropertyMetadataGenerator.class)
 @VerifyConstructor(of = "allProperties")
 @VetoObjectTestContract(ObjectTestContracts.SERIALIZABLE)
-class RuntimePropertiesTest extends AbstractValueObjectTest<RuntimeProperties> {
+class RuntimePropertiesTest extends ValueObjectTest<RuntimeProperties> {
 
     @Test
     void shouldFilterAllProperties() {

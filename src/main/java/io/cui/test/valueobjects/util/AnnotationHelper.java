@@ -156,7 +156,7 @@ public final class AnnotationHelper {
      * {@link VerifyFactoryMethods} and puts all found in the returned list
      *
      * @param annotated the class that may or may not provide the annotations, must not be null
-     * @return a list of {@link VerifyFactoryMethod} extracted from the annotations of the given
+     * @return a Set of {@link VerifyFactoryMethod} extracted from the annotations of the given
      *         type. May be empty but never null
      */
     public static Set<VerifyFactoryMethod> extractConfiguredFactoryContracts(

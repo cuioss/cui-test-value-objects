@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import io.cui.test.generator.Generators;
-import io.cui.test.valueobjects.AbstractValueObjectTest;
+import io.cui.test.valueobjects.ValueObjectTest;
 import io.cui.test.valueobjects.api.contracts.VerifyBuilder;
 import io.cui.test.valueobjects.api.generator.PropertyGeneratorHint;
 import io.cui.test.valueobjects.api.object.ObjectTestContracts;
@@ -25,7 +25,7 @@ import io.cui.tools.property.PropertyReadWrite;
         propertyClass = PropertyMetadata.class)
 @VerifyBuilder(of = "delegateMetadata", required = "delegateMetadata")
 @VetoObjectTestContract(ObjectTestContracts.SERIALIZABLE)
-class BuilderMetadataTest extends AbstractValueObjectTest<BuilderMetadata> {
+class BuilderMetadataTest extends ValueObjectTest<BuilderMetadata> {
 
     private static final String PROPERTY_NAME = "propertyName";
 

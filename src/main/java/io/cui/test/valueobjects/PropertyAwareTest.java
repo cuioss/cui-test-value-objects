@@ -22,7 +22,7 @@ import lombok.Setter;
 /**
  * Base class for dynamically testing properties. It provides the handling of
  * {@link PropertyMetadata} and {@link TypedGenerator}. In addition it computes the runtime class of
- * the Generic type T using Google Guava and exposes it accordingly, see
+ * the Generic type T and exposes it accordingly, see
  * {@link #getTargetBeanClass()}
  * <h2>Configuration</h2>
  * The tests can be configured using certain annotations, depending on what you want to achieve:

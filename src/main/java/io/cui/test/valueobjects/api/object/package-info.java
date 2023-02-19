@@ -1,6 +1,6 @@
 /**
  * Provides structures and classes for {@link java.lang.Object}-contract specific tests. This tests
- * will implicitly be run by {@link io.cui.test.valueobjects.AbstractValueObjectTest}. If you
+ * will implicitly be run by {@link io.cui.test.valueobjects.ValueObjectTest}. If you
  * want to
  * skip a certain test you can use
  * {@link io.cui.test.valueobjects.api.object.VetoObjectTestContract} to do so:

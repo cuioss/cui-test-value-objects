@@ -2,31 +2,23 @@
 
 === Concepts
 
-The generator system has many different facets, therefore combines many different concepts and technologies.
+The generator system has different facets, therefore combines different concepts and technologies.
+It sits on top of https://github.com/cuioss/cui-test-generator[cui-test-generator]
 
-It sits on top of the quickcheck library, but perspectively this will be invisible as an implementation detail, especially when we start to use the Java-module system. For you as an user you should consider the package `net.java.quickcheck.*` as *effectively discouraged*. But the quickcheck way of generating test-data is the cornerstone of our generator-system.
+An important aspect is a typed generator system for most Java-default types that is capable of creating a generator for nearly any of the given types automatically. This is essential for link:testing-value-objects.adoc[Value-Object-Testing] that relies on automatic creation of arbitrary objects with random data.
 
-Another important aspect is a typed generator system for most Java-default types that is capable of creating a generator for nearly any of the given types automatically. This is essential for link:testing-value-objects.adoc[Value-Object-Testing] that relies on automatic creation of arbitrary objects with random data.
-
-In addition there are hooks within the Value-Object-Testing to interact configure the generators as needed
-
-Finally there are a number of domain-specific Generators providing sensible data like names, addresses, person-data,...
-
-=== Usage
-
-The usage is straight forward `TypedGenerator#next()` always returns a random object that can be used for testing. See section 'Generators' on samples for concrete generators.
+In addition, there are hooks within the Value-Object-Testing to interact configure the generators as needed.
 
 
 === Structures
 
 ==== Central Types
 
-
 ==== TypedGeneratorRegistry
 
 `io.cui.test.valueobjects.generator.TypedGeneratorRegistry`. 
 
-Is the central element of the automatic Generator system. It create generator for most of the types passed to it
+Is the central element of the automatic Generator system. It creates generator for most of the types passed to it
 
 ===== Initialization
 
@@ -40,7 +32,7 @@ In order to be used there are two methods essential:
  TypedGeneratorRegistry.clear();
 ----
 
-In the context of Junit-5-tests the setup and clearing is done by the extension `GeneratorController` what is already present for the base-classes `AbstractMapperTest` and `ValueObjectTest`
+In the context of Junit-5-tests the setup and clearing is done by the extension `io.cui.test.valueobjects.junit5.extension.GeneratorRegistryController` what is already present for the base-classes `io.cui.test.valueobjects.MapperTest<M, S, T>` and `io.cui.test.valueobjects.ValueObjectTest`
 
 ===== Obtaining a Generator
 

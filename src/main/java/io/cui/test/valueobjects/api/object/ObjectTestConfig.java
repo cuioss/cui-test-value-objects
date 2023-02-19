@@ -17,13 +17,13 @@ import java.lang.annotation.Target;
 public @interface ObjectTestConfig {
 
     /**
-     * @return a number of properties, identified by their names that are not to be considered for
+     * @return an array of properties, identified by their names that are not to be considered for
      *         equalsAndHashcode-tests: Blacklist
      */
     String[] equalsAndHashCodeExclude() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be considered for
+     * @return an array of properties, identified by their names that are to be considered for
      *         equalsAndHashcode-tests: Whitelist: takes precedence over
      *         {@link #equalsAndHashCodeExclude()}
      */
@@ -36,13 +36,13 @@ public @interface ObjectTestConfig {
     boolean equalsAndHashCodeBasicOnly() default false;
 
     /**
-     * @return a number of properties, identified by their names that are not to be considered for
+     * @return an array of properties, identified by their names that are not to be considered for
      *         serializable-tests: Blacklist
      */
     String[] serializableExclude() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be considered for
+     * @return an array of properties, identified by their names that are to be considered for
      *         equalsAndHashcode-tests: Whitelist: takes precedence over
      *         {@link #serializableExclude()}
      */

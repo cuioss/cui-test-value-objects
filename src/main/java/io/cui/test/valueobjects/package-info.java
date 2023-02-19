@@ -3,7 +3,7 @@
  * <ul>
  * <li>
  * See {@link io.cui.test.valueobjects.api} for the documentation of the api</li>
- * <li>See {@link io.cui.test.valueobjects.AbstractValueObjectTest} as entry point for the
+ * <li>See {@link io.cui.test.valueobjects.ValueObjectTest} as entry point for the
  * actual
  * tests.</li>
  * </ul>

@@ -18,13 +18,13 @@ import java.lang.annotation.Target;
 public @interface VerifyCopyConstructor {
 
     /**
-     * @return a number of properties, identified by their names that are not to be considered for
+     * @return an array of properties, identified by their names that are not to be considered for
      *         this test: black-list
      */
     String[] exclude() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be considered for
+     * @return an array of properties, identified by their names that are to be considered for
      *         this test: white-list
      */
     String[] of() default {};
@@ -49,7 +49,7 @@ public @interface VerifyCopyConstructor {
     boolean verifyDeepCopy() default false;
 
     /**
-     * @return a number of properties, identified by their names that are to be ignored by checking
+     * @return an array of properties, identified by their names that are to be ignored by checking
      *         the deep copy, see {@link #verifyDeepCopy()}
      */
     String[] verifyDeepCopyIgnore() default {};

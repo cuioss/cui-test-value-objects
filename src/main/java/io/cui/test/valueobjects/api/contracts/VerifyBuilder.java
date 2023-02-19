@@ -75,44 +75,44 @@ public @interface VerifyBuilder {
     Class<?> builderFactoryProvidingClass() default VerifyBuilder.class;
 
     /**
-     * @return a number of properties, identified by their names that are not to be considered for
+     * @return an array of properties, identified by their names that are not to be considered for
      *         this test: black-list
      */
     String[] exclude() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be considered for
+     * @return an array of properties, identified by their names that are to be considered for
      *         this test: white-list
      */
     String[] of() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be treated as required
+     * @return an array of properties, identified by their names that are to be treated as required
      *         properties, see {@link PropertyMetadata#isRequired()}
      */
     String[] required() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be treated as transient
+     * @return an array of properties, identified by their names that are to be treated as transient
      *         properties, see {@link PropertyMemberInfo#TRANSIENT}
      */
     String[] transientProperties() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be treated as having a
+     * @return an array of properties, identified by their names that are to be treated as having a
      *         default values, see {@link PropertyMetadata#isDefaultValue()}
      */
     String[] defaultValued() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be treated as being
+     * @return an array of properties, identified by their names that are to be treated as being
      *         read-only, see {@link PropertyReadWrite#READ_ONLY}, usually used in conjunction with
      *         {@link #defaultValued()}
      */
     String[] readOnly() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be treated as being
+     * @return an array of properties, identified by their names that are to be treated as being
      *         write-only, see {@link PropertyReadWrite#WRITE_ONLY}, usually used in cases where a
      *         property to be written will result in other properties but itself can not be accessed
      *         directly
@@ -120,7 +120,7 @@ public @interface VerifyBuilder {
     String[] writeOnly() default {};
 
     /**
-     * @return a number of properties, identified by their names representing at least a
+     * @return an array of properties, identified by their names representing at least a
      *         {@link Collection} that are to be asserted ignoring the concrete order, see
      *         {@link PropertyConfig#assertionStrategy()} and
      *         {@link AssertionStrategy#COLLECTION_IGNORE_ORDER}. The default implementation will

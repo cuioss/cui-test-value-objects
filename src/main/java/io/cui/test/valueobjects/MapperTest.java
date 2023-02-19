@@ -75,7 +75,7 @@ import lombok.Getter;
  * @param <T> Target: The type of the source-Objects to be mapped to
  */
 @SuppressWarnings("squid:S2187") // Base class for tests
-public class BaseMapperTest<M extends Function<S, T>, S, T> implements GeneratorRegistry, TestObjectProvider<M> {
+public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegistry, TestObjectProvider<M> {
 
     @Getter(AccessLevel.PROTECTED)
     private Class<M> mapperClass;
@@ -112,7 +112,7 @@ public class BaseMapperTest<M extends Function<S, T>, S, T> implements Generator
     }
 
     /**
-     * Shorthand for calling {@link BaseMapperTest#verifyMapper(PropertyReflectionConfig)} with
+     * Shorthand for calling {@link MapperTest#verifyMapper(PropertyReflectionConfig)} with
      * {@code null}
      */
     @Test

@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import io.cui.test.valueobjects.AbstractValueObjectTest;
+import io.cui.test.valueobjects.ValueObjectTest;
 import io.cui.test.valueobjects.api.contracts.VerifyConstructor;
 import io.cui.test.valueobjects.api.generator.PropertyGeneratorHint;
 import io.cui.test.valueobjects.api.object.ObjectTestContracts;
@@ -32,7 +32,7 @@ import io.cui.test.valueobjects.testbeans.ComplexBean;
 @PropertyReflectionConfig(skip = true)
 @VerifyConstructor(of = "propertyMetadata")
 @VetoObjectTestContract({ ObjectTestContracts.SERIALIZABLE, ObjectTestContracts.EQUALS_AND_HASHCODE })
-class PropertySupportTest extends AbstractValueObjectTest<PropertySupport> {
+class PropertySupportTest extends ValueObjectTest<PropertySupport> {
 
     private final DefaultInstantiator<ComplexBean> instantiator = new DefaultInstantiator<>(ComplexBean.class);
 

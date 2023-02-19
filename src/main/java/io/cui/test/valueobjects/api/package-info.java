@@ -1,6 +1,6 @@
 /**
  * Provides the api for configuring instances of
- * {@link io.cui.test.valueobjects.AbstractValueObjectTest}, see the individual packages for
+ * {@link io.cui.test.valueobjects.ValueObjectTest}, see the individual packages for
  * details.
  * <ul>
  * <li>{@link io.cui.test.valueobjects.api.contracts}</li>

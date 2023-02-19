@@ -6,14 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Collection;
 
-import io.cui.test.valueobjects.BaseMapperTest;
+import io.cui.test.valueobjects.MapperTest;
 import io.cui.test.valueobjects.api.property.PropertyConfig;
 import io.cui.test.valueobjects.property.PropertyMetadata;
 import io.cui.test.valueobjects.property.util.AssertionStrategy;
 import io.cui.tools.property.PropertyReadWrite;
 
 /**
- * To be used in conjunction with {@link BaseMapperTest}. Defines the mapper-specific definitions
+ * To be used in conjunction with {@link MapperTest}. Defines the mapper-specific definitions
  * that will be tested.
  *
  * @author Oliver Wolff
@@ -42,38 +42,38 @@ public @interface VerifyMapperConfiguration {
     String[] notNullNorEmpty() default {};
 
     /**
-     * @return a number of properties, identified by their names that are not to be considered for
+     * @return an array of properties, identified by their names that are not to be considered for
      *         this test: black-list
      */
     String[] exclude() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be considered for
+     * @return an array of properties, identified by their names that are to be considered for
      *         this test: white-list
      */
     String[] of() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be treated as required
+     * @return an array of properties, identified by their names that are to be treated as required
      *         properties, see {@link PropertyMetadata#isRequired()}
      */
     String[] required() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be treated as having a
+     * @return an array of properties, identified by their names that are to be treated as having a
      *         default values, see {@link PropertyMetadata#isDefaultValue()}
      */
     String[] defaultValued() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be treated as being
+     * @return an array of properties, identified by their names that are to be treated as being
      *         read-only, see {@link PropertyReadWrite#READ_ONLY}, usually used in conjunction with
      *         {@link #defaultValued()}
      */
     String[] readOnly() default {};
 
     /**
-     * @return a number of properties, identified by their names that are to be treated as being
+     * @return an array of properties, identified by their names that are to be treated as being
      *         write-only, see {@link PropertyReadWrite#WRITE_ONLY}, usually used in cases where a
      *         property to be written will result in other properties but itself can not be accessed
      *         directly
@@ -81,7 +81,7 @@ public @interface VerifyMapperConfiguration {
     String[] writeOnly() default {};
 
     /**
-     * @return a number of properties, identified by their names representing at least a
+     * @return an array of properties, identified by their names representing at least a
      *         {@link Collection} that are to be asserted ignoring the concrete order, see
      *         {@link PropertyConfig#assertionStrategy()} and
      *         {@link AssertionStrategy#COLLECTION_IGNORE_ORDER}. The default implementation will

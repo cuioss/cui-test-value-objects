@@ -5,7 +5,7 @@ import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import io.cui.test.valueobjects.BaseMapperTest;
+import io.cui.test.valueobjects.MapperTest;
 import io.cui.test.valueobjects.api.VerifyMapperConfiguration;
 import io.cui.test.valueobjects.api.property.PropertyConfig;
 import io.cui.test.valueobjects.api.property.PropertyReflectionConfig;
@@ -27,7 +27,7 @@ import io.cui.test.valueobjects.util.GeneratorAnnotationHelper;
 @PropertyReflectionConfig(exclude = "keyValueEntities", required = "identifier")
 @VerifyMapperConfiguration
 class BaseMapperEntryDtoToComplexBeanTest
-        extends BaseMapperTest<EntryDtoToComplexBeanMapper, EntryDto, ComplexBean> {
+        extends MapperTest<EntryDtoToComplexBeanMapper, EntryDto, ComplexBean> {
 
     /**
      * Clears the {@link TypedGeneratorRegistry}

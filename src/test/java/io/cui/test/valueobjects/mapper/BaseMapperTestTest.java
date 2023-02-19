@@ -5,14 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-import io.cui.test.valueobjects.BaseMapperTest;
+import io.cui.test.valueobjects.MapperTest;
 import io.cui.test.valueobjects.api.VerifyMapperConfiguration;
 import io.cui.test.valueobjects.testbeans.mapper.SimpleMapper;
 import io.cui.test.valueobjects.testbeans.mapper.SimpleSourceBean;
 import io.cui.test.valueobjects.testbeans.mapper.SimpleTargetBean;
 
 @VerifyMapperConfiguration(equals = { "firstname:nameFirst", "lastname:nameLast", "attributeList:listOfAttributes" })
-class BaseMapperTestTest extends BaseMapperTest<SimpleMapper, SimpleSourceBean, SimpleTargetBean> {
+class BaseMapperTestTest extends MapperTest<SimpleMapper, SimpleSourceBean, SimpleTargetBean> {
 
     @Test
     void shouldDetermineTypes() {

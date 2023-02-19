@@ -1,4 +1,4 @@
-package io.cui.test.valueobjects;
+package io.cui.test.valueobjects.junit5;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

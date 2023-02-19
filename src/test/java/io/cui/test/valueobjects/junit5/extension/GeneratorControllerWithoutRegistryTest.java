@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import io.cui.test.generator.Generators;
 import io.cui.test.generator.TypedGenerator;
-import io.cui.test.valueobjects.EnableGeneratorRegistry;
 import io.cui.test.valueobjects.generator.TypedGeneratorRegistry;
+import io.cui.test.valueobjects.junit5.EnableGeneratorRegistry;
 import io.cui.tools.property.PropertyReadWrite;
 
 @EnableGeneratorRegistry

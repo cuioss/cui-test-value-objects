@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import io.cui.test.generator.Generators;
 import io.cui.test.generator.TypedGenerator;
-import io.cui.test.valueobjects.AbstractValueObjectTest;
+import io.cui.test.valueobjects.ValueObjectTest;
 import io.cui.test.valueobjects.api.contracts.VerifyBuilder;
 import io.cui.test.valueobjects.api.object.ObjectTestConfig;
 import io.cui.test.valueobjects.api.object.ObjectTestContracts;
@@ -27,7 +27,7 @@ import io.cui.test.valueobjects.property.util.CollectionType;
 @PropertyReflectionConfig(required = { "name", "generator", "propertyClass" }, defaultValued = { "collectionType",
     "propertyMemberInfo", "propertyReadWrite", "propertyAccessStrategy", "assertionStrategy" })
 @ObjectTestConfig(equalsAndHashCodeExclude = "generator")
-class PropertyMetadataImplTest extends AbstractValueObjectTest<PropertyMetadataImpl> {
+class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
 
     private final TypedGenerator<String> names = Generators.letterStrings();
 
