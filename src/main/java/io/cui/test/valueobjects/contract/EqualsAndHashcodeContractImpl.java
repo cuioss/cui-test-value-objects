@@ -30,7 +30,7 @@ import io.cui.tools.property.PropertyMemberInfo;
  * Helper class providing base functionality for test for the
  * {@link Object#equals(Object)} and {@link Object#hashCode()} variants of classes.
  *
- * @author Oliver Wolff (i001428)
+ * @author Oliver Wolff
  */
 public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
 
