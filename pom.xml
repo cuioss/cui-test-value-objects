@@ -28,7 +28,6 @@
     </issueManagement>
     <properties>
         <version.javassist>3.29.2-GA</version.javassist>
-        <maven-javadoc-plugin.source>11</maven-javadoc-plugin.source>
     </properties>
     <dependencyManagement>
         <dependencies>
