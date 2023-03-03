@@ -26,15 +26,15 @@ In addition we test the object-serialization, see `java.io.Serializable` in that
 
 The implicit testing of said methods is done within the default implementations of certain interfaces: 
 
-==== io.cui.test.valueobjects.objects.TestObjectProvider<T>
+==== de.cuioss.test.valueobjects.objects.TestObjectProvider<T>
 
 In order to have something to test the corresponding interfaces all extend the `TestObjectProvider`, that provides the the method `#getUnderTest()` that provides an object that can be tested
 
-==== io.cui.test.valueobjects.junit5.contracts.ShouldBeNotNull<T>
+==== de.cuioss.test.valueobjects.junit5.contracts.ShouldBeNotNull<T>
 
 Defines a simple assertion verifying the given Object is not `null`. Base for later testing.
 
-==== io.cui.test.valueobjects.junit5.contracts.ShouldImplementEqualsAndHashCode<T>
+==== de.cuioss.test.valueobjects.junit5.contracts.ShouldImplementEqualsAndHashCode<T>
 
 Verifies that the given Object implements `Object#equals()` and `Object#hashCode()`and checks some basic behavior like handling of `null` and symmetry. 
 
@@ -48,7 +48,7 @@ class ShouldHandleEqualsAndHashCodeTest implements ShouldImplementEqualsAndHashC
     }
 ----
 
-==== io.cui.test.valueobjects.junit5.contracts.ShouldImplementToString<T>
+==== de.cuioss.test.valueobjects.junit5.contracts.ShouldImplementToString<T>
 
 Verifies that the given Object implements `Object#toString()`.
 
@@ -62,7 +62,7 @@ class ShouldHandleToStringTest implements ShouldImplementToString<ComplexBean> {
     }
 ----
 
-==== io.cui.test.valueobjects.junit5.contracts.ShouldBeSerializable<T>
+==== de.cuioss.test.valueobjects.junit5.contracts.ShouldBeSerializable<T>
 
 Verifies that the given Object implements `java.io.Serializable` and checks the actual serialization / deserialization of the given object..
 
@@ -76,7 +76,7 @@ class ShouldHandleSerializableTest implements ShouldBeSerializable<ComplexBean> 
     }
 ----
 
-==== io.cui.test.valueobjects.junit5.contracts.ShouldHandleObjectContracts<T>
+==== de.cuioss.test.valueobjects.junit5.contracts.ShouldHandleObjectContracts<T>
 
 Bundles all previously described interfaces as one-stop implementation, see first example.
 

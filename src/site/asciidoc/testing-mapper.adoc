@@ -21,5 +21,5 @@ class MapperTestTest extends MapperTest<SimpleMapper, SimpleSourceBean, SimpleTa
 This test now generates source objects, the actual mapper-instance and maps the source objects through that instance. Then the individual properties will be verified as configured. 
 
 Take a look into `@VerifyMapperConfiguration` for the different ways to configure the verification.
-In addition the base class `io.cui.test.valueobjects.MapperTest<M, S, T>` provides a number of extension points to deal with trickier structures, see class-documentation for details.
+In addition the base class `de.cuioss.test.valueobjects.MapperTest<M, S, T>` provides a number of extension points to deal with trickier structures, see class-documentation for details.
 

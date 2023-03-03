@@ -11,7 +11,7 @@ Sample output:
 ----
 INFO: Properties detected by using reflection and PropertyConfig-annotation: 
 -'city' (class java.lang.String), QuickCheckGeneratorAdapter(type=class java.lang.String), READ_WRITE, BEAN_PROPERTY
--'contentForFormatterSupport' (interface io.cui.util.formatting.template.FormatterSupport), io.cui.test.valueobjects.generator.dynamic.impl.InterfaceProxyGenerator@6b19b79, READ_ONLY, BEAN_PROPERTY
+-'contentForFormatterSupport' (interface io.cui.util.formatting.template.FormatterSupport), de.cuioss.test.valueobjects.generator.dynamic.impl.InterfaceProxyGenerator@6b19b79, READ_ONLY, BEAN_PROPERTY
 -'country' (interface io.cui.cui.common.model.conceptkey.ConceptKeyType), io.cui.ips.namespace.management.facade.service.model.ConceptKeyTypeGenerator@60704c, READ_WRITE, BEAN_PROPERTY
 -'empty' (boolean), defaultValued, QuickCheckGeneratorAdapter(type=boolean), READ_ONLY, BEAN_PROPERTY
 -'houseNumber' (class java.lang.String), QuickCheckGeneratorAdapter(type=class java.lang.String), READ_WRITE, BEAN_PROPERTY
@@ -24,7 +24,7 @@ INFO: Properties detected by using reflection and PropertyConfig-annotation:
 -'use' (class io.cui.facade.service.model.OrganizationAddressUse), QuickCheckGeneratorAdapter(type=class io.cui..facade.service.model.OrganizationAddressUse), READ_WRITE, BEAN_PROPERTY
 ----
 
-The precise meta-model is documented by the type `io.cui.test.valueobjects.property.PropertyMetadata`
+The precise meta-model is documented by the type `de.cuioss.test.valueobjects.property.PropertyMetadata`
 With this structure the framework is capable of creating instances an the corresponding fields using a flexible link:generator-system.adoc[Generator System].
 
 == Adjusting Metadata

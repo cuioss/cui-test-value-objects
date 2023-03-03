@@ -109,14 +109,14 @@ If you set the property `equalsAndHashCodeBasicOnly` or `serializableBasicOnly` 
 
 [listing]
 ----
-INFO: Verifying io.cui.test.valueobjects.contract.EqualsAndHashcodeContractImpl
-With configuration: io.cui.test.valueobjects.objects.impl.BeanInstantiator
-Property Configuration: io.cui.test.valueobjects.objects.RuntimeProperties
+INFO: Verifying de.cuioss.test.valueobjects.contract.EqualsAndHashcodeContractImpl
+With configuration: de.cuioss.test.valueobjects.objects.impl.BeanInstantiator
+Property Configuration: de.cuioss.test.valueobjects.objects.RuntimeProperties
 Required properties: -
 Additional properties: country, streetName, city, use, postalCode, houseNumber, id, state, unstructuredAddress, type, contentForFormatterSupport, empty
 Default valued properties: empty
 Writable properties: country, streetName, city, use, postalCode, houseNumber, id, state, unstructuredAddress, type
-Okt 14, 2020 5:38:24 PM io.cui.test.valueobjects.contract.EqualsAndHashcodeContractImpl executePropertyTests
+Okt 14, 2020 5:38:24 PM de.cuioss.test.valueobjects.contract.EqualsAndHashcodeContractImpl executePropertyTests
 INFO: Configured attributes found for equalsAndHashCode-testing: [city, country, houseNumber, id, postalCode, state, streetName, type, unstructuredAddress, use]
 ----
 

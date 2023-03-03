@@ -16,7 +16,7 @@ In addition, there are hooks within the Value-Object-Testing to interact configu
 
 ==== TypedGeneratorRegistry
 
-`io.cui.test.valueobjects.generator.TypedGeneratorRegistry`. 
+`de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry`. 
 
 Is the central element of the automatic Generator system. It creates generator for most of the types passed to it
 
@@ -32,7 +32,7 @@ In order to be used there are two methods essential:
  TypedGeneratorRegistry.clear();
 ----
 
-In the context of Junit-5-tests the setup and clearing is done by the extension `io.cui.test.valueobjects.junit5.extension.GeneratorRegistryController` what is already present for the base-classes `io.cui.test.valueobjects.MapperTest<M, S, T>` and `io.cui.test.valueobjects.ValueObjectTest`
+In the context of Junit-5-tests the setup and clearing is done by the extension `de.cuioss.test.valueobjects.junit5.extension.GeneratorRegistryController` what is already present for the base-classes `de.cuioss.test.valueobjects.MapperTest<M, S, T>` and `de.cuioss.test.valueobjects.ValueObjectTest`
 
 ===== Obtaining a Generator
 
