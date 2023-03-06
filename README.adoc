@@ -27,7 +27,7 @@ dependent canonical object-methods. In addition, the library provides a feature 
 ----
     <dependency>
         <groupId>de.cuioss.test</groupId>
-        <name>cui-test-value-objects</name>
+        <artifactId>cui-test-value-objects</artifactId>
     </dependency>
 ----
 
