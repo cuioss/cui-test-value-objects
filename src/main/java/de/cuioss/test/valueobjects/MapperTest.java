@@ -42,7 +42,7 @@ import lombok.Getter;
 
 /**
  * Allows to test a mapper implementing a {@link Function} to map a (pseudo-)DTO object based on
- * whatever technology (eHF, FHIR, ...) to a DTO object. The actual test-method is
+ * whatever technology (FHIR, ...) to a DTO object. The actual test-method is
  * {@link #verifyMapper()}. The mapper-test-configuration is defined with
  * {@link VerifyMapperConfiguration}
  *
