@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.test.valueobjects.util;
 
 import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
@@ -144,7 +159,7 @@ public final class ReflectionHelper {
                 continue;
             }
             var holder = PropertyHolder.from(beanType, attributeName);
-            if (!holder.isPresent()) {
+            if (holder.isEmpty()) {
                 log.info("Unable to extract metadata for type '%s' and method '%s'", beanType, method.getName());
             } else {
                 builder.add(holder.get());
@@ -187,8 +202,8 @@ public final class ReflectionHelper {
             }
         }
         if (null == propertyType) {
-            throw new IllegalArgumentException(String.format("Unable to extract property '%s' on type '%s'",
-                    propertyHolder.getName(), beanType.getName()));
+            throw new IllegalArgumentException("Unable to extract property '%s' on type '%s'"
+                    .formatted(propertyHolder.getName(), beanType.getName()));
         }
         var defaultValued = propertyType.isPrimitive();
         if (defaultValued && CollectionType.ARRAY_MARKER.equals(collectionType)) {
@@ -204,12 +219,12 @@ public final class ReflectionHelper {
         try {
             return (Class<?>) parameterizedType.getActualTypeArguments()[0];
         } catch (final ClassCastException e) {
-            throw new IllegalStateException(String.format("""
+            throw new IllegalStateException("""
                     Unable to determine generic-type for %s, ususally this is the case with nested generics.\s\
 
                     You need to provide a custom @PropertyConfig for this field and exclude it from scanning\
                     , by using PropertyReflectionConfig#exclude.
-                    See package-javadoc of de.cuioss.test.valueobjects for samples.""", field.toString()), e);
+                    See package-javadoc of de.cuioss.test.valueobjects for samples.""".formatted(field.toString()), e);
         }
     }
 

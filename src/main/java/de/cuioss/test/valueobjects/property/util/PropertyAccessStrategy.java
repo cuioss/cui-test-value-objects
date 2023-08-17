@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.test.valueobjects.property.util;
 
 import static de.cuioss.tools.collect.CollectionLiterals.mutableList;
@@ -43,7 +58,7 @@ public enum PropertyAccessStrategy {
                 PropertyUtil.writeProperty(target, propertyMetadata.getName(), propertyValue);
                 return target;
             } catch (IllegalArgumentException | IllegalStateException e) {
-                throw new AssertionError(String.format(UNABLE_TO_SET_PROPERTY, propertyMetadata.getName(),
+                throw new AssertionError(UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
                         ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
             }
 
@@ -56,7 +71,7 @@ public enum PropertyAccessStrategy {
             try {
                 return PropertyUtil.readProperty(target, propertyMetadata.getName());
             } catch (IllegalArgumentException | IllegalStateException e) {
-                throw new AssertionError(String.format(UNABLE_TO_READ_PROPERTY, propertyMetadata.getName(),
+                throw new AssertionError(UNABLE_TO_READ_PROPERTY.formatted(propertyMetadata.getName(),
                         ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
             }
         }
@@ -140,7 +155,7 @@ public enum PropertyAccessStrategy {
                         propertyMetadata.getCollectionType().wrapToIterable(elements));
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
-                throw new AssertionError(String.format(UNABLE_TO_SET_PROPERTY, propertyMetadata.getName(),
+                throw new AssertionError(UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
                         ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
             }
 
@@ -190,7 +205,7 @@ public enum PropertyAccessStrategy {
                 return writeMethod.invoke(target, propertyValue);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
-                var message = String.format(UNABLE_TO_SET_PROPERTY, propertyMetadata.getName(),
+                var message = UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
                         ExceptionHelper.extractCauseMessageFromThrowable(e));
                 new CuiLogger(getClass()).error(message);
                 throw new AssertionError(message, e);
@@ -214,15 +229,15 @@ public enum PropertyAccessStrategy {
         public Object writeProperty(Object target, PropertyMetadata propertyMetadata, Object propertyValue) {
             var writeMethod = MoreReflection.retrieveWriteMethod(target.getClass(), propertyMetadata.getName(),
                     propertyMetadata.resolveActualClass());
-            if (!writeMethod.isPresent()) {
-                throw new AssertionError(String.format(UNABLE_TO_SET_PROPERTY, propertyMetadata.getName(),
-                        "No write-method could be found"));
+            if (writeMethod.isEmpty()) {
+                throw new AssertionError(
+                        UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(), "No write-method could be found"));
             }
             try {
                 return writeMethod.get().invoke(target, propertyValue);
             } catch (SecurityException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
-                throw new AssertionError(String.format(UNABLE_TO_SET_PROPERTY, propertyMetadata.getName(),
+                throw new AssertionError(UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
                         ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
             }
         }

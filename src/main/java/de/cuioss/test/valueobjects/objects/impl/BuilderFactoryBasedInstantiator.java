@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.test.valueobjects.objects.impl;
 
 import static de.cuioss.test.valueobjects.objects.impl.ExceptionHelper.extractCauseMessageFromThrowable;
@@ -73,8 +88,8 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
             builderFactoryMethod = enclosingType.getDeclaredMethod(builderFactoryMethodName);
             builderClass = builderFactoryMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
-            final var message = String.format(UNABLE_TO_ACCESS_METHOD, builderFactoryMethodName,
-                    enclosingType.getName(), extractCauseMessageFromThrowable(e));
+            final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderFactoryMethodName, enclosingType.getName(),
+                    extractCauseMessageFromThrowable(e));
             log.error(message, e);
             throw new AssertionError(message, e);
         }
@@ -83,7 +98,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
             builderMethod = builderClass.getDeclaredMethod(builderMethodName);
             targetClass = (Class<T>) builderMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
-            final var message = String.format(UNABLE_TO_ACCESS_METHOD, builderMethodName, builderClass,
+            final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderMethodName, builderClass,
                     extractCauseMessageFromThrowable(e));
             log.error(message, e);
             throw new AssertionError(message, e);
@@ -96,7 +111,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         try {
             return builderFactoryMethod.invoke(null);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            final var message = String.format(UNABLE_TO_ACCESS_METHOD, builderFactoryMethod.getName(), targetClass,
+            final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderFactoryMethod.getName(), targetClass,
                     extractCauseMessageFromThrowable(e));
             log.error(message, e);
             throw new AssertionError(message, e);
@@ -109,7 +124,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         try {
             return (T) builderMethod.invoke(builder);
         } catch (IllegalAccessException | InvocationTargetException | RuntimeException e) {
-            final var message = String.format(UNABLE_TO_ACCESS_METHOD, builderMethod.getName(), builderClass.getName(),
+            final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderMethod.getName(), builderClass.getName(),
                     extractCauseMessageFromThrowable(e));
             log.debug(message, e);
             throw new AssertionError(message, e);
