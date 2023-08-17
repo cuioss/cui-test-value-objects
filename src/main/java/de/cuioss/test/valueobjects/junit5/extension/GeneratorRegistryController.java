@@ -20,12 +20,11 @@ import java.util.Collections;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
 
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
 import de.cuioss.test.valueobjects.util.GeneratorAnnotationHelper;
 import de.cuioss.test.valueobjects.util.GeneratorRegistry;
+import de.cuioss.tools.logging.CuiLogger;
 
 /**
  * This extension handles the test-generator handling, see
@@ -36,18 +35,18 @@ import de.cuioss.test.valueobjects.util.GeneratorRegistry;
  */
 public class GeneratorRegistryController implements TestInstancePostProcessor, AfterAllCallback {
 
-    private static final Logger log = LoggerFactory.getLogger(GeneratorRegistryController.class);
+    private static final CuiLogger LOGGER = new CuiLogger(GeneratorRegistryController.class);
 
     @Override
     public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
-        log.debug(() -> "Clearing TypedGeneratorRegistry registry");
+        LOGGER.debug(() -> "Clearing TypedGeneratorRegistry registry");
         TypedGeneratorRegistry.clear();
         if (testInstance instanceof GeneratorRegistry registry) {
-            log.debug(() -> "Test-class '" + testInstance.getClass()
+            LOGGER.debug(() -> "Test-class '" + testInstance.getClass()
                     + "' is of type de.cuioss.test.valueobjects.util.GeneratorRegistry, initializing Generator framework");
             GeneratorAnnotationHelper.handleGeneratorsForTestClass(registry, registry.registerAdditionalGenerators());
         } else {
-            log.debug(() -> "Test-class '{" + testInstance.getClass()
+            LOGGER.debug(() -> "Test-class '{" + testInstance.getClass()
                     + "}' is NOT of type de.cuioss.test.valueobjects.util.GeneratorRegistry, initializing Generator framework without local Generator");
             GeneratorAnnotationHelper.handleGeneratorsForTestClass(testInstance, Collections.emptyList());
         }
@@ -56,7 +55,7 @@ public class GeneratorRegistryController implements TestInstancePostProcessor, A
 
     @Override
     public void afterAll(ExtensionContext context) {
-        log.debug(() -> "Tearing down TypedGeneratorRegistry registry");
+        LOGGER.debug(() -> "Tearing down TypedGeneratorRegistry registry");
         TypedGeneratorRegistry.clear();
     }
 
