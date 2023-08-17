@@ -32,7 +32,6 @@
     </issueManagement>
     <properties>
         <version.javassist>3.29.2-GA</version.javassist>
-        <version.cui.test.generator>2.0-SNAPSHOT</version.cui.test.generator>
         <maven.jar.plugin.automatic.module.name>de.cuioss.test.valueobjects</maven.jar.plugin.automatic.module.name>
     </properties>
     <dependencyManagement>
