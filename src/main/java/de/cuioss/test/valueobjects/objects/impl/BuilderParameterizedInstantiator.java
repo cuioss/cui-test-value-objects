@@ -19,7 +19,6 @@ import static de.cuioss.test.valueobjects.objects.impl.AbstractInlineInstantiato
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import de.cuioss.test.valueobjects.objects.BuilderInstantiator;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
@@ -62,7 +61,7 @@ public class BuilderParameterizedInstantiator<T> implements ParameterizedInstant
     @Override
     public T newInstance(final List<PropertyMetadata> properties) {
         assertNotNull(properties, PROPERTIES_MUST_NOT_BE_NULL);
-        return newInstance(properties.stream().map(PropertySupport::new).collect(Collectors.toList()), true);
+        return newInstance(properties.stream().map(PropertySupport::new).toList(), true);
     }
 
     @Override

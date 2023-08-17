@@ -57,7 +57,7 @@ enum MappingAssertStrategy {
                 Object targetObject) {
             var readProperty = targetProperty.readProperty(targetObject);
             assertNotNull(readProperty, "The given object must not be null " + targetProperty.getPropertyMetadata());
-            if (readProperty instanceof Collection collection) {
+            if (readProperty instanceof Collection<?> collection) {
                 assertFalse(collection.isEmpty(),
                         "The given object is not null but an empty collection" + targetProperty.getPropertyMetadata());
             }
@@ -84,7 +84,7 @@ enum MappingAssertStrategy {
                 return;
             }
             var read = targetProperty.readProperty(targetObject);
-            if (read instanceof Collection collection) {
+            if (read instanceof Collection<?> collection) {
                 assertTrue(collection.isEmpty(),
                         "The given object is not null nor an empty collection" + targetProperty.getPropertyMetadata());
             } else {

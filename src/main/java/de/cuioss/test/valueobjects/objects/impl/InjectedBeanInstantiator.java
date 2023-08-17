@@ -75,7 +75,7 @@ public class InjectedBeanInstantiator<T> implements ParameterizedInstantiator<T>
     @Override
     public T newInstance(final List<PropertyMetadata> properties) {
         assertNotNull(properties, PROPERTIES_MUST_NOT_BE_NULL);
-        return newInstance(properties.stream().map(PropertySupport::new).collect(Collectors.toList()), true);
+        return newInstance(properties.stream().map(PropertySupport::new).toList(), true);
     }
 
     @Override

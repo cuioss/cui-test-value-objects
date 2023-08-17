@@ -131,10 +131,10 @@ public enum PropertyAccessStrategy {
             final Iterable<?> iterable = (Iterable<?>) propertyValue;
             final List<?> elements = mutableList(iterable);
             BuilderMetadata builderMetadata;
-            if (!(propertyMetadata instanceof BuilderMetadata)) {
+            if (!(propertyMetadata instanceof BuilderMetadata metadata)) {
                 builderMetadata = BuilderMetadata.wrapFromMetadata(propertyMetadata);
             } else {
-                builderMetadata = (BuilderMetadata) propertyMetadata;
+                builderMetadata = metadata;
             }
             try {
                 if (!elements.isEmpty()) {
@@ -194,10 +194,10 @@ public enum PropertyAccessStrategy {
         public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
                 final Object propertyValue) {
             BuilderMetadata builderMetadata;
-            if (!(propertyMetadata instanceof BuilderMetadata)) {
+            if (!(propertyMetadata instanceof BuilderMetadata metadata)) {
                 builderMetadata = BuilderMetadata.wrapFromMetadata(propertyMetadata);
             } else {
-                builderMetadata = (BuilderMetadata) propertyMetadata;
+                builderMetadata = metadata;
             }
             try {
                 final var writeMethod = target.getClass().getMethod(builderMetadata.getBuilderAddMethodName(),

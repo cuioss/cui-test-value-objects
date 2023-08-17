@@ -58,7 +58,7 @@ class CallbackAwareInstantiatorTest {
         assertTrue(callback.isConfigureCalled());
         callback.reset();
         instantiator.newInstance(
-                ComplexBean.completeValidMetadata().stream().map(PropertySupport::new).collect(Collectors.toList()),
+                ComplexBean.completeValidMetadata().stream().map(PropertySupport::new).toList(),
                 true);
         assertTrue(callback.isConfigureCalled());
     }
