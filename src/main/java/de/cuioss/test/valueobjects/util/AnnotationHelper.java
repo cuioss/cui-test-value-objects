@@ -44,20 +44,22 @@ import lombok.experimental.UtilityClass;
 public final class AnnotationHelper {
 
     private static final String NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL = "No properties given: Is this intentional?";
-    static final String UNABLE_TO_INSTANTIATE_GENERATOR =
-        "Unable to instantiate generator, You must provide a no-arg public constructor: ";
+    static final String UNABLE_TO_INSTANTIATE_GENERATOR = "Unable to instantiate generator, You must provide a no-arg public constructor: ";
 
     private static final CuiLogger log = new CuiLogger(AnnotationHelper.class);
 
     /**
-     * Creates a {@link List} of {@link PropertyMetadata} according to the given parameter
+     * Creates a {@link List} of {@link PropertyMetadata} according to the given
+     * parameter
      *
-     * @param config identifying the concrete configuration
-     * @param givenMetadata used fore deriving the concrete metadata. Must not be null
-     * @return a {@link List} of {@link PropertyMetadata} according to the given parameter
+     * @param config        identifying the concrete configuration
+     * @param givenMetadata used fore deriving the concrete metadata. Must not be
+     *                      null
+     * @return a {@link List} of {@link PropertyMetadata} according to the given
+     *         parameter
      */
-    public static List<PropertyMetadata> constructorConfigToPropertyMetadata(
-            final VerifyConstructor config, final Collection<PropertyMetadata> givenMetadata) {
+    public static List<PropertyMetadata> constructorConfigToPropertyMetadata(final VerifyConstructor config,
+            final Collection<PropertyMetadata> givenMetadata) {
 
         requireNonNull(config);
         requireNonNull(givenMetadata);
@@ -70,26 +72,22 @@ public final class AnnotationHelper {
 
         for (final String name : config.of()) {
             PropertyHelper.assertPropertyExists(name, map);
-            modifyPropertyMetadata(map, config.defaultValued(), config.readOnly(),
-                    config.required(), config.transientProperties(), config.writeOnly(),
-                    config.assertUnorderedCollection());
+            modifyPropertyMetadata(map, config.defaultValued(), config.readOnly(), config.required(),
+                    config.transientProperties(), config.writeOnly(), config.assertUnorderedCollection());
         }
 
         if (config.allRequired()) {
-            map.replaceAll(
-                    (k, v) -> PropertyMetadataImpl.builder(v).required(true).build());
+            map.replaceAll((k, v) -> PropertyMetadataImpl.builder(v).required(true).build());
         }
 
         return orderPropertyMetadata(config.of(), handleWritableAttributes(map));
     }
 
-    private static List<PropertyMetadata> handleWritableAttributes(
-            final Map<String, PropertyMetadata> map) {
+    private static List<PropertyMetadata> handleWritableAttributes(final Map<String, PropertyMetadata> map) {
         final List<PropertyMetadata> result = new ArrayList<>();
         for (Entry<String, PropertyMetadata> entry : map.entrySet()) {
-            result.add(
-                    PropertyMetadataImpl.builder(entry.getValue())
-                            .propertyReadWrite(determinePropertyReadWrite(entry.getValue())).build());
+            result.add(PropertyMetadataImpl.builder(entry.getValue())
+                    .propertyReadWrite(determinePropertyReadWrite(entry.getValue())).build());
         }
         return result;
     }
@@ -102,14 +100,17 @@ public final class AnnotationHelper {
     }
 
     /**
-     * Creates a {@link List} of {@link PropertyMetadata} according to the given parameter
+     * Creates a {@link List} of {@link PropertyMetadata} according to the given
+     * parameter
      *
-     * @param config identifying the concrete configuration
-     * @param givenMetadata used fore deriving the concrete metadata. Must not be null
-     * @return a {@link List} of {@link PropertyMetadata} according to the given parameter
+     * @param config        identifying the concrete configuration
+     * @param givenMetadata used fore deriving the concrete metadata. Must not be
+     *                      null
+     * @return a {@link List} of {@link PropertyMetadata} according to the given
+     *         parameter
      */
-    public static List<PropertyMetadata> factoryConfigToPropertyMetadata(
-            final VerifyFactoryMethod config, final Collection<PropertyMetadata> givenMetadata) {
+    public static List<PropertyMetadata> factoryConfigToPropertyMetadata(final VerifyFactoryMethod config,
+            final Collection<PropertyMetadata> givenMetadata) {
 
         requireNonNull(config);
         requireNonNull(givenMetadata);
@@ -122,9 +123,8 @@ public final class AnnotationHelper {
 
         for (final String name : config.of()) {
             PropertyHelper.assertPropertyExists(name, map);
-            modifyPropertyMetadata(map, config.defaultValued(), config.readOnly(),
-                    config.required(), config.transientProperties(), config.writeOnly(),
-                    config.assertUnorderedCollection());
+            modifyPropertyMetadata(map, config.defaultValued(), config.readOnly(), config.required(),
+                    config.transientProperties(), config.writeOnly(), config.assertUnorderedCollection());
         }
 
         return orderPropertyMetadata(config.of(), handleWritableAttributes(map));
@@ -134,19 +134,18 @@ public final class AnnotationHelper {
      * Checks the given type for the annotation {@link VerifyConstructor} and
      * {@link VerifyConstructors} and puts all found in the returned {@link Set}
      *
-     * @param annotated the class that may or may not provide the annotations, must not be null
-     * @return a {@link Set} of {@link VerifyConstructor} extracted from the annotations of the
-     *         given type. May be empty but never null
+     * @param annotated the class that may or may not provide the annotations, must
+     *                  not be null
+     * @return a {@link Set} of {@link VerifyConstructor} extracted from the
+     *         annotations of the given type. May be empty but never null
      */
-    public static Set<VerifyConstructor> extractConfiguredConstructorContracts(
-            final Class<?> annotated) {
+    public static Set<VerifyConstructor> extractConfiguredConstructorContracts(final Class<?> annotated) {
         requireNonNull(annotated);
         final var builder = new CollectionBuilder<VerifyConstructor>();
 
         MoreReflection.extractAllAnnotations(annotated, VerifyConstructors.class)
                 .forEach(contract -> builder.add(Arrays.asList(contract.value())));
-        MoreReflection.extractAllAnnotations(annotated, VerifyConstructor.class)
-                .forEach(builder::add);
+        MoreReflection.extractAllAnnotations(annotated, VerifyConstructor.class).forEach(builder::add);
 
         return builder.toImmutableSet();
     }
@@ -155,31 +154,31 @@ public final class AnnotationHelper {
      * Checks the given type for the annotation {@link VerifyFactoryMethod} and
      * {@link VerifyFactoryMethods} and puts all found in the returned list
      *
-     * @param annotated the class that may or may not provide the annotations, must not be null
-     * @return a Set of {@link VerifyFactoryMethod} extracted from the annotations of the given
-     *         type. May be empty but never null
+     * @param annotated the class that may or may not provide the annotations, must
+     *                  not be null
+     * @return a Set of {@link VerifyFactoryMethod} extracted from the annotations
+     *         of the given type. May be empty but never null
      */
-    public static Set<VerifyFactoryMethod> extractConfiguredFactoryContracts(
-            final Class<?> annotated) {
+    public static Set<VerifyFactoryMethod> extractConfiguredFactoryContracts(final Class<?> annotated) {
         requireNonNull(annotated);
         final var builder = new CollectionBuilder<VerifyFactoryMethod>();
 
         MoreReflection.extractAllAnnotations(annotated, VerifyFactoryMethods.class)
                 .forEach(contract -> builder.add(Arrays.asList(contract.value())));
-        MoreReflection.extractAllAnnotations(annotated, VerifyFactoryMethod.class)
-                .forEach(builder::add);
+        MoreReflection.extractAllAnnotations(annotated, VerifyFactoryMethod.class).forEach(builder::add);
 
         return builder.toImmutableSet();
     }
 
     /**
-     * @param annotated must not be null and must be annotated with {@link VerifyBeanProperty}
+     * @param annotated     must not be null and must be annotated with
+     *                      {@link VerifyBeanProperty}
      * @param givenMetadata must not be null
-     * @return a {@link SortedSet} providing the property configuration derived by the given
-     *         properties and the annotated {@link VerifyBeanProperty}
+     * @return a {@link SortedSet} providing the property configuration derived by
+     *         the given properties and the annotated {@link VerifyBeanProperty}
      */
-    public static List<PropertyMetadata> handleMetadataForPropertyTest(
-            final Class<?> annotated, final List<PropertyMetadata> givenMetadata) {
+    public static List<PropertyMetadata> handleMetadataForPropertyTest(final Class<?> annotated,
+            final List<PropertyMetadata> givenMetadata) {
         requireNonNull(annotated);
         requireNonNull(givenMetadata);
 
@@ -188,20 +187,16 @@ public final class AnnotationHelper {
             return givenMetadata;
         }
 
-        final Optional<VerifyBeanProperty> contractOption =
-            MoreReflection.extractAnnotation(annotated, VerifyBeanProperty.class);
+        final Optional<VerifyBeanProperty> contractOption = MoreReflection.extractAnnotation(annotated,
+                VerifyBeanProperty.class);
 
         final var contract = contractOption.orElseThrow(() -> new IllegalArgumentException(
-                "Given type does not provide the expected annotation BeanPropertyTestContract, type="
-                        + annotated));
+                "Given type does not provide the expected annotation BeanPropertyTestContract, type=" + annotated));
 
-        var map =
-            PropertyHelper.handleWhiteAndBlacklist(contract.of(), contract.exclude(),
-                    givenMetadata);
+        var map = PropertyHelper.handleWhiteAndBlacklist(contract.of(), contract.exclude(), givenMetadata);
 
-        modifyPropertyMetadata(map, contract.defaultValued(), contract.readOnly(),
-                contract.required(), contract.transientProperties(), contract.writeOnly(),
-                contract.assertUnorderedCollection());
+        modifyPropertyMetadata(map, contract.defaultValued(), contract.readOnly(), contract.required(),
+                contract.transientProperties(), contract.writeOnly(), contract.assertUnorderedCollection());
 
         return orderPropertyMetadata(contract.of(), map.values());
     }
@@ -225,13 +220,14 @@ public final class AnnotationHelper {
     }
 
     /**
-     * @param annotated must not be null and must be annotated with {@link VerifyBeanProperty}
+     * @param annotated     must not be null and must be annotated with
+     *                      {@link VerifyBeanProperty}
      * @param givenMetadata must not be null
-     * @return a {@link SortedSet} providing the property configuration derived by the given
-     *         properties and the annotated {@link VerifyBuilder}
+     * @return a {@link SortedSet} providing the property configuration derived by
+     *         the given properties and the annotated {@link VerifyBuilder}
      */
-    public static List<PropertyMetadata> handleMetadataForBuilderTest(
-            final Class<?> annotated, final List<PropertyMetadata> givenMetadata) {
+    public static List<PropertyMetadata> handleMetadataForBuilderTest(final Class<?> annotated,
+            final List<PropertyMetadata> givenMetadata) {
 
         requireNonNull(annotated);
         requireNonNull(givenMetadata);
@@ -241,25 +237,19 @@ public final class AnnotationHelper {
             return givenMetadata;
         }
 
-        final Optional<VerifyBuilder> contractOption =
-            MoreReflection.extractAnnotation(annotated, VerifyBuilder.class);
+        final Optional<VerifyBuilder> contractOption = MoreReflection.extractAnnotation(annotated, VerifyBuilder.class);
 
         final var contract = contractOption.orElseThrow(() -> new IllegalArgumentException(
-                "Given type does not provide the expected annotation BuilderTestContract, type="
-                        + annotated));
+                "Given type does not provide the expected annotation BuilderTestContract, type=" + annotated));
 
-        var map =
-            PropertyHelper.handleWhiteAndBlacklist(contract.of(), contract.exclude(),
-                    givenMetadata);
+        var map = PropertyHelper.handleWhiteAndBlacklist(contract.of(), contract.exclude(), givenMetadata);
 
-        modifyPropertyMetadata(map, contract.defaultValued(), contract.readOnly(),
-                contract.required(), contract.transientProperties(), contract.writeOnly(),
-                contract.assertUnorderedCollection());
+        modifyPropertyMetadata(map, contract.defaultValued(), contract.readOnly(), contract.required(),
+                contract.transientProperties(), contract.writeOnly(), contract.assertUnorderedCollection());
 
         final Map<String, PropertyMetadata> builderPropertyMap = new HashMap<>();
-        for (final PropertyMetadata metadata : BuilderPropertyHelper
-                .handleBuilderPropertyConfigAnnotations(annotated,
-                        mutableList(map.values()))) {
+        for (final PropertyMetadata metadata : BuilderPropertyHelper.handleBuilderPropertyConfigAnnotations(annotated,
+                mutableList(map.values()))) {
             checkArgument(map.containsKey(metadata.getName()),
                     "Invalid Configuration found: BuilderPropertyConfig and BuilderTestContract do not agree on configuration. offending property: "
                             + metadata);
@@ -269,8 +259,7 @@ public final class AnnotationHelper {
         for (final Entry<String, PropertyMetadata> entry : map.entrySet()) {
             if (!builderPropertyMap.containsKey(entry.getKey())) {
                 var delegate = entry.getValue();
-                if (PropertyAccessStrategy.BEAN_PROPERTY
-                        .equals(delegate.getPropertyAccessStrategy())) {
+                if (PropertyAccessStrategy.BEAN_PROPERTY.equals(delegate.getPropertyAccessStrategy())) {
                     var propertyReadWrite = PropertyReadWrite.READ_WRITE;
                     if (PropertyReadWrite.WRITE_ONLY.equals(delegate.getPropertyReadWrite())) {
                         propertyReadWrite = PropertyReadWrite.WRITE_ONLY;
@@ -280,9 +269,8 @@ public final class AnnotationHelper {
                             .propertyAccessStrategy(PropertyAccessStrategy.BUILDER_DIRECT)
                             .propertyReadWrite(propertyReadWrite).build();
                 }
-                builderPropertyMap.put(entry.getKey(),
-                        BuilderMetadata.builder().delegateMetadata(delegate)
-                                .builderMethodPrefix(contract.methodPrefix()).build());
+                builderPropertyMap.put(entry.getKey(), BuilderMetadata.builder().delegateMetadata(delegate)
+                        .builderMethodPrefix(contract.methodPrefix()).build());
             }
         }
 
@@ -290,14 +278,15 @@ public final class AnnotationHelper {
     }
 
     /**
-     * @param verifyMapper must not be null and must be annotated with
-     *            {@link VerifyMapperConfiguration}
+     * @param verifyMapper  must not be null and must be annotated with
+     *                      {@link VerifyMapperConfiguration}
      * @param givenMetadata must not be null
-     * @return a {@link SortedSet} providing the property configuration derived by the given
-     *         properties and the annotated {@link VerifyMapperConfiguration}
+     * @return a {@link SortedSet} providing the property configuration derived by
+     *         the given properties and the annotated
+     *         {@link VerifyMapperConfiguration}
      */
-    public static List<PropertyMetadata> handleMetadataForMapperTest(
-            final VerifyMapperConfiguration verifyMapper, final List<PropertyMetadata> givenMetadata) {
+    public static List<PropertyMetadata> handleMetadataForMapperTest(final VerifyMapperConfiguration verifyMapper,
+            final List<PropertyMetadata> givenMetadata) {
 
         requireNonNull(verifyMapper);
         requireNonNull(givenMetadata);
@@ -307,13 +296,10 @@ public final class AnnotationHelper {
             return givenMetadata;
         }
 
-        var map =
-            PropertyHelper.handleWhiteAndBlacklist(verifyMapper.of(), verifyMapper.exclude(),
-                    givenMetadata);
+        var map = PropertyHelper.handleWhiteAndBlacklist(verifyMapper.of(), verifyMapper.exclude(), givenMetadata);
 
-        modifyPropertyMetadata(map, verifyMapper.defaultValued(), verifyMapper.readOnly(),
-                verifyMapper.required(), new String[0], verifyMapper.writeOnly(),
-                verifyMapper.assertUnorderedCollection());
+        modifyPropertyMetadata(map, verifyMapper.defaultValued(), verifyMapper.readOnly(), verifyMapper.required(),
+                new String[0], verifyMapper.writeOnly(), verifyMapper.assertUnorderedCollection());
 
         return orderPropertyMetadata(verifyMapper.of(), map.values());
     }
@@ -322,21 +308,19 @@ public final class AnnotationHelper {
      * Checks the individual contracts and changes / modifies the corresponding
      * {@link PropertyMetadata} accordingly
      *
-     * @param map must not be null
-     * @param defaultValued must not be null
-     * @param readOnly must not be null
-     * @param required must not be null
+     * @param map                 must not be null
+     * @param defaultValued       must not be null
+     * @param readOnly            must not be null
+     * @param required            must not be null
      * @param transientProperties must not be null
-     * @param writeOnly must not be null
+     * @param writeOnly           must not be null
      * @param unorderedCollection must not be null, see
-     *            {@link PropertyReflectionConfig#assertUnorderedCollection()}
+     *                            {@link PropertyReflectionConfig#assertUnorderedCollection()}
      * @return the filtered map
      */
-    public static Map<String, PropertyMetadata> modifyPropertyMetadata(
-            final Map<String, PropertyMetadata> map,
+    public static Map<String, PropertyMetadata> modifyPropertyMetadata(final Map<String, PropertyMetadata> map,
             final String[] defaultValued, final String[] readOnly, final String[] required,
-            final String[] transientProperties, final String[] writeOnly,
-            final String[] unorderedCollection) {
+            final String[] transientProperties, final String[] writeOnly, final String[] unorderedCollection) {
 
         for (final String name : defaultValued) {
             PropertyHelper.assertPropertyExists(name, map);
@@ -344,23 +328,22 @@ public final class AnnotationHelper {
         }
         for (final String name : readOnly) {
             PropertyHelper.assertPropertyExists(name, map);
-            map.put(name, PropertyMetadataImpl.builder(map.get(name))
-                    .propertyReadWrite(PropertyReadWrite.READ_ONLY).build());
+            map.put(name,
+                    PropertyMetadataImpl.builder(map.get(name)).propertyReadWrite(PropertyReadWrite.READ_ONLY).build());
         }
         for (final String name : writeOnly) {
             PropertyHelper.assertPropertyExists(name, map);
-            map.put(name, PropertyMetadataImpl.builder(map.get(name))
-                    .propertyReadWrite(PropertyReadWrite.WRITE_ONLY).build());
+            map.put(name, PropertyMetadataImpl.builder(map.get(name)).propertyReadWrite(PropertyReadWrite.WRITE_ONLY)
+                    .build());
         }
         for (final String name : required) {
             PropertyHelper.assertPropertyExists(name, map);
-            map.put(name, PropertyMetadataImpl.builder(map.get(name))
-                    .required(true).build());
+            map.put(name, PropertyMetadataImpl.builder(map.get(name)).required(true).build());
         }
         for (final String name : transientProperties) {
             PropertyHelper.assertPropertyExists(name, map);
-            map.put(name, PropertyMetadataImpl.builder(map.get(name))
-                    .propertyMemberInfo(PropertyMemberInfo.TRANSIENT).build());
+            map.put(name, PropertyMetadataImpl.builder(map.get(name)).propertyMemberInfo(PropertyMemberInfo.TRANSIENT)
+                    .build());
         }
         for (final String name : unorderedCollection) {
             PropertyHelper.assertPropertyExists(name, map);
@@ -374,26 +357,23 @@ public final class AnnotationHelper {
      * Checks the individual contracts and changes / modifies the corresponding
      * {@link PropertyMetadata} accordingly
      *
-     * @param map must not be null
-     * @param defaultValued must not be null
-     * @param readOnly must not be null
-     * @param required must not be null
+     * @param map                 must not be null
+     * @param defaultValued       must not be null
+     * @param readOnly            must not be null
+     * @param required            must not be null
      * @param transientProperties must not be null
-     * @param writeOnly must not be null
+     * @param writeOnly           must not be null
      * @param unorderedCollection must not be null, see
-     *            {@link PropertyReflectionConfig#assertUnorderedCollection()}
+     *                            {@link PropertyReflectionConfig#assertUnorderedCollection()}
      * @return the filtered map
      */
-    public static Map<String, PropertyMetadata> modifyPropertyMetadata(
-            final Map<String, PropertyMetadata> map,
-            final List<String> defaultValued, final List<String> readOnly,
-            final List<String> required,
+    public static Map<String, PropertyMetadata> modifyPropertyMetadata(final Map<String, PropertyMetadata> map,
+            final List<String> defaultValued, final List<String> readOnly, final List<String> required,
             final List<String> transientProperties, final List<String> writeOnly,
             final List<String> unorderedCollection) {
 
         return modifyPropertyMetadata(map, defaultValued.toArray(new String[defaultValued.size()]),
-                readOnly.toArray(new String[readOnly.size()]),
-                required.toArray(new String[required.size()]),
+                readOnly.toArray(new String[readOnly.size()]), required.toArray(new String[required.size()]),
                 transientProperties.toArray(new String[transientProperties.size()]),
                 writeOnly.toArray(new String[writeOnly.size()]),
                 unorderedCollection.toArray(new String[unorderedCollection.size()]));

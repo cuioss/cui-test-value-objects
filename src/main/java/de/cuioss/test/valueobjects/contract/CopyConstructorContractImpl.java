@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import de.cuioss.test.valueobjects.api.TestContract;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
@@ -35,8 +34,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * TestContract for dealing Constructor and factories, {@link VerifyConstructor} and
- * {@link VerifyFactoryMethod} respectively
+ * TestContract for dealing Constructor and factories, {@link VerifyConstructor}
+ * and {@link VerifyFactoryMethod} respectively
  *
  * @author Oliver Wolff
  * @param <T> identifying the of objects to be tested.
@@ -65,25 +64,23 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
     @Override
     public void assertContract() {
         var builder = new StringBuilder("Verifying ");
-        builder.append(getClass().getName()).append("\nWith instantiator: ")
-                .append(this.copyInstantiator.toString()).append("\nWith sourceInstantiator: ")
-                .append(this.instantiator.toString());
+        builder.append(getClass().getName()).append("\nWith instantiator: ").append(copyInstantiator.toString())
+                .append("\nWith sourceInstantiator: ").append(instantiator.toString());
         log.info(builder.toString());
 
         final var sourceAttributeNames = RuntimeProperties
-                .extractNames(this.instantiator.getRuntimeProperties().getAllProperties());
+                .extractNames(instantiator.getRuntimeProperties().getAllProperties());
 
-        final Set<String> compareAttributes = new HashSet<>(this.consideredAttributes);
+        final Set<String> compareAttributes = new HashSet<>(consideredAttributes);
 
-        if (!sourceAttributeNames.containsAll(this.consideredAttributes)) {
+        if (!sourceAttributeNames.containsAll(consideredAttributes)) {
             builder = new StringBuilder("Not all attributes can be checked at field level:");
             builder.append("\nSource attributes are: ").append(sourceAttributeNames);
-            builder.append("\nCompare attributes are: ").append(this.consideredAttributes);
+            builder.append("\nCompare attributes are: ").append(consideredAttributes);
             log.warn(builder.toString());
             compareAttributes.retainAll(sourceAttributeNames);
         }
-        log.info("Attributes being compared at field level are: "
-                + Joiner.on(", ").join(compareAttributes));
+        log.info("Attributes being compared at field level are: " + Joiner.on(", ").join(compareAttributes));
 
         assertCopyConstructor(compareAttributes);
         assertDeepCopy();
@@ -96,12 +93,11 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
         }
         log.info("Verifying deep-copy, ignoring properties: {}" + verifyDeepCopyIgnore);
 
-        final var all =
-            this.instantiator.getRuntimeProperties().getAllAsPropertySupport(true);
+        final var all = instantiator.getRuntimeProperties().getAllAsPropertySupport(true);
 
-        final var copyAttribute = this.copyInstantiator.getRuntimeProperties()
-                .getAllAsPropertySupport(false).iterator().next();
-        copyAttribute.setGeneratedValue(this.instantiator.newInstance(all, false));
+        final var copyAttribute = copyInstantiator.getRuntimeProperties().getAllAsPropertySupport(false).iterator()
+                .next();
+        copyAttribute.setGeneratedValue(instantiator.newInstance(all, false));
         var original = copyAttribute.getGeneratedValue();
         Object copy = copyInstantiator.newInstance(immutableList(copyAttribute), false);
         DeepCopyTestHelper.testDeepCopy(original, copy, verifyDeepCopyIgnore);
@@ -109,25 +105,22 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
 
     private void assertCopyConstructor(final Set<String> compareAttributes) {
 
-        final var all =
-            this.instantiator.getRuntimeProperties().getAllAsPropertySupport(true);
+        final var all = instantiator.getRuntimeProperties().getAllAsPropertySupport(true);
 
-        final var copyAttribute = this.copyInstantiator.getRuntimeProperties()
-                .getAllAsPropertySupport(false).iterator().next();
-        copyAttribute.setGeneratedValue(this.instantiator.newInstance(all, false));
+        final var copyAttribute = copyInstantiator.getRuntimeProperties().getAllAsPropertySupport(false).iterator()
+                .next();
+        copyAttribute.setGeneratedValue(instantiator.newInstance(all, false));
 
-        final var copy = this.copyInstantiator.newInstance(immutableList(copyAttribute), false);
+        final var copy = copyInstantiator.newInstance(immutableList(copyAttribute), false);
 
-        final List<PropertySupport> fieldLevelCheck =
-            all.stream().filter(p -> compareAttributes.contains(p.getName()))
-                    .collect(Collectors.toList());
+        final var fieldLevelCheck = all.stream().filter(p -> compareAttributes.contains(p.getName())).toList();
 
         for (final PropertySupport field : fieldLevelCheck) {
             if (field.isReadable()) {
                 field.assertValueSet(copy);
             }
         }
-        if (this.useObjectEquals) {
+        if (useObjectEquals) {
             assertEquals(copyAttribute.getGeneratedValue(), copy);
         }
     }
@@ -136,28 +129,32 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
      * Factory method for creating a an {@link CopyConstructorContractImpl}
      * depending on the given parameter
      *
-     * @param beanType identifying the type to be tested. Must not be null
-     * @param annotated the annotated unit-test-class. It is expected to be annotated with
-     *            {@link VerifyCopyConstructor} method will return {@link Optional#empty()}
-     * @param initialPropertyMetadata identifying the complete set of {@link PropertyMetadata},
-     *            where the actual {@link PropertyMetadata} for the test will be filtered by
-     *            using the attributes defined within {@link VerifyCopyConstructor}.
-     *            Must not be null.
-     * @param existingContracts identifying the already configured contracts. Must not be null nor
-     *            empty.
-     * @return an {@link Optional} of {@link CopyConstructorContractImpl} in case all
-     *         requirements for the parameters are correct, otherwise it will return
-     *         {@link Optional#empty()}
+     * @param beanType                identifying the type to be tested. Must not be
+     *                                null
+     * @param annotated               the annotated unit-test-class. It is expected
+     *                                to be annotated with
+     *                                {@link VerifyCopyConstructor} method will
+     *                                return {@link Optional#empty()}
+     * @param initialPropertyMetadata identifying the complete set of
+     *                                {@link PropertyMetadata}, where the actual
+     *                                {@link PropertyMetadata} for the test will be
+     *                                filtered by using the attributes defined
+     *                                within {@link VerifyCopyConstructor}. Must not
+     *                                be null.
+     * @param existingContracts       identifying the already configured contracts.
+     *                                Must not be null nor empty.
+     * @return an {@link Optional} of {@link CopyConstructorContractImpl} in case
+     *         all requirements for the parameters are correct, otherwise it will
+     *         return {@link Optional#empty()}
      */
-    public static final <T> Optional<CopyConstructorContractImpl<T>> createTestContract(
-            final Class<T> beanType, final Class<?> annotated,
-            final List<PropertyMetadata> initialPropertyMetadata,
+    public static final <T> Optional<CopyConstructorContractImpl<T>> createTestContract(final Class<T> beanType,
+            final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata,
             final List<TestContract<T>> existingContracts) {
 
         requireNonNull(annotated, "annotated must not be null");
 
-        final Optional<VerifyCopyConstructor> configOption =
-            MoreReflection.extractAnnotation(annotated, VerifyCopyConstructor.class);
+        final Optional<VerifyCopyConstructor> configOption = MoreReflection.extractAnnotation(annotated,
+                VerifyCopyConstructor.class);
 
         if (!configOption.isPresent()) {
             return Optional.empty();
@@ -169,43 +166,36 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
 
         final var config = configOption.get();
 
-        final var filtered =
-            PropertyHelper.handleWhiteAndBlacklistAsList(config.of(),
-                    config.exclude(), initialPropertyMetadata);
+        final var filtered = PropertyHelper.handleWhiteAndBlacklistAsList(config.of(), config.exclude(),
+                initialPropertyMetadata);
         final var filteredNames = RuntimeProperties.extractNames(filtered);
 
-        final ParameterizedInstantiator<T> sourceInstantiator =
-            findFittingInstantiator(existingContracts, filteredNames);
+        final ParameterizedInstantiator<T> sourceInstantiator = findFittingInstantiator(existingContracts,
+                filteredNames);
 
         final ParameterizedInstantiator<T> copyInstantiator = createCopyInstantiator(config, beanType);
 
-        return Optional.of(new CopyConstructorContractImpl<>(copyInstantiator, sourceInstantiator,
-                filteredNames, config.useObjectEquals(), config.verifyDeepCopy(),
-                Arrays.asList(config.verifyDeepCopyIgnore())));
+        return Optional.of(new CopyConstructorContractImpl<>(copyInstantiator, sourceInstantiator, filteredNames,
+                config.useObjectEquals(), config.verifyDeepCopy(), Arrays.asList(config.verifyDeepCopyIgnore())));
     }
 
-    private static <T> ParameterizedInstantiator<T> createCopyInstantiator(
-            final VerifyCopyConstructor config,
+    private static <T> ParameterizedInstantiator<T> createCopyInstantiator(final VerifyCopyConstructor config,
             final Class<T> beanType) {
         Class<?> target = beanType;
         if (!VerifyCopyConstructor.class.equals(config.argumentType())) {
             target = config.argumentType();
         }
-        final var meta =
-            PropertyMetadataImpl.builder().name(PROPERTY_NAME_COPY_FROM)
-                    .generator(new DummyGenerator<>(target)).propertyClass(target)
-                    .build();
+        final var meta = PropertyMetadataImpl.builder().name(PROPERTY_NAME_COPY_FROM)
+                .generator(new DummyGenerator<>(target)).propertyClass(target).build();
 
-        return new ConstructorBasedInstantiator<>(beanType,
-                new RuntimeProperties(immutableList(meta)));
+        return new ConstructorBasedInstantiator<>(beanType, new RuntimeProperties(immutableList(meta)));
     }
 
-    static <T> ParameterizedInstantiator<T> findFittingInstantiator(
-            final List<TestContract<T>> existingContracts,
+    static <T> ParameterizedInstantiator<T> findFittingInstantiator(final List<TestContract<T>> existingContracts,
             final Set<String> filteredNames) {
         for (final TestContract<T> contract : existingContracts) {
-            final var contractNames = RuntimeProperties.extractNames(
-                    contract.getInstantiator().getRuntimeProperties().getAllProperties());
+            final var contractNames = RuntimeProperties
+                    .extractNames(contract.getInstantiator().getRuntimeProperties().getAllProperties());
             if (contractNames.containsAll(filteredNames)) {
                 return contract.getInstantiator();
             }

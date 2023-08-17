@@ -24,9 +24,9 @@ class CallbackAwareInstantiatorTest {
     @BeforeEach
     void before() {
         callback = new MockConfigurationCallbackHandler<>();
-        ParameterizedInstantiator<ComplexBean> beanInstantiator =
-            new BeanInstantiator<>(new DefaultInstantiator<>(ComplexBean.class),
-                    new RuntimeProperties(ComplexBean.completeValidMetadata()));
+        ParameterizedInstantiator<ComplexBean> beanInstantiator = new BeanInstantiator<>(
+                new DefaultInstantiator<>(ComplexBean.class),
+                new RuntimeProperties(ComplexBean.completeValidMetadata()));
         instantiator = new CallbackAwareInstantiator<>(beanInstantiator, callback);
     }
 

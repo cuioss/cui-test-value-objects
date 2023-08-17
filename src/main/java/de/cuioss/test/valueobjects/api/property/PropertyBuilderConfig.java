@@ -11,10 +11,10 @@ import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy;
 
 /**
- * While the test classes are capable of auto-detecting JavaProperties you need to adjust them from
- * time to time. With this annotation you can do this for builder specific properties. This
- * annotation can only adjust an already existing {@link PropertyMetadata} and can not be used
- * stand-alone
+ * While the test classes are capable of auto-detecting JavaProperties you need
+ * to adjust them from time to time. With this annotation you can do this for
+ * builder specific properties. This annotation can only adjust an already
+ * existing {@link PropertyMetadata} and can not be used stand-alone
  *
  * @author Oliver Wolff
  */
@@ -24,8 +24,8 @@ import de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy;
 public @interface PropertyBuilderConfig {
 
     /**
-     * @return the name of the property. Must not null nor empty. Must refer to an already existing
-     *         {@link PropertyMetadata}
+     * @return the name of the property. Must not null nor empty. Must refer to an
+     *         already existing {@link PropertyMetadata}
      */
     String name();
 
@@ -38,24 +38,27 @@ public @interface PropertyBuilderConfig {
     PropertyAccessStrategy propertyAccessStrategy() default PropertyAccessStrategy.BUILDER_DIRECT;
 
     /**
-     * In case methodPrefix is not set the corresponding build method to be accessed for setting the
-     * value is the name of the attribute: propertyName(), in case it is a concrete value, e.g.
-     * 'with' it will taken into account: withPropertName().
+     * In case methodPrefix is not set the corresponding build method to be accessed
+     * for setting the value is the name of the attribute: propertyName(), in case
+     * it is a concrete value, e.g. 'with' it will taken into account:
+     * withPropertName().
      *
      * @return the method prefix, defaults to empty string
      */
     String methodPrefix() default "";
 
     /**
-     * In case this builderMethodName is set it will be used directly for deriving the write-method.
+     * In case this builderMethodName is set it will be used directly for deriving
+     * the write-method.
      *
      * @return builderMethodName, defaults to empty string
      */
     String builderMethodName() default "";
 
     /**
-     * Only needed for builder that deal with {@link Iterable} and single elements, see
-     * {@link PropertyAccessStrategy#BUILDER_COLLECTION_AND_SINGLE_ELEMENT} for details
+     * Only needed for builder that deal with {@link Iterable} and single elements,
+     * see {@link PropertyAccessStrategy#BUILDER_COLLECTION_AND_SINGLE_ELEMENT} for
+     * details
      *
      * @return builderSingleAddMethodName, defaults to empty string
      */

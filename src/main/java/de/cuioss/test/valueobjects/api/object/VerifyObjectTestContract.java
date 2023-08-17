@@ -7,10 +7,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * In contrast to {@link VetoObjectTestContract} that is designed for cases where the tests run all
- * {@link ObjectTestConfig}, e.g. ValueObjectTest this annotation is for opt-in cases.
- * As default all {@link ObjectTestContract}s will be run if this annotation is present, but you can
- * Veto the individual contracts
+ * In contrast to {@link VetoObjectTestContract} that is designed for cases
+ * where the tests run all {@link ObjectTestConfig}, e.g. ValueObjectTest this
+ * annotation is for opt-in cases. As default all {@link ObjectTestContract}s
+ * will be run if this annotation is present, but you can Veto the individual
+ * contracts
  *
  * @author Oliver Wolff
  */

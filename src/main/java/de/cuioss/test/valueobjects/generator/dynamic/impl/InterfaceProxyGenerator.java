@@ -9,7 +9,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Creates proxies for given interfaces, should only be used as last line of defense.
+ * Creates proxies for given interfaces, should only be used as last line of
+ * defense.
  *
  * @author Oliver Wolff
  * @param <T> the type of objects to be generated
@@ -23,12 +24,12 @@ public class InterfaceProxyGenerator<T> implements TypedGenerator<T> {
 
     @Override
     public T next() {
-        return MoreReflection.newProxy(this.type, DEFAULT_HANDLER);
+        return MoreReflection.newProxy(type, DEFAULT_HANDLER);
     }
 
     @Override
     public Class<T> getType() {
-        return this.type;
+        return type;
     }
 
     /**
@@ -36,11 +37,10 @@ public class InterfaceProxyGenerator<T> implements TypedGenerator<T> {
      * It only works with interfaces.
      *
      * @param type to be checked, should be an interface
-     * @return an {@link Optional} on the corresponding {@link TypedGenerator} if the given type is
-     *         an interfaces, otherwise {@link Optional#empty()}
+     * @return an {@link Optional} on the corresponding {@link TypedGenerator} if
+     *         the given type is an interfaces, otherwise {@link Optional#empty()}
      */
-    public static final <T> Optional<TypedGenerator<T>> getGeneratorForType(
-            final Class<T> type) {
+    public static final <T> Optional<TypedGenerator<T>> getGeneratorForType(final Class<T> type) {
         if (null == type || type.isAnnotation() || !type.isInterface()) {
             return Optional.empty();
         }

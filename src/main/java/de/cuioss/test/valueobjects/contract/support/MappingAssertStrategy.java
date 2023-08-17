@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import de.cuioss.test.valueobjects.api.VerifyMapperConfiguration;
 import de.cuioss.test.valueobjects.property.PropertySupport;
@@ -32,8 +31,7 @@ enum MappingAssertStrategy {
 
         @Override
         public List<MappingTuple> readConfiguration(VerifyMapperConfiguration config) {
-            return mutableList(config.equals()).stream().map(mapping -> new MappingTuple(mapping, this))
-                    .collect(Collectors.toList());
+            return mutableList(config.equals()).stream().map(mapping -> new MappingTuple(mapping, this)).toList();
         }
 
     },
@@ -43,8 +41,7 @@ enum MappingAssertStrategy {
         public void assertMapping(PropertySupport sourceProperty, Object sourceObject, PropertySupport targetProperty,
                 Object targetObject) {
             var readProperty = targetProperty.readProperty(targetObject);
-            assertNotNull(readProperty,
-                    "The given object must not be null " + targetProperty.getPropertyMetadata());
+            assertNotNull(readProperty, "The given object must not be null " + targetProperty.getPropertyMetadata());
             if (readProperty instanceof Collection) {
                 assertFalse(((Collection<?>) readProperty).isEmpty(),
                         "The given object is not null but an empty collection" + targetProperty.getPropertyMetadata());
@@ -54,14 +51,14 @@ enum MappingAssertStrategy {
         @Override
         public List<MappingTuple> readConfiguration(VerifyMapperConfiguration config) {
             return mutableList(config.notNullNorEmpty()).stream().map(mapping -> new MappingTuple(mapping, this))
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
     },
     /**
-     * This Strategy is used to check whether the concrete value is null in case it is not a
-     * property with a default-value. In case of a {@link Collection} it emptiness is considered as
-     * default as well.
+     * This Strategy is used to check whether the concrete value is null in case it
+     * is not a property with a default-value. In case of a {@link Collection} it
+     * emptiness is considered as default as well.
      */
     NULL_OR_DEFAULT {
 
@@ -76,8 +73,7 @@ enum MappingAssertStrategy {
                 assertTrue(((Collection<?>) read).isEmpty(),
                         "The given object is not null nor an empty collection" + targetProperty.getPropertyMetadata());
             } else {
-                assertNull(read,
-                        "The given object must be null " + targetProperty.getPropertyMetadata());
+                assertNull(read, "The given object must be null " + targetProperty.getPropertyMetadata());
             }
 
         }

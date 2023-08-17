@@ -7,7 +7,6 @@ import de.cuioss.test.valueobjects.junit5.testbeans.BeanWithMultipleConstructorA
 @SuppressWarnings("javadoc")
 @VerifyConstructor(of = "name")
 @VerifyConstructor(of = { "name", "propertyMemberInfo" })
-public class ValueObjectTestConstructorTest
-        extends ValueObjectTest<BeanWithMultipleConstructorAnnotation> {
+public class ValueObjectTestConstructorTest extends ValueObjectTest<BeanWithMultipleConstructorAnnotation> {
 
 }

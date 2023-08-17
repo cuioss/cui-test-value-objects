@@ -37,17 +37,10 @@ public class BuilderWithRequiredAttribute implements Serializable {
         return new BuilderWithRequiredAttributeBuilder();
     }
 
-    public static final SortedSet<PropertyMetadata> METADATA_COMPLETE =
-        immutableSortedSet(
-                BuilderMetadata.builder().delegateMetadata(
-                        STRINGS_LETTER.metadataBuilder("requiredString").required(true)
-                                .build())
-                        .build());
+    public static final SortedSet<PropertyMetadata> METADATA_COMPLETE = immutableSortedSet(BuilderMetadata.builder()
+            .delegateMetadata(STRINGS_LETTER.metadataBuilder("requiredString").required(true).build()).build());
 
-    public static final SortedSet<PropertyMetadata> METADATA_INVALID =
-        immutableSortedSet(
-                BuilderMetadata.builder().delegateMetadata(
-                        STRINGS_LETTER.metadata("requiredString"))
-                        .build());
+    public static final SortedSet<PropertyMetadata> METADATA_INVALID = immutableSortedSet(
+            BuilderMetadata.builder().delegateMetadata(STRINGS_LETTER.metadata("requiredString")).build());
 
 }

@@ -35,9 +35,9 @@ public class ArraysGenerator<T, C> implements TypedGenerator<T> {
     @SuppressWarnings("unchecked")
     @Override
     public T next() {
-        final var collection = (List<C>) this.collectionGenerator.list();
+        final var collection = (List<C>) collectionGenerator.list();
         if (!componentType.isPrimitive()) {
-            final var array = (C[]) Array.newInstance(this.componentType, collection.size());
+            final var array = (C[]) Array.newInstance(componentType, collection.size());
             return (T) collection.toArray(array);
         }
         return (T) PrimitiveArrayGenerators.resolveForType(componentType).next();
@@ -47,11 +47,10 @@ public class ArraysGenerator<T, C> implements TypedGenerator<T> {
      * Factory method for creating an instance of {@link ArraysGenerator}.
      *
      * @param type to be, must not be an array type: {@link Class#isArray()}
-     * @return an {@link Optional} on the corresponding {@link ArraysGenerator} if the requirements
-     *         are met, {@link Optional#empty()} otherwise
+     * @return an {@link Optional} on the corresponding {@link ArraysGenerator} if
+     *         the requirements are met, {@link Optional#empty()} otherwise
      */
-    public static final <T> Optional<TypedGenerator<T>> getGeneratorForType(
-            final Class<T> type) {
+    public static final <T> Optional<TypedGenerator<T>> getGeneratorForType(final Class<T> type) {
         if (null == type || !type.isArray()) {
             return Optional.empty();
         }
@@ -59,8 +58,6 @@ public class ArraysGenerator<T, C> implements TypedGenerator<T> {
 
         final TypedGenerator<?> wrappedGenerator = GeneratorResolver.resolveGenerator(componentType);
 
-        return Optional
-                .of(new ArraysGenerator<>(type, componentType,
-                        new CollectionGenerator<>(wrappedGenerator)));
+        return Optional.of(new ArraysGenerator<>(type, componentType, new CollectionGenerator<>(wrappedGenerator)));
     }
 }

@@ -21,13 +21,11 @@ import de.cuioss.test.valueobjects.property.util.CollectionType;
 import de.cuioss.test.valueobjects.util.GeneratorAnnotationHelper;
 
 // owolff: List<Map.Entry<String, ? extends Serializable>> can not be determined by reflection
-@PropertyConfig(name = "keyValueEntities", collectionType = CollectionType.LIST, propertyClass = Map.Entry.class,
-        generator = MapEntryGenerator.class)
+@PropertyConfig(name = "keyValueEntities", collectionType = CollectionType.LIST, propertyClass = Map.Entry.class, generator = MapEntryGenerator.class)
 // owolff: because 'identifier' is final it should be considered as required
 @PropertyReflectionConfig(exclude = "keyValueEntities", required = "identifier")
 @VerifyMapperConfiguration
-class BaseMapperEntryDtoToComplexBeanTest
-        extends MapperTest<EntryDtoToComplexBeanMapper, EntryDto, ComplexBean> {
+class BaseMapperEntryDtoToComplexBeanTest extends MapperTest<EntryDtoToComplexBeanMapper, EntryDto, ComplexBean> {
 
     /**
      * Clears the {@link TypedGeneratorRegistry}
@@ -42,14 +40,14 @@ class BaseMapperEntryDtoToComplexBeanTest
      */
     @BeforeEach
     void initializePropertiesAndGenerators() {
-        GeneratorAnnotationHelper.handleGeneratorsForTestClass(this,
-                registerAdditionalGenerators());
+        GeneratorAnnotationHelper.handleGeneratorsForTestClass(this, registerAdditionalGenerators());
         super.intializeTypeInformation();
     }
 
     /**
      * owolff: this is needed because the default implementation of
-     * #getSourceInstantiator(RuntimeProperties) assumes beans with a default constructor
+     * #getSourceInstantiator(RuntimeProperties) assumes beans with a default
+     * constructor
      */
     @Override
     public ParameterizedInstantiator<? extends EntryDto> getSourceInstantiator(RuntimeProperties runtimeProperties) {

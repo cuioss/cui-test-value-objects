@@ -18,10 +18,9 @@ public class BeanWithReadWriteProperties {
     public static final String ATTRIBUTE_DEFAULT_VALUE = "defaultValueProperty";
     public static final String ATTRIBUTE_DEFAULT_VALUE_VALUE = "defaultValue";
 
-    public static final PropertyMetadata METATDATA_WRITE_ONLY =
-        PropertyMetadataImpl.builder().name(ATTRIBUTE_WRITE_ONLY).propertyClass(String.class)
-                .generator(Generators.nonEmptyStrings())
-                .propertyReadWrite(PropertyReadWrite.WRITE_ONLY).build();
+    public static final PropertyMetadata METATDATA_WRITE_ONLY = PropertyMetadataImpl.builder()
+            .name(ATTRIBUTE_WRITE_ONLY).propertyClass(String.class).generator(Generators.nonEmptyStrings())
+            .propertyReadWrite(PropertyReadWrite.WRITE_ONLY).build();
 
     @Getter
     @Setter

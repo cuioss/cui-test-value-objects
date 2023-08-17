@@ -17,8 +17,9 @@ import de.cuioss.tools.reflect.MoreReflection;
 import lombok.experimental.UtilityClass;
 
 /**
- * Utility class for dealing with {@link ObjectTestContracts} and the {@link VetoObjectTestContract}
- * and {@link VetoObjectTestContracts} annotations.
+ * Utility class for dealing with {@link ObjectTestContracts} and the
+ * {@link VetoObjectTestContract} and {@link VetoObjectTestContracts}
+ * annotations.
  *
  * @author Oliver Wolff
  */
@@ -30,13 +31,12 @@ public final class ObjectContractHelper {
      * {@link VetoObjectTestContracts} creates a set with all
      * {@link ObjectTestContracts#OBJECT_CONTRACTS} but the vetoed contracts.
      *
-     * @param annotated the class that may or may not provide the annotations, must not be null
+     * @param annotated the class that may or may not provide the annotations, must
+     *                  not be null
      * @return immutable set of found {@link ObjectTestContracts} elements.
      */
-    public static Set<ObjectTestContracts> handleVetoedContracts(
-            final Class<?> annotated) {
-        final Set<ObjectTestContracts> objectTestContracts =
-            new HashSet<>(ObjectTestContracts.OBJECT_CONTRACTS);
+    public static Set<ObjectTestContracts> handleVetoedContracts(final Class<?> annotated) {
+        final Set<ObjectTestContracts> objectTestContracts = new HashSet<>(ObjectTestContracts.OBJECT_CONTRACTS);
 
         extractConfiguredVetoObjectContracts(annotated)
                 .forEach(veto -> objectTestContracts.removeAll(Arrays.asList(veto.value())));
@@ -46,36 +46,38 @@ public final class ObjectContractHelper {
 
     /**
      * Checks the given type for the annotation {@link VetoObjectTestContract} and
-     * {@link VetoObjectTestContracts} and puts all found in the immutable list to be returned
+     * {@link VetoObjectTestContracts} and puts all found in the immutable list to
+     * be returned
      *
-     * @param annotated the class that may or may not provide the annotations, must not be null
-     * @return immutable {@link Set} of found {@link VetoObjectTestContract} elements.
+     * @param annotated the class that may or may not provide the annotations, must
+     *                  not be null
+     * @return immutable {@link Set} of found {@link VetoObjectTestContract}
+     *         elements.
      */
-    public static Set<VetoObjectTestContract> extractConfiguredVetoObjectContracts(
-            final Class<?> annotated) {
+    public static Set<VetoObjectTestContract> extractConfiguredVetoObjectContracts(final Class<?> annotated) {
         requireNonNull(annotated);
         final var builder = new CollectionBuilder<VetoObjectTestContract>();
 
         MoreReflection.extractAllAnnotations(annotated, VetoObjectTestContracts.class)
                 .forEach(contract -> builder.add(contract.value()));
-        MoreReflection.extractAllAnnotations(annotated, VetoObjectTestContract.class)
-                .forEach(builder::add);
+        MoreReflection.extractAllAnnotations(annotated, VetoObjectTestContract.class).forEach(builder::add);
 
         return builder.toImmutableSet();
     }
 
     /**
-     * Checks the given type for the annotation {@link VerifyObjectTestContract} and creates a set
-     * with all corresponding {@link ObjectTestContracts}.
+     * Checks the given type for the annotation {@link VerifyObjectTestContract} and
+     * creates a set with all corresponding {@link ObjectTestContracts}.
      *
-     * @param annotated the class that may or may not provide the annotations, must not be null
+     * @param annotated the class that may or may not provide the annotations, must
+     *                  not be null
      * @return immutable set of found {@link ObjectTestContracts} elements.
      */
     public static Set<ObjectTestContracts> handleOptedInContracts(final Class<?> annotated) {
         final Set<ObjectTestContracts> builder = new HashSet<>();
 
-        List<VerifyObjectTestContract> annotations =
-            MoreReflection.extractAllAnnotations(annotated, VerifyObjectTestContract.class);
+        List<VerifyObjectTestContract> annotations = MoreReflection.extractAllAnnotations(annotated,
+                VerifyObjectTestContract.class);
         if (!annotations.isEmpty()) {
             builder.addAll(Arrays.asList(ObjectTestContracts.values()));
         }

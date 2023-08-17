@@ -105,8 +105,8 @@ public enum CollectionType {
     },
     /**
      * 'Marker' type for arrays. The operations will always throw an
-     * {@link UnsupportedOperationException}. It is designed as a marker and can not be used
-     * directly
+     * {@link UnsupportedOperationException}. It is designed as a marker and can not
+     * be used directly
      */
     ARRAY_MARKER(Iterable.class) {
 
@@ -177,14 +177,13 @@ public enum CollectionType {
     public abstract Iterable<?> emptyCollection();
 
     /**
-     * Finds a concrete implementation for a given <em>Interface</em> that is to at least
-     * {@link Collection}. A special case is the dealing with Arrays
+     * Finds a concrete implementation for a given <em>Interface</em> that is to at
+     * least {@link Collection}. A special case is the dealing with Arrays
      *
      * @param type to be checked
      * @return {@link Optional} of the type
      */
-    public static final Optional<CollectionType> findResponsibleCollectionType(
-            final Class<?> type) {
+    public static final Optional<CollectionType> findResponsibleCollectionType(final Class<?> type) {
         if (null == type || type.isEnum()) {
             return Optional.empty();
         }
@@ -203,6 +202,5 @@ public enum CollectionType {
         return Optional.empty();
     }
 
-    private static final List<CollectionType> SEARCH_ORDER =
-        immutableList(SORTED_SET, SET, LIST, COLLECTION);
+    private static final List<CollectionType> SEARCH_ORDER = immutableList(SORTED_SET, SET, LIST, COLLECTION);
 }

@@ -15,12 +15,13 @@ import de.cuioss.tools.property.PropertyReadWrite;
 /**
  * If used on ValueObjectTest this test checks / tests all Bean-properties.
  * <p>
- * <em>Caution:</em> The implementation for this contract assumes a valid bean regarding Java-Bean
- * Spec, therefore a no-args public constructor is required.
+ * <em>Caution:</em> The implementation for this contract assumes a valid bean
+ * regarding Java-Bean Spec, therefore a no-args public constructor is required.
  * </p>
  * <p>
- * In essence it checks the getters and setters. As default it assumes the individual properties to
- * not provide a default value. This can be controlled using {@link #defaultValued()}
+ * In essence it checks the getters and setters. As default it assumes the
+ * individual properties to not provide a default value. This can be controlled
+ * using {@link #defaultValued()}
  * </p>
  *
  * @author Oliver Wolff
@@ -30,56 +31,61 @@ import de.cuioss.tools.property.PropertyReadWrite;
 public @interface VerifyBeanProperty {
 
     /**
-     * @return an array of properties, identified by their names that are not to be considered for
-     *         this test: black-list
+     * @return an array of properties, identified by their names that are not to be
+     *         considered for this test: black-list
      */
     String[] exclude() default {};
 
     /**
-     * @return an array of properties, identified by their names that are to be considered for
-     *         this test: white-list
+     * @return an array of properties, identified by their names that are to be
+     *         considered for this test: white-list
      */
     String[] of() default {};
 
     /**
-     * @return an array of properties, identified by their names that are to be treated as required
-     *         properties, see {@link PropertyMetadata#isRequired()}
+     * @return an array of properties, identified by their names that are to be
+     *         treated as required properties, see
+     *         {@link PropertyMetadata#isRequired()}
      */
     String[] required() default {};
 
     /**
-     * @return an array of properties, identified by their names that are to be treated as transient
-     *         properties, see {@link PropertyMemberInfo#TRANSIENT}
+     * @return an array of properties, identified by their names that are to be
+     *         treated as transient properties, see
+     *         {@link PropertyMemberInfo#TRANSIENT}
      */
     String[] transientProperties() default {};
 
     /**
-     * @return an array of properties, identified by their names that are to be treated as having a
-     *         default values, see {@link PropertyMetadata#isDefaultValue()}
+     * @return an array of properties, identified by their names that are to be
+     *         treated as having a default values, see
+     *         {@link PropertyMetadata#isDefaultValue()}
      */
     String[] defaultValued() default {};
 
     /**
-     * @return an array of properties, identified by their names that are to be treated as being
-     *         read-only, see {@link PropertyReadWrite#READ_ONLY}, usually used in conjunction with
-     *         {@link #defaultValued()}
+     * @return an array of properties, identified by their names that are to be
+     *         treated as being read-only, see {@link PropertyReadWrite#READ_ONLY},
+     *         usually used in conjunction with {@link #defaultValued()}
      */
     String[] readOnly() default {};
 
     /**
-     * @return an array of properties, identified by their names that are to be treated as being
-     *         write-only, see {@link PropertyReadWrite#WRITE_ONLY}, usually used in cases where a
-     *         property to be written will result in other properties but itself can not be accessed
-     *         directly
+     * @return an array of properties, identified by their names that are to be
+     *         treated as being write-only, see
+     *         {@link PropertyReadWrite#WRITE_ONLY}, usually used in cases where a
+     *         property to be written will result in other properties but itself can
+     *         not be accessed directly
      */
     String[] writeOnly() default {};
 
     /**
-     * @return an array of properties, identified by their names representing at least a
-     *         {@link Collection} that are to be asserted ignoring the concrete order, see
-     *         {@link PropertyConfig#assertionStrategy()} and
-     *         {@link AssertionStrategy#COLLECTION_IGNORE_ORDER}. The default implementation will
-     *         always respect / assert the same order of elements.
+     * @return an array of properties, identified by their names representing at
+     *         least a {@link Collection} that are to be asserted ignoring the
+     *         concrete order, see {@link PropertyConfig#assertionStrategy()} and
+     *         {@link AssertionStrategy#COLLECTION_IGNORE_ORDER}. The default
+     *         implementation will always respect / assert the same order of
+     *         elements.
      */
     String[] assertUnorderedCollection() default {};
 }

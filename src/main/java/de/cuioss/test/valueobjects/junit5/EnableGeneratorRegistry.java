@@ -13,10 +13,9 @@ import de.cuioss.test.valueobjects.junit5.extension.GeneratorRegistryController;
 import de.cuioss.test.valueobjects.util.GeneratorRegistry;
 
 /**
- * Enables the test-generator handling, see {@link GeneratorRegistry} for details. The underlying
- * extension {@link GeneratorRegistryController} take care on all runtime aspects of the handling in
- * a
- * junit-5 context.
+ * Enables the test-generator handling, see {@link GeneratorRegistry} for
+ * details. The underlying extension {@link GeneratorRegistryController} take
+ * care on all runtime aspects of the handling in a junit-5 context.
  *
  * @author Oliver Wolff
  *

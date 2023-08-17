@@ -6,10 +6,8 @@ import de.cuioss.test.valueobjects.api.contracts.VerifyCopyConstructor;
 import de.cuioss.test.valueobjects.junit5.testbeans.OneRequiredFieldCopyConstructor;
 
 @SuppressWarnings("javadoc")
-@VerifyConstructor(of = "attribute",
-        required = "attribute")
+@VerifyConstructor(of = "attribute", required = "attribute")
 @VerifyCopyConstructor
-public class ValueObjectTestCopyConstructorTest
-        extends ValueObjectTest<OneRequiredFieldCopyConstructor> {
+public class ValueObjectTestCopyConstructorTest extends ValueObjectTest<OneRequiredFieldCopyConstructor> {
 
 }

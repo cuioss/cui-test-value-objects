@@ -23,13 +23,14 @@ public class DeepCopyTestHelper {
     /**
      * To test the result of a deep copy function.
      * <p>
-     * The main focus is to check if the copy is independent from the source and does not have any
-     * reference to the source.
+     * The main focus is to check if the copy is independent from the source and
+     * does not have any reference to the source.
      * <p>
-     * To check the equality of the objects the equals method should be implemented correctly.
+     * To check the equality of the objects the equals method should be implemented
+     * correctly.
      *
      * @param source the source object
-     * @param copy the result of the copy function
+     * @param copy   the result of the copy function
      */
     public static void testDeepCopy(Object source, Object copy) {
         testDeepCopy(source, copy, Collections.emptyList());
@@ -38,13 +39,15 @@ public class DeepCopyTestHelper {
     /**
      * To test the result of a deep copy function.
      * <p>
-     * The main focus is to check if the copy is independent from the source and does not have any
-     * reference to the source. -> Deep Copy, instead of shallow copy
+     * The main focus is to check if the copy is independent from the source and
+     * does not have any reference to the source. -> Deep Copy, instead of shallow
+     * copy
      * <p>
-     * To check the equality of the objects the equals method should be implemented correctly.
+     * To check the equality of the objects the equals method should be implemented
+     * correctly.
      *
-     * @param source the source object
-     * @param copy the result of the copy function
+     * @param source           the source object
+     * @param copy             the result of the copy function
      * @param ignoreProperties The top-level attribute names to be ignored
      */
     public static void testDeepCopy(Object source, Object copy, Collection<String> ignoreProperties) {
@@ -78,15 +81,13 @@ public class DeepCopyTestHelper {
                     continue;
                 }
                 if (!checkForList(resultSource, resultCopy, currentPropertyString, propertyName)) {
-                    if (!MoreReflection.retrieveWriteMethod(source.getClass(), propertyName,
-                            resultSource.getClass()).isPresent()) {
+                    if (!MoreReflection.retrieveWriteMethod(source.getClass(), propertyName, resultSource.getClass())
+                            .isPresent()) {
                         continue;
                     }
 
-                    assertFalse(
-                            resultSource == resultCopy,
-                            "deep copy failed with: " + currentPropertyString + propertyName + " (" + resultSource
-                                    .toString() + ")");
+                    assertFalse(resultSource == resultCopy, "deep copy failed with: " + currentPropertyString
+                            + propertyName + " (" + resultSource.toString() + ")");
                     testDeepCopy(resultSource, resultCopy, currentPropertyString + propertyName,
                             Collections.emptyList());
                 }
@@ -103,14 +104,13 @@ public class DeepCopyTestHelper {
         // check for null
         if (null != resultSource) {
             if (null == resultCopy) {
-                fail("property " + currentPropertyString + propertyName + " differs: " + resultSource
-                        .toString() + " != null");
+                fail("property " + currentPropertyString + propertyName + " differs: " + resultSource.toString()
+                        + " != null");
             }
         } else if (null == resultCopy) {
             return false;
         } else {
-            fail("property " + currentPropertyString + propertyName + " differs: null != " + resultCopy
-                    .toString());
+            fail("property " + currentPropertyString + propertyName + " differs: null != " + resultCopy.toString());
         }
         return true;
     }

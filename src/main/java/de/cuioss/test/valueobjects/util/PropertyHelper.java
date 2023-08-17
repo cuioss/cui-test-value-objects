@@ -48,18 +48,16 @@ public class PropertyHelper {
     private static boolean propertyTargetInformationLogged = false;
 
     /**
-     * Simple helper method that creates a sensible information message for logging purpose. It uses
-     * a static field in order to ensure that the logging will only be done once per Test-unit *
+     * Simple helper method that creates a sensible information message for logging
+     * purpose. It uses a static field in order to ensure that the logging will only
+     * be done once per Test-unit *
      *
      * @param handled to be logged
      */
-    public static void logMessageForPropertyMetadata(
-            final Collection<? extends PropertyMetadata> handled) {
+    public static void logMessageForPropertyMetadata(final Collection<? extends PropertyMetadata> handled) {
         if (!propertyInformationLogged) {
-            final var messageBuilder =
-                new StringBuilder(
-                        "Properties detected by using reflection and PropertyConfig-annotation: ")
-                                .append("\n");
+            final var messageBuilder = new StringBuilder(
+                    "Properties detected by using reflection and PropertyConfig-annotation: ").append("\n");
             final List<String> elements = new ArrayList<>();
             handled.forEach(data -> elements.add("-" + data.toString()));
             Collections.sort(elements);
@@ -73,18 +71,15 @@ public class PropertyHelper {
     }
 
     /**
-     * Simple helper method that creates a sensible information message for logging purpose. It uses
-     * a static field in order to ensure that the logging will only be done once per Test-unit *
+     * Simple helper method that creates a sensible information message for logging
+     * purpose. It uses a static field in order to ensure that the logging will only
+     * be done once per Test-unit *
      *
      * @param handled to be logged
      */
-    public static void logMessageForTargetPropertyMetadata(
-            final Collection<? extends PropertyMetadata> handled) {
+    public static void logMessageForTargetPropertyMetadata(final Collection<? extends PropertyMetadata> handled) {
         if (!propertyTargetInformationLogged) {
-            final var messageBuilder =
-                new StringBuilder(
-                        "Properties detected for targetType: ")
-                                .append("\n");
+            final var messageBuilder = new StringBuilder("Properties detected for targetType: ").append("\n");
             final List<String> elements = new ArrayList<>();
             handled.forEach(data -> elements.add("-" + data.toString()));
             Collections.sort(elements);
@@ -98,8 +93,9 @@ public class PropertyHelper {
     }
 
     /**
-     * Sets all primitives of the given list to {@link PropertyMetadata#isDefaultValue()} being
-     * {@code true} in case {@link PropertyMetadata#getCollectionType()} being
+     * Sets all primitives of the given list to
+     * {@link PropertyMetadata#isDefaultValue()} being {@code true} in case
+     * {@link PropertyMetadata#getCollectionType()} being
      * {@link CollectionType#NO_ITERABLE} .
      *
      * @param metadata must not be null
@@ -115,8 +111,7 @@ public class PropertyHelper {
         for (final PropertyMetadata propertyMetadata : metadata) {
             if (propertyMetadata.getPropertyClass().isPrimitive()
                     && CollectionType.NO_ITERABLE.equals(propertyMetadata.getCollectionType())) {
-                builder.add(
-                        PropertyMetadataImpl.builder(propertyMetadata).defaultValue(true).build());
+                builder.add(PropertyMetadataImpl.builder(propertyMetadata).defaultValue(true).build());
             } else {
                 builder.add(propertyMetadata);
             }
@@ -126,28 +121,30 @@ public class PropertyHelper {
 
     /**
      * Checks the given type for the annotation {@link PropertyConfig} and
-     * {@link PropertyConfigs} and puts all found in the immutable set to be returned
+     * {@link PropertyConfigs} and puts all found in the immutable set to be
+     * returned
      *
-     * @param annotated the class that may or may not provide the annotations, must not be null
-     * @return immutable set of found {@link PropertyMetadata} elements derived by the annotations.
+     * @param annotated the class that may or may not provide the annotations, must
+     *                  not be null
+     * @return immutable set of found {@link PropertyMetadata} elements derived by
+     *         the annotations.
      */
-    public static final Set<PropertyMetadata> handlePropertyConfigAnnotations(
-            final Class<?> annotated) {
+    public static final Set<PropertyMetadata> handlePropertyConfigAnnotations(final Class<?> annotated) {
         requireNonNull(annotated);
         return handlePropertyConfigAnnotations(extractConfiguredPropertyConfigs(annotated));
     }
 
     /**
      * Checks the given type for the annotation {@link PropertyConfig} and
-     * {@link PropertyConfigs} and puts all found in the immutable set to be returned
+     * {@link PropertyConfigs} and puts all found in the immutable set to be
+     * returned
      *
      * @param config the PropertyConfig-annotations, must not be null
-     * @return immutable set of found {@link PropertyMetadata} elements derived by the annotations.
+     * @return immutable set of found {@link PropertyMetadata} elements derived by
+     *         the annotations.
      */
-    public static final Set<PropertyMetadata> handlePropertyConfigAnnotations(
-            final Collection<PropertyConfig> config) {
-        final var builder =
-            new CollectionBuilder<PropertyMetadata>();
+    public static final Set<PropertyMetadata> handlePropertyConfigAnnotations(final Collection<PropertyConfig> config) {
+        final var builder = new CollectionBuilder<PropertyMetadata>();
 
         config.forEach(conf -> builder.add(propertyConfigToPropertyMetadata(conf)));
 
@@ -158,19 +155,18 @@ public class PropertyHelper {
      * Checks the given type for the annotation {@link PropertyConfig} and
      * {@link PropertyConfigs} and puts all found in the returned list
      *
-     * @param annotated the class that may or may not provide the annotations, must not be null
-     * @return a {@link Set} of {@link PropertyConfig} extract from the annotations of the given
-     *         type. May be empty but never null
+     * @param annotated the class that may or may not provide the annotations, must
+     *                  not be null
+     * @return a {@link Set} of {@link PropertyConfig} extract from the annotations
+     *         of the given type. May be empty but never null
      */
-    public static final Set<PropertyConfig> extractConfiguredPropertyConfigs(
-            final Class<?> annotated) {
+    public static final Set<PropertyConfig> extractConfiguredPropertyConfigs(final Class<?> annotated) {
         requireNonNull(annotated);
         final var builder = new CollectionBuilder<PropertyConfig>();
 
         MoreReflection.extractAllAnnotations(annotated, PropertyConfigs.class)
                 .forEach(contract -> builder.add(contract.value()));
-        MoreReflection.extractAllAnnotations(annotated, PropertyConfig.class)
-                .forEach(builder::add);
+        MoreReflection.extractAllAnnotations(annotated, PropertyConfig.class).forEach(builder::add);
 
         return builder.toImmutableSet();
     }
@@ -185,25 +181,21 @@ public class PropertyHelper {
             generator = new DynamicTypedGenerator<>(config.propertyClass());
         }
 
-        return PropertyMetadataImpl.builder().name(config.name())
-                .defaultValue(config.defaultValue())
-                .propertyAccessStrategy(config.propertyAccessStrategy())
-                .generator(generator)
-                .propertyClass(config.propertyClass())
-                .propertyMemberInfo(config.propertyMemberInfo())
-                .collectionType(config.collectionType())
-                .assertionStrategy(config.assertionStrategy())
+        return PropertyMetadataImpl.builder().name(config.name()).defaultValue(config.defaultValue())
+                .propertyAccessStrategy(config.propertyAccessStrategy()).generator(generator)
+                .propertyClass(config.propertyClass()).propertyMemberInfo(config.propertyMemberInfo())
+                .collectionType(config.collectionType()).assertionStrategy(config.assertionStrategy())
                 .propertyReadWrite(config.propertyReadWrite()).required(config.required()).build();
     }
 
     /**
-     * Simple helper, that create a map with with name as key for the given {@link PropertyMetadata}
+     * Simple helper, that create a map with with name as key for the given
+     * {@link PropertyMetadata}
      *
      * @param metadata if it is null or empty an empty {@link Map} will be returned.
      * @return a map with with name as key for the given {@link PropertyMetadata}
      */
-    public static final Map<String, PropertyMetadata> toMapView(
-            final Collection<PropertyMetadata> metadata) {
+    public static final Map<String, PropertyMetadata> toMapView(final Collection<PropertyMetadata> metadata) {
         final Map<String, PropertyMetadata> map = new HashMap<>();
         if (null == metadata) {
             return map;
@@ -215,13 +207,13 @@ public class PropertyHelper {
     /**
      * Handles the white- / black-list for the given parameter {@link Collection}
      *
-     * @param of must not be null
-     * @param exclude must not be null
+     * @param of            must not be null
+     * @param exclude       must not be null
      * @param givenMetadata must not be null
      * @return the filtered property map
      */
-    public static Map<String, PropertyMetadata> handleWhiteAndBlacklist(final String[] of,
-            final String[] exclude, final Collection<PropertyMetadata> givenMetadata) {
+    public static Map<String, PropertyMetadata> handleWhiteAndBlacklist(final String[] of, final String[] exclude,
+            final Collection<PropertyMetadata> givenMetadata) {
         var map = PropertyHelper.toMapView(givenMetadata);
         if (of.length != 0) {
             // Whitelist takes precedence
@@ -241,21 +233,20 @@ public class PropertyHelper {
     }
 
     /**
-     * Handles the white- / black-list for the given parameter map. This variant returns a list with
-     * the exact order of the given list
+     * Handles the white- / black-list for the given parameter map. This variant
+     * returns a list with the exact order of the given list
      *
-     * @param of must not be null
-     * @param exclude must not be null
+     * @param of            must not be null
+     * @param exclude       must not be null
      * @param givenMetadata is it is null or empty an empty list will be returned.
      * @return the filtered properties
      */
-    public static List<PropertyMetadata> handleWhiteAndBlacklistAsList(final String[] of,
-            final String[] exclude, final List<PropertyMetadata> givenMetadata) {
+    public static List<PropertyMetadata> handleWhiteAndBlacklistAsList(final String[] of, final String[] exclude,
+            final List<PropertyMetadata> givenMetadata) {
         if (null == givenMetadata || givenMetadata.isEmpty()) {
             return Collections.emptyList();
         }
-        final var map =
-            handleWhiteAndBlacklist(of, exclude, givenMetadata);
+        final var map = handleWhiteAndBlacklist(of, exclude, givenMetadata);
         final var builder = new CollectionBuilder<PropertyMetadata>();
         for (final PropertyMetadata meta : givenMetadata) {
             if (map.containsKey(meta.getName())) {
@@ -266,13 +257,13 @@ public class PropertyHelper {
     }
 
     /**
-     * Simple assertions indicating that the property identified by the name exists in the given map
+     * Simple assertions indicating that the property identified by the name exists
+     * in the given map
      *
      * @param name must no be null
-     * @param map must no be null
+     * @param map  must no be null
      */
-    public static void assertPropertyExists(final String name,
-            final Map<String, PropertyMetadata> map) {
+    public static void assertPropertyExists(final String name, final Map<String, PropertyMetadata> map) {
         if (!map.containsKey(name)) {
             throw new IllegalArgumentException("'" + name + "'"
                     + " is not a configured property within the given properties, check your configuration");
@@ -280,13 +271,13 @@ public class PropertyHelper {
     }
 
     /**
-     * Simple assertions indicating that the property identified by the name exists in the given Set
+     * Simple assertions indicating that the property identified by the name exists
+     * in the given Set
      *
-     * @param name must no be null
+     * @param name          must no be null
      * @param givenMetadata must no be null
      */
-    public static void assertPropertyExists(final String name,
-            final SortedSet<PropertyMetadata> givenMetadata) {
+    public static void assertPropertyExists(final String name, final SortedSet<PropertyMetadata> givenMetadata) {
         final Map<String, PropertyMetadata> map = new HashMap<>();
         givenMetadata.forEach(meta -> map.put(meta.getName(), meta));
         assertPropertyExists(name, map);

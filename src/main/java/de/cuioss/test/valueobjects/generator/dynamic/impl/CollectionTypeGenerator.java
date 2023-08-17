@@ -23,11 +23,11 @@ public class CollectionTypeGenerator<T> implements TypedGenerator<T> {
     @SuppressWarnings("unchecked")
     @Override
     public T next() {
-        return (T) this.collectionType.emptyCollection();
+        return (T) collectionType.emptyCollection();
     }
 
     @Override
     public Class<T> getType() {
-        return this.type;
+        return type;
     }
 }

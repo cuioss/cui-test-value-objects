@@ -5,8 +5,7 @@ import java.io.Serializable;
 import de.cuioss.test.valueobjects.api.generator.PropertyGeneratorHint;
 
 @SuppressWarnings("javadoc")
-@PropertyGeneratorHint(declaredType = Serializable.class,
-        implementationType = Integer.class)
+@PropertyGeneratorHint(declaredType = Serializable.class, implementationType = Integer.class)
 public class GeneratorHintSingleAnnotation {
 
 }

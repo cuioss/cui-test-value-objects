@@ -15,10 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @SuppressWarnings("javadoc")
-@VerifyFactoryMethod(factoryMethodName = "create",
-        of = "attribute")
-@VerifyFactoryMethod(factoryMethodName = "create",
-        of = {})
+@VerifyFactoryMethod(factoryMethodName = "create", of = "attribute")
+@VerifyFactoryMethod(factoryMethodName = "create", of = {})
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
@@ -26,12 +24,10 @@ public class TwoFactoryBean implements Serializable {
 
     private static final long serialVersionUID = 4539639907656084561L;
 
-    public static final PropertyMetadata ATTRIBUTE =
-        PropertyMetadataImpl.builder().name("attribute").propertyClass(String.class)
-                .generator(Generators.nonEmptyStrings()).build();
+    public static final PropertyMetadata ATTRIBUTE = PropertyMetadataImpl.builder().name("attribute")
+            .propertyClass(String.class).generator(Generators.nonEmptyStrings()).build();
 
-    public static final RuntimeProperties INFORMATION =
-        new RuntimeProperties(immutableList(ATTRIBUTE));
+    public static final RuntimeProperties INFORMATION = new RuntimeProperties(immutableList(ATTRIBUTE));
 
     public static final String CREATE_METHOD_NAME = "create";
 

@@ -29,10 +29,10 @@ public class SimpleConstructor {
     private final List<String> attribute5;
 
     public SimpleConstructor() {
-        this.attribute1 = null;
-        this.attribute2 = null;
-        this.attribute3 = 0;
-        this.attribute4 = false;
-        this.attribute5 = null;
+        attribute1 = null;
+        attribute2 = null;
+        attribute3 = 0;
+        attribute4 = false;
+        attribute5 = null;
     }
 }

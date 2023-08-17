@@ -3,8 +3,8 @@ package de.cuioss.test.valueobjects.objects;
 import de.cuioss.test.valueobjects.objects.impl.DefaultInstantiator;
 
 /**
- * An {@link ObjectInstantiator} creates objects without further parameter, e.g. the
- * {@link DefaultInstantiator} uses the Default-Constructor
+ * An {@link ObjectInstantiator} creates objects without further parameter, e.g.
+ * the {@link DefaultInstantiator} uses the Default-Constructor
  *
  * @author Oliver Wolff
  * @param <T>

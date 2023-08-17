@@ -41,32 +41,32 @@ import lombok.AccessLevel;
 import lombok.Getter;
 
 /**
- * Allows to test a mapper implementing a {@link Function} to map a (pseudo-)DTO object based on
- * whatever technology (FHIR, ...) to a DTO object. The actual test-method is
- * {@link #verifyMapper()}. The mapper-test-configuration is defined with
- * {@link VerifyMapperConfiguration}
+ * Allows to test a mapper implementing a {@link Function} to map a (pseudo-)DTO
+ * object based on whatever technology (FHIR, ...) to a DTO object. The actual
+ * test-method is {@link #verifyMapper()}. The mapper-test-configuration is
+ * defined with {@link VerifyMapperConfiguration}
  *
- * For simple uses-case, like well designed beans there is no special configuration needed
+ * For simple uses-case, like well designed beans there is no special
+ * configuration needed
  * <ul>
- * <li>
- * In case the mapper needs to be configured in a special way (not using the default constructor)
- * you can overwrite {@link #getUnderTest()}
- * </li>
- * <li>The metadata / creation of the <em>source</em> objects can be adjusted in multiple ways:
+ * <li>In case the mapper needs to be configured in a special way (not using the
+ * default constructor) you can overwrite {@link #getUnderTest()}</li>
+ * <li>The metadata / creation of the <em>source</em> objects can be adjusted in
+ * multiple ways:
  * <ul>
- * <li>{@link PropertyMetadata}: The annotations on class level affect the metadata for the
- * source-objects</li>
- * <li>{@link #resolveSourcePropertyMetadata()}: can be overwritten as an alternative for using
- * {@link PropertyMetadata} annotations
- * </li>
- * <li>{@link #getSourceInstantiator(RuntimeProperties)}: If not overwritten the default
- * implementation chooses the {@link BeanInstantiator} in order to generate source-objects.</li>
+ * <li>{@link PropertyMetadata}: The annotations on class level affect the
+ * metadata for the source-objects</li>
+ * <li>{@link #resolveSourcePropertyMetadata()}: can be overwritten as an
+ * alternative for using {@link PropertyMetadata} annotations</li>
+ * <li>{@link #getSourceInstantiator(RuntimeProperties)}: If not overwritten the
+ * default implementation chooses the {@link BeanInstantiator} in order to
+ * generate source-objects.</li>
  * </ul>
  * </li>
- * <li>The metadata <em>target</em> objects is derived by reflection. <em>Caution</em>: For more
- * complex objects that can not be created by the generator framework you must provide either a
- * {@link TypedGenerator}, see {@link GeneratorRegistry} or overwrite
- * {@link #anyTargetObject()}</li>
+ * <li>The metadata <em>target</em> objects is derived by reflection.
+ * <em>Caution</em>: For more complex objects that can not be created by the
+ * generator framework you must provide either a {@link TypedGenerator}, see
+ * {@link GeneratorRegistry} or overwrite {@link #anyTargetObject()}</li>
  * </ul>
  *
  * @author Oliver Wolff
@@ -88,7 +88,8 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
 
     /**
      * Reads the type information and fills the fields {@link #getMapperClass()},
-     * {@link #getSourceClass()}, {@link #getTargetClass()}. It runs it checks only once
+     * {@link #getSourceClass()}, {@link #getTargetClass()}. It runs it checks only
+     * once
      */
     @SuppressWarnings({ "unchecked" })
     protected void intializeTypeInformation() {
@@ -112,8 +113,8 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
     }
 
     /**
-     * Shorthand for calling {@link MapperTest#verifyMapper(PropertyReflectionConfig)} with
-     * {@code null}
+     * Shorthand for calling
+     * {@link MapperTest#verifyMapper(PropertyReflectionConfig)} with {@code null}
      */
     @Test
     public void verifyMapper() {
@@ -127,18 +128,18 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      */
     public void verifyMapper(PropertyReflectionConfig targetConfig) {
         intializeTypeInformation();
-        Optional<VerifyMapperConfiguration> config =
-            MoreReflection.extractAnnotation(getClass(), VerifyMapperConfiguration.class);
+        Optional<VerifyMapperConfiguration> config = MoreReflection.extractAnnotation(getClass(),
+                VerifyMapperConfiguration.class);
 
         assertTrue(config.isPresent(),
                 "The mapper test must be annotated with " + VerifyMapperConfiguration.class.getName());
 
         @SuppressWarnings("squid:S3655") // owolff: false positive, checked above
-        var processedSourceProperties =
-            AnnotationHelper.handleMetadataForMapperTest(config.get(), resolveSourcePropertyMetadata());
+        var processedSourceProperties = AnnotationHelper.handleMetadataForMapperTest(config.get(),
+                resolveSourcePropertyMetadata());
 
-        ParameterizedInstantiator<? extends S> sourceInstantiator =
-            getSourceInstantiator(new RuntimeProperties(processedSourceProperties));
+        ParameterizedInstantiator<? extends S> sourceInstantiator = getSourceInstantiator(
+                new RuntimeProperties(processedSourceProperties));
 
         var targetProperties = new RuntimeProperties(resolveTargetPropertyMetadata(targetConfig));
 
@@ -152,12 +153,12 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
     }
 
     /**
-     * Resolves the {@link PropertyMetadata} for the <em>source</em> objects by using reflection and
-     * the
-     * annotations {@link PropertyConfig} and / {@link PropertyConfigs} if provided.
+     * Resolves the {@link PropertyMetadata} for the <em>source</em> objects by
+     * using reflection and the annotations {@link PropertyConfig} and /
+     * {@link PropertyConfigs} if provided.
      *
-     * @return a {@link List} of {@link PropertyMetadata} defining the base line for the
-     *         configured attributes
+     * @return a {@link List} of {@link PropertyMetadata} defining the base line for
+     *         the configured attributes
      */
     public List<PropertyMetadata> resolveSourcePropertyMetadata() {
         intializeTypeInformation();
@@ -165,12 +166,13 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
     }
 
     /**
-     * Resolves the {@link PropertyMetadata} for the <em>target</em> objects by using reflection
+     * Resolves the {@link PropertyMetadata} for the <em>target</em> objects by
+     * using reflection
      *
      * @param config providing configuration, may be null
      *
-     * @return a {@link List} of {@link PropertyMetadata} defining the base line for the
-     *         configured attributes
+     * @return a {@link List} of {@link PropertyMetadata} defining the base line for
+     *         the configured attributes
      */
     public List<PropertyMetadata> resolveTargetPropertyMetadata(PropertyReflectionConfig config) {
         intializeTypeInformation();
@@ -180,8 +182,7 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
                     scanBeanTypeForProperties(anyTargetObject().getClass(), config));
             builder.addAll(handlePostProcessConfig(config, scanned));
         }
-        final var handled =
-            PropertyHelper.handlePrimitiveAsDefaults(PropertyHelper.toMapView(builder).values());
+        final var handled = PropertyHelper.handlePrimitiveAsDefaults(PropertyHelper.toMapView(builder).values());
         PropertyHelper.logMessageForTargetPropertyMetadata(handled);
         return immutableList(handled);
     }
@@ -189,9 +190,9 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
     /**
      * @return a target object to be used for reflection based resolving of
      *         {@link PropertyMetadata}. The default implementation uses the
-     *         {@link GeneratorRegistry} in order to instantiate a corresponding object. For more
-     *         complex objects you should add a corresponding {@link TypedGenerator}, see
-     *         {@link GeneratorRegistry}
+     *         {@link GeneratorRegistry} in order to instantiate a corresponding
+     *         object. For more complex objects you should add a corresponding
+     *         {@link TypedGenerator}, see {@link GeneratorRegistry}
      */
     public T anyTargetObject() {
         intializeTypeInformation();
@@ -199,10 +200,11 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
     }
 
     /**
-     * @param runtimeProperties to be used for creating the {@link ParameterizedInstantiator}
+     * @param runtimeProperties to be used for creating the
+     *                          {@link ParameterizedInstantiator}
      *
-     * @return the {@link ParameterizedInstantiator} to be used for instantiating source-object. If
-     *         not overwritten it default to the beanInstantiator
+     * @return the {@link ParameterizedInstantiator} to be used for instantiating
+     *         source-object. If not overwritten it default to the beanInstantiator
      */
     @SuppressWarnings("java:S1452") // owolff: using wildcards here is the only way
     public ParameterizedInstantiator<? extends S> getSourceInstantiator(RuntimeProperties runtimeProperties) {

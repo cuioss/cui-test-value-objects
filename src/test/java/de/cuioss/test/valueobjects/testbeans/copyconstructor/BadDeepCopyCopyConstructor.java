@@ -29,26 +29,18 @@ public class BadDeepCopyCopyConstructor implements Serializable {
 
     private static final long serialVersionUID = 741300814716513465L;
 
-    public static final PropertyMetadata ATTRIBUTE =
-        PropertyMetadataImpl.builder().name("attribute")
-                .generator(Generators.nonEmptyStrings())
-                .required(true).propertyClass(String.class)
-                .build();
+    public static final PropertyMetadata ATTRIBUTE = PropertyMetadataImpl.builder().name("attribute")
+            .generator(Generators.nonEmptyStrings()).required(true).propertyClass(String.class).build();
 
-    public static final PropertyMetadata DATE =
-        PropertyMetadataImpl.builder().name("date")
-                .generator(Generators.localDateTimes())
-                .required(true).propertyClass(LocalDateTime.class)
-                .build();
+    public static final PropertyMetadata DATE = PropertyMetadataImpl.builder().name("date")
+            .generator(Generators.localDateTimes()).required(true).propertyClass(LocalDateTime.class).build();
 
     public static final List<PropertyMetadata> ATTRIBUTE_LIST = immutableList(ATTRIBUTE, DATE);
 
-    public static final RuntimeProperties RUNTIME_PROPERTIES =
-        new RuntimeProperties(ATTRIBUTE_LIST);
+    public static final RuntimeProperties RUNTIME_PROPERTIES = new RuntimeProperties(ATTRIBUTE_LIST);
 
-    public static final TestContract<BadDeepCopyCopyConstructor> MOCK_INSTANTIATOR_CONTRACT =
-        new MockTestContract<>(new ConstructorBasedInstantiator<>(
-                BadDeepCopyCopyConstructor.class, RUNTIME_PROPERTIES));
+    public static final TestContract<BadDeepCopyCopyConstructor> MOCK_INSTANTIATOR_CONTRACT = new MockTestContract<>(
+            new ConstructorBasedInstantiator<>(BadDeepCopyCopyConstructor.class, RUNTIME_PROPERTIES));
 
     @Getter
     @NonNull

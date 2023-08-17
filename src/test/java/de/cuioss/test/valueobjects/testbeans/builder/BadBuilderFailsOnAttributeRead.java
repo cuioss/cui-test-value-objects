@@ -17,8 +17,7 @@ public class BadBuilderFailsOnAttributeRead {
     public static class BadBuilderFailsOnAttributeReadBuilder {
 
         @SuppressWarnings("unused")
-        public BadBuilderFailsOnAttributeReadBuilder attributeName(
-                final String attribute) {
+        public BadBuilderFailsOnAttributeReadBuilder attributeName(final String attribute) {
             return this;
         }
 
@@ -31,7 +30,7 @@ public class BadBuilderFailsOnAttributeRead {
         return new BadBuilderFailsOnAttributeReadBuilder();
     }
 
-    public static final List<PropertyMetadata> METADATA =
-        immutableList(JavaTypesGenerator.STRINGS.metadata("attributeName"));
+    public static final List<PropertyMetadata> METADATA = immutableList(
+            JavaTypesGenerator.STRINGS.metadata("attributeName"));
 
 }

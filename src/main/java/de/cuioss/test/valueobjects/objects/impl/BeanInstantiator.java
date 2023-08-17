@@ -34,10 +34,9 @@ public class BeanInstantiator<T> implements ParameterizedInstantiator<T> {
     private final RuntimeProperties runtimeProperties;
 
     @Override
-    public T newInstance(final List<PropertySupport> properties,
-            final boolean generatePropertyValues) {
+    public T newInstance(final List<PropertySupport> properties, final boolean generatePropertyValues) {
         assertNotNull(properties, PROPERTIES_MUST_NOT_BE_NULL);
-        final var instance = this.instantiator.newInstance();
+        final var instance = instantiator.newInstance();
         if (generatePropertyValues) {
             properties.forEach(PropertySupport::generateTestValue);
         }
@@ -55,25 +54,23 @@ public class BeanInstantiator<T> implements ParameterizedInstantiator<T> {
     @Override
     public T newInstance(final List<PropertyMetadata> properties) {
         assertNotNull(properties, PROPERTIES_MUST_NOT_BE_NULL);
-        return newInstance(properties.stream().map(PropertySupport::new)
-                .collect(Collectors.toList()), true);
+        return newInstance(properties.stream().map(PropertySupport::new).collect(Collectors.toList()), true);
     }
 
     @Override
     public T newInstanceMinimal() {
-        return newInstance(this.runtimeProperties.getRequiredProperties());
+        return newInstance(runtimeProperties.getRequiredProperties());
     }
 
     @Override
     public T newInstanceFull() {
-        return newInstance(this.runtimeProperties.getAdditionalProperties());
+        return newInstance(runtimeProperties.getAdditionalProperties());
     }
 
     @Override
     public String toString() {
         final var builder = new StringBuilder(getClass().getName());
-        builder.append("\nProperty Configuration: ")
-                .append(this.runtimeProperties.toString());
+        builder.append("\nProperty Configuration: ").append(runtimeProperties.toString());
         return builder.toString();
     }
 }

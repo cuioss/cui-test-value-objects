@@ -34,8 +34,8 @@ class CopyConstructorContractImplTest {
         TypedGeneratorRegistry.registerBasicTypes();
     }
 
-    private static final List<TestContract<OneRequiredFieldCopyConstructor>> MOCK_CONTRACT =
-        immutableList(OneRequiredFieldCopyConstructor.MOCK_INSTANTIATOR_CONTRACT);
+    private static final List<TestContract<OneRequiredFieldCopyConstructor>> MOCK_CONTRACT = immutableList(
+            OneRequiredFieldCopyConstructor.MOCK_INSTANTIATOR_CONTRACT);
 
     @Test
     void shouldDetermineContractCorrectly() {
@@ -48,7 +48,7 @@ class CopyConstructorContractImplTest {
                 immutableList(InterfaceCopyConstructor.MOCK_INSTANTIATOR_CONTRACT)).isPresent());
         assertTrue(createTestContract(BadCopyConstructor.class, BadCopyConstructor.class,
                 BadCopyConstructor.ATTRIBUTE_LIST, immutableList(BadCopyConstructor.MOCK_INSTANTIATOR_CONTRACT))
-                        .isPresent());
+                .isPresent());
         assertTrue(createTestContract(DeepCopyCopyConstructor.class, DeepCopyCopyConstructor.class,
                 DeepCopyCopyConstructor.ATTRIBUTE_LIST,
                 immutableList(DeepCopyCopyConstructor.MOCK_INSTANTIATOR_CONTRACT)).isPresent());
@@ -71,9 +71,8 @@ class CopyConstructorContractImplTest {
 
     @Test
     void shouldFailToAssertInvalidType() {
-        var contract =
-            createTestContract(BadCopyConstructor.class, BadCopyConstructor.class, BadCopyConstructor.ATTRIBUTE_LIST,
-                    immutableList(BadCopyConstructor.MOCK_INSTANTIATOR_CONTRACT)).get();
+        var contract = createTestContract(BadCopyConstructor.class, BadCopyConstructor.class,
+                BadCopyConstructor.ATTRIBUTE_LIST, immutableList(BadCopyConstructor.MOCK_INSTANTIATOR_CONTRACT)).get();
         assertThrows(AssertionError.class, () -> contract.assertContract());
     }
 
@@ -86,18 +85,16 @@ class CopyConstructorContractImplTest {
 
     @Test
     void shouldDetectInvalidDeepCopy() {
-        var contract =
-            createTestContract(BadDeepCopyCopyConstructor.class, BadDeepCopyCopyConstructor.class,
-                    BadDeepCopyCopyConstructor.ATTRIBUTE_LIST,
-                    immutableList(BadDeepCopyCopyConstructor.MOCK_INSTANTIATOR_CONTRACT)).get();
+        var contract = createTestContract(BadDeepCopyCopyConstructor.class, BadDeepCopyCopyConstructor.class,
+                BadDeepCopyCopyConstructor.ATTRIBUTE_LIST,
+                immutableList(BadDeepCopyCopyConstructor.MOCK_INSTANTIATOR_CONTRACT)).get();
         assertThrows(AssertionError.class, () -> contract.assertContract());
     }
 
     @Test
     void shouldHandleReadOnlyCopy() {
-        var contract =
-            createTestContract(MockWithReadOnly.class, MockWithReadOnly.class, MockWithReadOnly.ATTRIBUTE_LIST,
-                    immutableList(MockWithReadOnly.MOCK_INSTANTIATOR_CONTRACT)).get();
+        var contract = createTestContract(MockWithReadOnly.class, MockWithReadOnly.class,
+                MockWithReadOnly.ATTRIBUTE_LIST, immutableList(MockWithReadOnly.MOCK_INSTANTIATOR_CONTRACT)).get();
         assertThrows(AssertionError.class, () -> contract.assertContract());
     }
 }

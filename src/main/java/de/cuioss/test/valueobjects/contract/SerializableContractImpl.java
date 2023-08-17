@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
 import de.cuioss.test.valueobjects.api.object.ObjectTestContract;
@@ -25,9 +24,9 @@ import de.cuioss.tools.logging.CuiLogger;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Tests whether the object in hand implements {@link Serializable} and than serializes /
- * deserializes the object, and compares the newly created object with the original by using
- * {@link Object#equals(Object)}
+ * Tests whether the object in hand implements {@link Serializable} and than
+ * serializes / deserializes the object, and compares the newly created object
+ * with the original by using {@link Object#equals(Object)}
  *
  * @author Oliver Wolff
  */
@@ -42,28 +41,25 @@ public class SerializableContractImpl implements ObjectTestContract {
         requireNonNull(instantiator);
 
         final var builder = new StringBuilder("Verifying ");
-        builder.append(getClass().getName()).append("\nWith configuration: ")
-                .append(instantiator.toString());
+        builder.append(getClass().getName()).append("\nWith configuration: ").append(instantiator.toString());
         log.info(builder.toString());
 
         var shouldUseEquals = checkForEqualsComparison(objectTestConfig);
 
         Object template = instantiator.newInstanceMinimal();
 
-        assertTrue(
-                template instanceof Serializable,
+        assertTrue(template instanceof Serializable,
                 template.getClass().getName() + " does not implement java.io.Serializable");
 
-        final var serializationFailedMessage =
-            template.getClass().getName() + " is not equal after serialization";
+        final var serializationFailedMessage = template.getClass().getName() + " is not equal after serialization";
         var serializeAndDeserialize = serializeAndDeserialize(template);
         if (shouldUseEquals) {
             assertEquals(template, serializeAndDeserialize, serializationFailedMessage);
         }
         if (!checkTestBasicOnly(objectTestConfig)
                 && !instantiator.getRuntimeProperties().getWritableProperties().isEmpty()) {
-            var properties =
-                filterProperties(instantiator.getRuntimeProperties().getWritableProperties(), objectTestConfig);
+            var properties = filterProperties(instantiator.getRuntimeProperties().getWritableProperties(),
+                    objectTestConfig);
             template = instantiator.newInstance(properties);
             serializeAndDeserialize = serializeAndDeserialize(template);
             if (shouldUseEquals) {
@@ -84,11 +80,9 @@ public class SerializableContractImpl implements ObjectTestContract {
             consideredAttributes.clear();
             consideredAttributes.addAll(Arrays.asList(objectTestConfig.serializableOf()));
         } else {
-            consideredAttributes
-                    .removeAll(Arrays.asList(objectTestConfig.serializableExclude()));
+            consideredAttributes.removeAll(Arrays.asList(objectTestConfig.serializableExclude()));
         }
-        return allProperties.stream().filter(p -> consideredAttributes.contains(p.getName()))
-                .collect(Collectors.toList());
+        return allProperties.stream().filter(p -> consideredAttributes.contains(p.getName())).toList();
     }
 
     static boolean checkForEqualsComparison(final ObjectTestConfig objectTestConfig) {
@@ -115,8 +109,7 @@ public class SerializableContractImpl implements ObjectTestContract {
     /**
      * Serializes an object into a newly created byteArray
      *
-     * @param object
-     *            to be serialized
+     * @param object to be serialized
      * @return the resulting byte array
      */
     public static final byte[] serializeObject(final Object object) {
@@ -126,8 +119,8 @@ public class SerializableContractImpl implements ObjectTestContract {
             oas.writeObject(object);
             oas.flush();
         } catch (final Exception e) {
-            throw new AssertionError("Unable to serialize, due to "
-                    + ExceptionHelper.extractCauseMessageFromThrowable(e));
+            throw new AssertionError(
+                    "Unable to serialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
         }
         return baos.toByteArray();
     }
@@ -135,8 +128,7 @@ public class SerializableContractImpl implements ObjectTestContract {
     /**
      * Deserializes an object from a given byte-array
      *
-     * @param bytes
-     *            to be deserialized
+     * @param bytes to be deserialized
      * @return the deserialized object
      */
     public static final Object deserializeObject(final byte[] bytes) {
@@ -145,8 +137,8 @@ public class SerializableContractImpl implements ObjectTestContract {
         try (var ois = new ObjectInputStream(bais)) {
             return ois.readObject();
         } catch (final Exception e) {
-            throw new AssertionError("Unable to deserialize, due to "
-                    + ExceptionHelper.extractCauseMessageFromThrowable(e));
+            throw new AssertionError(
+                    "Unable to deserialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
         }
     }
 

@@ -21,20 +21,22 @@ import lombok.RequiredArgsConstructor;
 public enum ObjectTestContracts {
 
     /**
-     * Tests the existence and correct implementation of the {@link Object#equals(Object)} and
-     * {@link Object#hashCode()} at the level of the concrete Object.
+     * Tests the existence and correct implementation of the
+     * {@link Object#equals(Object)} and {@link Object#hashCode()} at the level of
+     * the concrete Object.
      */
     EQUALS_AND_HASHCODE(EqualsAndHashcodeContractImpl.class),
 
     /**
-     * Tests the existence and correct implementation of {@link Object#toString()} at the level of
-     * the concrete Object.
+     * Tests the existence and correct implementation of {@link Object#toString()}
+     * at the level of the concrete Object.
      */
     TO_STRING(ToStringContractImpl.class),
 
     /**
-     * Tests whether the object under test is {@link Serializable} by first checking whether the
-     * object implements {@link Serializable} and than actually serializing and deserializing it.
+     * Tests whether the object under test is {@link Serializable} by first checking
+     * whether the object implements {@link Serializable} and than actually
+     * serializing and deserializing it.
      */
     SERIALIZABLE(SerializableContractImpl.class);
 
@@ -49,6 +51,6 @@ public enum ObjectTestContracts {
     }
 
     /** Identifies the contract that are specific to Object contracts. */
-    public static final Set<ObjectTestContracts> OBJECT_CONTRACTS =
-        immutableSet(EQUALS_AND_HASHCODE, SERIALIZABLE, TO_STRING);
+    public static final Set<ObjectTestContracts> OBJECT_CONTRACTS = immutableSet(EQUALS_AND_HASHCODE, SERIALIZABLE,
+            TO_STRING);
 }

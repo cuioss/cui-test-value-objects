@@ -12,8 +12,8 @@ import de.cuioss.test.valueobjects.objects.TestObjectProvider;
  * {@link Object#equals(Object)} and {@link Object#hashCode()}
  *
  * @author Oliver Wolff
- * @param <T> identifying the type to be tested is usually but not necessarily at least
- *            Serializable.
+ * @param <T> identifying the type to be tested is usually but not necessarily
+ *            at least Serializable.
  *
  */
 public interface ShouldImplementToString<T> extends TestObjectProvider<T> {

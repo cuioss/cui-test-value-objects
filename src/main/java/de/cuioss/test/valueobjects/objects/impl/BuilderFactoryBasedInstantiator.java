@@ -13,8 +13,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * Used for creating instances of a builder. This variant relies on a factory method on the target
- * type usually with the name "builder". See
+ * Used for creating instances of a builder. This variant relies on a factory
+ * method on the target type usually with the name "builder". See
  * {@link BuilderFactoryBasedInstantiator#BuilderFactoryBasedInstantiator(Class, String, String)}
  * for details
  *
@@ -24,8 +24,7 @@ import lombok.ToString;
 @ToString
 public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T> {
 
-    private static final String UNABLE_TO_ACCESS_METHOD =
-        "Unable to access method %s on type %s, due to %s";
+    private static final String UNABLE_TO_ACCESS_METHOD = "Unable to access method %s on type %s, due to %s";
 
     private static final CuiLogger log = new CuiLogger(BuilderFactoryBasedInstantiator.class);
 
@@ -39,12 +38,13 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
     private final Class<?> builderClass;
 
     /**
-     * Constructor.
-     * shortcut for calling {@link #BuilderFactoryBasedInstantiator(Class, String, String)} with
+     * Constructor. shortcut for calling
+     * {@link #BuilderFactoryBasedInstantiator(Class, String, String)} with
      * {@link BuilderContractImpl#DEFAULT_BUILDER_FACTORY_METHOD_NAME} and
      * {@value BuilderContractImpl#DEFAULT_BUILD_METHOD_NAME}
      *
-     * @param enclosingType identifying the type where the method is located in, must not be null.
+     * @param enclosingType identifying the type where the method is located in,
+     *                      must not be null.
      */
     public BuilderFactoryBasedInstantiator(final Class<?> enclosingType) {
         this(enclosingType, BuilderContractImpl.DEFAULT_BUILDER_FACTORY_METHOD_NAME,
@@ -54,36 +54,37 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
     /**
      * Constructor.
      *
-     * @param enclosingType identifying the type where the method is located in, must not be null.
-     * @param builderFactoryMethodName The name of the factory method on the enclosing type. It is
-     *            assumed that it is parameter-free static method
-     * @param builderMethodName the actual name or the builder-method
+     * @param enclosingType            identifying the type where the method is
+     *                                 located in, must not be null.
+     * @param builderFactoryMethodName The name of the factory method on the
+     *                                 enclosing type. It is assumed that it is
+     *                                 parameter-free static method
+     * @param builderMethodName        the actual name or the builder-method
      */
     @SuppressWarnings("unchecked")
-    public BuilderFactoryBasedInstantiator(final Class<?> enclosingType,
-            final String builderFactoryMethodName, final String builderMethodName) {
+    public BuilderFactoryBasedInstantiator(final Class<?> enclosingType, final String builderFactoryMethodName,
+            final String builderMethodName) {
 
         requireNonNull(enclosingType, "enclosingType must not be null");
         requireNonNull(builderMethodName, "builderMethodName must not be null");
         requireNonNull(builderFactoryMethodName, "builderFactoryMethodName must not be null");
 
         try {
-            this.builderFactoryMethod = enclosingType.getDeclaredMethod(builderFactoryMethodName);
-            this.builderClass = this.builderFactoryMethod.getReturnType();
+            builderFactoryMethod = enclosingType.getDeclaredMethod(builderFactoryMethodName);
+            builderClass = builderFactoryMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
-            final var message = String.format(UNABLE_TO_ACCESS_METHOD,
-                    builderFactoryMethodName, enclosingType.getName(),
-                    extractCauseMessageFromThrowable(e));
+            final var message = String.format(UNABLE_TO_ACCESS_METHOD, builderFactoryMethodName,
+                    enclosingType.getName(), extractCauseMessageFromThrowable(e));
             log.error(message, e);
             throw new AssertionError(message, e);
         }
 
         try {
-            this.builderMethod = this.builderClass.getDeclaredMethod(builderMethodName);
-            this.targetClass = (Class<T>) this.builderMethod.getReturnType();
+            builderMethod = builderClass.getDeclaredMethod(builderMethodName);
+            targetClass = (Class<T>) builderMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
-            final var message = String.format(UNABLE_TO_ACCESS_METHOD,
-                    builderMethodName, this.builderClass, extractCauseMessageFromThrowable(e));
+            final var message = String.format(UNABLE_TO_ACCESS_METHOD, builderMethodName, builderClass,
+                    extractCauseMessageFromThrowable(e));
             log.error(message, e);
             throw new AssertionError(message, e);
         }
@@ -93,10 +94,9 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
     @Override
     public Object newBuilderInstance() {
         try {
-            return this.builderFactoryMethod.invoke(null);
+            return builderFactoryMethod.invoke(null);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            final var message = String.format(UNABLE_TO_ACCESS_METHOD,
-                    this.builderFactoryMethod.getName(), targetClass,
+            final var message = String.format(UNABLE_TO_ACCESS_METHOD, builderFactoryMethod.getName(), targetClass,
                     extractCauseMessageFromThrowable(e));
             log.error(message, e);
             throw new AssertionError(message, e);
@@ -107,10 +107,9 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
     @Override
     public T build(final Object builder) {
         try {
-            return (T) this.builderMethod.invoke(builder);
+            return (T) builderMethod.invoke(builder);
         } catch (IllegalAccessException | InvocationTargetException | RuntimeException e) {
-            final var message = String.format(UNABLE_TO_ACCESS_METHOD,
-                    this.builderMethod.getName(), this.builderClass.getName(),
+            final var message = String.format(UNABLE_TO_ACCESS_METHOD, builderMethod.getName(), builderClass.getName(),
                     extractCauseMessageFromThrowable(e));
             log.debug(message, e);
             throw new AssertionError(message, e);

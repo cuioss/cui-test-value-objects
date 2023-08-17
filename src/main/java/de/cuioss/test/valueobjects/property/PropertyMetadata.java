@@ -11,8 +11,8 @@ import de.cuioss.tools.property.PropertyMemberInfo;
 import de.cuioss.tools.property.PropertyReadWrite;
 
 /**
- * Represents runtime information for a certain property. This contains all metadata that may be
- * needed.
+ * Represents runtime information for a certain property. This contains all
+ * metadata that may be needed.
  *
  * @author Oliver Wolff
  */
@@ -27,17 +27,18 @@ public interface PropertyMetadata extends Comparable<PropertyMetadata> {
 
     /**
      * @return the type of the property. This can either be the actual type, in case
-     *         {@link #getCollectionType()} is {@link CollectionType#NO_ITERABLE}, the
-     *         component-type in case of {@link CollectionType#ARRAY_MARKER} or the type argument
-     *         for a collection for the other {@link CollectionType}s, see {@link #next()} and
+     *         {@link #getCollectionType()} is {@link CollectionType#NO_ITERABLE},
+     *         the component-type in case of {@link CollectionType#ARRAY_MARKER} or
+     *         the type argument for a collection for the other
+     *         {@link CollectionType}s, see {@link #next()} and
      *         {@link #resolveActualClass()}
      */
     Class<?> getPropertyClass();
 
     /**
-     * Generates a next random value
-     * Similar to {@link TypedGenerator#next()} but in case there is a {@link #getCollectionType()}
-     * that is not {@link CollectionType#NO_ITERABLE} it wraps the content of the contained
+     * Generates a next random value Similar to {@link TypedGenerator#next()} but in
+     * case there is a {@link #getCollectionType()} that is not
+     * {@link CollectionType#NO_ITERABLE} it wraps the content of the contained
      * generator into a the corresponding collectionWrapper, see
      * {@link CollectionType#nextIterable(CollectionGenerator)}
      *
@@ -46,14 +47,16 @@ public interface PropertyMetadata extends Comparable<PropertyMetadata> {
     Object next();
 
     /**
-     * @return The actual class of the property. PropertyMetadata can always be used directly or the
-     *         data can be implicitly wrapped into a collection or an array. This method computes
-     *         the actual class of the property combining both informations
+     * @return The actual class of the property. PropertyMetadata can always be used
+     *         directly or the data can be implicitly wrapped into a collection or
+     *         an array. This method computes the actual class of the property
+     *         combining both informations
      */
     Class<?> resolveActualClass();
 
     /**
-     * @return a new instance of {@link CollectionGenerator} wrapping the contained generator;
+     * @return a new instance of {@link CollectionGenerator} wrapping the contained
+     *         generator;
      */
     @SuppressWarnings("squid:S1452") // owolff: No type information available at this level,
                                      // therefore the wildcard is needed
@@ -67,14 +70,16 @@ public interface PropertyMetadata extends Comparable<PropertyMetadata> {
     TypedGenerator<?> getGenerator();
 
     /**
-     * @return boolean indicating whether the attribute defines a default-value. Default is false.
+     * @return boolean indicating whether the attribute defines a default-value.
+     *         Default is false.
      */
     boolean isDefaultValue();
 
     /**
      * Indicates that the attribute is required.
      *
-     * @return boolean indicating whether the attribute is required, defaults to false.
+     * @return boolean indicating whether the attribute is required, defaults to
+     *         false.
      */
     boolean isRequired();
 
@@ -87,18 +92,21 @@ public interface PropertyMetadata extends Comparable<PropertyMetadata> {
     PropertyAccessStrategy getPropertyAccessStrategy();
 
     /**
-     * In case there is a collectionWrapper defined the generated values will implicitly wrapped
-     * in the corresponding collection class defined by that wrapper.
+     * In case there is a collectionWrapper defined the generated values will
+     * implicitly wrapped in the corresponding collection class defined by that
+     * wrapper.
      *
-     * @return the {@link CollectionType} represented by this {@link PropertyMetadata}. Must never
-     *         be null but may be {@link CollectionType#NO_ITERABLE}
+     * @return the {@link CollectionType} represented by this
+     *         {@link PropertyMetadata}. Must never be null but may be
+     *         {@link CollectionType#NO_ITERABLE}
      */
     CollectionType getCollectionType();
 
     /**
-     * Indicates the way the corresponding property is subject to the contracts regarding the
-     * canonical Object methods like {@link Object#equals(Object)}, {@link Object#hashCode()} and
-     * {@link Object#toString()} and the {@link Serializable} contract. The default is
+     * Indicates the way the corresponding property is subject to the contracts
+     * regarding the canonical Object methods like {@link Object#equals(Object)},
+     * {@link Object#hashCode()} and {@link Object#toString()} and the
+     * {@link Serializable} contract. The default is
      * {@link PropertyMemberInfo#DEFAULT}
      *
      * @return the {@link PropertyMemberInfo}, must never be null
@@ -106,8 +114,8 @@ public interface PropertyMetadata extends Comparable<PropertyMetadata> {
     PropertyMemberInfo getPropertyMemberInfo();
 
     /**
-     * @return {@link PropertyReadWrite} indicating whether a property can be read or written too,
-     *         defaults to {@link PropertyReadWrite#READ_WRITE}
+     * @return {@link PropertyReadWrite} indicating whether a property can be read
+     *         or written too, defaults to {@link PropertyReadWrite#READ_WRITE}
      */
     PropertyReadWrite getPropertyReadWrite();
 
@@ -115,7 +123,8 @@ public interface PropertyMetadata extends Comparable<PropertyMetadata> {
      * Defines the the way how to deal with equality regarding
      * PropertySupport.assertValueSet(Object)
      *
-     * @return the {@link AssertionStrategy}, defaults to {@link AssertionStrategy#DEFAULT}
+     * @return the {@link AssertionStrategy}, defaults to
+     *         {@link AssertionStrategy#DEFAULT}
      */
     AssertionStrategy getAssertionStrategy();
 

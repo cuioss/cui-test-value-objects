@@ -42,7 +42,8 @@ class PropertyHelperTest {
         TypedGeneratorRegistry.clear();
     }
 
-    // Tests for de.cuioss.test.valueobjects.util.AnnotationHelper.handlePropertyConfigAnnotations
+    // Tests for
+    // de.cuioss.test.valueobjects.util.AnnotationHelper.handlePropertyConfigAnnotations
     @Test
     void handlePropertyConfigAnnotationsShouldHandleMissingAnnotation() {
         assertTrue(handlePropertyConfigAnnotations(ClassWithOneVeto.class).isEmpty());
@@ -53,8 +54,7 @@ class PropertyHelperTest {
         TypedGeneratorRegistry.registerBasicTypes();
         assertEquals(1, handlePropertyConfigAnnotations(PropertyConfigMinimal.class).size());
         assertEquals(2, handlePropertyConfigAnnotations(PropertyConfigMultiple.class).size());
-        var propertyClassAndGenerator =
-            handlePropertyConfigAnnotations(PropertyConfigPropertyClassAndGenerator.class);
+        var propertyClassAndGenerator = handlePropertyConfigAnnotations(PropertyConfigPropertyClassAndGenerator.class);
         assertEquals(1, propertyClassAndGenerator.size());
         var config = propertyClassAndGenerator.iterator().next();
         assertEquals(Integer.class, config.getPropertyClass());
@@ -84,17 +84,16 @@ class PropertyHelperTest {
         TypedGeneratorRegistry.registerBasicTypes();
         final var metadata = handlePrimitiveAsDefaults(
                 mutableList(ReflectionHelper.scanBeanTypeForProperties(PropertyMetadataImpl.class, null)));
-        var resultList =
-            handleWhiteAndBlacklistAsList(new String[0], new String[0], new ArrayList<>(metadata));
+        var resultList = handleWhiteAndBlacklistAsList(new String[0], new String[0], new ArrayList<>(metadata));
         assertEquals(metadata.size(), resultList.size());
         // White-listing
-        resultList =
-            handleWhiteAndBlacklistAsList(new String[] { NAME_ATTRIBUTE }, new String[0], new ArrayList<>(metadata));
+        resultList = handleWhiteAndBlacklistAsList(new String[] { NAME_ATTRIBUTE }, new String[0],
+                new ArrayList<>(metadata));
         assertEquals(1, resultList.size());
         assertTrue(toMapView(resultList).containsKey(NAME_ATTRIBUTE));
         // Black-listing
-        resultList =
-            handleWhiteAndBlacklistAsList(new String[0], new String[] { NAME_ATTRIBUTE }, new ArrayList<>(metadata));
+        resultList = handleWhiteAndBlacklistAsList(new String[0], new String[] { NAME_ATTRIBUTE },
+                new ArrayList<>(metadata));
         assertEquals(metadata.size() - 1, resultList.size());
         assertFalse(toMapView(resultList).containsKey(NAME_ATTRIBUTE));
         TypedGeneratorRegistry.clear();

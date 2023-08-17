@@ -35,15 +35,13 @@ class DeepCopyTestHelperTest {
     void shouldDetectShallowCopyOnDateAttribute() {
         var a = any();
         var b = new TestClass(a.readOnly, a.readWrite, a.date, a.getList());
-        assertThrows(AssertionError.class,
-                () -> DeepCopyTestHelper.testDeepCopy(a, b));
+        assertThrows(AssertionError.class, () -> DeepCopyTestHelper.testDeepCopy(a, b));
     }
 
     @Test
     void shouldDetectSameObject() {
         var a = any();
-        assertThrows(AssertionError.class,
-                () -> DeepCopyTestHelper.testDeepCopy(a, a));
+        assertThrows(AssertionError.class, () -> DeepCopyTestHelper.testDeepCopy(a, a));
     }
 
     @AllArgsConstructor

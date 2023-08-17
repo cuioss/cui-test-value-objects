@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This Veto is used to exclude specific object types from tests using class path scanning, like
- * {@PortalNavigationMenuItemPackageTest}.
+ * This Veto is used to exclude specific object types from tests using class
+ * path scanning, like {@PortalNavigationMenuItemPackageTest}.
  *
  * @author Matthias Walliczek
  */
@@ -16,8 +16,8 @@ import java.lang.annotation.Target;
 public @interface VetoType {
 
     /**
-     * @return Array of classes that belong to classpath entries to make discoverable during
-     *         testing.
+     * @return Array of classes that belong to classpath entries to make
+     *         discoverable during testing.
      */
     Class<?>[] value();
 }

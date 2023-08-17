@@ -35,7 +35,9 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public final class ReflectionHelper {
 
-    /** Identifies the properties to be ignored. Currently only consisting of 'class' */
+    /**
+     * Identifies the properties to be ignored. Currently only consisting of 'class'
+     */
     @SuppressWarnings("squid:S2386") // owolff: False positive -> is immutable
     public static final Set<String> PROPERTY_IGNORE_SET = immutableSet("class");
 
@@ -44,26 +46,24 @@ public final class ReflectionHelper {
     /**
      * One stop method for the deriving of configured metadata
      *
-     * @param annotated must not be null
+     * @param annotated   must not be null
      * @param targetClass must not be null
-     * @return an immutable {@link List} of {@link PropertyMetadata} containing the result of the
-     *         actual scanning with {@link #scanBeanTypeForProperties(Class,
-     *         PropertyReflectionConfig)} and
-     *         {@link #handlePostProcess(Class, SortedSet)} and
+     * @return an immutable {@link List} of {@link PropertyMetadata} containing the
+     *         result of the actual scanning with
+     *         {@link #scanBeanTypeForProperties(Class, PropertyReflectionConfig)}
+     *         and {@link #handlePostProcess(Class, SortedSet)} and
      *         {@link PropertyHelper#handlePropertyConfigAnnotations(Class)} and
      *         {@link PropertyHelper#handlePrimitiveAsDefaults(Collection)}
      */
-    public static <T> List<PropertyMetadata> handlePropertyMetadata(
-            final Class<?> annotated, final Class<T> targetClass) {
+    public static <T> List<PropertyMetadata> handlePropertyMetadata(final Class<?> annotated,
+            final Class<T> targetClass) {
         requireNonNull(annotated);
         requireNonNull(targetClass);
 
         final List<PropertyMetadata> builder = new ArrayList<>();
         if (shouldScanClass(annotated)) {
-            final SortedSet<PropertyMetadata> scanned = new TreeSet<>(
-                    scanBeanTypeForProperties(targetClass, MoreReflection
-                            .extractAnnotation(annotated, PropertyReflectionConfig.class)
-                            .orElse(null)));
+            final SortedSet<PropertyMetadata> scanned = new TreeSet<>(scanBeanTypeForProperties(targetClass,
+                    MoreReflection.extractAnnotation(annotated, PropertyReflectionConfig.class).orElse(null)));
 
             builder.addAll(handlePostProcess(annotated, scanned));
         }
@@ -78,13 +78,13 @@ public final class ReflectionHelper {
      * One stop method for the deriving of configured metadata
      *
      * @param propertyReflectionConfig extracted from the target class, may be null.
-     * @param propertyConfig extracted from the target class, may be empty
+     * @param propertyConfig           extracted from the target class, may be empty
      *
-     * @param targetClass must not be null
-     * @return an immutable {@link List} of {@link PropertyMetadata} containing the result of the
-     *         actual scanning with {@link #scanBeanTypeForProperties(Class,
-     *         PropertyReflectionConfig)} and
-     *         {@link #handlePostProcess(Class, SortedSet)} and
+     * @param targetClass              must not be null
+     * @return an immutable {@link List} of {@link PropertyMetadata} containing the
+     *         result of the actual scanning with
+     *         {@link #scanBeanTypeForProperties(Class, PropertyReflectionConfig)}
+     *         and {@link #handlePostProcess(Class, SortedSet)} and
      *         {@link PropertyHelper#handlePropertyConfigAnnotations(Class)} and
      *         {@link PropertyHelper#handlePrimitiveAsDefaults(Collection)}
      */
@@ -105,13 +105,14 @@ public final class ReflectionHelper {
     }
 
     /**
-     * Uses {@link MoreReflection} to scan the concrete bean and describe the properties with
-     * fitting {@link PropertyMetadata}. Each property will contain the derived data for the
-     * attributes:
+     * Uses {@link MoreReflection} to scan the concrete bean and describe the
+     * properties with fitting {@link PropertyMetadata}. Each property will contain
+     * the derived data for the attributes:
      * <ul>
      * <li>{@link PropertyMetadata#getName()}</li>
-     * <li>{@link PropertyMetadata#getGenerator()} with the generator being dynamically resolved
-     * using {@link GeneratorResolver#resolveGenerator(Class)}</li>
+     * <li>{@link PropertyMetadata#getGenerator()} with the generator being
+     * dynamically resolved using
+     * {@link GeneratorResolver#resolveGenerator(Class)}</li>
      * <li>{@link PropertyMetadata#getPropertyReadWrite()}</li>
      * <li>{@link PropertyMetadata#getCollectionType()}</li>
      * <li>{@link PropertyMetadata#getPropertyMemberInfo()}</li>
@@ -123,12 +124,12 @@ public final class ReflectionHelper {
      * </ul>
      *
      * @param beanType to be checked by reflection
-     * @param config optional instance of {@link PropertyReflectionConfig} used for filtering the
-     *            scanning
+     * @param config   optional instance of {@link PropertyReflectionConfig} used
+     *                 for filtering the scanning
      * @return a {@link SortedSet} containing the result of the inspection
      */
-    public static SortedSet<PropertyMetadata> scanBeanTypeForProperties(
-            final Class<?> beanType, final PropertyReflectionConfig config) {
+    public static SortedSet<PropertyMetadata> scanBeanTypeForProperties(final Class<?> beanType,
+            final PropertyReflectionConfig config) {
         final Set<String> filter = new HashSet<>(PROPERTY_IGNORE_SET);
         if (null != config) {
             filter.addAll(Arrays.asList(config.exclude()));
@@ -139,23 +140,19 @@ public final class ReflectionHelper {
         for (Method method : MoreReflection.retrieveAccessMethods(beanType)) {
             var attributeName = MoreReflection.computePropertyNameFromMethodName(method.getName());
             if (filter.contains(attributeName)) {
-                log.debug("Filtering attribute '%s' for type '%s' as configured", attributeName,
-                        beanType);
+                log.debug("Filtering attribute '%s' for type '%s' as configured", attributeName, beanType);
                 continue;
             }
-            var holder = PropertyHolder.from(beanType,
-                    attributeName);
+            var holder = PropertyHolder.from(beanType, attributeName);
             if (!holder.isPresent()) {
-                log.info("Unable to extract metadata for type '%s' and method '%s'",
-                        beanType, method.getName());
+                log.info("Unable to extract metadata for type '%s' and method '%s'", beanType, method.getName());
             } else {
                 builder.add(holder.get());
             }
         }
 
         for (PropertyHolder holder : builder) {
-            found.add(
-                    createPropertyMetadata(beanType, holder));
+            found.add(createPropertyMetadata(beanType, holder));
         }
         return found.toImmutableNavigableSet();
     }
@@ -163,13 +160,12 @@ public final class ReflectionHelper {
     /**
      * Creates a {@link PropertyMetadata} for a given field.
      *
-     * @param beanType providing the property, must not be null
+     * @param beanType       providing the property, must not be null
      * @param propertyHolder identifying the property-metadata, must not be null
      * @return an instance of {@link PropertyMetadata} describing the field.
      * @throws IllegalArgumentException wrapping underlying reflection exceptions.
      */
-    public static PropertyMetadata createPropertyMetadata(final Class<?> beanType,
-            PropertyHolder propertyHolder) {
+    public static PropertyMetadata createPropertyMetadata(final Class<?> beanType, PropertyHolder propertyHolder) {
         requireNonNull(beanType);
         requireNonNull(propertyHolder);
 
@@ -179,102 +175,97 @@ public final class ReflectionHelper {
         final var field = MoreReflection.accessField(beanType, propertyHolder.getName());
 
         if (field.isPresent()) {
-            final var collectionTypeOption =
-                CollectionType.findResponsibleCollectionType(field.get().getType());
+            final var collectionTypeOption = CollectionType.findResponsibleCollectionType(field.get().getType());
             if (collectionTypeOption.isPresent()) {
                 collectionType = collectionTypeOption.get();
                 if (CollectionType.ARRAY_MARKER.equals(collectionType)) {
                     propertyType = field.get().getType().getComponentType();
                 } else {
-                    propertyType =
-                        extractParameterizedType(field.get(), (ParameterizedType) field.get().getGenericType());
+                    propertyType = extractParameterizedType(field.get(),
+                            (ParameterizedType) field.get().getGenericType());
                 }
             }
         }
         if (null == propertyType) {
-            throw new IllegalArgumentException(
-                    String.format("Unable to extract property '%s' on type '%s'",
-                            propertyHolder.getName(), beanType.getName()));
+            throw new IllegalArgumentException(String.format("Unable to extract property '%s' on type '%s'",
+                    propertyHolder.getName(), beanType.getName()));
         }
         var defaultValued = propertyType.isPrimitive();
         if (defaultValued && CollectionType.ARRAY_MARKER.equals(collectionType)) {
             defaultValued = false;
         }
-        return PropertyMetadataImpl.builder().name(propertyHolder.getName())
-                .defaultValue(defaultValued).collectionType(collectionType)
-                .propertyMemberInfo(propertyHolder.getMemberInfo()).propertyReadWrite(propertyHolder.getReadWrite())
+        return PropertyMetadataImpl.builder().name(propertyHolder.getName()).defaultValue(defaultValued)
+                .collectionType(collectionType).propertyMemberInfo(propertyHolder.getMemberInfo())
+                .propertyReadWrite(propertyHolder.getReadWrite())
                 .generator(GeneratorResolver.resolveGenerator(propertyType)).build();
     }
 
-    private static Class<?> extractParameterizedType(final Field field,
-            final ParameterizedType parameterizedType) {
+    private static Class<?> extractParameterizedType(final Field field, final ParameterizedType parameterizedType) {
         try {
             return (Class<?>) parameterizedType.getActualTypeArguments()[0];
         } catch (final ClassCastException e) {
-            throw new IllegalStateException(
-                    String.format(
-                            "Unable to determine generic-type for %s, ususally this is the case with nested generics. "
-                                    + "\nYou need to provide a custom @PropertyConfig for this field and exclude it from scanning"
-                                    + ", by using PropertyReflectionConfig#exclude.\nSee package-javadoc of de.cuioss.test.valueobjects for samples.",
-                            field.toString()),
-                    e);
+            throw new IllegalStateException(String.format("""
+                    Unable to determine generic-type for %s, ususally this is the case with nested generics.\s\
+
+                    You need to provide a custom @PropertyConfig for this field and exclude it from scanning\
+                    , by using PropertyReflectionConfig#exclude.
+                    See package-javadoc of de.cuioss.test.valueobjects for samples.""", field.toString()), e);
         }
     }
 
     /**
-     * Filters the given properties according to the annotated element given. It checks for the
-     * annotation {@link PropertyReflectionConfig} and filters the given {@link SortedSet}
+     * Filters the given properties according to the annotated element given. It
+     * checks for the annotation {@link PropertyReflectionConfig} and filters the
+     * given {@link SortedSet}
      *
      * @param annotated must not be null
      * @param metatdata must not be null
      * @return the filtered {@link SortedSet}
      */
-    public static SortedSet<PropertyMetadata> handlePostProcess(
-            final Class<?> annotated, final SortedSet<PropertyMetadata> metatdata) {
+    public static SortedSet<PropertyMetadata> handlePostProcess(final Class<?> annotated,
+            final SortedSet<PropertyMetadata> metatdata) {
         requireNonNull(annotated);
 
-        final Optional<PropertyReflectionConfig> configOption =
-            MoreReflection.extractAnnotation(annotated, PropertyReflectionConfig.class);
+        final Optional<PropertyReflectionConfig> configOption = MoreReflection.extractAnnotation(annotated,
+                PropertyReflectionConfig.class);
 
         return handlePostProcessConfig(configOption.orElse(null), metatdata);
     }
 
     /**
-     * Filters the given properties according to the annotated element given. It checks for the
-     * annotation {@link PropertyReflectionConfig} and filters the given {@link SortedSet}
+     * Filters the given properties according to the annotated element given. It
+     * checks for the annotation {@link PropertyReflectionConfig} and filters the
+     * given {@link SortedSet}
      *
-     * @param config must not be null
+     * @param config    must not be null
      * @param metatdata must not be null
      * @return the filtered {@link SortedSet}
      */
-    public static SortedSet<PropertyMetadata> handlePostProcessConfig(
-            final PropertyReflectionConfig config, final SortedSet<PropertyMetadata> metatdata) {
+    public static SortedSet<PropertyMetadata> handlePostProcessConfig(final PropertyReflectionConfig config,
+            final SortedSet<PropertyMetadata> metatdata) {
         requireNonNull(metatdata);
 
         if (metatdata.isEmpty() || null == config) {
             return metatdata;
         }
 
-        var map =
-            PropertyHelper.handleWhiteAndBlacklist(config.of(), config.exclude(), metatdata);
+        var map = PropertyHelper.handleWhiteAndBlacklist(config.of(), config.exclude(), metatdata);
 
-        map =
-            AnnotationHelper.modifyPropertyMetadata(map, config.defaultValued(), config.readOnly(),
-                    config.required(), config.transientProperties(), config.writeOnly(),
-                    config.assertUnorderedCollection());
+        map = AnnotationHelper.modifyPropertyMetadata(map, config.defaultValued(), config.readOnly(), config.required(),
+                config.transientProperties(), config.writeOnly(), config.assertUnorderedCollection());
 
         return immutableSortedSet(map.values());
     }
 
     /**
-     * Checks the given type for the annotation {@link PropertyReflectionConfig}
-     * if it is there it checks on the value {@link PropertyReflectionConfig#skip()}
+     * Checks the given type for the annotation {@link PropertyReflectionConfig} if
+     * it is there it checks on the value {@link PropertyReflectionConfig#skip()}
      *
-     * @param annotated the class that may or may not provide the annotations, must not be null
+     * @param annotated the class that may or may not provide the annotations, must
+     *                  not be null
      * @return boolean indicating whether to skip property scanning.
      */
-    public static boolean shouldScanClass(
-            final Class<?> annotated) {
+    public static boolean shouldScanClass(final Class<?> annotated) {
         requireNonNull(annotated);
 
         return shouldScanClass(
@@ -282,8 +273,8 @@ public final class ReflectionHelper {
     }
 
     /**
-     * Checks the given type for the annotation {@link PropertyReflectionConfig}
-     * if it is there it checks on the value {@link PropertyReflectionConfig#skip()}
+     * Checks the given type for the annotation {@link PropertyReflectionConfig} if
+     * it is there it checks on the value {@link PropertyReflectionConfig#skip()}
      *
      * @param config the optional annotation, may be null
      * @return boolean indicating whether to skip property scanning.
@@ -296,8 +287,9 @@ public final class ReflectionHelper {
     }
 
     /**
-     * Helper method that determines the actual type of a given {@link Iterable} by peeking into it.
-     * <em>For testing only, should never be used in productive code</em>
+     * Helper method that determines the actual type of a given {@link Iterable} by
+     * peeking into it. <em>For testing only, should never be used in productive
+     * code</em>
      *
      * @param iterable must not be null nor empty, the iterator must be reentrant.
      * @return The Class of the given {@link Iterable}.

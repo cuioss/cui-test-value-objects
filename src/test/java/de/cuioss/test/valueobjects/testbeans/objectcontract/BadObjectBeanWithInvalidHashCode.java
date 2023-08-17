@@ -3,8 +3,8 @@ package de.cuioss.test.valueobjects.testbeans.objectcontract;
 import java.io.Serializable;
 
 /**
- * Bad bean that neither implements {@link Serializable} nor override
- * , {@link Object#hashCode()} correctly
+ * Bad bean that neither implements {@link Serializable} nor override ,
+ * {@link Object#hashCode()} correctly
  *
  * @author Oliver Wolff
  */

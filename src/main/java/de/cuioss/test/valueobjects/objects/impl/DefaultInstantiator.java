@@ -11,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
- * Instantiator for any class that provide a public accessible default constructor
+ * Instantiator for any class that provide a public accessible default
+ * constructor
  *
  * @author Oliver Wolff
  * @param <T> identifying the type of object to be instantiated
@@ -30,11 +31,10 @@ public class DefaultInstantiator<T> implements ObjectInstantiator<T> {
     @Override
     public T newInstance() {
         try {
-            return this.targetClass.getDeclaredConstructor().newInstance();
+            return targetClass.getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException | SecurityException e) {
-            throw new AssertionError(
-                    "Unable to instantiate class due to " + extractCauseMessageFromThrowable(e), e);
+            throw new AssertionError("Unable to instantiate class due to " + extractCauseMessageFromThrowable(e), e);
         }
     }
 

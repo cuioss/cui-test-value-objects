@@ -21,11 +21,11 @@ class BeanInstantiatorTest {
 
     private final DefaultInstantiator<ComplexBean> instantiator = new DefaultInstantiator<>(ComplexBean.class);
 
-    private final RuntimeProperties fullRuntimeInformation =
-        new RuntimeProperties(immutableSortedSet(ComplexBean.completeValidMetadata()));
+    private final RuntimeProperties fullRuntimeInformation = new RuntimeProperties(
+            immutableSortedSet(ComplexBean.completeValidMetadata()));
 
-    private final BeanInstantiator<ComplexBean> populator =
-        new BeanInstantiator<>(instantiator, fullRuntimeInformation);
+    private final BeanInstantiator<ComplexBean> populator = new BeanInstantiator<>(instantiator,
+            fullRuntimeInformation);
 
     @Test
     void shouldFailOnNullInstantiatorParameter() {

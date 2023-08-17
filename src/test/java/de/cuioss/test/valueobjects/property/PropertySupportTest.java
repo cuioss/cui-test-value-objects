@@ -26,8 +26,7 @@ import de.cuioss.test.valueobjects.objects.impl.DefaultInstantiator;
 import de.cuioss.test.valueobjects.property.impl.PropertyMetadataImpl;
 import de.cuioss.test.valueobjects.testbeans.ComplexBean;
 
-@PropertyConfig(name = "propertyMetadata", propertyClass = PropertyMetadata.class, required = true,
-        propertyReadWrite = WRITE_ONLY)
+@PropertyConfig(name = "propertyMetadata", propertyClass = PropertyMetadata.class, required = true, propertyReadWrite = WRITE_ONLY)
 @PropertyGeneratorHint(declaredType = PropertyMetadata.class, implementationType = PropertyMetadataImpl.class)
 @PropertyReflectionConfig(skip = true)
 @VerifyConstructor(of = "propertyMetadata")
@@ -57,8 +56,7 @@ class PropertySupportTest extends ValueObjectTest<PropertySupport> {
         final var target = instantiator.newInstance();
         propertySupport.generateTestValue();
         propertySupport.apply(target);
-        assertThrows(AssertionError.class,
-                () -> propertySupport.assertValueSet(target));
+        assertThrows(AssertionError.class, () -> propertySupport.assertValueSet(target));
     }
 
     @Test
@@ -92,14 +90,13 @@ class PropertySupportTest extends ValueObjectTest<PropertySupport> {
         propertySupport.apply(target);
         // Revert Boolean
         target.setBooleanPrimitive(!target.isBooleanPrimitive());
-        assertThrows(AssertionError.class,
-                () -> propertySupport.assertValueSet(target));
+        assertThrows(AssertionError.class, () -> propertySupport.assertValueSet(target));
     }
 
     @Test
     void shouldHandleDefaultValue() {
-        final PropertyMetadata stringDefaultProperty =
-            STRINGS.metadataBuilder(ATTRIBUTE_STRING_WITH_DEFAULT).defaultValue(true).build();
+        final PropertyMetadata stringDefaultProperty = STRINGS.metadataBuilder(ATTRIBUTE_STRING_WITH_DEFAULT)
+                .defaultValue(true).build();
         final var propertySupport = new PropertySupport(stringDefaultProperty);
         final var target = instantiator.newInstance();
         propertySupport.assertDefaultValue(target);
@@ -109,8 +106,7 @@ class PropertySupportTest extends ValueObjectTest<PropertySupport> {
     void shouldFailHandleDefaultValue() {
         final var propertySupport = new PropertySupport(stringProperty);
         final var target = instantiator.newInstance();
-        assertThrows(AssertionError.class,
-                () -> propertySupport.assertDefaultValue(target));
+        assertThrows(AssertionError.class, () -> propertySupport.assertDefaultValue(target));
     }
 
     @Test

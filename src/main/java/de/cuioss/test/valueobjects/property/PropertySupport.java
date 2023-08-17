@@ -15,10 +15,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Stateful wrapper around instances of {@link PropertyMetadata} that provides methods for
- * reading / asserting properties according to the configured {@link PropertyAccessStrategy}, see
- * {@link #apply(Object)}, {@link #assertValueSet(Object)} and {@link #assertDefaultValue(Object)} .
- * In addition it can create / store an instant specific generatedValue, see
+ * Stateful wrapper around instances of {@link PropertyMetadata} that provides
+ * methods for reading / asserting properties according to the configured
+ * {@link PropertyAccessStrategy}, see {@link #apply(Object)},
+ * {@link #assertValueSet(Object)} and {@link #assertDefaultValue(Object)} . In
+ * addition it can create / store an instant specific generatedValue, see
  * {@link #generateTestValue()}
  *
  * @author Oliver Wolff
@@ -28,8 +29,9 @@ import lombok.ToString;
 public class PropertySupport {
 
     /**
-     * Used in conjunction with {@link #createCopyWithNonEqualValue()}. Defines the upper bound of
-     * retries for generating non-equal values from a given {@link TypedGenerator}
+     * Used in conjunction with {@link #createCopyWithNonEqualValue()}. Defines the
+     * upper bound of retries for generating non-equal values from a given
+     * {@link TypedGenerator}
      */
     private static final int ENTROPY_GUARD = 50;
 
@@ -98,8 +100,8 @@ public class PropertySupport {
     }
 
     /**
-     * Writes the property, previously initialized with {@link #generateTestValue()} to the
-     * given target, using the configured {@link PropertyAccessStrategy}
+     * Writes the property, previously initialized with {@link #generateTestValue()}
+     * to the given target, using the configured {@link PropertyAccessStrategy}
      *
      * @param target must not be null
      */
@@ -108,8 +110,8 @@ public class PropertySupport {
     }
 
     /**
-     * Asserts that the value previously set by {@link #apply(Object)} is accessible by the
-     * corresponding read-method, e.g getProperty
+     * Asserts that the value previously set by {@link #apply(Object)} is accessible
+     * by the corresponding read-method, e.g getProperty
      *
      * @param target must not be null
      */
@@ -118,18 +120,17 @@ public class PropertySupport {
     }
 
     /**
-     * Asserts that the expected value is accessible by the
-     * corresponding read-method, e.g getProperty
+     * Asserts that the expected value is accessible by the corresponding
+     * read-method, e.g getProperty
      *
-     * @param target must not be null
+     * @param target   must not be null
      * @param expected the expected content of the attribute
      */
     public void assertValueSet(final Object target, Object expected) {
         final var actual = readProperty(target);
 
         if (AssertionStrategy.COLLECTION_IGNORE_ORDER.equals(propertyMetadata.getAssertionStrategy())) {
-            CollectionAsserts.assertListsAreEqualIgnoringOrder(propertyMetadata.getName(),
-                    expected, actual);
+            CollectionAsserts.assertListsAreEqualIgnoringOrder(propertyMetadata.getName(), expected, actual);
         } else {
             assertEquals(expected, actual, "Invalid content found for property " + propertyMetadata.getName()
                     + ", expected=" + expected + ", actual=" + actual);
@@ -145,21 +146,19 @@ public class PropertySupport {
      */
     public Object readProperty(Object target) {
         assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
-        return propertyMetadata.getPropertyAccessStrategy().readProperty(target,
-                propertyMetadata);
+        return propertyMetadata.getPropertyAccessStrategy().readProperty(target, propertyMetadata);
     }
 
     /**
      * Writes the given property the given target
      *
-     * @param target to be written to, must not be null
+     * @param target        to be written to, must not be null
      * @param propertyValue to be written
      * @return he read Property, may be {@code null}
      */
     public Object writeProperty(Object target, Object propertyValue) {
         assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
-        return propertyMetadata.getPropertyAccessStrategy().writeProperty(target,
-                propertyMetadata, propertyValue);
+        return propertyMetadata.getPropertyAccessStrategy().writeProperty(target, propertyMetadata, propertyValue);
     }
 
     /**
@@ -172,8 +171,7 @@ public class PropertySupport {
         assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
 
         assertTrue(propertyMetadata.isDefaultValue(),
-                "There is no default value set: Invalid configuration for property "
-                        + propertyMetadata.getName());
+                "There is no default value set: Invalid configuration for property " + propertyMetadata.getName());
 
         assertNotNull(readProperty(target), "No defaultValue found for property " + propertyMetadata.getName());
     }
@@ -182,7 +180,7 @@ public class PropertySupport {
      * Creates a copy of this instance
      *
      * @param withGeneratedValue indicating whether to copy the currently
-     *            {@link #getGeneratedValue()}
+     *                           {@link #getGeneratedValue()}
      * @return the created copy
      */
     public PropertySupport createCopy(final boolean withGeneratedValue) {
@@ -194,9 +192,9 @@ public class PropertySupport {
     }
 
     /**
-     * Creates a copy of this instance. In addition it tries to create a generatedValue that is not
-     * equal to the contained one. It will try this 50 times and will then throw an
-     * {@link AssertionError}
+     * Creates a copy of this instance. In addition it tries to create a
+     * generatedValue that is not equal to the contained one. It will try this 50
+     * times and will then throw an {@link AssertionError}
      *
      * @return the created copy
      */
@@ -215,8 +213,7 @@ public class PropertySupport {
             }
             times++;
             if (ENTROPY_GUARD == times) {
-                throw new AssertionError(
-                        "Unable to create non equal test-value for " + propertyMetadata);
+                throw new AssertionError("Unable to create non equal test-value for " + propertyMetadata);
             }
         }
         return support;

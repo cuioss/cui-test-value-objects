@@ -23,7 +23,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Gathers all information needed for dynamically creating / asserting properties.
+ * Gathers all information needed for dynamically creating / asserting
+ * properties.
  *
  * @author Oliver Wolff
  */
@@ -66,15 +67,15 @@ public class PropertyMetadataImpl implements PropertyMetadata {
     @Override
     public Object next() {
         switch (collectionType) {
-            case NO_ITERABLE:
-                return generator.next();
-            case ARRAY_MARKER:
-                if (!propertyClass.isPrimitive()) {
-                    return resolveCollectionGenerator().list().toArray();
-                }
-                return PrimitiveArrayGenerators.resolveForType(getPropertyClass()).next();
-            default:
-                return collectionType.nextIterable(resolveCollectionGenerator());
+        case NO_ITERABLE:
+            return generator.next();
+        case ARRAY_MARKER:
+            if (!propertyClass.isPrimitive()) {
+                return resolveCollectionGenerator().list().toArray();
+            }
+            return PrimitiveArrayGenerators.resolveForType(getPropertyClass()).next();
+        default:
+            return collectionType.nextIterable(resolveCollectionGenerator());
         }
     }
 
@@ -100,8 +101,7 @@ public class PropertyMetadataImpl implements PropertyMetadata {
         private boolean tempRequired = false;
         private PropertyMemberInfo tempPropertyMemberInfo = PropertyMemberInfo.DEFAULT;
         private CollectionType tempCollectionType = CollectionType.NO_ITERABLE;
-        private PropertyAccessStrategy tempPropertyAccessStrategy =
-            PropertyAccessStrategy.BEAN_PROPERTY;
+        private PropertyAccessStrategy tempPropertyAccessStrategy = PropertyAccessStrategy.BEAN_PROPERTY;
         private PropertyReadWrite tempPropertyReadWrite = PropertyReadWrite.READ_WRITE;
         private AssertionStrategy tempAssertionStrategy = AssertionStrategy.DEFAULT;
 
@@ -109,8 +109,7 @@ public class PropertyMetadataImpl implements PropertyMetadata {
          * @param propertyAccessStrategy to be set
          * @return the builder for {@link PropertyMetadataImpl}
          */
-        public PropertyMetadataBuilder propertyAccessStrategy(
-                final PropertyAccessStrategy propertyAccessStrategy) {
+        public PropertyMetadataBuilder propertyAccessStrategy(final PropertyAccessStrategy propertyAccessStrategy) {
             tempPropertyAccessStrategy = propertyAccessStrategy;
             return this;
         }
@@ -119,8 +118,7 @@ public class PropertyMetadataImpl implements PropertyMetadata {
          * @param propertyReadWrite to be set
          * @return the builder for {@link PropertyMetadataImpl}
          */
-        public PropertyMetadataBuilder propertyReadWrite(
-                final PropertyReadWrite propertyReadWrite) {
+        public PropertyMetadataBuilder propertyReadWrite(final PropertyReadWrite propertyReadWrite) {
             tempPropertyReadWrite = propertyReadWrite;
             return this;
         }
@@ -129,8 +127,7 @@ public class PropertyMetadataImpl implements PropertyMetadata {
          * @param assertionStrategy to be set
          * @return the builder for {@link PropertyMetadataImpl}
          */
-        public PropertyMetadataBuilder assertionStrategy(
-                final AssertionStrategy assertionStrategy) {
+        public PropertyMetadataBuilder assertionStrategy(final AssertionStrategy assertionStrategy) {
             tempAssertionStrategy = assertionStrategy;
             return this;
         }
@@ -143,8 +140,7 @@ public class PropertyMetadataImpl implements PropertyMetadata {
          * @param typedGenerator to be set
          * @return the builder for {@link PropertyMetadataImpl}
          */
-        public PropertyMetadataBuilder generator(
-                final TypedGenerator<?> typedGenerator) {
+        public PropertyMetadataBuilder generator(final TypedGenerator<?> typedGenerator) {
             tempGenerator = typedGenerator;
             tempPropertyClass = typedGenerator.getType();
             return this;
@@ -174,8 +170,7 @@ public class PropertyMetadataImpl implements PropertyMetadata {
          * @param collectionType
          * @return the builder for {@link PropertyMetadataImpl}
          */
-        public PropertyMetadataBuilder collectionType(
-                final CollectionType collectionType) {
+        public PropertyMetadataBuilder collectionType(final CollectionType collectionType) {
             tempCollectionType = collectionType;
             return this;
         }
@@ -203,8 +198,7 @@ public class PropertyMetadataImpl implements PropertyMetadata {
          * @param propertyMemberInfo to be set. must not be null
          * @return the builder for {@link PropertyMetadataImpl}
          */
-        public PropertyMetadataBuilder propertyMemberInfo(
-                final PropertyMemberInfo propertyMemberInfo) {
+        public PropertyMetadataBuilder propertyMemberInfo(final PropertyMemberInfo propertyMemberInfo) {
             requireNonNull(propertyMemberInfo, "objectMemberInfo");
             tempPropertyMemberInfo = propertyMemberInfo;
             return this;
@@ -228,13 +222,9 @@ public class PropertyMetadataImpl implements PropertyMetadata {
 
             }
 
-            return new PropertyMetadataImpl(tempName, tempGenerator,
-                    tempDefaultValue,
-                    tempPropertyClass, actualClass, tempRequired,
-                    tempPropertyAccessStrategy,
-                    tempCollectionType,
-                    tempPropertyMemberInfo, tempPropertyReadWrite,
-                    tempAssertionStrategy);
+            return new PropertyMetadataImpl(tempName, tempGenerator, tempDefaultValue, tempPropertyClass, actualClass,
+                    tempRequired, tempPropertyAccessStrategy, tempCollectionType, tempPropertyMemberInfo,
+                    tempPropertyReadWrite, tempAssertionStrategy);
         }
 
     }
@@ -248,14 +238,13 @@ public class PropertyMetadataImpl implements PropertyMetadata {
 
     /**
      * @param copyFrom to be use as template, must not be null
-     * @return a new instance of {@link PropertyMetadataBuilder} with the content of copyFrom being
-     *         already copied into
+     * @return a new instance of {@link PropertyMetadataBuilder} with the content of
+     *         copyFrom being already copied into
      */
     public static PropertyMetadataBuilder builder(final PropertyMetadata copyFrom) {
         final var builder = builder();
         requireNonNull(copyFrom);
-        builder.collectionType(copyFrom.getCollectionType())
-                .defaultValue(copyFrom.isDefaultValue());
+        builder.collectionType(copyFrom.getCollectionType()).defaultValue(copyFrom.isDefaultValue());
         builder.generator(copyFrom.getGenerator()).name(copyFrom.getName());
         builder.propertyAccessStrategy(copyFrom.getPropertyAccessStrategy());
         builder.propertyClass(copyFrom.getPropertyClass());

@@ -1,7 +1,7 @@
 /**
  * Provides the api for configuring instances of
- * {@link de.cuioss.test.valueobjects.ValueObjectTest}, see the individual packages for
- * details.
+ * {@link de.cuioss.test.valueobjects.ValueObjectTest}, see the individual
+ * packages for details.
  * <ul>
  * <li>{@link de.cuioss.test.valueobjects.api.contracts}</li>
  * <li>{@link de.cuioss.test.valueobjects.api.generator}</li>

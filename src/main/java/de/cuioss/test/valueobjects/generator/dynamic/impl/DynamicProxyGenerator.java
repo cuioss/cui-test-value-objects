@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
- * Creates proxies using javassist for any type given that is not an interface nor annotation nor
- * enum.
+ * Creates proxies using javassist for any type given that is not an interface
+ * nor annotation nor enum.
  *
  * @author Oliver Wolff
  * @param <T> the type of objects to be generated
@@ -30,24 +30,24 @@ public class DynamicProxyGenerator<T> implements TypedGenerator<T> {
 
     @Override
     public T next() {
-        return this.wrappedGenerator.next();
+        return wrappedGenerator.next();
     }
 
     @Override
     public Class<T> getType() {
-        return this.type;
+        return type;
     }
 
     /**
-     * Factory method for creating an instance of {@link DynamicProxyGenerator}.
-     * It only works for any type given that is not an interface nor annotation nor enum.
+     * Factory method for creating an instance of {@link DynamicProxyGenerator}. It
+     * only works for any type given that is not an interface nor annotation nor
+     * enum.
      *
      * @param type to be checked,
-     * @return an {@link Optional} on the corresponding {@link TypedGenerator} if the given type is
-     *         applicable, otherwise {@link Optional#empty()}
+     * @return an {@link Optional} on the corresponding {@link TypedGenerator} if
+     *         the given type is applicable, otherwise {@link Optional#empty()}
      */
-    public static final <T> Optional<TypedGenerator<T>> getGeneratorForType(
-            final Class<T> type) {
+    public static final <T> Optional<TypedGenerator<T>> getGeneratorForType(final Class<T> type) {
         if (null == type || type.isAnnotation() || type.isInterface() || type.isEnum()) {
             return Optional.empty();
         }
@@ -57,8 +57,8 @@ public class DynamicProxyGenerator<T> implements TypedGenerator<T> {
 
         Class<?> createClassType = proxyFactory.createClass();
         @SuppressWarnings("unchecked")
-        final Optional<TypedGenerator<T>> constructorGenerator =
-            ConstructorBasedGenerator.getGeneratorForType((Class<T>) createClassType);
+        final Optional<TypedGenerator<T>> constructorGenerator = ConstructorBasedGenerator
+                .getGeneratorForType((Class<T>) createClassType);
         if (constructorGenerator.isPresent()) {
             return Optional.of(new DynamicProxyGenerator<>(type, constructorGenerator.get()));
         }

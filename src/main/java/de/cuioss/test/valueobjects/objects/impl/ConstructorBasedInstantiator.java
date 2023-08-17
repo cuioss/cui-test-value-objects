@@ -13,8 +13,9 @@ import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.tools.logging.CuiLogger;
 
 /**
- * This {@link ParameterizedInstantiator} uses a constructor derived by the given
- * {@link RuntimeProperties#getAllProperties()} in order to instantiate {@link Object}s
+ * This {@link ParameterizedInstantiator} uses a constructor derived by the
+ * given {@link RuntimeProperties#getAllProperties()} in order to instantiate
+ * {@link Object}s
  *
  * @param <T> identifying the type of objects to be created
  *
@@ -29,31 +30,29 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
     /**
      * Constructor.
      *
-     * @param type identifying the actual type to be instantiated, must not be null
-     * @param runtimeProperties must not be null. defines the attributes in the exact order
-     *            to be used for the constructor:
-     *            {@link RuntimeProperties#getAllProperties()}
+     * @param type              identifying the actual type to be instantiated, must
+     *                          not be null
+     * @param runtimeProperties must not be null. defines the attributes in the
+     *                          exact order to be used for the constructor:
+     *                          {@link RuntimeProperties#getAllProperties()}
      */
-    public ConstructorBasedInstantiator(final Class<T> type,
-            final RuntimeProperties runtimeProperties) {
+    public ConstructorBasedInstantiator(final Class<T> type, final RuntimeProperties runtimeProperties) {
 
         super(runtimeProperties);
         requireNonNull(type);
 
         final List<Class<?>> parameter = new ArrayList<>();
-        runtimeProperties.getAllProperties()
-                .forEach(meta -> parameter.add(meta.resolveActualClass()));
+        runtimeProperties.getAllProperties().forEach(meta -> parameter.add(meta.resolveActualClass()));
         try {
             if (parameter.isEmpty()) {
-                this.constructor = type.getConstructor();
+                constructor = type.getConstructor();
             } else {
-                this.constructor = type.getConstructor(toClassArray(parameter));
+                constructor = type.getConstructor(toClassArray(parameter));
             }
-            requireNonNull(this.constructor,
-                    "Unable to find a constructor with signature " + parameter);
+            requireNonNull(constructor, "Unable to find a constructor with signature " + parameter);
         } catch (NoSuchMethodException | SecurityException e) {
-            final var message = new StringBuilder("Unable to find a constructor with signature ")
-                    .append(parameter).append(", for type ").append(type.getName()).toString();
+            final var message = new StringBuilder("Unable to find a constructor with signature ").append(parameter)
+                    .append(", for type ").append(type.getName()).toString();
             log.error(message, e);
             for (Constructor<?> tempConstructor : type.getConstructors()) {
                 log.error("Found constructor: {}", tempConstructor.toGenericString());
@@ -68,11 +67,11 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
     @Override
     protected T doInstantiate(final Object... args) {
         try {
-            return this.constructor.newInstance(args);
+            return constructor.newInstance(args);
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException e) {
-            final var message = new StringBuilder("Unable to invoke constructor ")
-                    .append(", due to ").append(extractCauseMessageFromThrowable(e)).toString();
+            final var message = new StringBuilder("Unable to invoke constructor ").append(", due to ")
+                    .append(extractCauseMessageFromThrowable(e)).toString();
             throw new AssertionError(message, e);
         }
     }
@@ -80,9 +79,8 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
     @Override
     public String toString() {
         final var builder = new StringBuilder(getClass().getName());
-        builder.append("\nConstructor: ").append(this.constructor);
-        builder.append("\nProperty Configuration: ")
-                .append(getRuntimeProperties().toString());
+        builder.append("\nConstructor: ").append(constructor);
+        builder.append("\nProperty Configuration: ").append(getRuntimeProperties().toString());
         return builder.toString();
     }
 }

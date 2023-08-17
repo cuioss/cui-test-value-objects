@@ -1,11 +1,10 @@
 /**
  * <h2>API</h2>
  * <ul>
- * <li>
- * See {@link de.cuioss.test.valueobjects.api} for the documentation of the api</li>
- * <li>See {@link de.cuioss.test.valueobjects.ValueObjectTest} as entry point for the
- * actual
- * tests.</li>
+ * <li>See {@link de.cuioss.test.valueobjects.api} for the documentation of the
+ * api</li>
+ * <li>See {@link de.cuioss.test.valueobjects.ValueObjectTest} as entry point
+ * for the actual tests.</li>
  * </ul>
  * <h2>Examples</h2>
  * <h3>Minimum Bean Test</h3>
@@ -28,9 +27,10 @@
  *
  * <h3>Factory method skip property-scanning, use own properties</h3>
  * <p>
- * In some cases the reflection-based scanning fails, usually if the objects in hand do not provide
- * getter methods. In this case you can skip the scanning and add the properties manually. The
- * required flag is defined at attribute level and will therefore inherited by the test.
+ * In some cases the reflection-based scanning fails, usually if the objects in
+ * hand do not provide getter methods. In this case you can skip the scanning
+ * and add the properties manually. The required flag is defined at attribute
+ * level and will therefore inherited by the test.
  * </p>
  *
  * <pre>
@@ -42,7 +42,8 @@
  * class SomeBeanTest extends ValueObjectTest&lt;SomeBean&gt;{...}</code>
  * </pre>
  *
- * <h3>Builder using {@link de.cuioss.test.valueobjects.api.generator.PropertyGeneratorHint}</h3>
+ * <h3>Builder using
+ * {@link de.cuioss.test.valueobjects.api.generator.PropertyGeneratorHint}</h3>
  *
  * <pre>
  * <code>
@@ -51,11 +52,12 @@
  * class SomeBeanTest extends ValueObjectTest&lt;SomeBean&gt;{...}</code>
  * </pre>
  *
- * <h3>Builder using {@link de.cuioss.test.valueobjects.api.generator.PropertyGenerator}</h3>
+ * <h3>Builder using
+ * {@link de.cuioss.test.valueobjects.api.generator.PropertyGenerator}</h3>
  * <p>
  * Synthetic example because
- * {@link de.cuioss.test.generator.impl.FloatObjectGenerator} is part of the default
- * generators that are already available
+ * {@link de.cuioss.test.generator.impl.FloatObjectGenerator} is part of the
+ * default generators that are already available
  * </p>
  *
  * <pre>

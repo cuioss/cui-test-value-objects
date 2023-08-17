@@ -31,14 +31,13 @@ class ConstructorBasedInstantiatorTest {
     @BeforeEach
     void before() {
         TypedGeneratorRegistry.registerBasicTypes();
-        simpleConstructorMeta =
-            new RuntimeProperties(ReflectionHelper.scanBeanTypeForProperties(SimpleConstructor.class, null));
+        simpleConstructorMeta = new RuntimeProperties(
+                ReflectionHelper.scanBeanTypeForProperties(SimpleConstructor.class, null));
     }
 
     @Test
     void shouldHandleDefaultConstructor() {
-        final var instantiator =
-            new ConstructorBasedInstantiator<>(ComplexBean.class, EMPTY_METADATA);
+        final var instantiator = new ConstructorBasedInstantiator<>(ComplexBean.class, EMPTY_METADATA);
         assertNotNull(instantiator.newInstanceMinimal());
         assertNotNull(instantiator.newInstanceFull());
         assertNotNull(instantiator.newInstance(mutableList()));
@@ -48,8 +47,7 @@ class ConstructorBasedInstantiatorTest {
 
     @Test
     void shouldHandleSimpleConstructor() {
-        final var instantiator =
-            new ConstructorBasedInstantiator<>(SimpleConstructor.class, simpleConstructorMeta);
+        final var instantiator = new ConstructorBasedInstantiator<>(SimpleConstructor.class, simpleConstructorMeta);
         var instance = instantiator.newInstanceMinimal();
         assertNotNull(instance);
         assertNull(instance.getAttribute1());

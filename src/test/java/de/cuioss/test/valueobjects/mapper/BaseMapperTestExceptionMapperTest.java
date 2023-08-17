@@ -11,8 +11,7 @@ import de.cuioss.test.valueobjects.testbeans.mapper.SimpleSourceBean;
 import de.cuioss.test.valueobjects.testbeans.mapper.SimpleTargetBean;
 
 @VerifyMapperConfiguration(equals = { "firstname:nameFirst", "lastname:nameLast", "attributeList:listOfAttributes" })
-class BaseMapperTestExceptionMapperTest
-        extends MapperTest<SimpleExceptionMapper, SimpleSourceBean, SimpleTargetBean> {
+class BaseMapperTestExceptionMapperTest extends MapperTest<SimpleExceptionMapper, SimpleSourceBean, SimpleTargetBean> {
 
     @Override
     @Test

@@ -14,9 +14,8 @@ import de.cuioss.test.valueobjects.property.impl.PropertyMetadataImpl;
  */
 @VetoObjectTestContract(SERIALIZABLE)
 @VerifyBuilder
-@PropertyReflectionConfig(required = { "name", "generator", "propertyClass" },
-        defaultValued = { "collectionType", "propertyMemberInfo", "propertyReadWrite",
-            "propertyAccessStrategy", "assertionStrategy" })
+@PropertyReflectionConfig(required = { "name", "generator", "propertyClass" }, defaultValued = { "collectionType",
+        "propertyMemberInfo", "propertyReadWrite", "propertyAccessStrategy", "assertionStrategy" })
 @ObjectTestConfig(equalsAndHashCodeExclude = "generator")
 class ValueObjectTestBuilderTest extends ValueObjectTest<PropertyMetadataImpl> {
 

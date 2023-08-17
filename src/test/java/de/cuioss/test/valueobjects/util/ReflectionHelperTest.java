@@ -176,8 +176,7 @@ class ReflectionHelperTest {
 
     @Test
     void shouldFailOnNestedGenerics() {
-        assertThrows(IllegalStateException.class,
-                () -> scanBeanTypeForProperties(BeanWithNestedGenerics.class, null));
+        assertThrows(IllegalStateException.class, () -> scanBeanTypeForProperties(BeanWithNestedGenerics.class, null));
     }
 
     @Test
@@ -195,15 +194,13 @@ class ReflectionHelperTest {
 
     @Test
     void shouldFailToExtractTypeArgumentForNull() {
-        assertThrows(NullPointerException.class,
-                () -> determineSupertypeFromIterable(null));
+        assertThrows(NullPointerException.class, () -> determineSupertypeFromIterable(null));
     }
 
     @Test
     @SuppressWarnings("java:S5778") // owolff
     void shouldFailToExtractTypeArgumentForEmptyIterable() {
-        assertThrows(IllegalArgumentException.class,
-                () -> determineSupertypeFromIterable(Collections.emptyList()));
+        assertThrows(IllegalArgumentException.class, () -> determineSupertypeFromIterable(Collections.emptyList()));
     }
 
     @Test

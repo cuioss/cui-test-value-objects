@@ -54,8 +54,7 @@ class DynamicTypedGeneratorTest {
 
     @Test
     void shouldHandleDifficultTypes() {
-        final var generator =
-            new DynamicTypedGenerator<>(PropertyMetadataImpl.class);
+        final var generator = new DynamicTypedGenerator<>(PropertyMetadataImpl.class);
         assertEquals(PropertyMetadataImpl.class, generator.getType());
         assertNotNull(generator.next());
         assertTrue(PropertyMetadataImpl.class.isAssignableFrom(generator.next().getClass()));

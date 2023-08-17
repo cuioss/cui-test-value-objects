@@ -29,11 +29,12 @@ public final class TypedGeneratorRegistry {
     private static final Map<Class<?>, TypedGenerator<?>> REGISTRY = new ConcurrentHashMap<>();
 
     /**
-     * Checks whether the registry already contains a {@link TypedGenerator} for the given type
+     * Checks whether the registry already contains a {@link TypedGenerator} for the
+     * given type
      *
      * @param type identifying the generator, must not be null
-     * @return boolean indicating whether the registry already contains a {@link TypedGenerator} for
-     *         the given type
+     * @return boolean indicating whether the registry already contains a
+     *         {@link TypedGenerator} for the given type
      */
     public static boolean containsGenerator(final Class<?> type) {
         requireNonNull(type, TYPE_MUST_NOT_BE_NULL);
@@ -42,8 +43,9 @@ public final class TypedGeneratorRegistry {
 
     /**
      * @param type identifying the generator, must not be null
-     * @return the registered {@link TypedGenerator} for the given type or {@link Optional#empty()}
-     *         if none could be found. Consider checking first: {@link #containsGenerator(Class)}
+     * @return the registered {@link TypedGenerator} for the given type or
+     *         {@link Optional#empty()} if none could be found. Consider checking
+     *         first: {@link #containsGenerator(Class)}
      */
     @SuppressWarnings("unchecked")
     public static <T> Optional<TypedGenerator<T>> getGenerator(final Class<T> type) {
@@ -63,11 +65,10 @@ public final class TypedGeneratorRegistry {
     }
 
     /**
-     * @param type identifying the generator, must not be null
+     * @param type      identifying the generator, must not be null
      * @param generator to be set, must not be null
      */
-    public static void registerTypedGenerator(final Class<?> type,
-            final TypedGenerator<?> generator) {
+    public static void registerTypedGenerator(final Class<?> type, final TypedGenerator<?> generator) {
         requireNonNull(type, TYPE_MUST_NOT_BE_NULL);
         requireNonNull(generator, GENERATOR_MUST_NOT_BE_NULL);
         REGISTRY.put(type, generator);
@@ -91,18 +92,15 @@ public final class TypedGeneratorRegistry {
     }
 
     /**
-     * Add all basic types provided by {@link JavaTypesGenerator}. In addition it adds
-     * {@link TypedGenerator} for basic Collection-types returning an empty collection.
+     * Add all basic types provided by {@link JavaTypesGenerator}. In addition it
+     * adds {@link TypedGenerator} for basic Collection-types returning an empty
+     * collection.
      */
     public static void registerBasicTypes() {
         JavaTypesGenerator.allGenerators().forEach(g -> REGISTRY.put(g.getType(), g));
-        REGISTRY.put(Collection.class,
-                new CollectionTypeGenerator<>(Collection.class, CollectionType.COLLECTION));
-        REGISTRY.put(List.class,
-                new CollectionTypeGenerator<>(List.class, CollectionType.LIST));
-        REGISTRY.put(Set.class,
-                new CollectionTypeGenerator<>(Set.class, CollectionType.SET));
-        REGISTRY.put(SortedSet.class,
-                new CollectionTypeGenerator<>(SortedSet.class, CollectionType.SORTED_SET));
+        REGISTRY.put(Collection.class, new CollectionTypeGenerator<>(Collection.class, CollectionType.COLLECTION));
+        REGISTRY.put(List.class, new CollectionTypeGenerator<>(List.class, CollectionType.LIST));
+        REGISTRY.put(Set.class, new CollectionTypeGenerator<>(Set.class, CollectionType.SET));
+        REGISTRY.put(SortedSet.class, new CollectionTypeGenerator<>(SortedSet.class, CollectionType.SORTED_SET));
     }
 }

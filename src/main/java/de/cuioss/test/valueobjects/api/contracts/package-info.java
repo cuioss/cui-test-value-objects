@@ -1,6 +1,6 @@
 /**
- * Defines concrete TestContracts that are not {@link java.lang.Object} test contracts, which are
- * implicit if not vetoed using
+ * Defines concrete TestContracts that are not {@link java.lang.Object} test
+ * contracts, which are implicit if not vetoed using
  * {@link de.cuioss.test.valueobjects.api.object.VetoObjectTestContract}
  * Currently defined contracts are:
  * <ul>

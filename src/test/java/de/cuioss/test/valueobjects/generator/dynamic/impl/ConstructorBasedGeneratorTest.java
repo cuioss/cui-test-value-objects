@@ -49,8 +49,7 @@ class ConstructorBasedGeneratorTest {
     @Test
     void shouldHandledOneArgumentConstructor() {
         assertTrue(getGeneratorForType(BeanWithSingleArgumentConstructor.class).isPresent());
-        final var generator =
-            getGeneratorForType(BeanWithSingleArgumentConstructor.class).get();
+        final var generator = getGeneratorForType(BeanWithSingleArgumentConstructor.class).get();
         assertEquals(BeanWithSingleArgumentConstructor.class, generator.getType());
         final var next = generator.next();
         assertNotNull(next);
@@ -61,8 +60,7 @@ class ConstructorBasedGeneratorTest {
     @Test
     void shouldHandledMultipleConstructor() {
         assertTrue(getGeneratorForType(BeanWithMultiplePublicConstructor.class).isPresent());
-        final var generator =
-            getGeneratorForType(BeanWithMultiplePublicConstructor.class).get();
+        final var generator = getGeneratorForType(BeanWithMultiplePublicConstructor.class).get();
         assertEquals(BeanWithMultiplePublicConstructor.class, generator.getType());
         final var next = generator.next();
         assertNotNull(next);
@@ -73,8 +71,7 @@ class ConstructorBasedGeneratorTest {
     @Test
     void shouldHandleComplexPublicConstructor() {
         assertTrue(getGeneratorForType(BeanWithMultipleArgumentConstructor.class).isPresent());
-        final var generator =
-            getGeneratorForType(BeanWithMultipleArgumentConstructor.class).get();
+        final var generator = getGeneratorForType(BeanWithMultipleArgumentConstructor.class).get();
         assertEquals(BeanWithMultipleArgumentConstructor.class, generator.getType());
         final var next = generator.next();
         assertNotNull(next);

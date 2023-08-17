@@ -18,11 +18,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Variant of {@link ParameterizedInstantiator} that deals with test, where the actual beans to be
- * tested are Injected by cdi, see {@link TestObjectProvider} as well
+ * Variant of {@link ParameterizedInstantiator} that deals with test, where the
+ * actual beans to be tested are Injected by cdi, see {@link TestObjectProvider}
+ * as well
  *
- * @param <T> identifying the type to be tested is usually but not necessarily at least
- *            {@link Serializable}.
+ * @param <T> identifying the type to be tested is usually but not necessarily
+ *            at least {@link Serializable}.
  * @author Oliver Wolff
  */
 @RequiredArgsConstructor
@@ -37,8 +38,7 @@ public class InjectedBeanInstantiator<T> implements ParameterizedInstantiator<T>
     private final RuntimeProperties runtimeProperties;
 
     @Override
-    public T newInstance(final List<PropertySupport> properties,
-            final boolean generatePropertyValues) {
+    public T newInstance(final List<PropertySupport> properties, final boolean generatePropertyValues) {
         assertNotNull(properties, PROPERTIES_MUST_NOT_BE_NULL);
         final var instance = objectProvider.getUnderTest();
         assertNotNull(instance, "Unable to obtain instance from " + objectProvider.toString());
@@ -54,26 +54,24 @@ public class InjectedBeanInstantiator<T> implements ParameterizedInstantiator<T>
 
     @Override
     public T newInstanceFull() {
-        return newInstance(this.runtimeProperties.getAdditionalProperties());
+        return newInstance(runtimeProperties.getAdditionalProperties());
     }
 
     @Override
     public T newInstance(final List<PropertyMetadata> properties) {
         assertNotNull(properties, PROPERTIES_MUST_NOT_BE_NULL);
-        return newInstance(properties.stream().map(PropertySupport::new)
-                .collect(Collectors.toList()), true);
+        return newInstance(properties.stream().map(PropertySupport::new).collect(Collectors.toList()), true);
     }
 
     @Override
     public T newInstanceMinimal() {
-        return newInstance(this.runtimeProperties.getRequiredProperties());
+        return newInstance(runtimeProperties.getRequiredProperties());
     }
 
     @Override
     public String toString() {
         final var builder = new StringBuilder(getClass().getName());
-        builder.append("\nProperty Configuration: ")
-                .append(this.runtimeProperties.toString());
+        builder.append("\nProperty Configuration: ").append(runtimeProperties.toString());
         return builder.toString();
     }
 

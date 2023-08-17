@@ -10,8 +10,9 @@ import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.PropertySupport;
 
 /**
- * {@link ParameterizedInstantiator} for cases you actually are not able to use the testing
- * Infrastructure but want to benefit of the testing of the {@link ObjectTestContract}s
+ * {@link ParameterizedInstantiator} for cases you actually are not able to use
+ * the testing Infrastructure but want to benefit of the testing of the
+ * {@link ObjectTestContract}s
  *
  * @author Oliver Wolff
  * @param <T> identifying the type of object to be instantiated
@@ -22,8 +23,7 @@ public abstract class AbstractInlineInstantiator<T> implements ParameterizedInst
     public static final String PROPERTIES_MUST_NOT_BE_NULL = "Properties must not be null, but may be empty";
 
     @Override
-    public T newInstance(final List<PropertySupport> properties,
-            final boolean generatePropertyValues) {
+    public T newInstance(final List<PropertySupport> properties, final boolean generatePropertyValues) {
         return any();
     }
 

@@ -22,8 +22,8 @@ import de.cuioss.test.generator.TypedGenerator;
 public @interface PropertyGenerator {
 
     /**
-     * @return one or an array of {@link TypedGenerator}. This is the standard usage for this
-     *         annotation.
+     * @return one or an array of {@link TypedGenerator}. This is the standard usage
+     *         for this annotation.
      */
     @SuppressWarnings("java:S1452")
     Class<? extends TypedGenerator<?>>[] value() default {};

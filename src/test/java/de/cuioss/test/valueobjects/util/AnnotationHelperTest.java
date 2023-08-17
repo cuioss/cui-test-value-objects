@@ -47,8 +47,8 @@ import de.cuioss.tools.reflect.MoreReflection;
 
 class AnnotationHelperTest {
 
-    private static final List<PropertyMetadata> FULL_PROPERTY_LIST =
-        mutableList(PropertyMetadataTestDataGenerator.COMPLETE_VALID_ATTRIBUTES);
+    private static final List<PropertyMetadata> FULL_PROPERTY_LIST = mutableList(
+            PropertyMetadataTestDataGenerator.COMPLETE_VALID_ATTRIBUTES);
 
     // Tests for
     // de.cuioss.test.valueobjects.util.AnnotationHelper.extractConfiguredConstructorContracts
@@ -85,7 +85,8 @@ class AnnotationHelperTest {
         assertEquals(1, meta.size());
     }
 
-    // Tests for de.cuioss.test.valueobjects.util.AnnotationHelper.handleMetadataForPropertyTest
+    // Tests for
+    // de.cuioss.test.valueobjects.util.AnnotationHelper.handleMetadataForPropertyTest
     @Test
     void handleMetadataForPropertyTestShouldHandleEmptySet() {
         assertTrue(handleMetadataForPropertyTest(BeanPropertyTestClassSimple.class, mutableList()).isEmpty());
@@ -98,16 +99,14 @@ class AnnotationHelperTest {
 
     @Test
     void handleMetadataForPropertyTestShouldExcludeName() {
-        final var filtered =
-            handleMetadataForPropertyTest(BeanPropertyTestClassExcludeName.class, FULL_PROPERTY_LIST);
+        final var filtered = handleMetadataForPropertyTest(BeanPropertyTestClassExcludeName.class, FULL_PROPERTY_LIST);
         assertEquals(7, filtered.size());
         filtered.forEach(p -> assertNotEquals("name", p.getName()));
     }
 
     @Test
     void handleMetadataForPropertyTestShouldWhitelist() {
-        final var filtered =
-            handleMetadataForPropertyTest(BeanPropertyTestClassOf.class, FULL_PROPERTY_LIST);
+        final var filtered = handleMetadataForPropertyTest(BeanPropertyTestClassOf.class, FULL_PROPERTY_LIST);
         assertEquals(2, filtered.size());
         final List<String> whitelist = immutableList("name", "generator");
         filtered.forEach(p -> assertTrue(whitelist.contains(p.getName())));
@@ -115,8 +114,8 @@ class AnnotationHelperTest {
 
     @Test
     void handleMetadataForPropertyTestShouldExecuteComplexSample() {
-        final var filtered =
-            handleMetadataForPropertyTest(BeanPropertyTestClassComplexSample.class, FULL_PROPERTY_LIST);
+        final var filtered = handleMetadataForPropertyTest(BeanPropertyTestClassComplexSample.class,
+                FULL_PROPERTY_LIST);
         final Map<String, PropertyMetadata> map = new HashMap<>();
         filtered.forEach(p -> map.put(p.getName(), p));
         assertFalse(map.containsKey("name"));
@@ -128,8 +127,8 @@ class AnnotationHelperTest {
 
     @Test
     void handleMetadataForPropertyTestShouldExcludeMultiple() {
-        final var filtered =
-            handleMetadataForPropertyTest(BeanPropertyTestClassExcludeNameAndDefaultValue.class, FULL_PROPERTY_LIST);
+        final var filtered = handleMetadataForPropertyTest(BeanPropertyTestClassExcludeNameAndDefaultValue.class,
+                FULL_PROPERTY_LIST);
         assertEquals(6, filtered.size());
         filtered.forEach(p -> assertNotEquals("name", p.getName()));
         filtered.forEach(p -> assertNotEquals("defaultValue", p.getName()));
@@ -153,8 +152,8 @@ class AnnotationHelperTest {
 
     @Test
     void handleMetadataForBuilderTestShouldExecuteComplexSample() {
-        final var filtered =
-            handleMetadataForBuilderTest(BuilderMinimalTestClassComplexSample.class, FULL_PROPERTY_LIST);
+        final var filtered = handleMetadataForBuilderTest(BuilderMinimalTestClassComplexSample.class,
+                FULL_PROPERTY_LIST);
         final Map<String, PropertyMetadata> map = new HashMap<>();
         filtered.forEach(p -> map.put(p.getName(), p));
         assertFalse(map.containsKey("name"));

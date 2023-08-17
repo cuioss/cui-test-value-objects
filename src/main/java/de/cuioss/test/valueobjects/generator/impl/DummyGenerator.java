@@ -5,8 +5,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Dummy variant of {@link TypedGenerator} that are used in some corner cases, where you need a
- * {@link TypedGenerator} for a contract, but do not need the generated values.
+ * Dummy variant of {@link TypedGenerator} that are used in some corner cases,
+ * where you need a {@link TypedGenerator} for a contract, but do not need the
+ * generated values.
  *
  * @author Oliver Wolff
  * @param <T> identifying the type of objects to be generated

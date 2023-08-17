@@ -35,13 +35,13 @@ public final class GeneratorResolver {
     private static final CuiLogger log = new CuiLogger(GeneratorResolver.class);
 
     /**
-     * Central method for finding / accessing a concrete {@link TypedGenerator} for the given type.
-     * It works through all existing find methods. as last resort is uses
-     * {@link InterfaceProxyGenerator} or {@link DynamicProxyGenerator} that will always return a
-     * valid one
-     * <em>Caution:</em> The resolving system relies on {@link TypedGeneratorRegistry} being
-     * configured properly, saying {@link TypedGeneratorRegistry#registerBasicTypes()} has been
-     * called prior to this method
+     * Central method for finding / accessing a concrete {@link TypedGenerator} for
+     * the given type. It works through all existing find methods. as last resort is
+     * uses {@link InterfaceProxyGenerator} or {@link DynamicProxyGenerator} that
+     * will always return a valid one <em>Caution:</em> The resolving system relies
+     * on {@link TypedGeneratorRegistry} being configured properly, saying
+     * {@link TypedGeneratorRegistry#registerBasicTypes()} has been called prior to
+     * this method
      *
      * @param type must not be null
      * @return a concrete {@link TypedGenerator} for the given type
@@ -100,21 +100,19 @@ public final class GeneratorResolver {
     }
 
     /**
-     * Provides a {@link TypedGenerator} for generating empty {@link Iterable} / {@link Collection}
-     * or {@link Map}s for given interfaces
+     * Provides a {@link TypedGenerator} for generating empty {@link Iterable} /
+     * {@link Collection} or {@link Map}s for given interfaces
      *
      * @param type to be checked
      * @return an {@link TypedGenerator} if applicable or or <code>not
      *         {@link Optional#isPresent()}</code>
      */
     @SuppressWarnings("unchecked") // Checked beforehand
-    public static <T> Optional<TypedGenerator<T>> resolveCollectionGenerator(
-            final Class<T> type) {
+    public static <T> Optional<TypedGenerator<T>> resolveCollectionGenerator(final Class<T> type) {
         if (null == type || !type.isInterface()) {
             return Optional.empty();
         }
-        final var optional =
-            CollectionType.findResponsibleCollectionType(type);
+        final var optional = CollectionType.findResponsibleCollectionType(type);
         if (optional.isPresent()) {
             return Optional.of(new CollectionTypeGenerator<>(type, optional.get()));
         }

@@ -21,8 +21,8 @@ class FactoryBasedInstantiatorTest {
 
     @Test
     void shouldInstantiateWithNoArgsConstructor() {
-        var instantiaor = new FactoryBasedInstantiator<>(TwoFactoryBean.class,
-                EMPTY_INFORMATION, TwoFactoryBean.class, TwoFactoryBean.CREATE_METHOD_NAME);
+        var instantiaor = new FactoryBasedInstantiator<>(TwoFactoryBean.class, EMPTY_INFORMATION, TwoFactoryBean.class,
+                TwoFactoryBean.CREATE_METHOD_NAME);
         log.info(instantiaor.toString());
         assertNotNull(instantiaor.newInstanceMinimal());
         assertNotNull(instantiaor.newInstanceFull());
@@ -31,8 +31,8 @@ class FactoryBasedInstantiatorTest {
 
     @Test
     void shouldInstantiateWithSingleArgsConstructor() {
-        var instantiaor = new FactoryBasedInstantiator<>(TwoFactoryBean.class,
-                TwoFactoryBean.INFORMATION, TwoFactoryBean.class, TwoFactoryBean.CREATE_METHOD_NAME);
+        var instantiaor = new FactoryBasedInstantiator<>(TwoFactoryBean.class, TwoFactoryBean.INFORMATION,
+                TwoFactoryBean.class, TwoFactoryBean.CREATE_METHOD_NAME);
         log.info(instantiaor.toString());
         assertNotNull(instantiaor.newInstanceMinimal());
         assertNull(instantiaor.newInstanceMinimal().getAttribute());
@@ -46,16 +46,15 @@ class FactoryBasedInstantiatorTest {
 
     @Test
     void shouldFailOnExceptionMethod() {
-        var instantiator =
-            new FactoryBasedInstantiator<>(BadFactoryBean.class, EMPTY_INFORMATION, BadFactoryBean.class,
-                    "boom");
+        var instantiator = new FactoryBasedInstantiator<>(BadFactoryBean.class, EMPTY_INFORMATION, BadFactoryBean.class,
+                "boom");
         assertThrows(AssertionError.class, () -> instantiator.newInstanceFull());
     }
 
     @Test
     void shouldFailOnInvalidReturnType() {
-        assertThrows(AssertionError.class, () -> new FactoryBasedInstantiator<>(BadFactoryBean.class,
-                EMPTY_INFORMATION, BadFactoryBean.class, "invalidType"));
+        assertThrows(AssertionError.class, () -> new FactoryBasedInstantiator<>(BadFactoryBean.class, EMPTY_INFORMATION,
+                BadFactoryBean.class, "invalidType"));
 
     }
 

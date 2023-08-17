@@ -42,10 +42,10 @@ class ObjectCreatorContractImplTest {
     @BeforeEach
     void before() {
         TypedGeneratorRegistry.registerBasicTypes();
-        simpleConstructorMeta =
-            new RuntimeProperties(ReflectionHelper.scanBeanTypeForProperties(SimpleConstructor.class, null));
-        complexConstructorMeta =
-            new ArrayList<>(ReflectionHelper.scanBeanTypeForProperties(PropertyMetadataImpl.class, null));
+        simpleConstructorMeta = new RuntimeProperties(
+                ReflectionHelper.scanBeanTypeForProperties(SimpleConstructor.class, null));
+        complexConstructorMeta = new ArrayList<>(
+                ReflectionHelper.scanBeanTypeForProperties(PropertyMetadataImpl.class, null));
     }
 
     @Test
@@ -63,9 +63,8 @@ class ObjectCreatorContractImplTest {
         final List<PropertyMetadata> list = new ArrayList<>();
         simpleConstructorMeta.getAllProperties().forEach(p -> list.add(map.get(p.getName())));
         final var information = new RuntimeProperties(list);
-        final var contract =
-            new ObjectCreatorContractImpl<>(
-                    new ConstructorBasedInstantiator<>(SimpleConstructor.class, information));
+        final var contract = new ObjectCreatorContractImpl<>(
+                new ConstructorBasedInstantiator<>(SimpleConstructor.class, information));
 
         assertThrows(AssertionError.class, () -> contract.assertContract());
     }
@@ -84,8 +83,8 @@ class ObjectCreatorContractImplTest {
 
     @Test
     void shouldDetectFactoryType() {
-        final List<ObjectCreatorContractImpl<TwoFactoryBean>> contracts =
-            createTestContracts(TwoFactoryBean.class, TwoFactoryBean.class, immutableList(TwoFactoryBean.ATTRIBUTE));
+        final List<ObjectCreatorContractImpl<TwoFactoryBean>> contracts = createTestContracts(TwoFactoryBean.class,
+                TwoFactoryBean.class, immutableList(TwoFactoryBean.ATTRIBUTE));
         assertEquals(2, contracts.size());
         contracts.forEach(con -> assertEquals(FactoryBasedInstantiator.class, con.getInstantiator().getClass()));
     }

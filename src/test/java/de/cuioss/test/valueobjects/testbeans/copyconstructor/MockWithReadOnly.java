@@ -28,27 +28,19 @@ import lombok.ToString;
 @NoArgsConstructor
 public class MockWithReadOnly {
 
-    public static final PropertyMetadata READWRITE =
-        PropertyMetadataImpl.builder().name("readWrite")
-                .generator(Generators.nonEmptyStrings())
-                .required(true).propertyClass(String.class)
-                .build();
+    public static final PropertyMetadata READWRITE = PropertyMetadataImpl.builder().name("readWrite")
+            .generator(Generators.nonEmptyStrings()).required(true).propertyClass(String.class).build();
 
-    public static final PropertyMetadata READONLY =
-        PropertyMetadataImpl.builder().name("readOnly")
-                .generator(Generators.nonEmptyStrings())
-                .required(true).propertyClass(String.class)
-                .propertyReadWrite(PropertyReadWrite.READ_ONLY)
-                .build();
+    public static final PropertyMetadata READONLY = PropertyMetadataImpl.builder().name("readOnly")
+            .generator(Generators.nonEmptyStrings()).required(true).propertyClass(String.class)
+            .propertyReadWrite(PropertyReadWrite.READ_ONLY).build();
 
     public static final List<PropertyMetadata> ATTRIBUTE_LIST = immutableList(READWRITE, READONLY);
 
-    public static final RuntimeProperties RUNTIME_PROPERTIES =
-        new RuntimeProperties(ATTRIBUTE_LIST);
+    public static final RuntimeProperties RUNTIME_PROPERTIES = new RuntimeProperties(ATTRIBUTE_LIST);
 
-    public static final TestContract<MockWithReadOnly> MOCK_INSTANTIATOR_CONTRACT =
-        new MockTestContract<>(new BeanInstantiator<>(new DefaultInstantiator<>(MockWithReadOnly.class),
-                RUNTIME_PROPERTIES));
+    public static final TestContract<MockWithReadOnly> MOCK_INSTANTIATOR_CONTRACT = new MockTestContract<>(
+            new BeanInstantiator<>(new DefaultInstantiator<>(MockWithReadOnly.class), RUNTIME_PROPERTIES));
 
     @Getter
     @Setter

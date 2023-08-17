@@ -18,11 +18,11 @@ import lombok.experimental.UtilityClass;
 public class ContractRegistry {
 
     /**
-     * Resolves the concrete {@link TestContract}s to be tested. They are derived by the
-     * corresponding annotations
+     * Resolves the concrete {@link TestContract}s to be tested. They are derived by
+     * the corresponding annotations
      *
-     * @param targetBeanClass The actual class underTest
-     * @param unitTestClass The test-class
+     * @param targetBeanClass  The actual class underTest
+     * @param unitTestClass    The test-class
      * @param propertyMetadata
      * @return a list of configured {@link TestContract}s
      */
@@ -31,17 +31,14 @@ public class ContractRegistry {
 
         final List<TestContract<T>> builder = new ArrayList<>();
         Optional<? extends TestContract<T>> contract = BeanPropertyContractImpl
-                .createBeanPropertyTestContract(targetBeanClass, unitTestClass,
-                        propertyMetadata);
+                .createBeanPropertyTestContract(targetBeanClass, unitTestClass, propertyMetadata);
         contract.ifPresent(builder::add);
-        contract = BuilderContractImpl.createBuilderTestContract(targetBeanClass, unitTestClass,
-                propertyMetadata);
+        contract = BuilderContractImpl.createBuilderTestContract(targetBeanClass, unitTestClass, propertyMetadata);
         contract.ifPresent(builder::add);
-        builder.addAll(ObjectCreatorContractImpl.createTestContracts(targetBeanClass, unitTestClass,
-                propertyMetadata));
+        builder.addAll(ObjectCreatorContractImpl.createTestContracts(targetBeanClass, unitTestClass, propertyMetadata));
 
-        contract = CopyConstructorContractImpl.createTestContract(targetBeanClass, unitTestClass,
-                propertyMetadata, builder);
+        contract = CopyConstructorContractImpl.createTestContract(targetBeanClass, unitTestClass, propertyMetadata,
+                builder);
         contract.ifPresent(builder::add);
 
         return builder;

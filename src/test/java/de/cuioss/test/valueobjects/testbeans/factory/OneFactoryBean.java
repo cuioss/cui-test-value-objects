@@ -11,18 +11,14 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @SuppressWarnings("javadoc")
-@VerifyFactoryMethod(factoryMethodName = "create",
-        of = "attribute",
-        required = "attribute")
+@VerifyFactoryMethod(factoryMethodName = "create", of = "attribute", required = "attribute")
 @RequiredArgsConstructor
 public class OneFactoryBean {
 
-    public static final PropertyMetadata ATTRIBUTE =
-        PropertyMetadataImpl.builder().name("attribute").propertyClass(String.class).required(true)
-                .generator(Generators.nonEmptyStrings()).build();
+    public static final PropertyMetadata ATTRIBUTE = PropertyMetadataImpl.builder().name("attribute")
+            .propertyClass(String.class).required(true).generator(Generators.nonEmptyStrings()).build();
 
-    public static final RuntimeProperties INFORMATION =
-        new RuntimeProperties(immutableList(ATTRIBUTE));
+    public static final RuntimeProperties INFORMATION = new RuntimeProperties(immutableList(ATTRIBUTE));
 
     public static final String CREATE_METHOD_NAME = "create";
 

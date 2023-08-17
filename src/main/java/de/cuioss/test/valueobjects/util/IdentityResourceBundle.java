@@ -5,9 +5,10 @@ import java.util.ResourceBundle;
 import java.util.Vector;
 
 /**
- * An {@link IdentityResourceBundle} is helpful for tests where you want to ensure that a certain
- * message key is used to create a message but do not want to test the actual {@link ResourceBundle}
- * mechanism itself, what is the case for many tests. It will always return the given key itself.
+ * An {@link IdentityResourceBundle} is helpful for tests where you want to
+ * ensure that a certain message key is used to create a message but do not want
+ * to test the actual {@link ResourceBundle} mechanism itself, what is the case
+ * for many tests. It will always return the given key itself.
  *
  * @author Oliver Wolff
  */

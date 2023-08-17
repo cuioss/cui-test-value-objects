@@ -3,8 +3,8 @@ package de.cuioss.test.valueobjects.api.object;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
 
 /**
- * An {@link ObjectTestContract} provides a method that again runs a number of asserts regarding the
- * canonical {@link Object} method.
+ * An {@link ObjectTestContract} provides a method that again runs a number of
+ * asserts regarding the canonical {@link Object} method.
  *
  * @author Oliver Wolff
  */
@@ -14,10 +14,10 @@ public interface ObjectTestContract {
     /**
      * Checks the concrete contract.
      *
-     * @param instantiator must not be null. The actual type of the {@link Object} is not of
-     *            interest, because we check {@link Object} contracts
+     * @param instantiator     must not be null. The actual type of the
+     *                         {@link Object} is not of interest, because we check
+     *                         {@link Object} contracts
      * @param objectTestConfig optional configuration configuring the tests
      */
-    void assertContract(ParameterizedInstantiator<?> instantiator,
-            ObjectTestConfig objectTestConfig);
+    void assertContract(ParameterizedInstantiator<?> instantiator, ObjectTestConfig objectTestConfig);
 }

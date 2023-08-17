@@ -14,8 +14,8 @@ import de.cuioss.test.valueobjects.property.impl.PropertyMetadataImpl.PropertyMe
 
 class BuilderFactoryBasedInstantiatorTest {
 
-    private final BuilderInstantiator<PropertyMetadataImpl> instantiator =
-        new BuilderFactoryBasedInstantiator<>(PropertyMetadataImpl.class);
+    private final BuilderInstantiator<PropertyMetadataImpl> instantiator = new BuilderFactoryBasedInstantiator<>(
+            PropertyMetadataImpl.class);
 
     @Test
     void shouldInstantiatePropertyRuntimeGeneratorBuilder() {

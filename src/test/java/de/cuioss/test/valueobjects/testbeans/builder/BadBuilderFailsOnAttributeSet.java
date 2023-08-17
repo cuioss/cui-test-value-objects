@@ -25,7 +25,7 @@ public class BadBuilderFailsOnAttributeSet {
         return new BadBuilderFailsOnAttributeSetBuilder();
     }
 
-    public static final List<PropertyMetadata> METADATA =
-        immutableList(JavaTypesGenerator.STRINGS.metadata("attributeName"));
+    public static final List<PropertyMetadata> METADATA = immutableList(
+            JavaTypesGenerator.STRINGS.metadata("attributeName"));
 
 }

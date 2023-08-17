@@ -21,8 +21,7 @@ import de.cuioss.tools.property.PropertyReadWrite;
 
 @PropertyReflectionConfig(skip = true)
 @PropertyGeneratorHint(declaredType = PropertyMetadata.class, implementationType = PropertyMetadataImpl.class)
-@PropertyConfig(name = "delegateMetadata", propertyReadWrite = PropertyReadWrite.WRITE_ONLY,
-        propertyClass = PropertyMetadata.class)
+@PropertyConfig(name = "delegateMetadata", propertyReadWrite = PropertyReadWrite.WRITE_ONLY, propertyClass = PropertyMetadata.class)
 @VerifyBuilder(of = "delegateMetadata", required = "delegateMetadata")
 @VetoObjectTestContract(ObjectTestContracts.SERIALIZABLE)
 class BuilderMetadataTest extends ValueObjectTest<BuilderMetadata> {
@@ -74,8 +73,8 @@ class BuilderMetadataTest extends ValueObjectTest<BuilderMetadata> {
 
     @Test
     void shouldPrefixMethod() {
-        final var metadata =
-            BuilderMetadata.builder().delegateMetadata(STRING_METADATA).builderMethodPrefix(BUILDER_PREFIX).build();
+        final var metadata = BuilderMetadata.builder().delegateMetadata(STRING_METADATA)
+                .builderMethodPrefix(BUILDER_PREFIX).build();
         assertNotNull(metadata);
         assertEquals(PROPERTY_NAME, metadata.getName());
         assertEquals(TARGET_NAME_LONG, metadata.getBuilderAddMethodName());

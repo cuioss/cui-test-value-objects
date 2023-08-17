@@ -19,7 +19,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Helper class for asserting single-attribute mappings for {@link VerifyMapperConfiguration}
+ * Helper class for asserting single-attribute mappings for
+ * {@link VerifyMapperConfiguration}
  *
  * @author Oliver Wolff
  *
@@ -30,10 +31,12 @@ public class MapperAttributesAsserts {
 
     private static final CuiLogger log = new CuiLogger(MapperAttributesAsserts.class);
 
-    private static final String PROPERTY_MAPPING_INCOMPLETE =
-        "Caution: you have unmapped {}-properties: {} you can adapt this behavior by either:"
-                + "\n- @VerifyMapperConfiguration(equals(\"name:firstName\"))"
-                + "\n- Make use of the provided property controls like @VerifyMapperConfiguration(of(\"name\"))";
+    private static final String PROPERTY_MAPPING_INCOMPLETE = """
+            Caution: you have unmapped {}-properties: {} you can adapt this behavior by either:\
+
+            - @VerifyMapperConfiguration(equals("name:firstName"))\
+
+            - Make use of the provided property controls like @VerifyMapperConfiguration(of("name"))""";
 
     private final List<AssertTuple> sourceAsserts;
 
@@ -60,9 +63,8 @@ public class MapperAttributesAsserts {
 
         sourceAsserts = new ArrayList<>();
         for (MappingTuple tuple : mapping) {
-            sourceAsserts.add(
-                    new AssertTuple(sourcePropertyMap.get(tuple.getSource()), targetPropertyMap.get(tuple.getTarget()),
-                            tuple));
+            sourceAsserts.add(new AssertTuple(sourcePropertyMap.get(tuple.getSource()),
+                    targetPropertyMap.get(tuple.getTarget()), tuple));
         }
         logConfigurationStatus(targetProperties, sourceProperties);
     }
@@ -72,10 +74,10 @@ public class MapperAttributesAsserts {
             log.warn(
                     "No attribute specific mapping found. use @VerifyMapperConfiguration(equals(\"name:firstName\")) or @VerifyMapperConfiguration(notNull(\"name:lastName\")) in order to activate");
         }
-        Set<String> sourceMappingNames =
-            sourceAsserts.stream().map(a -> a.getMappingTuple().getSource()).collect(Collectors.toSet());
-        Set<String> targetMappingNames =
-            sourceAsserts.stream().map(a -> a.getMappingTuple().getTarget()).collect(Collectors.toSet());
+        Set<String> sourceMappingNames = sourceAsserts.stream().map(a -> a.getMappingTuple().getSource())
+                .collect(Collectors.toSet());
+        Set<String> targetMappingNames = sourceAsserts.stream().map(a -> a.getMappingTuple().getTarget())
+                .collect(Collectors.toSet());
         var sourceTypeProperties = RuntimeProperties.extractNames(sourceProperties.getAllProperties());
         var targetTypeProperties = RuntimeProperties.extractNames(targetProperties.getAllProperties());
 
@@ -104,8 +106,7 @@ public class MapperAttributesAsserts {
         }
         Map<String, List<AssertTuple>> asserts = new HashMap<>();
         for (String name : sourceAttributes) {
-            List<AssertTuple> concreteAsserts =
-                sourceAsserts.stream().filter(a -> a.isResponsibleForSource(name)).collect(Collectors.toList());
+            var concreteAsserts = sourceAsserts.stream().filter(a -> a.isResponsibleForSource(name)).toList();
             if (concreteAsserts.isEmpty()) {
                 log.info("Checked property '{}' is not configured to be asserted, ist this intentional?", name);
             } else {
@@ -115,7 +116,8 @@ public class MapperAttributesAsserts {
         if (asserts.isEmpty()) {
             return;
         }
-        // Defines the elements that should not be affected in the correct instance and should
+        // Defines the elements that should not be affected in the correct instance and
+        // should
         // therefore not be changed
         Set<AssertTuple> activeAsserts = new HashSet<>();
         asserts.values().forEach(activeAsserts::addAll);

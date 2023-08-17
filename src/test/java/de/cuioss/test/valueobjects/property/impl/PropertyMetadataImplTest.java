@@ -25,7 +25,7 @@ import de.cuioss.test.valueobjects.property.util.CollectionType;
 @VetoObjectTestContract(ObjectTestContracts.SERIALIZABLE)
 @VerifyBuilder
 @PropertyReflectionConfig(required = { "name", "generator", "propertyClass" }, defaultValued = { "collectionType",
-    "propertyMemberInfo", "propertyReadWrite", "propertyAccessStrategy", "assertionStrategy" })
+        "propertyMemberInfo", "propertyReadWrite", "propertyAccessStrategy", "assertionStrategy" })
 @ObjectTestConfig(equalsAndHashCodeExclude = "generator")
 class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
 
@@ -52,8 +52,8 @@ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
     @Test
     void shouldBuildMinimal() {
         final var propertyName = names.next();
-        final PropertyMetadata meta =
-            PropertyMetadataImpl.builder().generator(names).name(propertyName).propertyClass(String.class).build();
+        final PropertyMetadata meta = PropertyMetadataImpl.builder().generator(names).name(propertyName)
+                .propertyClass(String.class).build();
         assertNotNull(meta);
         assertEquals(propertyName, meta.getName());
         assertEquals(names, meta.getGenerator());
@@ -65,8 +65,8 @@ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
     @Test
     void shouldBuildWithPropertyValueGenerator() {
         final var propertyName = names.next();
-        final PropertyMetadata support =
-            PropertyMetadataImpl.builder().generator(Generators.locales()).name(propertyName).build();
+        final PropertyMetadata support = PropertyMetadataImpl.builder().generator(Generators.locales())
+                .name(propertyName).build();
         assertNotNull(support);
         assertEquals(Locale.class, support.getPropertyClass());
     }

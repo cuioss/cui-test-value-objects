@@ -2,7 +2,6 @@ package de.cuioss.test.valueobjects.contract;
 
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import de.cuioss.test.valueobjects.api.VerifyMapperConfiguration;
 import de.cuioss.test.valueobjects.contract.support.MapperAttributesAsserts;
@@ -45,12 +44,9 @@ public class MapperContractImpl<S, T> {
         final var builder = new StringBuilder("Verifying ");
         builder.append(getClass().getName()).append("\nWith source-configuration: ")
                 .append(sourceInstantiator.getRuntimeProperties().toString());
-        builder.append("\nWith target-configuration: ")
-                .append(targetMetadata.toString());
+        builder.append("\nWith target-configuration: ").append(targetMetadata.toString());
         log.info(builder.toString());
-        var asserter =
-            new MapperAttributesAsserts(config, targetMetadata,
-                    sourceInstantiator.getRuntimeProperties());
+        var asserter = new MapperAttributesAsserts(config, targetMetadata, sourceInstantiator.getRuntimeProperties());
         handleSimpleMapping(asserter);
     }
 
@@ -63,11 +59,10 @@ public class MapperContractImpl<S, T> {
                 "full-instance");
     }
 
-    private void verifyMapping(MapperAttributesAsserts asserter, List<PropertySupport> properties,
-            String context) {
+    private void verifyMapping(MapperAttributesAsserts asserter, List<PropertySupport> properties, String context) {
         S source = sourceInstantiator.newInstance(properties, false);
         var target = mapper.apply(source);
-        List<String> names = properties.stream().map(PropertySupport::getName).collect(Collectors.toList());
+        var names = properties.stream().map(PropertySupport::getName).toList();
         log.debug("Verifying mapper in context of {} with attributes {}", context, names);
         asserter.assertMappingForSourceAttributes(names, source, target);
     }

@@ -20,8 +20,7 @@ import de.cuioss.test.valueobjects.property.util.CollectionType;
 import de.cuioss.test.valueobjects.testbeans.testgenerator.PropertyMetadataGenerator;
 
 @PropertyReflectionConfig(skip = true)
-@PropertyConfig(name = "allProperties", defaultValue = true, propertyClass = PropertyMetadata.class,
-        collectionType = CollectionType.LIST, generator = PropertyMetadataGenerator.class)
+@PropertyConfig(name = "allProperties", defaultValue = true, propertyClass = PropertyMetadata.class, collectionType = CollectionType.LIST, generator = PropertyMetadataGenerator.class)
 @VerifyConstructor(of = "allProperties")
 @VetoObjectTestContract(ObjectTestContracts.SERIALIZABLE)
 class RuntimePropertiesTest extends ValueObjectTest<RuntimeProperties> {

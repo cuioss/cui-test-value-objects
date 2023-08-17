@@ -28,20 +28,15 @@ public class DeepCopyCopyConstructor implements Serializable {
 
     private static final long serialVersionUID = 741300814716513465L;
 
-    public static final PropertyMetadata ATTRIBUTE =
-        PropertyMetadataImpl.builder().name("attribute")
-                .generator(Generators.nonEmptyStrings())
-                .required(true).propertyClass(String.class)
-                .build();
+    public static final PropertyMetadata ATTRIBUTE = PropertyMetadataImpl.builder().name("attribute")
+            .generator(Generators.nonEmptyStrings()).required(true).propertyClass(String.class).build();
 
     public static final List<PropertyMetadata> ATTRIBUTE_LIST = immutableList(ATTRIBUTE);
 
-    public static final RuntimeProperties RUNTIME_PROPERTIES =
-        new RuntimeProperties(ATTRIBUTE_LIST);
+    public static final RuntimeProperties RUNTIME_PROPERTIES = new RuntimeProperties(ATTRIBUTE_LIST);
 
-    public static final TestContract<DeepCopyCopyConstructor> MOCK_INSTANTIATOR_CONTRACT =
-        new MockTestContract<>(new ConstructorBasedInstantiator<>(
-                DeepCopyCopyConstructor.class, RUNTIME_PROPERTIES));
+    public static final TestContract<DeepCopyCopyConstructor> MOCK_INSTANTIATOR_CONTRACT = new MockTestContract<>(
+            new ConstructorBasedInstantiator<>(DeepCopyCopyConstructor.class, RUNTIME_PROPERTIES));
 
     @Getter
     @NonNull

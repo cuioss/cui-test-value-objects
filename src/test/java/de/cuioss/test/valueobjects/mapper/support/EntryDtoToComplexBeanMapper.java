@@ -15,9 +15,7 @@ public class EntryDtoToComplexBeanMapper implements Function<EntryDto, ComplexBe
         final var result = new ComplexBean();
         result.setString(entryDto.getIdentifier());
         if (null != entryDto.getKeyValueEntities()) {
-            result.setStringSet(entryDto.getKeyValueEntities().stream()
-                    .map(Entry::getKey)
-                    .collect(Collectors.toSet()));
+            result.setStringSet(entryDto.getKeyValueEntities().stream().map(Entry::getKey).collect(Collectors.toSet()));
         }
         return result;
     }

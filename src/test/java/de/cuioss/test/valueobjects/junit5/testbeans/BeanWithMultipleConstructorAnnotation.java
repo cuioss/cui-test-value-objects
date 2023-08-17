@@ -25,8 +25,7 @@ public class BeanWithMultipleConstructorAnnotation implements Serializable {
     @Getter
     private PropertyMemberInfo propertyMemberInfo;
 
-    public BeanWithMultipleConstructorAnnotation(final String name,
-            final PropertyMemberInfo propertyMemberInfo) {
+    public BeanWithMultipleConstructorAnnotation(final String name, final PropertyMemberInfo propertyMemberInfo) {
         this(name);
         this.propertyMemberInfo = propertyMemberInfo;
     }

@@ -6,8 +6,8 @@ import lombok.NonNull;
 import lombok.Value;
 
 /**
- * Combines the {@link PropertySupport} for source and target with the associated
- * {@link MappingTuple}
+ * Combines the {@link PropertySupport} for source and target with the
+ * associated {@link MappingTuple}
  *
  * @author Oliver Wolff
  *

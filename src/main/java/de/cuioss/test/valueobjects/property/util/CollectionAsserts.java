@@ -12,25 +12,21 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public final class CollectionAsserts {
 
-    private static final String NOT_EQUAL =
-        "The given object for property %s are not equal: expected=%s , actual=%s";
+    private static final String NOT_EQUAL = "The given object for property %s are not equal: expected=%s , actual=%s";
 
-    private static final String NO_COLLECTION =
-        "The given objects for property %s are to be at least a Collection: expected=%s , actual=%s";
+    private static final String NO_COLLECTION = "The given objects for property %s are to be at least a Collection: expected=%s , actual=%s";
 
-    private static final String DIFFERENT_SIZES =
-        "The given objects for property %s do not have the same size: expected=%s , actual=%s";
+    private static final String DIFFERENT_SIZES = "The given objects for property %s do not have the same size: expected=%s , actual=%s";
 
     /**
      * Checks whether two Collection elements are equal ignoring the order.
      *
-     * @param propertyName the name of the property, used for creating the error-message, must not
-     *            be null
+     * @param propertyName the name of the property, used for creating the
+     *                     error-message, must not be null
      * @param expected
      * @param actual
      */
-    public static void assertListsAreEqualIgnoringOrder(final String propertyName,
-            final Object expected,
+    public static void assertListsAreEqualIgnoringOrder(final String propertyName, final Object expected,
             final Object actual) {
         // Same instance or both null
         if (expected == actual) {
@@ -69,13 +65,11 @@ public final class CollectionAsserts {
         }
     }
 
-    private static void fail(final String template, final String propertyName,
-            final Object expected,
+    private static void fail(final String template, final String propertyName, final Object expected,
             final Object actual) {
         final var expectedString = String.valueOf(expected);
         final var actualString = String.valueOf(actual);
-        throw new AssertionError(
-                String.format(template, propertyName, expectedString, actualString));
+        throw new AssertionError(String.format(template, propertyName, expectedString, actualString));
 
     }
 }

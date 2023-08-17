@@ -16,10 +16,9 @@ import de.cuioss.test.valueobjects.property.PropertyMetadata;
 @SuppressWarnings("javadoc")
 public class PropertyMetadataGenerator implements TypedGenerator<PropertyMetadata> {
 
-    private static final Generator<PropertyMetadataTestDataGenerator> GENERATOR_GENERATOR =
-        new FixedValuesGenerator<>(immutableList(ATTRIBUTE_NAME, ATTRIBUTE_DEFAULT_VALUE,
-                ATTRIBUTE_REQUIRED, ATTRIBUTE_ACCESS_STRATEGY, ATTRIBUTE_COLLECTION_WRAPPER,
-                ATTRIBUTE_MEMBER_INFO));
+    private static final Generator<PropertyMetadataTestDataGenerator> GENERATOR_GENERATOR = new FixedValuesGenerator<>(
+            immutableList(ATTRIBUTE_NAME, ATTRIBUTE_DEFAULT_VALUE, ATTRIBUTE_REQUIRED, ATTRIBUTE_ACCESS_STRATEGY,
+                    ATTRIBUTE_COLLECTION_WRAPPER, ATTRIBUTE_MEMBER_INFO));
 
     @Override
     public PropertyMetadata next() {

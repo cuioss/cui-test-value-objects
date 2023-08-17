@@ -26,13 +26,13 @@ import de.cuioss.test.valueobjects.testbeans.beanproperty.BeanPropertyTestClassS
 
 class BeanPropertyContractImplTest {
 
-    private static final SortedSet<PropertyMetadata> COMPLETE_METADATA =
-        immutableSortedSet(ComplexBean.completeValidMetadata());
+    private static final SortedSet<PropertyMetadata> COMPLETE_METADATA = immutableSortedSet(
+            ComplexBean.completeValidMetadata());
 
     private static final List<PropertyMetadata> COMPLETE_METADATA_AS_LIST = immutableList(COMPLETE_METADATA);
 
-    private static final BeanInstantiator<ComplexBean> BEAN_INSTANTIATOR =
-        new BeanInstantiator<>(new DefaultInstantiator<>(ComplexBean.class), new RuntimeProperties(COMPLETE_METADATA));
+    private static final BeanInstantiator<ComplexBean> BEAN_INSTANTIATOR = new BeanInstantiator<>(
+            new DefaultInstantiator<>(ComplexBean.class), new RuntimeProperties(COMPLETE_METADATA));
 
     @Test
     void shouldHandleComplexSetup() {
@@ -44,9 +44,8 @@ class BeanPropertyContractImplTest {
     void shouldFailOnInvalidBean() {
         final SortedSet<PropertyMetadata> generators = mutableSortedSet();
         generators.add(STRINGS.metadata(ATTRIBUTE_BAD_STRING));
-        final var instantiator =
-            new BeanInstantiator<>(new DefaultInstantiator<>(ComplexBean.class),
-                    new RuntimeProperties(generators));
+        final var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(ComplexBean.class),
+                new RuntimeProperties(generators));
         final var support = new BeanPropertyContractImpl<>(instantiator);
         assertThrows(AssertionError.class, () -> support.assertContract());
     }

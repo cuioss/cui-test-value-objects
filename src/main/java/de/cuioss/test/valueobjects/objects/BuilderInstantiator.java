@@ -15,7 +15,8 @@ public interface BuilderInstantiator<T> {
     Object newBuilderInstance();
 
     /**
-     * @return the class of the object that will be created by the contained builder.
+     * @return the class of the object that will be created by the contained
+     *         builder.
      */
     Class<T> getTargetClass();
 

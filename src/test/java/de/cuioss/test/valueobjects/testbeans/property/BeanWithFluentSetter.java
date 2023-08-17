@@ -17,10 +17,9 @@ public class BeanWithFluentSetter implements Serializable {
 
     private static final long serialVersionUID = 4441858070683023193L;
 
-    public static final PropertyMetadata METATDATA =
-        PropertyMetadataImpl.builder().name("field").propertyClass(String.class)
-                .generator(Generators.nonEmptyStrings())
-                .propertyReadWrite(PropertyReadWrite.READ_WRITE).build();
+    public static final PropertyMetadata METATDATA = PropertyMetadataImpl.builder().name("field")
+            .propertyClass(String.class).generator(Generators.nonEmptyStrings())
+            .propertyReadWrite(PropertyReadWrite.READ_WRITE).build();
 
     @Getter
     private String field;

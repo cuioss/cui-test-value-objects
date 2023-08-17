@@ -14,7 +14,8 @@ import lombok.ToString;
 import lombok.experimental.Delegate;
 
 /**
- * Extensions of {@link PropertyMetadata} that deals with builder-specific aspects
+ * Extensions of {@link PropertyMetadata} that deals with builder-specific
+ * aspects
  *
  * @author Oliver Wolff
  */
@@ -27,23 +28,23 @@ public class BuilderMetadata implements PropertyMetadata {
     private final PropertyMetadata delegate;
 
     /**
-     * Used for builder testing / verifying: In case builderMethodPrefix is null the corresponding
-     * build method to be accessed for setting the value is the name attribute:
-     * {@link PropertyMetadata#getName()}, in case it is a concrete value, e.g. 'with' it will
-     * taken into account: withPropertName().
+     * Used for builder testing / verifying: In case builderMethodPrefix is null the
+     * corresponding build method to be accessed for setting the value is the name
+     * attribute: {@link PropertyMetadata#getName()}, in case it is a concrete
+     * value, e.g. 'with' it will taken into account: withPropertName().
      */
     @Getter
     private final String builderAddMethodName;
 
     /**
-     * Similar to {@link BuilderMetadataBuilder#builderMethodName(String)} but for special cases
-     * described within
-     * {@link PropertyAccessStrategy#BUILDER_COLLECTION_AND_SINGLE_ELEMENT}
-     * There are two different steps for deriving the concrete method-name:
+     * Similar to {@link BuilderMetadataBuilder#builderMethodName(String)} but for
+     * special cases described within
+     * {@link PropertyAccessStrategy#BUILDER_COLLECTION_AND_SINGLE_ELEMENT} There
+     * are two different steps for deriving the concrete method-name:
      * <ul>
      * <li>Base-name: In case
-     * {@link BuilderMetadataBuilder#builderSingleAddMethodName(String)} is
-     * not set it used {@link PropertyMetadata#getName()} as base name -> Overloading</li>
+     * {@link BuilderMetadataBuilder#builderSingleAddMethodName(String)} is not set
+     * it used {@link PropertyMetadata#getName()} as base name -> Overloading</li>
      * <li>The base-name will prefixed if there is a builderPerfixed configured, see
      * {@link BuilderMetadataBuilder#builderMethodPrefix(String)}</li>
      * </ul>
@@ -51,8 +52,7 @@ public class BuilderMetadata implements PropertyMetadata {
     @Getter
     private final String builderSingleAddMethodName;
 
-    static String prefixBuilderMethod(final String nameToBePrefixed,
-            final String builderMethodPrefix) {
+    static String prefixBuilderMethod(final String nameToBePrefixed, final String builderMethodPrefix) {
         requireNonNull(emptyToNull(nameToBePrefixed), "nameToBePrefixed");
         if (isEmpty(builderMethodPrefix)) {
             return nameToBePrefixed;
@@ -76,27 +76,25 @@ public class BuilderMetadata implements PropertyMetadata {
         private PropertyMetadata tempDelegate;
 
         /**
-         * In case this methodName is set it will be used directly for deriving the write-method.
-         * {@link #builderMethodPrefix(String)} will then ignored
+         * In case this methodName is set it will be used directly for deriving the
+         * write-method. {@link #builderMethodPrefix(String)} will then ignored
          *
          * @param builderMethodName to be set
          * @return the builder for {@link BuilderMetadata}
          */
-        public BuilderMetadataBuilder builderMethodName(
-                final String builderMethodName) {
+        public BuilderMetadataBuilder builderMethodName(final String builderMethodName) {
             tempBuilderMethodName = builderMethodName;
             return this;
         }
 
         /**
-         * Defines a delegate {@link PropertyMetadata} used for all attributes that are not builder
-         * specific, required.
+         * Defines a delegate {@link PropertyMetadata} used for all attributes that are
+         * not builder specific, required.
          *
          * @param delegate to be set
          * @return the builder for {@link BuilderMetadata}
          */
-        public BuilderMetadataBuilder delegateMetadata(
-                final PropertyMetadata delegate) {
+        public BuilderMetadataBuilder delegateMetadata(final PropertyMetadata delegate) {
             tempDelegate = delegate;
             return this;
         }
@@ -107,21 +105,20 @@ public class BuilderMetadata implements PropertyMetadata {
          * @param builderMethodPrefix to be set
          * @return the builder for {@link BuilderMetadata}
          */
-        public BuilderMetadataBuilder builderMethodPrefix(
-                final String builderMethodPrefix) {
+        public BuilderMetadataBuilder builderMethodPrefix(final String builderMethodPrefix) {
             tempBuilderMethodPrefix = emptyToNull(builderMethodPrefix);
             return this;
         }
 
         /**
-         * Only needed for builder that deal with {@link Iterable} and single elements, see
-         * {@link PropertyAccessStrategy#BUILDER_COLLECTION_AND_SINGLE_ELEMENT} for details
+         * Only needed for builder that deal with {@link Iterable} and single elements,
+         * see {@link PropertyAccessStrategy#BUILDER_COLLECTION_AND_SINGLE_ELEMENT} for
+         * details
          *
          * @param builderSingleAddMethodName to be set
          * @return the builder for {@link BuilderMetadata}
          */
-        public BuilderMetadataBuilder builderSingleAddMethodName(
-                final String builderSingleAddMethodName) {
+        public BuilderMetadataBuilder builderSingleAddMethodName(final String builderSingleAddMethodName) {
             tempBuilderSingleAddMethodName = emptyToNull(builderSingleAddMethodName);
             return this;
         }
@@ -136,18 +133,15 @@ public class BuilderMetadata implements PropertyMetadata {
 
             var addMethodName = tempBuilderMethodName;
             if (isEmpty(addMethodName)) {
-                addMethodName = prefixBuilderMethod(tempPropertyName,
-                        tempBuilderMethodPrefix);
+                addMethodName = prefixBuilderMethod(tempPropertyName, tempBuilderMethodPrefix);
             }
 
             var singleAddMethodName = tempBuilderSingleAddMethodName;
             if (isEmpty(singleAddMethodName)) {
-                singleAddMethodName = prefixBuilderMethod(tempPropertyName,
-                        tempBuilderMethodPrefix);
+                singleAddMethodName = prefixBuilderMethod(tempPropertyName, tempBuilderMethodPrefix);
             }
 
-            return new BuilderMetadata(tempDelegate, addMethodName,
-                    singleAddMethodName);
+            return new BuilderMetadata(tempDelegate, addMethodName, singleAddMethodName);
         }
     }
 
@@ -163,8 +157,8 @@ public class BuilderMetadata implements PropertyMetadata {
      * {@link PropertyMetadata} with defaults for the methods.
      *
      * @param metadata must not be null
-     * @return a {@link BuilderMetadata} computed from the given {@link PropertyMetadata} without
-     *         further configuration
+     * @return a {@link BuilderMetadata} computed from the given
+     *         {@link PropertyMetadata} without further configuration
      */
     public static BuilderMetadata wrapFromMetadata(final PropertyMetadata metadata) {
         return builder().delegateMetadata(metadata).build();

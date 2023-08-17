@@ -9,8 +9,8 @@ import de.cuioss.tools.logging.CuiLogger;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Checks whether the object in hand implements {@link Object#toString()} and calls it will fully
- * populated object.
+ * Checks whether the object in hand implements {@link Object#toString()} and
+ * calls it will fully populated object.
  *
  * @author Oliver Wolff
  */
@@ -24,8 +24,7 @@ public class ToStringContractImpl implements ObjectTestContract {
             final ObjectTestConfig objectTestConfig) {
 
         final var builder = new StringBuilder("Verifying ");
-        builder.append(getClass().getName()).append("\nWith configuration: ")
-                .append(instantiator.toString());
+        builder.append(getClass().getName()).append("\nWith configuration: ").append(instantiator.toString());
         log.info(builder.toString());
         Object target;
 
@@ -33,8 +32,8 @@ public class ToStringContractImpl implements ObjectTestContract {
                 && !instantiator.getRuntimeProperties().getWritableProperties().isEmpty()) {
             target = instantiator.newInstanceMinimal();
         } else {
-            target =
-                instantiator.newInstance(instantiator.getRuntimeProperties().getWritableAsPropertySupport(true), false);
+            target = instantiator.newInstance(instantiator.getRuntimeProperties().getWritableAsPropertySupport(true),
+                    false);
         }
         ReflectionUtil.assertToStringMethodIsOverriden(target.getClass());
         assertNotNull(target.toString(), "toString must not return 'null'");

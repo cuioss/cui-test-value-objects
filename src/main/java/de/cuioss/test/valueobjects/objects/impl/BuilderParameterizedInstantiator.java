@@ -30,11 +30,10 @@ public class BuilderParameterizedInstantiator<T> implements ParameterizedInstant
     private final RuntimeProperties runtimeProperties;
 
     @Override
-    public T newInstance(final List<PropertySupport> properties,
-            final boolean generatePropertyValues) {
+    public T newInstance(final List<PropertySupport> properties, final boolean generatePropertyValues) {
         assertNotNull(properties, PROPERTIES_MUST_NOT_BE_NULL);
 
-        final var builder = this.instantiator.newBuilderInstance();
+        final var builder = instantiator.newBuilderInstance();
 
         if (generatePropertyValues) {
             properties.forEach(PropertySupport::generateTestValue);
@@ -42,31 +41,29 @@ public class BuilderParameterizedInstantiator<T> implements ParameterizedInstant
         for (final PropertySupport propertySupport : properties) {
             propertySupport.apply(builder);
         }
-        return this.instantiator.build(builder);
+        return instantiator.build(builder);
     }
 
     @Override
     public T newInstance(final List<PropertyMetadata> properties) {
         assertNotNull(properties, PROPERTIES_MUST_NOT_BE_NULL);
-        return newInstance(properties.stream().map(PropertySupport::new)
-                .collect(Collectors.toList()), true);
+        return newInstance(properties.stream().map(PropertySupport::new).collect(Collectors.toList()), true);
     }
 
     @Override
     public T newInstanceMinimal() {
-        return newInstance(this.runtimeProperties.getRequiredProperties());
+        return newInstance(runtimeProperties.getRequiredProperties());
     }
 
     @Override
     public T newInstanceFull() {
-        return newInstance(this.runtimeProperties.getAllProperties());
+        return newInstance(runtimeProperties.getAllProperties());
     }
 
     @Override
     public String toString() {
         final var builder = new StringBuilder(getClass().getName());
-        builder.append("\nInstantiator: ").append(this.instantiator)
-                .append(this.runtimeProperties.toString());
+        builder.append("\nInstantiator: ").append(instantiator).append(runtimeProperties.toString());
         return builder.toString();
     }
 

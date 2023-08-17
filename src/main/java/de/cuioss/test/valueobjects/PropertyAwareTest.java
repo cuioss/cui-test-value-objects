@@ -21,21 +21,23 @@ import lombok.Setter;
 
 /**
  * Base class for dynamically testing properties. It provides the handling of
- * {@link PropertyMetadata} and {@link TypedGenerator}. In addition it computes the runtime class of
- * the Generic type T and exposes it accordingly, see
+ * {@link PropertyMetadata} and {@link TypedGenerator}. In addition it computes
+ * the runtime class of the Generic type T and exposes it accordingly, see
  * {@link #getTargetBeanClass()}
- * <h2>Configuration</h2>
- * The tests can be configured using certain annotations, depending on what you want to achieve:
+ * <h2>Configuration</h2> The tests can be configured using certain annotations,
+ * depending on what you want to achieve:
  * <ul>
- * <li>Properties: The configuration of properties to be tested can be tweaked in multiple ways,
- * see {@link de.cuioss.test.valueobjects.api.property} for details</li>
- * <li>{@link TypedGenerator}: see {@link GeneratorRegistry} for documentation</li>
+ * <li>Properties: The configuration of properties to be tested can be tweaked
+ * in multiple ways, see {@link de.cuioss.test.valueobjects.api.property} for
+ * details</li>
+ * <li>{@link TypedGenerator}: see {@link GeneratorRegistry} for
+ * documentation</li>
  * </ul>
  * Usage examples can be found at the package-documentation:
  * {@link de.cuioss.test.valueobjects.junit5}
  *
- * @param <T> identifying the type to be tested is usually but not necessarily at least
- *            {@link Serializable}.
+ * @param <T> identifying the type to be tested is usually but not necessarily
+ *            at least {@link Serializable}.
  * @author Oliver Wolff
  */
 @SuppressWarnings("squid:S2187") // owolff: this is a base class for concrete tests
@@ -54,17 +56,17 @@ public class PropertyAwareTest<T> implements GeneratorRegistry {
      */
     @BeforeEach
     public void initializePropertiesAndGenerators() {
-        this.targetBeanClass = MoreReflection.extractFirstGenericTypeArgument(getClass());
+        targetBeanClass = MoreReflection.extractFirstGenericTypeArgument(getClass());
 
-        this.propertyMetadata = resolvePropertyMetadata();
+        propertyMetadata = resolvePropertyMetadata();
     }
 
     /**
-     * Resolves the {@link PropertyMetadata} by using reflections and the annotations
-     * {@link PropertyConfig} and / {@link PropertyConfigs} if provided
+     * Resolves the {@link PropertyMetadata} by using reflections and the
+     * annotations {@link PropertyConfig} and / {@link PropertyConfigs} if provided
      *
-     * @return a {@link SortedSet} of {@link PropertyMetadata} defining the base line for the
-     *         configured attributes
+     * @return a {@link SortedSet} of {@link PropertyMetadata} defining the base
+     *         line for the configured attributes
      */
     protected List<PropertyMetadata> resolvePropertyMetadata() {
         return ReflectionHelper.handlePropertyMetadata(getClass(), getTargetBeanClass());

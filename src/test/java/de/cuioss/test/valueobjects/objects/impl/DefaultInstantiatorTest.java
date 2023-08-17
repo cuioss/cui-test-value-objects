@@ -21,10 +21,8 @@ class DefaultInstantiatorTest {
 
     @Test
     void shouldfailToInstantiateBeanWithoutDefaultConstructor() {
-        var instantiator =
-            new DefaultInstantiator<>(BeanWithSingleArgumentConstructor.class);
-        assertThrows(AssertionError.class,
-                () -> instantiator.newInstance());
+        var instantiator = new DefaultInstantiator<>(BeanWithSingleArgumentConstructor.class);
+        assertThrows(AssertionError.class, () -> instantiator.newInstance());
     }
 
     @Test

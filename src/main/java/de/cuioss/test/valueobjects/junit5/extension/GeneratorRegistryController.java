@@ -13,7 +13,8 @@ import de.cuioss.test.valueobjects.util.GeneratorAnnotationHelper;
 import de.cuioss.test.valueobjects.util.GeneratorRegistry;
 
 /**
- * This extension handles the test-generator handling, see {@link GeneratorRegistry} for details
+ * This extension handles the test-generator handling, see
+ * {@link GeneratorRegistry} for details
  *
  * @author Oliver Wolff
  *
@@ -30,13 +31,11 @@ public class GeneratorRegistryController implements TestInstancePostProcessor, A
             log.debug(() -> "Test-class '" + testInstance.getClass()
                     + "' is of type de.cuioss.test.valueobjects.util.GeneratorRegistry, initializing Generator framework");
             var registry = (GeneratorRegistry) testInstance;
-            GeneratorAnnotationHelper.handleGeneratorsForTestClass(registry,
-                    registry.registerAdditionalGenerators());
+            GeneratorAnnotationHelper.handleGeneratorsForTestClass(registry, registry.registerAdditionalGenerators());
         } else {
             log.debug(() -> "Test-class '{" + testInstance.getClass()
                     + "}' is NOT of type de.cuioss.test.valueobjects.util.GeneratorRegistry, initializing Generator framework without local Generator");
-            GeneratorAnnotationHelper.handleGeneratorsForTestClass(testInstance,
-                    Collections.emptyList());
+            GeneratorAnnotationHelper.handleGeneratorsForTestClass(testInstance, Collections.emptyList());
         }
 
     }

@@ -42,8 +42,7 @@ class InjectedBeanInstantiatorTest
 
     @Test
     void shouldHandleInstantiator() {
-        var instantiator =
-            new InjectedBeanInstantiator<>(this, this, runtimeProperties);
+        var instantiator = new InjectedBeanInstantiator<>(this, this, runtimeProperties);
         assertNotNull(instantiator.newInstanceFull());
         assertNotNull(instantiator.newInstanceMinimal());
         assertNotNull(instantiator.toString());

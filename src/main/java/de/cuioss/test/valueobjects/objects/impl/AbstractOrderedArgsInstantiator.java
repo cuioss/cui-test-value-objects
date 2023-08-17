@@ -14,8 +14,9 @@ import de.cuioss.test.valueobjects.property.PropertySupport;
 import lombok.Getter;
 
 /**
- * Base class for creating objects with a fixed set of parameter to be used. This can be constructor
- * and or factory based {@link ParameterizedInstantiator}.
+ * Base class for creating objects with a fixed set of parameter to be used.
+ * This can be constructor and or factory based
+ * {@link ParameterizedInstantiator}.
  *
  * @author Oliver Wolff
  * @param <T>
@@ -28,12 +29,11 @@ public abstract class AbstractOrderedArgsInstantiator<T> implements Parameterize
     /**
      * Constructor.
      *
-     * @param runtimeProperties must not be null. defines the attributes in the exact order
-     *            to be used for the constructor:
-     *            {@link RuntimeProperties#getAllProperties()}
+     * @param runtimeProperties must not be null. defines the attributes in the
+     *                          exact order to be used for the constructor:
+     *                          {@link RuntimeProperties#getAllProperties()}
      */
-    protected AbstractOrderedArgsInstantiator(
-            final RuntimeProperties runtimeProperties) {
+    protected AbstractOrderedArgsInstantiator(final RuntimeProperties runtimeProperties) {
         requireNonNull(runtimeProperties);
 
         this.runtimeProperties = runtimeProperties;
@@ -57,16 +57,14 @@ public abstract class AbstractOrderedArgsInstantiator<T> implements Parameterize
     }
 
     @Override
-    public T newInstance(final List<PropertySupport> properties,
-            final boolean generatePropertyValues) {
+    public T newInstance(final List<PropertySupport> properties, final boolean generatePropertyValues) {
         final Map<String, PropertySupport> given = new HashMap<>();
         properties.forEach(p -> given.put(p.getName(), p));
         final List<Object> parameter = new ArrayList<>();
         for (final PropertySupport support : resolveFixedArgumentList()) {
             if (given.containsKey(support.getName())) {
                 // Use given element
-                final var givenSupport =
-                    given.get(support.getName());
+                final var givenSupport = given.get(support.getName());
                 if (generatePropertyValues) {
                     givenSupport.generateTestValue();
                 }
@@ -87,21 +85,19 @@ public abstract class AbstractOrderedArgsInstantiator<T> implements Parameterize
      * The actual instantiation method for the {@link Object}s
      *
      * @param args Object[] of parameter to be passed to Constructor / factory ,
-     *            method
+     *             method
      * @return the instantiated {@link Object}
      */
     protected abstract T doInstantiate(Object... args);
 
     @Override
     public T newInstance(final List<PropertyMetadata> properties) {
-        return newInstance(RuntimeProperties.mapToPropertySupport(properties, false),
-                true);
+        return newInstance(RuntimeProperties.mapToPropertySupport(properties, false), true);
     }
 
     @Override
     public T newInstanceMinimal() {
-        return newInstance(getRuntimeProperties().getRequiredAsPropertySupport(false),
-                true);
+        return newInstance(getRuntimeProperties().getRequiredAsPropertySupport(false), true);
     }
 
     @Override

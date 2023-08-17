@@ -25,19 +25,19 @@ import de.cuioss.test.valueobjects.util.ReflectionHelper;
 
 class EqualsAndHashcodeContractImplTest {
 
-    public static final DefaultInstantiator<ComplexBean> SIMPLE_BEAN_INSTANIATOR =
-        new DefaultInstantiator<>(ComplexBean.class);
+    public static final DefaultInstantiator<ComplexBean> SIMPLE_BEAN_INSTANIATOR = new DefaultInstantiator<>(
+            ComplexBean.class);
 
-    public static final RuntimeProperties FULL_RUNTIME_INFORMATION =
-        new RuntimeProperties(immutableSortedSet(ComplexBean.completeValidMetadata()));
+    public static final RuntimeProperties FULL_RUNTIME_INFORMATION = new RuntimeProperties(
+            immutableSortedSet(ComplexBean.completeValidMetadata()));
 
     public static final RuntimeProperties EMPTY_RUNTIME_INFORMATION = new RuntimeProperties(immutableSortedSet());
 
-    public static final BeanInstantiator<ComplexBean> FULL_BEAN_INSTANIATOR =
-        new BeanInstantiator<>(SIMPLE_BEAN_INSTANIATOR, FULL_RUNTIME_INFORMATION);
+    public static final BeanInstantiator<ComplexBean> FULL_BEAN_INSTANIATOR = new BeanInstantiator<>(
+            SIMPLE_BEAN_INSTANIATOR, FULL_RUNTIME_INFORMATION);
 
-    public static final BeanInstantiator<ComplexBean> EMPTY_BEAN_INSTANIATOR =
-        new BeanInstantiator<>(SIMPLE_BEAN_INSTANIATOR, EMPTY_RUNTIME_INFORMATION);
+    public static final BeanInstantiator<ComplexBean> EMPTY_BEAN_INSTANIATOR = new BeanInstantiator<>(
+            SIMPLE_BEAN_INSTANIATOR, EMPTY_RUNTIME_INFORMATION);
 
     @Test
     void shouldHandleSimpleBeanWithAllAttributesCorrectly() {
@@ -51,40 +51,33 @@ class EqualsAndHashcodeContractImplTest {
 
     @Test
     void shouldFailOnBadObjectBean() {
-        var instantiator =
-            new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBean.class), EMPTY_RUNTIME_INFORMATION);
+        var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBean.class),
+                EMPTY_RUNTIME_INFORMATION);
         var contract = new EqualsAndHashcodeContractImpl();
-        assertThrows(AssertionError.class, () -> contract.assertContract(
-                instantiator,
-                null));
+        assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
     }
 
     @Test
     void shouldFailOnBadObjectWithInvalidEquals() {
-        var instantiator = new BeanInstantiator<>(
-                new DefaultInstantiator<>(BadObjectBeanWithInvalidEquals.class), EMPTY_RUNTIME_INFORMATION);
+        var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBeanWithInvalidEquals.class),
+                EMPTY_RUNTIME_INFORMATION);
         var contract = new EqualsAndHashcodeContractImpl();
-        assertThrows(AssertionError.class, () -> contract.assertContract(
-                instantiator,
-                null));
+        assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
     }
 
     @Test
     void shouldFailOnBadObjectWithInvalidHashCode() {
-        var instantiator = new BeanInstantiator<>(
-                new DefaultInstantiator<>(BadObjectBeanWithInvalidHashCode.class), EMPTY_RUNTIME_INFORMATION);
+        var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBeanWithInvalidHashCode.class),
+                EMPTY_RUNTIME_INFORMATION);
         var contract = new EqualsAndHashcodeContractImpl();
-        assertThrows(AssertionError.class, () -> contract.assertContract(
-                instantiator,
-                null));
+        assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
     }
 
     @Test
     void shouldHandleComplexBean() {
         TypedGeneratorRegistry.registerBasicTypes();
-        final var instantiator =
-            new BeanInstantiator<>(new DefaultInstantiator<>(ComplexBean.class),
-                    new RuntimeProperties(ComplexBean.completeValidMetadata()));
+        final var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(ComplexBean.class),
+                new RuntimeProperties(ComplexBean.completeValidMetadata()));
         new EqualsAndHashcodeContractImpl().assertContract(instantiator, null);
         TypedGeneratorRegistry.clear();
     }
@@ -94,8 +87,8 @@ class EqualsAndHashcodeContractImplTest {
         TypedGeneratorRegistry.registerBasicTypes();
         final List<PropertyMetadata> meta = ReflectionHelper
                 .handlePropertyMetadata(EqualsAndHashcodeTwoArgumentBean.class, EqualsAndHashcodeTwoArgumentBean.class);
-        final var instantiator =
-            new ConstructorBasedInstantiator<>(EqualsAndHashcodeTwoArgumentBean.class, new RuntimeProperties(meta));
+        final var instantiator = new ConstructorBasedInstantiator<>(EqualsAndHashcodeTwoArgumentBean.class,
+                new RuntimeProperties(meta));
         new EqualsAndHashcodeContractImpl().assertContract(instantiator, null);
         TypedGeneratorRegistry.clear();
     }

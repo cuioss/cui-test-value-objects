@@ -14,12 +14,11 @@ class BuilderParameterizedInstantiatorTest {
 
     @Test
     void shouldBuildVariantsOfPropertyMetadata() {
-        final var validMetadata =
-            new RuntimeProperties(immutableSortedSet(BuilderWithCollections.METADATA_COMPLETE));
-        final BuilderInstantiator<BuilderWithCollections> builderInstantiator =
-            new BuilderFactoryBasedInstantiator<>(BuilderWithCollections.class);
-        final ParameterizedInstantiator<BuilderWithCollections> parameterizedInstantiator =
-            new BuilderParameterizedInstantiator<>(builderInstantiator, validMetadata);
+        final var validMetadata = new RuntimeProperties(immutableSortedSet(BuilderWithCollections.METADATA_COMPLETE));
+        final BuilderInstantiator<BuilderWithCollections> builderInstantiator = new BuilderFactoryBasedInstantiator<>(
+                BuilderWithCollections.class);
+        final ParameterizedInstantiator<BuilderWithCollections> parameterizedInstantiator = new BuilderParameterizedInstantiator<>(
+                builderInstantiator, validMetadata);
         assertNotNull(parameterizedInstantiator.newInstanceMinimal());
         assertNotNull(parameterizedInstantiator.newInstanceFull());
     }

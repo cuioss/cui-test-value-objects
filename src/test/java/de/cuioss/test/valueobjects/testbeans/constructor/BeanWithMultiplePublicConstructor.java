@@ -15,6 +15,6 @@ public class BeanWithMultiplePublicConstructor implements Serializable {
     private final String name;
 
     public BeanWithMultiplePublicConstructor() {
-        this.name = null;
+        name = null;
     }
 }

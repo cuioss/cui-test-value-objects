@@ -8,8 +8,7 @@ import static de.cuioss.test.valueobjects.testbeans.property.BeanWithReadWritePr
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 
 @SuppressWarnings("javadoc")
-@PropertyReflectionConfig(required = ATTRIBUTE_READ_WRITE, defaultValued = ATTRIBUTE_READ_ONLY,
-        exclude = ATTRIBUTE_DEFAULT_VALUE, transientProperties = ATTRIBUTE_TRANSIENT_VALUE)
+@PropertyReflectionConfig(required = ATTRIBUTE_READ_WRITE, defaultValued = ATTRIBUTE_READ_ONLY, exclude = ATTRIBUTE_DEFAULT_VALUE, transientProperties = ATTRIBUTE_TRANSIENT_VALUE)
 public class ReflectionPostProcessComplex {
 
 }

@@ -12,7 +12,8 @@ import lombok.ToString;
 
 /**
  * Delegate to {@link ParameterizedInstantiator} that calls
- * {@link ConfigurationCallBackHandler#configure(Object)} after creation of the object.
+ * {@link ConfigurationCallBackHandler#configure(Object)} after creation of the
+ * object.
  *
  * @author Oliver Wolff
  * @param <T> identifying the type of the objects to be instantiated
@@ -25,8 +26,7 @@ public class CallbackAwareInstantiator<T> implements ParameterizedInstantiator<T
     private final ConfigurationCallBackHandler<T> callBackHandler;
 
     @Override
-    public T newInstance(final List<PropertySupport> properties,
-            final boolean generatePropertyValues) {
+    public T newInstance(final List<PropertySupport> properties, final boolean generatePropertyValues) {
         final var instance = parameterizedInstantiator.newInstance(properties, generatePropertyValues);
         callBackHandler.configure(instance);
         return instance;

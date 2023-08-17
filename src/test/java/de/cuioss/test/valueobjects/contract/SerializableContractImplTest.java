@@ -50,41 +50,34 @@ class SerializableContractImplTest {
 
     @Test
     void shouldFailOnBadObjectBean() {
-        var instantiator =
-            new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBean.class), EMPTY_RUNTIME_INFORMATION);
+        var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBean.class),
+                EMPTY_RUNTIME_INFORMATION);
         var contract = new SerializableContractImpl();
-        assertThrows(AssertionError.class, () -> contract.assertContract(
-                instantiator,
-                null));
+        assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
     }
 
     @Test
     void shouldFailOnSerializableReadFailure() {
-        var instantiator =
-            new ConstructorBasedInstantiator<>(SerializationReadFailure.class,
-                    new RuntimeProperties(Collections.emptyList()));
+        var instantiator = new ConstructorBasedInstantiator<>(SerializationReadFailure.class,
+                new RuntimeProperties(Collections.emptyList()));
         var contract = new SerializableContractImpl();
-        assertThrows(AssertionError.class, () -> contract.assertContract(
-                instantiator,
-                null));
+        assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
     }
 
     @Test
     void shouldFailOnSerializableWriteFailure() {
-        var instantiator = new ConstructorBasedInstantiator<>(
-                SerializationWriteFailure.class, new RuntimeProperties(Collections.emptyList()));
+        var instantiator = new ConstructorBasedInstantiator<>(SerializationWriteFailure.class,
+                new RuntimeProperties(Collections.emptyList()));
         var contract = new SerializableContractImpl();
-        assertThrows(AssertionError.class, () -> contract.assertContract(
-                instantiator,
-                null));
+        assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
     }
 
     @Test
     void shouldHandleBasicContract() {
-        var objectTestConfigFalse =
-            MoreReflection.extractAnnotation(SerializationBasicOnlyFalseContract.class, ObjectTestConfig.class).get();
-        var objectTestConfigTrue =
-            MoreReflection.extractAnnotation(SerializationBasicOnlyTrueContract.class, ObjectTestConfig.class).get();
+        var objectTestConfigFalse = MoreReflection
+                .extractAnnotation(SerializationBasicOnlyFalseContract.class, ObjectTestConfig.class).get();
+        var objectTestConfigTrue = MoreReflection
+                .extractAnnotation(SerializationBasicOnlyTrueContract.class, ObjectTestConfig.class).get();
         assertFalse(SerializableContractImpl.checkTestBasicOnly(null));
         assertFalse(SerializableContractImpl.checkTestBasicOnly(objectTestConfigFalse));
         assertTrue(SerializableContractImpl.checkTestBasicOnly(objectTestConfigTrue));
@@ -98,10 +91,10 @@ class SerializableContractImplTest {
 
     @Test
     void shouldHandleEqualsOptOutContract() {
-        var objectTestConfigFalse =
-            MoreReflection.extractAnnotation(SerializationEqualsFalseContract.class, ObjectTestConfig.class).get();
-        var objectTestConfigTrue =
-            MoreReflection.extractAnnotation(SerializationEqualsTrueContract.class, ObjectTestConfig.class).get();
+        var objectTestConfigFalse = MoreReflection
+                .extractAnnotation(SerializationEqualsFalseContract.class, ObjectTestConfig.class).get();
+        var objectTestConfigTrue = MoreReflection
+                .extractAnnotation(SerializationEqualsTrueContract.class, ObjectTestConfig.class).get();
         assertTrue(SerializableContractImpl.checkForEqualsComparison(null));
         assertFalse(SerializableContractImpl.checkForEqualsComparison(objectTestConfigFalse));
         assertTrue(SerializableContractImpl.checkForEqualsComparison(objectTestConfigTrue));
@@ -113,10 +106,9 @@ class SerializableContractImplTest {
 
     @Test
     void shouldHandleEqualsExcludeAndOfContract() {
-        var objectTestConfigExclude =
-            MoreReflection.extractAnnotation(SerializationExclude.class, ObjectTestConfig.class).get();
-        var objectTestConfigOf =
-            MoreReflection.extractAnnotation(SerializationOf.class, ObjectTestConfig.class).get();
+        var objectTestConfigExclude = MoreReflection
+                .extractAnnotation(SerializationExclude.class, ObjectTestConfig.class).get();
+        var objectTestConfigOf = MoreReflection.extractAnnotation(SerializationOf.class, ObjectTestConfig.class).get();
         var properties = FULL_BEAN_INSTANIATOR.getRuntimeProperties().getAllProperties();
         assertEquals(properties, SerializableContractImpl.filterProperties(properties, null));
         assertEquals(properties.size() - 1,

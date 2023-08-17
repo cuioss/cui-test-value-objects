@@ -28,10 +28,10 @@ public class MappingTuple {
     private final MappingAssertStrategy strategy;
 
     /**
-     * @param mapping in the form "source:target". Any other String will result in an
-     *            {@link AssertionError}
-     * @param strategy must not be null. Identifies the MappingAssertStrategy for this
-     *            element
+     * @param mapping  in the form "source:target". Any other String will result in
+     *                 an {@link AssertionError}
+     * @param strategy must not be null. Identifies the MappingAssertStrategy for
+     *                 this element
      */
     public MappingTuple(String mapping, @NonNull MappingAssertStrategy strategy) {
         assertNotNull(emptyToNull(mapping), "Mapping must not be null");

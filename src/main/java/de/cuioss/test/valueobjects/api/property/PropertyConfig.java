@@ -17,8 +17,8 @@ import de.cuioss.tools.property.PropertyMemberInfo;
 import de.cuioss.tools.property.PropertyReadWrite;
 
 /**
- * While the test classes are capable of auto-detecting JavaProperties you need to adjust them from
- * time to time. With this annotation you can do this.
+ * While the test classes are capable of auto-detecting JavaProperties you need
+ * to adjust them from time to time. With this annotation you can do this.
  *
  * @author Oliver Wolff
  */
@@ -37,9 +37,10 @@ public @interface PropertyConfig {
 
     /**
      * @return the type of the property. This can either be the actual type, in case
-     *         {@link PropertyMetadata#getCollectionType()} is {@link CollectionType#NO_ITERABLE},
-     *         the component-type in case of {@link CollectionType#ARRAY_MARKER} or the type
-     *         argument for a collection for the other {@link CollectionType}s, see
+     *         {@link PropertyMetadata#getCollectionType()} is
+     *         {@link CollectionType#NO_ITERABLE}, the component-type in case of
+     *         {@link CollectionType#ARRAY_MARKER} or the type argument for a
+     *         collection for the other {@link CollectionType}s, see
      *         {@link PropertyMetadata#next()} and
      *         {@link PropertyMetadata#resolveActualClass()}
      * @see {@link PropertyMetadata#getPropertyClass()}.
@@ -47,35 +48,38 @@ public @interface PropertyConfig {
     Class<?> propertyClass();
 
     /**
-     * @return the wrapped {@link TypedGenerator} to dynamically create properties. If it is not set
-     *         {@link DynamicTypedGenerator} will be chosen
+     * @return the wrapped {@link TypedGenerator} to dynamically create properties.
+     *         If it is not set {@link DynamicTypedGenerator} will be chosen
      * @see {@link PropertyMetadata#getGenerator()}.
      */
     @SuppressWarnings("rawtypes")
     Class<? extends TypedGenerator> generator() default DynamicTypedGenerator.class;
 
     /**
-     * @return boolean indicating whether the property defines a default value, defaults to false
+     * @return boolean indicating whether the property defines a default value,
+     *         defaults to false
      * @see {@link PropertyMetadata#isDefaultValue()}.
      */
     boolean defaultValue() default false;
 
     /**
-     * @return boolean indicating whether the given property is required, defaults to false
+     * @return boolean indicating whether the given property is required, defaults
+     *         to false
      * @see {@link PropertyMetadata#isRequired()}.
      */
     boolean required() default false;
 
     /**
-     * @return The {@link PropertyMemberInfo}, defaults to {@link PropertyMemberInfo#DEFAULT}
+     * @return The {@link PropertyMemberInfo}, defaults to
+     *         {@link PropertyMemberInfo#DEFAULT}
      * @see {@link PropertyMetadata#getPropertyMemberInfo()}.
      */
     PropertyMemberInfo propertyMemberInfo() default PropertyMemberInfo.DEFAULT;
 
     /**
-     * In case there is a collectionType defined the generated values will implicitly wrapped in
-     * the corresponding collection class defined by that wrapper, defaults to
-     * {@link CollectionType#NO_ITERABLE}.
+     * In case there is a collectionType defined the generated values will
+     * implicitly wrapped in the corresponding collection class defined by that
+     * wrapper, defaults to {@link CollectionType#NO_ITERABLE}.
      *
      * @return the {@link CollectionType}
      * @see {@link PropertyMetadata#getCollectionType()}.
@@ -102,7 +106,8 @@ public @interface PropertyConfig {
      * Defines the the way how to deal with equality regarding
      * PropertySupport.assertValueSet(Object)
      *
-     * @return the {@link AssertionStrategy}, defaults to {@link AssertionStrategy#DEFAULT}
+     * @return the {@link AssertionStrategy}, defaults to
+     *         {@link AssertionStrategy#DEFAULT}
      */
     AssertionStrategy assertionStrategy() default AssertionStrategy.DEFAULT;
 }
