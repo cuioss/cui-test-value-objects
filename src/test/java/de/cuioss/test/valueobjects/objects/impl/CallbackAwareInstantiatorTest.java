@@ -19,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -57,9 +55,7 @@ class CallbackAwareInstantiatorTest {
         instantiator.newInstance(ComplexBean.completeValidMetadata());
         assertTrue(callback.isConfigureCalled());
         callback.reset();
-        instantiator.newInstance(
-                ComplexBean.completeValidMetadata().stream().map(PropertySupport::new).toList(),
-                true);
+        instantiator.newInstance(ComplexBean.completeValidMetadata().stream().map(PropertySupport::new).toList(), true);
         assertTrue(callback.isConfigureCalled());
     }
 

@@ -19,7 +19,6 @@ import static de.cuioss.test.valueobjects.objects.impl.AbstractInlineInstantiato
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import de.cuioss.test.valueobjects.objects.ObjectInstantiator;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
