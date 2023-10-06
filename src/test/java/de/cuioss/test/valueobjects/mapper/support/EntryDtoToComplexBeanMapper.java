@@ -19,7 +19,6 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("javadoc")
 public class EntryDtoToComplexBeanMapper implements Function<EntryDto, ComplexBean> {
 
     @Override

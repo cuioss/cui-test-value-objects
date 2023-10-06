@@ -36,7 +36,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-@SuppressWarnings("javadoc")
 @RequiredArgsConstructor
 @EqualsAndHashCode
 @ToString

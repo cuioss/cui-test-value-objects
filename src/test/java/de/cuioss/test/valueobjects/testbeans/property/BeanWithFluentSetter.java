@@ -25,7 +25,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-@SuppressWarnings("javadoc")
 @EqualsAndHashCode
 @ToString
 public class BeanWithFluentSetter implements Serializable {

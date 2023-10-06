@@ -15,7 +15,6 @@
  */
 package de.cuioss.test.valueobjects.testbeans.builder;
 
-@SuppressWarnings("javadoc")
 public class BadBuilderAlwaysFails {
 
     public static class BadBuilderAlwaysFailsBuilder {

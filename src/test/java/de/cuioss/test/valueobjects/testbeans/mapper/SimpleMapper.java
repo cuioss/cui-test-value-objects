@@ -17,7 +17,6 @@ package de.cuioss.test.valueobjects.testbeans.mapper;
 
 import java.util.function.Function;
 
-@SuppressWarnings("javadoc")
 public class SimpleMapper implements Function<SimpleSourceBean, SimpleTargetBean> {
 
     @Override

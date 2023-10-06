@@ -33,7 +33,6 @@ import lombok.NonNull;
 import lombok.Singular;
 import lombok.ToString;
 
-@SuppressWarnings("javadoc")
 @EqualsAndHashCode
 @AllArgsConstructor
 @ToString

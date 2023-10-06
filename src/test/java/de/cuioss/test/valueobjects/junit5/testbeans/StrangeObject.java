@@ -19,7 +19,6 @@ import java.io.Serializable;
 
 import lombok.Data;
 
-@SuppressWarnings("javadoc")
 @Data
 public class StrangeObject implements StrangeInterface, Serializable {
 
@@ -35,7 +34,7 @@ public class StrangeObject implements StrangeInterface, Serializable {
 
     }
 
-    public StrangeObject(@SuppressWarnings("unused") StrangeInterface strangeInterface) {
+    public StrangeObject(StrangeInterface strangeInterface) {
 
     }
 

@@ -21,7 +21,6 @@ import java.util.List;
 
 import lombok.Data;
 
-@SuppressWarnings("javadoc")
 @Data
 public class SimpleTargetBean implements Serializable {
 

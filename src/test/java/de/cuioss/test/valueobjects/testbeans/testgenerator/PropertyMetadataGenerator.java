@@ -28,7 +28,6 @@ import de.cuioss.test.generator.internal.net.java.quickcheck.Generator;
 import de.cuioss.test.generator.internal.net.java.quickcheck.generator.support.FixedValuesGenerator;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 
-@SuppressWarnings("javadoc")
 public class PropertyMetadataGenerator implements TypedGenerator<PropertyMetadata> {
 
     private static final Generator<PropertyMetadataTestDataGenerator> GENERATOR_GENERATOR = new FixedValuesGenerator<>(

@@ -20,7 +20,6 @@ import java.io.Serializable;
 import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
 import lombok.EqualsAndHashCode;
 
-@SuppressWarnings("javadoc")
 @ObjectTestConfig(serializableBasicOnly = true)
 @EqualsAndHashCode
 public class SerializationBasicOnlyTrueContract implements Serializable {

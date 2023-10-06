@@ -15,7 +15,6 @@
  */
 package de.cuioss.test.valueobjects.testbeans.factory;
 
-@SuppressWarnings("javadoc")
 public class BadFactoryBean {
 
     public static BadFactoryBean boom() {

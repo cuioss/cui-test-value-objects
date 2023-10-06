@@ -25,7 +25,6 @@ import de.cuioss.tools.property.PropertyMemberInfo;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@SuppressWarnings("javadoc")
 @RequiredArgsConstructor
 public class BeanWithMultipleArgumentConstructor implements Serializable {
 

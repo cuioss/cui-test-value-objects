@@ -29,7 +29,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@SuppressWarnings("javadoc")
 @VerifyFactoryMethod(factoryMethodName = "create", of = "attribute")
 @VerifyFactoryMethod(factoryMethodName = "create", of = {})
 @NoArgsConstructor

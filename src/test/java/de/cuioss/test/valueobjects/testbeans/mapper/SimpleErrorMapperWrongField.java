@@ -19,7 +19,6 @@ import static de.cuioss.tools.collect.CollectionLiterals.mutableList;
 
 import java.util.function.Function;
 
-@SuppressWarnings("javadoc")
 public class SimpleErrorMapperWrongField implements Function<SimpleSourceBean, SimpleTargetBean> {
 
     @Override

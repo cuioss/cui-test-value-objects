@@ -22,7 +22,6 @@ import java.util.List;
 import de.cuioss.test.valueobjects.generator.JavaTypesGenerator;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 
-@SuppressWarnings("javadoc")
 public class BadBuilderFailsOnAttributeRead {
 
     public String getAttributeName() {
@@ -31,7 +30,6 @@ public class BadBuilderFailsOnAttributeRead {
 
     public static class BadBuilderFailsOnAttributeReadBuilder {
 
-        @SuppressWarnings("unused")
         public BadBuilderFailsOnAttributeReadBuilder attributeName(final String attribute) {
             return this;
         }

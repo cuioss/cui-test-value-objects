@@ -19,7 +19,6 @@ import de.cuioss.test.valueobjects.api.contracts.VerifyBuilder;
 import de.cuioss.test.valueobjects.testbeans.builder.BuilderMinimalTestClassSimple.BuilderMinimalTypeBuilder;
 
 @VerifyBuilder(builderClass = BuilderMinimalTypeBuilder.class)
-@SuppressWarnings("javadoc")
 public class BuilderMinimalTestClassSimple {
 
     public static class BuilderMinimalTypeBuilder {

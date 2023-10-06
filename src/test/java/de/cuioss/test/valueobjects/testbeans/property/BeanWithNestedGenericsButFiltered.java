@@ -21,7 +21,6 @@ import java.util.List;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import lombok.Getter;
 
-@SuppressWarnings("javadoc")
 @PropertyReflectionConfig(exclude = "nested")
 public class BeanWithNestedGenericsButFiltered implements Serializable {
 

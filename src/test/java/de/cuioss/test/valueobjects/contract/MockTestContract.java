@@ -20,7 +20,6 @@ import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@SuppressWarnings("javadoc")
 @RequiredArgsConstructor
 public class MockTestContract<T> implements TestContract<T> {
 

@@ -21,7 +21,6 @@ import java.util.Map;
 
 import lombok.Data;
 
-@SuppressWarnings("javadoc")
 @Data
 public class EntryDto implements Serializable {
 

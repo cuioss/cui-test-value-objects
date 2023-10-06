@@ -31,7 +31,6 @@ import de.cuioss.tools.property.PropertyMemberInfo;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
-@SuppressWarnings("javadoc")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class PropertyMetadataTestDataGenerator {
 

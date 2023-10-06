@@ -22,7 +22,6 @@ import de.cuioss.tools.property.PropertyReadWrite;
 import lombok.Getter;
 import lombok.Setter;
 
-@SuppressWarnings("javadoc")
 public class BeanWithReadWriteProperties {
 
     public static final String ATTRIBUTE_READ_WRITE = "readWriteProperty";

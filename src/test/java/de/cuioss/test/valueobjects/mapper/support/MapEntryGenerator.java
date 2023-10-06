@@ -22,7 +22,6 @@ import de.cuioss.test.generator.TypedGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@SuppressWarnings("javadoc")
 public class MapEntryGenerator implements TypedGenerator<Entry<?, ?>> {
 
     private final TypedGenerator<String> letters = Generators.nonEmptyStrings();

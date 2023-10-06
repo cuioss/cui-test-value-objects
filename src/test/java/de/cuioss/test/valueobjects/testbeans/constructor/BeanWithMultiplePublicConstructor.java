@@ -20,7 +20,6 @@ import java.io.Serializable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@SuppressWarnings("javadoc")
 @RequiredArgsConstructor
 public class BeanWithMultiplePublicConstructor implements Serializable {
 

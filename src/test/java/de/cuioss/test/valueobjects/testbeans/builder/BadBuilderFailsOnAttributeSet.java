@@ -22,7 +22,6 @@ import java.util.List;
 import de.cuioss.test.valueobjects.generator.JavaTypesGenerator;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 
-@SuppressWarnings("javadoc")
 public class BadBuilderFailsOnAttributeSet {
 
     public static class BadBuilderFailsOnAttributeSetBuilder {

@@ -19,7 +19,6 @@ import de.cuioss.test.valueobjects.objects.ConfigurationCallBackHandler;
 import lombok.Getter;
 import lombok.Setter;
 
-@SuppressWarnings("javadoc")
 public class MockConfigurationCallbackHandler<T> implements ConfigurationCallBackHandler<T> {
 
     @Getter

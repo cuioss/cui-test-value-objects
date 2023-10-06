@@ -24,7 +24,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-@SuppressWarnings("javadoc")
 @VerifyConstructor(of = "name")
 @VerifyConstructor(of = { "name", "propertyMemberInfo" })
 @RequiredArgsConstructor

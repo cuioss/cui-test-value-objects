@@ -25,7 +25,6 @@ import de.cuioss.test.valueobjects.property.impl.PropertyMetadataImpl;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@SuppressWarnings("javadoc")
 @VerifyFactoryMethod(factoryMethodName = "create", of = "attribute", required = "attribute")
 @RequiredArgsConstructor
 public class OneFactoryBean {

@@ -19,7 +19,6 @@ import java.io.Serializable;
 
 import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
 
-@SuppressWarnings("javadoc")
 @ObjectTestConfig(serializableOf = "string", serializableCompareUsingEquals = false)
 public class SerializationOf implements Serializable {
 

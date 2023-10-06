@@ -17,7 +17,6 @@ package de.cuioss.test.valueobjects.mapper.support;
 
 import java.util.function.Function;
 
-@SuppressWarnings("javadoc")
 public class ComplexBeanToEntryDtoMapper implements Function<ComplexBean, EntryDto> {
 
     @Override
