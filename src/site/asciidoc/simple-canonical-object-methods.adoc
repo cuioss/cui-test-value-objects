@@ -36,7 +36,7 @@ Defines a simple assertion verifying the given Object is not `null`. Base for la
 
 ==== de.cuioss.test.valueobjects.junit5.contracts.ShouldImplementEqualsAndHashCode<T>
 
-Verifies that the given Object implements `Object#equals()` and `Object#hashCode()`and checks some basic behavior like handling of `null` and symmetry. 
+Verifies that the given Object implements `Object#equals()` and `Object#hashCode()` and checks some basic behavior like handling of `null` and symmetry. 
 
 [source,java]
 ----
@@ -64,7 +64,7 @@ class ShouldHandleToStringTest implements ShouldImplementToString<ComplexBean> {
 
 ==== de.cuioss.test.valueobjects.junit5.contracts.ShouldBeSerializable<T>
 
-Verifies that the given Object implements `java.io.Serializable` and checks the actual serialization / deserialization of the given object..
+Verifies that the given Object implements `java.io.Serializable` and checks the actual serialization / deserialization of the given object.
 
 [source,java]
 ----
