@@ -66,11 +66,11 @@ public class DeepCopyTestHelper {
      * @param ignoreProperties The top-level attribute names to be ignored
      */
     public static void verifyDeepCopy(Object source, Object copy, Collection<String> ignoreProperties) {
-        verifyDeepCopy(source, copy, null, ignoreProperties);
+        testDeepCopy(source, copy, null, ignoreProperties);
     }
 
     @SuppressWarnings("java:S2259") // owolff: False positive: assertions are not considered here
-    private static void verifyDeepCopy(Object source, Object copy, String propertyString,
+    private static void testDeepCopy(Object source, Object copy, String propertyString,
             Collection<String> ignoreProperties) {
 
         assertNotNull(ignoreProperties, "ignore-properties my be empty but never null");
@@ -90,7 +90,9 @@ public class DeepCopyTestHelper {
 
                 // check for null
                 // No sense in checking Strings, primitives and enums
-                if (verifyContinue(currentPropertyString, propertyName, resultSource, resultCopy)) {
+                if (!checkNullContract(resultSource, resultCopy, currentPropertyString, propertyName)
+                        || resultSource.getClass().isPrimitive() || resultSource.getClass().isEnum()
+                        || String.class.equals(resultSource.getClass())) {
                     continue;
                 }
                 if (!checkForList(resultSource, resultCopy, currentPropertyString, propertyName)) {
@@ -98,9 +100,10 @@ public class DeepCopyTestHelper {
                             .isEmpty()) {
                         continue;
                     }
-                    Assertions.assertSame(resultSource, resultCopy, "deep copy failed with: " + currentPropertyString
+
+                    Assertions.assertNotSame(resultSource, resultCopy, "deep copy failed with: " + currentPropertyString
                             + propertyName + " (" + resultSource.toString() + ")");
-                    verifyDeepCopy(resultSource, resultCopy, currentPropertyString + propertyName,
+                    testDeepCopy(resultSource, resultCopy, currentPropertyString + propertyName,
                             Collections.emptyList());
                 }
             } catch (IllegalAccessException | InvocationTargetException e) {
@@ -109,13 +112,6 @@ public class DeepCopyTestHelper {
             }
 
         }
-    }
-
-    private static boolean verifyContinue(final String currentPropertyString, String propertyName, Object resultSource,
-            Object resultCopy) {
-        return !checkNullContract(resultSource, resultCopy, currentPropertyString, propertyName)
-                || resultSource.getClass().isPrimitive() || resultSource.getClass().isEnum()
-                || String.class.equals(resultSource.getClass());
     }
 
     private boolean checkNullContract(Object resultSource, Object resultCopy, String currentPropertyString,
@@ -141,7 +137,7 @@ public class DeepCopyTestHelper {
         }
         List<?> resultSourceList = (List<?>) resultSource;
         for (var i = 0; i < resultSourceList.size(); i++) {
-            verifyDeepCopy(resultSourceList.get(i), ((List<?>) resultCopy).get(i),
+            testDeepCopy(resultSourceList.get(i), ((List<?>) resultCopy).get(i),
                     currentPropertyString + propertyName + "[" + i + "]", Collections.emptyList());
         }
         return true;
