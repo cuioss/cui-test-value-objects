@@ -49,7 +49,6 @@ public class TwoFactoryBean implements Serializable {
     private String attribute;
 
     public TwoFactoryBean(String attribute) {
-        super();
         this.attribute = attribute;
     }
 

@@ -63,7 +63,6 @@ public class BuilderContractImpl<T> implements TestContract<T> {
      * @param runtimeProperties must not be null
      */
     public BuilderContractImpl(final BuilderInstantiator<T> instantiator, final RuntimeProperties runtimeProperties) {
-        super();
         builderInstantiator = requireNonNull(instantiator, "builderInstantiator must not be null");
         this.runtimeProperties = requireNonNull(runtimeProperties, "runtimeProperties must not be null.");
     }

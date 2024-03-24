@@ -85,7 +85,6 @@ public class RuntimeProperties {
      * @param properties may be null
      */
     public RuntimeProperties(final List<? extends PropertyMetadata> properties) {
-        super();
         if (null == properties) {
             allProperties = Collections.emptyList();
         } else {

@@ -62,7 +62,6 @@ public class MapperAttributesAsserts {
      */
     public MapperAttributesAsserts(VerifyMapperConfiguration config, RuntimeProperties targetProperties,
             RuntimeProperties sourceProperties) {
-        super();
         var targetPropertyMap = targetProperties.asMapView(false);
         var sourcePropertyMap = sourceProperties.asMapView(false);
         List<MappingTuple> mapping = new ArrayList<>(MappingAssertStrategy.EQUALS.readConfiguration(config));
