@@ -98,7 +98,8 @@ public class DeepCopyTestHelper {
                             .isEmpty()) {
                         continue;
                     }
-
+                    // Starting with Java 21, the '==' does not work anymore for date. Therefore we
+                    // use equals here
                     assertEquals(resultSource, resultCopy, "deep copy failed with: " + currentPropertyString
                             + propertyName + " (" + resultSource.toString() + ")");
                     testDeepCopy(resultSource, resultCopy, currentPropertyString + propertyName,
