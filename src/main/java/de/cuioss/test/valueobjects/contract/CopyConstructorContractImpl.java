@@ -115,7 +115,7 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
         copyAttribute.setGeneratedValue(instantiator.newInstance(all, false));
         var original = copyAttribute.getGeneratedValue();
         Object copy = copyInstantiator.newInstance(immutableList(copyAttribute), false);
-        DeepCopyTestHelper.testDeepCopy(original, copy, verifyDeepCopyIgnore);
+        DeepCopyTestHelper.verifyDeepCopy(original, copy, verifyDeepCopyIgnore);
     }
 
     private void assertCopyConstructor(final Set<String> compareAttributes) {

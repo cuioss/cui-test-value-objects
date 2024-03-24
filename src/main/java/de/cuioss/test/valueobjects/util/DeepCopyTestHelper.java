@@ -26,6 +26,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
+
 import de.cuioss.test.valueobjects.objects.impl.ExceptionHelper;
 import de.cuioss.tools.reflect.MoreReflection;
 import lombok.experimental.UtilityClass;
@@ -45,8 +47,8 @@ public class DeepCopyTestHelper {
      * @param source the source object
      * @param copy   the result of the copy function
      */
-    public static void testDeepCopy(Object source, Object copy) {
-        testDeepCopy(source, copy, Collections.emptyList());
+    public static void verifyDeepCopy(Object source, Object copy) {
+        verifyDeepCopy(source, copy, Collections.emptyList());
     }
 
     /**
@@ -63,12 +65,12 @@ public class DeepCopyTestHelper {
      * @param copy             the result of the copy function
      * @param ignoreProperties The top-level attribute names to be ignored
      */
-    public static void testDeepCopy(Object source, Object copy, Collection<String> ignoreProperties) {
-        testDeepCopy(source, copy, null, ignoreProperties);
+    public static void verifyDeepCopy(Object source, Object copy, Collection<String> ignoreProperties) {
+        verifyDeepCopy(source, copy, null, ignoreProperties);
     }
 
     @SuppressWarnings("java:S2259") // owolff: False positive: assertions are not considered here
-    private static void testDeepCopy(Object source, Object copy, String propertyString,
+    private static void verifyDeepCopy(Object source, Object copy, String propertyString,
             Collection<String> ignoreProperties) {
 
         assertNotNull(ignoreProperties, "ignore-properties my be empty but never null");
@@ -88,9 +90,7 @@ public class DeepCopyTestHelper {
 
                 // check for null
                 // No sense in checking Strings, primitives and enums
-                if (!checkNullContract(resultSource, resultCopy, currentPropertyString, propertyName)
-                        || resultSource.getClass().isPrimitive() || resultSource.getClass().isEnum()
-                        || String.class.equals(resultSource.getClass())) {
+                if (verifyContinue(currentPropertyString, propertyName, resultSource, resultCopy)) {
                     continue;
                 }
                 if (!checkForList(resultSource, resultCopy, currentPropertyString, propertyName)) {
@@ -98,11 +98,9 @@ public class DeepCopyTestHelper {
                             .isEmpty()) {
                         continue;
                     }
-                    // Starting with Java 21, the '==' does not work anymore for date. Therefore we
-                    // use equals here
-                    assertEquals(resultSource, resultCopy, "deep copy failed with: " + currentPropertyString
+                    Assertions.assertSame(resultSource, resultCopy, "deep copy failed with: " + currentPropertyString
                             + propertyName + " (" + resultSource.toString() + ")");
-                    testDeepCopy(resultSource, resultCopy, currentPropertyString + propertyName,
+                    verifyDeepCopy(resultSource, resultCopy, currentPropertyString + propertyName,
                             Collections.emptyList());
                 }
             } catch (IllegalAccessException | InvocationTargetException e) {
@@ -111,6 +109,13 @@ public class DeepCopyTestHelper {
             }
 
         }
+    }
+
+    private static boolean verifyContinue(final String currentPropertyString, String propertyName, Object resultSource,
+            Object resultCopy) {
+        return !checkNullContract(resultSource, resultCopy, currentPropertyString, propertyName)
+                || resultSource.getClass().isPrimitive() || resultSource.getClass().isEnum()
+                || String.class.equals(resultSource.getClass());
     }
 
     private boolean checkNullContract(Object resultSource, Object resultCopy, String currentPropertyString,
@@ -136,7 +141,7 @@ public class DeepCopyTestHelper {
         }
         List<?> resultSourceList = (List<?>) resultSource;
         for (var i = 0; i < resultSourceList.size(); i++) {
-            testDeepCopy(resultSourceList.get(i), ((List<?>) resultCopy).get(i),
+            verifyDeepCopy(resultSourceList.get(i), ((List<?>) resultCopy).get(i),
                     currentPropertyString + propertyName + "[" + i + "]", Collections.emptyList());
         }
         return true;
