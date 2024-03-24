@@ -17,7 +17,6 @@ package de.cuioss.test.valueobjects.util;
 
 import static de.cuioss.tools.string.MoreStrings.isEmpty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -100,7 +99,7 @@ public class DeepCopyTestHelper {
                         continue;
                     }
 
-                    assertFalse(resultSource == resultCopy, "deep copy failed with: " + currentPropertyString
+                    assertEquals(resultSource, resultCopy, "deep copy failed with: " + currentPropertyString
                             + propertyName + " (" + resultSource.toString() + ")");
                     testDeepCopy(resultSource, resultCopy, currentPropertyString + propertyName,
                             Collections.emptyList());
