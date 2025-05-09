@@ -50,19 +50,19 @@ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
     @Test
     void shouldFailOnEmptyBuilder() {
         var builder = PropertyMetadataImpl.builder();
-        assertThrows(NullPointerException.class, () -> builder.build());
+        assertThrows(NullPointerException.class, builder::build);
     }
 
     @Test
-    void shouldFailOnMisssingGenerator() {
+    void shouldFailOnMissingGenerator() {
         var builder = PropertyMetadataImpl.builder().name(names.next()).propertyClass(String.class);
-        assertThrows(NullPointerException.class, () -> builder.build());
+        assertThrows(NullPointerException.class, builder::build);
     }
 
     @Test
-    void shouldFailOnMisssingName() {
+    void shouldFailOnMissingName() {
         var builder = PropertyMetadataImpl.builder().generator(names);
-        assertThrows(NullPointerException.class, () -> builder.build());
+        assertThrows(NullPointerException.class, builder::build);
     }
 
     @Test
@@ -99,7 +99,7 @@ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
         final PropertyMetadata meta = PropertyMetadataImpl.builder().generator(Generators.bytes())
                 .collectionType(CollectionType.ARRAY_MARKER).name(names.next()).propertyClass(String.class).build();
         assertTrue(meta.next().getClass().isArray());
-        assertEquals(new String[0].getClass(), meta.resolveActualClass());
+        assertEquals(String[].class, meta.resolveActualClass());
     }
 
     @Test
@@ -107,7 +107,7 @@ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
         final PropertyMetadata meta = PropertyMetadataImpl.builder().generator(Generators.bytes())
                 .collectionType(CollectionType.ARRAY_MARKER).name(names.next()).propertyClass(byte.class).build();
         assertTrue(meta.next().getClass().isArray());
-        final Class<? extends byte[]> byteArrayClass = new byte[0].getClass();
+        final Class<? extends byte[]> byteArrayClass = byte[].class;
         assertEquals(byteArrayClass, meta.resolveActualClass());
         final var castArray = (byte[]) meta.next();
         assertNotNull(castArray);

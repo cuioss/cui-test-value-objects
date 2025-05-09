@@ -72,7 +72,7 @@ class CopyConstructorContractImplTest {
 
     @Test
     @SuppressWarnings("java:S5778") // owolff Collections.emptyList() considered unproblematic
-    void shouldFailToDetermineContractOnEmptyIntantiatorList() {
+    void shouldFailToDetermineContractOnEmptyInstantiatorList() {
         assertThrows(AssertionError.class, () ->
             createTestContract(OneRequiredFieldCopyConstructor.class, OneRequiredFieldCopyConstructor.class,
                     OneRequiredFieldCopyConstructor.ATTRIBUTE_LIST, Collections.emptyList()));
@@ -88,7 +88,7 @@ class CopyConstructorContractImplTest {
     void shouldFailToAssertInvalidType() {
         var contract = createTestContract(BadCopyConstructor.class, BadCopyConstructor.class,
                 BadCopyConstructor.ATTRIBUTE_LIST, immutableList(BadCopyConstructor.MOCK_INSTANTIATOR_CONTRACT)).get();
-        assertThrows(AssertionError.class, () -> contract.assertContract());
+        assertThrows(AssertionError.class, contract::assertContract);
     }
 
     @Test
@@ -103,13 +103,13 @@ class CopyConstructorContractImplTest {
         var contract = createTestContract(BadDeepCopyCopyConstructor.class, BadDeepCopyCopyConstructor.class,
                 BadDeepCopyCopyConstructor.ATTRIBUTE_LIST,
                 immutableList(BadDeepCopyCopyConstructor.MOCK_INSTANTIATOR_CONTRACT)).get();
-        assertThrows(AssertionError.class, () -> contract.assertContract());
+        assertThrows(AssertionError.class, contract::assertContract);
     }
 
     @Test
     void shouldHandleReadOnlyCopy() {
         var contract = createTestContract(MockWithReadOnly.class, MockWithReadOnly.class,
                 MockWithReadOnly.ATTRIBUTE_LIST, immutableList(MockWithReadOnly.MOCK_INSTANTIATOR_CONTRACT)).get();
-        assertThrows(AssertionError.class, () -> contract.assertContract());
+        assertThrows(AssertionError.class, contract::assertContract);
     }
 }

@@ -45,12 +45,12 @@ class ArraysGeneratorTest {
 
     @Test
     void shouldHandleConcreteArrays() {
-        final Class<?> arrayClass = new Integer[0].getClass();
+        final Class<?> arrayClass = Integer[].class;
         assertTrue(getGeneratorForType(arrayClass).isPresent());
         assertEquals(arrayClass, getGeneratorForType(arrayClass).get().getType());
         assertNotNull(getGeneratorForType(arrayClass).get().next());
         assertEquals(arrayClass, getGeneratorForType(arrayClass).get().next().getClass());
-        final Class<?> stringArray = new String[0].getClass();
+        final Class<?> stringArray = String[].class;
         assertTrue(getGeneratorForType(stringArray).isPresent());
         assertEquals(stringArray, getGeneratorForType(stringArray).get().getType());
         assertNotNull(getGeneratorForType(stringArray).get().next());
@@ -60,7 +60,7 @@ class ArraysGeneratorTest {
 
     @Test
     void shouldResolvePrimitiveArrayGenerator() {
-        Class<? extends byte[]> arrayClass = new byte[0].getClass();
+        Class<? extends byte[]> arrayClass = byte[].class;
         assertTrue(getGeneratorForType(arrayClass).isPresent());
         assertEquals(arrayClass, getGeneratorForType(arrayClass).get().getType());
         assertNotNull(getGeneratorForType(arrayClass).get().next());

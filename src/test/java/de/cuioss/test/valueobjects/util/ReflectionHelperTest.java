@@ -142,7 +142,7 @@ class ReflectionHelperTest {
         assertFalse(types.isEmpty());
         final var type = types.first();
         assertEquals(String.class, type.getPropertyClass());
-        assertEquals(new String[1].getClass(), type.resolveActualClass());
+        assertEquals(String[].class, type.resolveActualClass());
     }
 
     @Test
@@ -151,7 +151,7 @@ class ReflectionHelperTest {
         assertFalse(types.isEmpty());
         final var type = types.first();
         assertEquals(byte.class, type.getPropertyClass());
-        assertEquals(new byte[0].getClass(), type.resolveActualClass());
+        assertEquals(byte[].class, type.resolveActualClass());
         // Primitive Arrays should not be set as default
         assertFalse(type.isDefaultValue());
     }
@@ -184,7 +184,7 @@ class ReflectionHelperTest {
     }
 
     @Test
-    void shouldHandlMetadataExtraction() {
+    void shouldHandleMetadataExtraction() {
         assertNotNull(handlePropertyMetadata(getClass(), ComplexBean.class));
         assertTrue(handlePropertyMetadata(PropertyReflectionShouldSkip.class, PropertyReflectionShouldSkip.class)
                 .isEmpty());

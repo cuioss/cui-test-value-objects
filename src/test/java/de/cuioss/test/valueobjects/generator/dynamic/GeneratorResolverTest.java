@@ -62,7 +62,7 @@ class GeneratorResolverTest {
         assertNotNull(resolveGenerator(PropertyMemberInfo.class));
         assertTrue(TypedGeneratorRegistry.containsGenerator(PropertyMemberInfo.class));
         // array types
-        final Class<?> stringArray = new String[0].getClass();
+        final Class<?> stringArray = String[].class;
         assertFalse(TypedGeneratorRegistry.containsGenerator(stringArray));
         assertNotNull(resolveGenerator(stringArray));
         assertTrue(TypedGeneratorRegistry.containsGenerator(stringArray));
@@ -89,7 +89,7 @@ class GeneratorResolverTest {
     @Test
     void shouldResolvePrimitiveArrayGenerator() {
         TypedGeneratorRegistry.registerBasicTypes();
-        final Class<? extends byte[]> byteArrayClass = new byte[0].getClass();
+        final Class<? extends byte[]> byteArrayClass = byte[].class;
         final TypedGenerator<? extends byte[]> resolved = resolveGenerator(byteArrayClass);
         assertNotNull(resolved);
         final byte[] generated = resolved.next();
@@ -109,7 +109,7 @@ class GeneratorResolverTest {
     }
 
     @Test
-    void shouldFailToHandleAnnoations() {
+    void shouldFailToHandleAnnotations() {
         assertThrows(IllegalArgumentException.class, () -> resolveGenerator(VetoObjectTestContract.class));
     }
 }
