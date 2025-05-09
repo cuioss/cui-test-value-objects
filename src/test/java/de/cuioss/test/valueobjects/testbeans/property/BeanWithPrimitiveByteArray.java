@@ -15,6 +15,7 @@
  */
 package de.cuioss.test.valueobjects.testbeans.property;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import lombok.Getter;
@@ -22,6 +23,7 @@ import lombok.Setter;
 
 public class BeanWithPrimitiveByteArray implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 4407803707233096724L;
 
     @Getter

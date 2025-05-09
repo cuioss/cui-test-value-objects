@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,7 +82,7 @@ class ObjectCreatorContractImplTest {
         final var contract = new ObjectCreatorContractImpl<>(
                 new ConstructorBasedInstantiator<>(SimpleConstructor.class, information));
 
-        assertThrows(AssertionError.class, () -> contract.assertContract());
+        assertThrows(AssertionError.class, contract::assertContract);
     }
 
     @Test

@@ -74,14 +74,14 @@ public interface PropertyMetadata extends Comparable<PropertyMetadata> {
      *         generator;
      */
     @SuppressWarnings("squid:S1452") // owolff: No type information available at this level,
-                                     // therefore the wildcard is needed
+    // therefore the wildcard is needed
     CollectionGenerator<?> resolveCollectionGenerator();
 
     /**
      * @return the wrapped {@link TypedGenerator} to dynamically create properties.
      */
     @SuppressWarnings("squid:S1452") // owolff: No type information available at this level,
-                                     // therefore the wildcard is needed
+    // therefore the wildcard is needed
     TypedGenerator<?> getGenerator();
 
     /**

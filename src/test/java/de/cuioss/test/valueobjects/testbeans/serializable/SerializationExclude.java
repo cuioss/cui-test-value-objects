@@ -15,6 +15,7 @@
  */
 package de.cuioss.test.valueobjects.testbeans.serializable;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
@@ -24,6 +25,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class SerializationExclude implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 5897828394896520725L;
 
 }

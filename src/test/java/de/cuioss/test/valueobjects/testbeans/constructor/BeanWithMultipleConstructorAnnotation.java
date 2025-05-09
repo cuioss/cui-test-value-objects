@@ -15,6 +15,7 @@
  */
 package de.cuioss.test.valueobjects.testbeans.constructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
@@ -25,12 +26,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @VerifyConstructor(of = "name")
-@VerifyConstructor(of = { "name", "propertyMemberInfo" })
+@VerifyConstructor(of = {"name", "propertyMemberInfo"})
 @RequiredArgsConstructor
 @EqualsAndHashCode
 @ToString
 public class BeanWithMultipleConstructorAnnotation implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1140137211367940204L;
 
     @Getter

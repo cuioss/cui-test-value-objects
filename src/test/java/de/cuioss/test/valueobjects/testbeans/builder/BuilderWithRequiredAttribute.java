@@ -18,6 +18,7 @@ package de.cuioss.test.valueobjects.testbeans.builder;
 import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.STRINGS_LETTER;
 import static de.cuioss.tools.collect.CollectionLiterals.immutableSortedSet;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.SortedSet;
 
@@ -33,6 +34,7 @@ import lombok.ToString;
 @ToString
 public class BuilderWithRequiredAttribute implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 475137338176919505L;
 
     @Getter

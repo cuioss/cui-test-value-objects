@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
@@ -58,9 +59,8 @@ class SerializableContractImplTest {
     @Test
     void shouldFailWithNullAsArgument() {
         var contract = new SerializableContractImpl();
-        assertThrows(NullPointerException.class, () -> {
-            contract.assertContract(null, null);
-        });
+        assertThrows(NullPointerException.class, () ->
+            contract.assertContract(null, null));
     }
 
     @Test

@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
@@ -84,11 +85,11 @@ class PropertyHelperTest {
         var map = handleWhiteAndBlacklist(new String[0], new String[0], metadata);
         assertEquals(metadata.size(), map.size());
         // White-listing
-        map = handleWhiteAndBlacklist(new String[] { NAME_ATTRIBUTE }, new String[0], metadata);
+        map = handleWhiteAndBlacklist(new String[]{NAME_ATTRIBUTE}, new String[0], metadata);
         assertEquals(1, map.size());
         assertTrue(map.containsKey(NAME_ATTRIBUTE));
         // Black-listing
-        map = handleWhiteAndBlacklist(new String[0], new String[] { NAME_ATTRIBUTE }, metadata);
+        map = handleWhiteAndBlacklist(new String[0], new String[]{NAME_ATTRIBUTE}, metadata);
         assertEquals(metadata.size() - 1, map.size());
         assertFalse(map.containsKey(NAME_ATTRIBUTE));
         TypedGeneratorRegistry.clear();
@@ -102,12 +103,12 @@ class PropertyHelperTest {
         var resultList = handleWhiteAndBlacklistAsList(new String[0], new String[0], new ArrayList<>(metadata));
         assertEquals(metadata.size(), resultList.size());
         // White-listing
-        resultList = handleWhiteAndBlacklistAsList(new String[] { NAME_ATTRIBUTE }, new String[0],
+        resultList = handleWhiteAndBlacklistAsList(new String[]{NAME_ATTRIBUTE}, new String[0],
                 new ArrayList<>(metadata));
         assertEquals(1, resultList.size());
         assertTrue(toMapView(resultList).containsKey(NAME_ATTRIBUTE));
         // Black-listing
-        resultList = handleWhiteAndBlacklistAsList(new String[0], new String[] { NAME_ATTRIBUTE },
+        resultList = handleWhiteAndBlacklistAsList(new String[0], new String[]{NAME_ATTRIBUTE},
                 new ArrayList<>(metadata));
         assertEquals(metadata.size() - 1, resultList.size());
         assertFalse(toMapView(resultList).containsKey(NAME_ATTRIBUTE));

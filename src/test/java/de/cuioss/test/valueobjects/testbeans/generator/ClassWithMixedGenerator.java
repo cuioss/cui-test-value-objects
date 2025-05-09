@@ -21,7 +21,7 @@ import de.cuioss.test.generator.impl.NumberGenerator;
 import de.cuioss.test.valueobjects.api.generator.PropertyGenerator;
 
 @PropertyGenerator(FloatObjectGenerator.class)
-@PropertyGenerator({ LocalDateGenerator.class, NumberGenerator.class })
+@PropertyGenerator({LocalDateGenerator.class, NumberGenerator.class})
 public class ClassWithMixedGenerator {
 
 }

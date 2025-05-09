@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * @author Oliver Wolff
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 public @interface VerifyCopyConstructor {
 
     /**

@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.SortedSet;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.api.TestContract;
@@ -62,7 +63,7 @@ class BeanPropertyContractImplTest {
         final var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(ComplexBean.class),
                 new RuntimeProperties(generators));
         final var support = new BeanPropertyContractImpl<>(instantiator);
-        assertThrows(AssertionError.class, () -> support.assertContract());
+        assertThrows(AssertionError.class, support::assertContract);
     }
 
     @Test

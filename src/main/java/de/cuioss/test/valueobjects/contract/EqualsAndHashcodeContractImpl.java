@@ -17,7 +17,6 @@ package de.cuioss.test.valueobjects.contract;
 
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -263,8 +262,8 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      *
      * @param underTest object under test
      */
-    @SuppressWarnings({ "squid:S2159", "squid:S1764" }) // Sonar complains that the x.equals(x) is
-                                                        // always true. This is
+    @SuppressWarnings({"squid:S2159", "squid:S1764"}) // Sonar complains that the x.equals(x) is
+    // always true. This is
     // only the case if implemented correctly, what is checked
     // within this test
     public static void assertBasicContractOnEquals(final Object underTest) {
@@ -275,17 +274,17 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
         final var msgNotEqualsNull = "Expected result for equals(null) will be 'false'. Class was : "
                 + underTest.getClass();
 
-        assertFalse(underTest.equals(null), msgNotEqualsNull);
+        assertNotEquals(null, underTest, msgNotEqualsNull);
 
         final var msgNotEqualsObject = "Expected result for equals(new Object()) will be 'false'. Class was : "
                 + underTest.getClass();
 
-        assertFalse(underTest.equals(new Object()), msgNotEqualsObject);
+        assertNotEquals(underTest, new Object(), msgNotEqualsObject);
 
         final var msgEqualsToSelf = "Expected result for equals(underTest) will be 'true'. Class was : "
                 + underTest.getClass();
 
-        assertTrue(underTest.equals(underTest), msgEqualsToSelf);
+        assertEquals(underTest, underTest, msgEqualsToSelf);
 
     }
 

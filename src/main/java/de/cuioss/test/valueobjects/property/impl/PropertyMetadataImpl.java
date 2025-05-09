@@ -82,15 +82,15 @@ public class PropertyMetadataImpl implements PropertyMetadata {
     @Override
     public Object next() {
         switch (collectionType) {
-        case NO_ITERABLE:
-            return generator.next();
-        case ARRAY_MARKER:
-            if (!propertyClass.isPrimitive()) {
-                return resolveCollectionGenerator().list().toArray();
-            }
-            return PrimitiveArrayGenerators.resolveForType(getPropertyClass()).next();
-        default:
-            return collectionType.nextIterable(resolveCollectionGenerator());
+            case NO_ITERABLE:
+                return generator.next();
+            case ARRAY_MARKER:
+                if (!propertyClass.isPrimitive()) {
+                    return resolveCollectionGenerator().list().toArray();
+                }
+                return PrimitiveArrayGenerators.resolveForType(getPropertyClass()).next();
+            default:
+                return collectionType.nextIterable(resolveCollectionGenerator());
         }
     }
 

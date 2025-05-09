@@ -17,6 +17,7 @@ package de.cuioss.test.valueobjects.testbeans.copyconstructor;
 
 import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -40,6 +41,7 @@ import lombok.ToString;
 @ToString
 public class OneRequiredFieldCopyConstructor implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 741300814716513465L;
 
     public static final PropertyMetadata ATTRIBUTE = PropertyMetadataImpl.builder().name("attribute")

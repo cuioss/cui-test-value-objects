@@ -21,6 +21,7 @@ import static de.cuioss.test.valueobjects.util.ObjectContractHelper.handleVetoed
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.testbeans.veto.ClassWithMixedVetoes;

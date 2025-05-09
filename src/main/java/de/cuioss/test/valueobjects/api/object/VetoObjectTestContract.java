@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
  * @author Oliver Wolff
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Repeatable(VetoObjectTestContracts.class)
 public @interface VetoObjectTestContract {
 

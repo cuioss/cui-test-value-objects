@@ -32,6 +32,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Function;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.generator.TypedGenerator;
@@ -106,7 +107,7 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      * {@link #getSourceClass()}, {@link #getTargetClass()}. It runs it checks only
      * once
      */
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({"unchecked"})
     protected void intializeTypeInformation() {
         if (null == mapperClass) {
             var parameterized = MoreReflection.extractParameterizedType(getClass()).orElseThrow(
@@ -132,7 +133,7 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      * {@link MapperTest#verifyMapper(PropertyReflectionConfig)} with {@code null}
      */
     @Test
-    public void verifyMapper() {
+    protected void verifyMapper() {
         verifyMapper(null);
     }
 

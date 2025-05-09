@@ -52,7 +52,7 @@ import de.cuioss.tools.property.PropertyReadWrite;
  * @author Oliver Wolff
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 public @interface VerifyBuilder {
 
     /**

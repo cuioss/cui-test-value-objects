@@ -15,6 +15,7 @@
  */
 package de.cuioss.test.valueobjects.testbeans.mapper;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import lombok.Data;
 @Data
 public class SimpleTargetBean implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -2365169061041263374L;
     private String nameFirst;
     private String nameLast;

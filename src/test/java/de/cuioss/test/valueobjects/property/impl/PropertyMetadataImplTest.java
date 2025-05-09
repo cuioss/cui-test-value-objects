@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Locale;
 import java.util.SortedSet;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.generator.Generators;
@@ -39,8 +40,8 @@ import de.cuioss.test.valueobjects.property.util.CollectionType;
 
 @VetoObjectTestContract(ObjectTestContracts.SERIALIZABLE)
 @VerifyBuilder
-@PropertyReflectionConfig(required = { "name", "generator", "propertyClass" }, defaultValued = { "collectionType",
-        "propertyMemberInfo", "propertyReadWrite", "propertyAccessStrategy", "assertionStrategy" })
+@PropertyReflectionConfig(required = {"name", "generator", "propertyClass"}, defaultValued = {"collectionType",
+        "propertyMemberInfo", "propertyReadWrite", "propertyAccessStrategy", "assertionStrategy"})
 @ObjectTestConfig(equalsAndHashCodeExclude = "generator")
 class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
 

@@ -19,6 +19,7 @@ import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.BOOLEANS;
 import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.BOOLEANS_PRIMITIVE;
 import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.STRINGS;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -36,10 +37,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@EqualsAndHashCode(exclude = { "noObjectIdentitiyString", "badstring" })
-@ToString(exclude = { "noObjectIdentitiyString", "badstring" })
+@EqualsAndHashCode(exclude = {"noObjectIdentitiyString", "badstring"})
+@ToString(exclude = {"noObjectIdentitiyString", "badstring"})
 public class ComplexBean implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -7914292255779711820L;
 
     public static final String ATTRIBUTE_STRING = "string";

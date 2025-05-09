@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Collections;
 import java.util.List;
 
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,10 +73,9 @@ class CopyConstructorContractImplTest {
     @Test
     @SuppressWarnings("java:S5778") // owolff Collections.emptyList() considered unproblematic
     void shouldFailToDetermineContractOnEmptyIntantiatorList() {
-        assertThrows(AssertionError.class, () -> {
+        assertThrows(AssertionError.class, () ->
             createTestContract(OneRequiredFieldCopyConstructor.class, OneRequiredFieldCopyConstructor.class,
-                    OneRequiredFieldCopyConstructor.ATTRIBUTE_LIST, Collections.emptyList());
-        });
+                    OneRequiredFieldCopyConstructor.ATTRIBUTE_LIST, Collections.emptyList()));
     }
 
     @Test

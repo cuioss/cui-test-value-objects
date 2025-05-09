@@ -17,6 +17,7 @@ package de.cuioss.test.valueobjects.junit5.testbeans;
 
 import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import de.cuioss.test.generator.Generators;
@@ -36,6 +37,7 @@ import lombok.ToString;
 @ToString
 public class TwoFactoryBean implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 4539639907656084561L;
 
     public static final PropertyMetadata ATTRIBUTE = PropertyMetadataImpl.builder().name("attribute")

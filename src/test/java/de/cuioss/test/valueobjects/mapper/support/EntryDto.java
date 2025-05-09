@@ -15,6 +15,7 @@
  */
 package de.cuioss.test.valueobjects.mapper.support;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import lombok.Data;
 @Data
 public class EntryDto implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -6248699796893356889L;
 
     private final String identifier;

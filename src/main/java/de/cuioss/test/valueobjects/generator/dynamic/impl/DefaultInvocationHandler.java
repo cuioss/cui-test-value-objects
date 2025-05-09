@@ -53,10 +53,10 @@ class DefaultInvocationHandler implements InvocationHandler {
         if (args == null) {
             args = NO_ARGS;
         }
-        if (args.length == 0 && method.getName().equals("hashCode")) {
+        if (args.length == 0 && "hashCode".equals(method.getName())) {
             return hashCode();
         }
-        if (args.length == 1 && method.getName().equals("equals") && method.getParameterTypes()[0] == Object.class) {
+        if (args.length == 1 && "equals".equals(method.getName()) && method.getParameterTypes()[0] == Object.class) {
             var arg = args[0];
             if (arg == null) {
                 return false;
@@ -66,7 +66,7 @@ class DefaultInvocationHandler implements InvocationHandler {
             }
             return isProxyOfSameInterfaces(arg, proxy.getClass()) && equals(Proxy.getInvocationHandler(arg));
         }
-        if (args.length == 0 && method.getName().equals("toString")) {
+        if (args.length == 0 && "toString".equals(method.getName())) {
             return toString();
         }
         return null;
@@ -121,6 +121,6 @@ class DefaultInvocationHandler implements InvocationHandler {
                 // objects
                 // is efficient.
                 || Proxy.isProxyClass(arg.getClass())
-                        && Arrays.equals(arg.getClass().getInterfaces(), proxyClass.getInterfaces());
+                && Arrays.equals(arg.getClass().getInterfaces(), proxyClass.getInterfaces());
     }
 }

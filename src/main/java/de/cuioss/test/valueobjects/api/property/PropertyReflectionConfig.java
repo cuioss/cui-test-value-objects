@@ -36,7 +36,7 @@ import de.cuioss.tools.property.PropertyReadWrite;
  * @author Oliver Wolff
  */
 @Retention(RUNTIME)
-@Target({ TYPE, METHOD })
+@Target({TYPE, METHOD})
 public @interface PropertyReflectionConfig {
 
     /**

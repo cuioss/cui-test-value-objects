@@ -15,25 +15,24 @@
  */
 package de.cuioss.test.valueobjects.junit5;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.junit5.testbeans.ComplexBean;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ValueObjectTestInlineInstantiatorTest extends ValueObjectTest<ComplexBean> {
 
     private ComplexBean any = null;
 
     @Override
+    @Test
     public void shouldImplementObjectContracts() {
         any = null;
         AssertionError ex = assertThrows(AssertionError.class, super::shouldImplementObjectContracts);
-        assertEquals(
-            "You need to configure either at least one de.icw.cui.test.valueobjects.api.contracts " +
-                "or implement #anyValueObject()",
-            ex.getMessage());
+        assertTrue(ex.getMessage().contains(ValueObjectTest.ANY_VALUE_OBJECT_NEEDED));
 
         any = new ComplexBean();
         assertDoesNotThrow(super::shouldImplementObjectContracts);

@@ -15,10 +15,13 @@
  */
 package de.cuioss.test.valueobjects.testbeans.reflection;
 
+import java.io.Serial;
+
 import lombok.NonNull;
 
 public class StringTypedGenericType extends GenericTypeWithLowerBoundType<String, String> {
 
+    @Serial
     private static final long serialVersionUID = 7501705815919447469L;
 
     public StringTypedGenericType(@NonNull String key) {

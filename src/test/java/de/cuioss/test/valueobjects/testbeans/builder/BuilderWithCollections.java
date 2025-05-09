@@ -20,6 +20,7 @@ import static de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy.B
 import static de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy.BUILDER_DIRECT;
 import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -41,6 +42,7 @@ import lombok.ToString;
 @ToString
 public class BuilderWithCollections implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 475137338176919505L;
 
     @Getter
@@ -96,9 +98,9 @@ public class BuilderWithCollections implements Serializable {
     }
 
     public static final List<PropertyMetadata> METADATA_COMPLETE = immutableList(BuilderMetadata.builder()
-            .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSetElements").collectionType(CollectionType.SET)
-                    .propertyAccessStrategy(BUILDER_COLLECTION_AND_SINGLE_ELEMENT).build())
-            .builderSingleAddMethodName("stringSetElement").build(),
+                    .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSetElements").collectionType(CollectionType.SET)
+                            .propertyAccessStrategy(BUILDER_COLLECTION_AND_SINGLE_ELEMENT).build())
+                    .builderSingleAddMethodName("stringSetElement").build(),
             BuilderMetadata.builder()
                     .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSortedSetElements")
                             .collectionType(CollectionType.SORTED_SET)

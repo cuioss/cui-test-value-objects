@@ -15,6 +15,7 @@
  */
 package de.cuioss.test.valueobjects.testbeans.constructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Formattable;
@@ -28,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BeanWithMultipleArgumentConstructor implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -7914292255779711820L;
 
     @Getter

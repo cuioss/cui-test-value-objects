@@ -39,7 +39,7 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @SuppressWarnings("squid:S1452") // owolff: No type information available at this level,
-                                 // therefore the wildcard is needed
+// therefore the wildcard is needed
 public enum CollectionType {
 
     /** Represents a {@link Collection}. The implementation will return a list. */

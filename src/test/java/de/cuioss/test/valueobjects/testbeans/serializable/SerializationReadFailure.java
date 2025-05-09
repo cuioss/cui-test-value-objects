@@ -17,6 +17,7 @@ package de.cuioss.test.valueobjects.testbeans.serializable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -24,6 +25,7 @@ import java.io.Serializable;
  */
 public class SerializationReadFailure implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1986011974054022215L;
 
     private void readObject(final ObjectInputStream aInputStream) throws IOException {

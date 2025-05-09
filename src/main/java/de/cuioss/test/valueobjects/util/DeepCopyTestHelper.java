@@ -18,6 +18,7 @@ package de.cuioss.test.valueobjects.util;
 import static de.cuioss.tools.string.MoreStrings.isEmpty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.lang.reflect.InvocationTargetException;
@@ -26,7 +27,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 
 import de.cuioss.test.valueobjects.objects.impl.ExceptionHelper;
 import de.cuioss.tools.reflect.MoreReflection;
@@ -101,7 +101,7 @@ public class DeepCopyTestHelper {
                         continue;
                     }
 
-                    Assertions.assertNotSame(resultSource, resultCopy, "deep copy failed with: " + currentPropertyString
+                    assertNotSame(resultSource, resultCopy, "deep copy failed with: " + currentPropertyString
                             + propertyName + " (" + resultSource.toString() + ")");
                     testDeepCopy(resultSource, resultCopy, currentPropertyString + propertyName,
                             Collections.emptyList());

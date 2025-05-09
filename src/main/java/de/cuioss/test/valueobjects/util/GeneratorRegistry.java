@@ -68,7 +68,7 @@ public interface GeneratorRegistry {
      * @return A list of {@link TypedGenerator}s to be registered
      */
     @SuppressWarnings("squid:S1452") // owolff: No type information available at this level,
-                                     // therefore the wildcard is needed
+    // therefore the wildcard is needed
     default List<TypedGenerator<?>> registerAdditionalGenerators() {
         return new ArrayList<>();
     }

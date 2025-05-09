@@ -15,6 +15,7 @@
  */
 package de.cuioss.test.valueobjects.testbeans.property;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import de.cuioss.test.generator.Generators;
@@ -29,6 +30,7 @@ import lombok.ToString;
 @ToString
 public class BeanWithFluentSetter implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 4441858070683023193L;
 
     public static final PropertyMetadata METATDATA = PropertyMetadataImpl.builder().name("field")

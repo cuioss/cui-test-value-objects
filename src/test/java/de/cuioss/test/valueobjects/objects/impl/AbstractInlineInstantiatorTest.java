@@ -17,6 +17,7 @@ package de.cuioss.test.valueobjects.objects.impl;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.testbeans.ComplexBean;

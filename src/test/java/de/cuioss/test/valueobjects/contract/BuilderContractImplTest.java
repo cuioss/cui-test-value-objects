@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.api.TestContract;
@@ -87,7 +88,7 @@ class BuilderContractImplTest {
                 BadBuilderAlwaysFails.class);
         final TestContract<BadBuilderAlwaysFails> contract = new BuilderContractImpl<>(badBuilderInstantiator,
                 runtimeInformation);
-        assertThrows(AssertionError.class, () -> contract.assertContract());
+        assertThrows(AssertionError.class, contract::assertContract);
     }
 
     @Test
@@ -98,7 +99,7 @@ class BuilderContractImplTest {
                 BadBuilderFailsOnAttributeSet.class);
         final TestContract<BadBuilderFailsOnAttributeSet> contract = new BuilderContractImpl<>(badBuilderInstantiator,
                 runtimeInformation);
-        assertThrows(AssertionError.class, () -> contract.assertContract());
+        assertThrows(AssertionError.class, contract::assertContract);
     }
 
     @Test
@@ -109,7 +110,7 @@ class BuilderContractImplTest {
                 BadBuilderFailsOnAttributeRead.class);
         final TestContract<BadBuilderFailsOnAttributeRead> contract = new BuilderContractImpl<>(badBuilderInstantiator,
                 runtimeInformation);
-        assertThrows(AssertionError.class, () -> contract.assertContract());
+        assertThrows(AssertionError.class, contract::assertContract);
     }
 
     @Test
@@ -119,7 +120,7 @@ class BuilderContractImplTest {
                 BuilderWithRequiredAttribute.class);
         final TestContract<BuilderWithRequiredAttribute> contract = new BuilderContractImpl<>(builderInstantiator,
                 runtimeInformation);
-        assertThrows(AssertionError.class, () -> contract.assertContract());
+        assertThrows(AssertionError.class, contract::assertContract);
     }
 
     @Test

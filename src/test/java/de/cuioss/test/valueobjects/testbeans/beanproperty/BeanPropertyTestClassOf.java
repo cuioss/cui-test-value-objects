@@ -20,7 +20,7 @@ import de.cuioss.test.valueobjects.api.contracts.VerifyBeanProperty;
 /**
  * @author Oliver Wolff
  */
-@VerifyBeanProperty(of = { "name", "generator" })
+@VerifyBeanProperty(of = {"name", "generator"})
 public class BeanPropertyTestClassOf {
 
 }

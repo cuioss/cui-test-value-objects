@@ -15,6 +15,7 @@
  */
 package de.cuioss.test.valueobjects.junit5.testbeans;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import lombok.Data;
@@ -22,6 +23,7 @@ import lombok.Data;
 @Data
 public class StrangeObject implements StrangeInterface, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 50932786360461418L;
 
     private String property;
@@ -35,7 +37,7 @@ public class StrangeObject implements StrangeInterface, Serializable {
     }
 
     public StrangeObject(StrangeInterface strangeInterface) {
-
+        // For testing only
     }
 
 }

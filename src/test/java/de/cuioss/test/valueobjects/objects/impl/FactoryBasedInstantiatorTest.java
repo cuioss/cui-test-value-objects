@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collections;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
@@ -63,7 +64,7 @@ class FactoryBasedInstantiatorTest {
     void shouldFailOnExceptionMethod() {
         var instantiator = new FactoryBasedInstantiator<>(BadFactoryBean.class, EMPTY_INFORMATION, BadFactoryBean.class,
                 "boom");
-        assertThrows(AssertionError.class, () -> instantiator.newInstanceFull());
+        assertThrows(AssertionError.class, instantiator::newInstanceFull);
     }
 
     @Test

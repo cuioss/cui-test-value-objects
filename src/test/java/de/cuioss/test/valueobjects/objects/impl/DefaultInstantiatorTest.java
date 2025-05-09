@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.testbeans.ComplexBean;
@@ -37,7 +38,7 @@ class DefaultInstantiatorTest {
     @Test
     void shouldfailToInstantiateBeanWithoutDefaultConstructor() {
         var instantiator = new DefaultInstantiator<>(BeanWithSingleArgumentConstructor.class);
-        assertThrows(AssertionError.class, () -> instantiator.newInstance());
+        assertThrows(AssertionError.class, instantiator::newInstance);
     }
 
     @Test

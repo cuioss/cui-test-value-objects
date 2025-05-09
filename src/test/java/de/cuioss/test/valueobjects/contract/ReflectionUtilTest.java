@@ -17,6 +17,7 @@ package de.cuioss.test.valueobjects.contract;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.testbeans.ComplexBean;

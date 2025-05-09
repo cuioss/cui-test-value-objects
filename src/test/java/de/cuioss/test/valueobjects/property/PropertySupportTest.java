@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
@@ -45,7 +46,7 @@ import de.cuioss.test.valueobjects.testbeans.ComplexBean;
 @PropertyGeneratorHint(declaredType = PropertyMetadata.class, implementationType = PropertyMetadataImpl.class)
 @PropertyReflectionConfig(skip = true)
 @VerifyConstructor(of = "propertyMetadata")
-@VetoObjectTestContract({ ObjectTestContracts.SERIALIZABLE, ObjectTestContracts.EQUALS_AND_HASHCODE })
+@VetoObjectTestContract({ObjectTestContracts.SERIALIZABLE, ObjectTestContracts.EQUALS_AND_HASHCODE})
 class PropertySupportTest extends ValueObjectTest<PropertySupport> {
 
     private final DefaultInstantiator<ComplexBean> instantiator = new DefaultInstantiator<>(ComplexBean.class);

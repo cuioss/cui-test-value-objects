@@ -18,6 +18,7 @@ package de.cuioss.test.valueobjects.testbeans.builder;
 import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.STRINGS_LETTER;
 import static de.cuioss.tools.collect.CollectionLiterals.immutableSortedSet;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.SortedSet;
 
@@ -39,12 +40,13 @@ import lombok.ToString;
 @Builder
 public class LombokBasedBuilder implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 5021276874059936648L;
 
     public static final SortedSet<PropertyMetadata> METADATA_COMPLETE = immutableSortedSet(BuilderMetadata.builder()
-            .delegateMetadata(STRINGS_LETTER.metadataBuilder("name").required(true)
-                    .propertyAccessStrategy(PropertyAccessStrategy.BUILDER_DIRECT).build())
-            .build(),
+                    .delegateMetadata(STRINGS_LETTER.metadataBuilder("name").required(true)
+                            .propertyAccessStrategy(PropertyAccessStrategy.BUILDER_DIRECT).build())
+                    .build(),
             BuilderMetadata.builder()
                     .delegateMetadata(STRINGS_LETTER.metadataBuilder("elements").required(false)
                             .collectionType(CollectionType.SORTED_SET)

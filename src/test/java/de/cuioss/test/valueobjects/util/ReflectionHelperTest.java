@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,12 +67,12 @@ import de.cuioss.tools.reflect.MoreReflection;
 class ReflectionHelperTest {
 
     @BeforeEach
-    public final void before() {
+    final void before() {
         TypedGeneratorRegistry.registerBasicTypes();
     }
 
     @AfterEach
-    public final void after() {
+    final void after() {
         TypedGeneratorRegistry.clear();
     }
 

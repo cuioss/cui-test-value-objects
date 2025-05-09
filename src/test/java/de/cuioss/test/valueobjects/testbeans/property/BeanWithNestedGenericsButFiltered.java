@@ -15,6 +15,7 @@
  */
 package de.cuioss.test.valueobjects.testbeans.property;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import lombok.Getter;
 @PropertyReflectionConfig(exclude = "nested")
 public class BeanWithNestedGenericsButFiltered implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 7213569922964396147L;
 
     @Getter

@@ -15,17 +15,6 @@
  */
 package de.cuioss.test.valueobjects;
 
-import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.api.ObjectContractTestSupport;
 import de.cuioss.test.valueobjects.api.TestContract;
@@ -41,6 +30,16 @@ import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.util.ObjectContractHelper;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Base-class for running tests on value-objects. It runs two type of tests:
@@ -62,13 +61,17 @@ import lombok.Getter;
  * Usage examples can be found at the package-documentation:
  * {@link de.cuioss.test.valueobjects.junit5}
  *
- * @author Oliver Wolff
  * @param <T> identifying the type to be tested is usually but not necessarily
  *            at least {@link Serializable}.
+ * @author Oliver Wolff
  */
 public class ValueObjectTest<T> extends PropertyAwareTest<T> implements ObjectContractTestSupport {
 
-    /** The active object-contracts to be tested */
+    public static final String ANY_VALUE_OBJECT_NEEDED = "You need to configure either at least one de.cuioss.test.valueobjects.api.contracts or implement #anyValueObject()";
+
+    /**
+     * The active object-contracts to be tested
+     */
     private Set<ObjectTestContracts> activeObjectContracts;
 
     /**
@@ -85,7 +88,7 @@ public class ValueObjectTest<T> extends PropertyAwareTest<T> implements ObjectCo
      * Initializes all contracts
      */
     @BeforeEach
-    public void initializeBaseClass() {
+    void initializeBaseClass() {
         activeObjectContracts = ObjectContractHelper.handleVetoedContracts(getClass());
 
         testContracts = resolveTestContracts(getPropertyMetadata());
@@ -110,8 +113,7 @@ public class ValueObjectTest<T> extends PropertyAwareTest<T> implements ObjectCo
     public void shouldImplementObjectContracts() {
         var instantiators = getObjectContractInstantiator();
         if (instantiators.isEmpty()) {
-            assertNotNull(anyValueObject(),
-                    "You need to configure either at least one de.cuioss.test.valueobjects.api.contracts or implement #anyValueObject()");
+            assertNotNull(anyValueObject(), ANY_VALUE_OBJECT_NEEDED);
             instantiators = immutableList(new AbstractInlineInstantiator<>() {
 
                 @Override
@@ -136,7 +138,7 @@ public class ValueObjectTest<T> extends PropertyAwareTest<T> implements ObjectCo
      * </p>
      */
     @Test
-    public final void shouldVerifyTestContracts() {
+    final void shouldVerifyTestContracts() {
         for (final TestContract<T> contract : getTestContracts()) {
             contract.assertContract();
         }

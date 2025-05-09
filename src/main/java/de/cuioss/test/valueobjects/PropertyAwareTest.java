@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.SortedSet;
 
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -56,7 +57,7 @@ import lombok.Setter;
  * @author Oliver Wolff
  */
 @SuppressWarnings("squid:S2187") // owolff: this is a base class for concrete tests
-@ExtendWith({ GeneratorControllerExtension.class, GeneratorRegistryController.class })
+@ExtendWith({GeneratorControllerExtension.class, GeneratorRegistryController.class})
 public class PropertyAwareTest<T> implements GeneratorRegistry {
 
     @Getter
@@ -70,7 +71,7 @@ public class PropertyAwareTest<T> implements GeneratorRegistry {
      * Initializes all contracts, properties and generator
      */
     @BeforeEach
-    public void initializePropertiesAndGenerators() {
+    void initializePropertiesAndGenerators() {
         targetBeanClass = MoreReflection.extractFirstGenericTypeArgument(getClass());
 
         propertyMetadata = resolvePropertyMetadata();

@@ -26,7 +26,7 @@ import lombok.ToString;
 /**
  * @author Oliver Wolff
  */
-@VerifyConstructor(of = { "name", "propertyAccessStrategy" }, allRequired = true)
+@VerifyConstructor(of = {"name", "propertyAccessStrategy"}, allRequired = true)
 @RequiredArgsConstructor
 @EqualsAndHashCode
 @ToString
