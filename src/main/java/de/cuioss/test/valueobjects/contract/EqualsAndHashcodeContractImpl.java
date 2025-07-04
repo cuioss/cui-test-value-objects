@@ -291,7 +291,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
         final var message = "The Objects of type " + expected.getClass().getName() +
             " should not be equal, current property=" + deltaPropertyName;
         assertNotEquals(expected, actual, message);
-        assertNotEquals(expected, actual, message);
+        assertNotEquals(actual, expected, message);
     }
 
     /**
