@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,8 +29,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
 import de.cuioss.test.valueobjects.api.generator.PropertyGeneratorHint;
@@ -41,6 +39,7 @@ import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.test.valueobjects.objects.impl.DefaultInstantiator;
 import de.cuioss.test.valueobjects.property.impl.PropertyMetadataImpl;
 import de.cuioss.test.valueobjects.testbeans.ComplexBean;
+import org.junit.jupiter.api.Test;
 
 @PropertyConfig(name = "propertyMetadata", propertyClass = PropertyMetadata.class, required = true, propertyReadWrite = WRITE_ONLY)
 @PropertyGeneratorHint(declaredType = PropertyMetadata.class, implementationType = PropertyMetadataImpl.class)
@@ -53,8 +52,7 @@ class PropertySupportTest extends ValueObjectTest<PropertySupport> {
 
     private final PropertyMetadata stringProperty = STRINGS.metadata(ATTRIBUTE_STRING);
 
-    @Test
-    void shouldVerifySimpleString() {
+    @Test void shouldVerifySimpleString() {
         final var propertySupport = new PropertySupport(stringProperty);
         final var target = instantiator.newInstance();
         assertNull(propertySupport.getGeneratedValue());
@@ -65,8 +63,7 @@ class PropertySupportTest extends ValueObjectTest<PropertySupport> {
         propertySupport.assertValueSet(target);
     }
 
-    @Test
-    void shouldDetectInvalidValue() {
+    @Test void shouldDetectInvalidValue() {
         final var property = STRINGS.metadata(ATTRIBUTE_BAD_STRING);
         final var propertySupport = new PropertySupport(property);
         final var target = instantiator.newInstance();
@@ -75,8 +72,7 @@ class PropertySupportTest extends ValueObjectTest<PropertySupport> {
         assertThrows(AssertionError.class, () -> propertySupport.assertValueSet(target));
     }
 
-    @Test
-    void shouldHandleBooleanObjects() {
+    @Test void shouldHandleBooleanObjects() {
         final var booleanProperty = BOOLEANS.metadata(ATTRIBUTE_BOOLEAN_OBJECT);
         final var propertySupport = new PropertySupport(booleanProperty);
         final var target = instantiator.newInstance();
@@ -86,8 +82,7 @@ class PropertySupportTest extends ValueObjectTest<PropertySupport> {
         propertySupport.assertValueSet(target);
     }
 
-    @Test
-    void shouldHandleBooleanPrimitives() {
+    @Test void shouldHandleBooleanPrimitives() {
         final var booleanProperty = BOOLEANS.metadata(ATTRIBUTE_BOOLEAN_PRIMITIVE);
         final var propertySupport = new PropertySupport(booleanProperty);
         final var target = instantiator.newInstance();
@@ -97,8 +92,7 @@ class PropertySupportTest extends ValueObjectTest<PropertySupport> {
         propertySupport.assertValueSet(target);
     }
 
-    @Test
-    void shouldDetectInvalidBooleanPrimitiveValue() {
+    @Test void shouldDetectInvalidBooleanPrimitiveValue() {
         final var booleanProperty = BOOLEANS.metadata(ATTRIBUTE_BOOLEAN_PRIMITIVE);
         final var propertySupport = new PropertySupport(booleanProperty);
         final var target = instantiator.newInstance();
@@ -109,8 +103,7 @@ class PropertySupportTest extends ValueObjectTest<PropertySupport> {
         assertThrows(AssertionError.class, () -> propertySupport.assertValueSet(target));
     }
 
-    @Test
-    void shouldHandleDefaultValue() {
+    @Test void shouldHandleDefaultValue() {
         final PropertyMetadata stringDefaultProperty = STRINGS.metadataBuilder(ATTRIBUTE_STRING_WITH_DEFAULT)
                 .defaultValue(true).build();
         final var propertySupport = new PropertySupport(stringDefaultProperty);
@@ -118,15 +111,13 @@ class PropertySupportTest extends ValueObjectTest<PropertySupport> {
         propertySupport.assertDefaultValue(target);
     }
 
-    @Test
-    void shouldFailHandleDefaultValue() {
+    @Test void shouldFailHandleDefaultValue() {
         final var propertySupport = new PropertySupport(stringProperty);
         final var target = instantiator.newInstance();
         assertThrows(AssertionError.class, () -> propertySupport.assertDefaultValue(target));
     }
 
-    @Test
-    void shouldCopyCorrecly() {
+    @Test void shouldCopyCorrecly() {
         final var support = new PropertySupport(stringProperty);
         assertNull(support.getGeneratedValue());
         var copy = support.createCopy(true);

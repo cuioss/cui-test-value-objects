@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+
 
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.generator.impl.CollectionGenerator;
@@ -79,8 +80,7 @@ public class PropertyMetadataImpl implements PropertyMetadata {
     @Getter
     private final AssertionStrategy assertionStrategy;
 
-    @Override
-    public Object next() {
+    @Override public Object next() {
         switch (collectionType) {
             case NO_ITERABLE:
                 return generator.next();
@@ -94,13 +94,11 @@ public class PropertyMetadataImpl implements PropertyMetadata {
         }
     }
 
-    @Override
-    public CollectionGenerator<?> resolveCollectionGenerator() {
+    @Override public CollectionGenerator<?> resolveCollectionGenerator() {
         return new CollectionGenerator<>(generator);
     }
 
-    @Override
-    public Class<?> resolveActualClass() {
+    @Override public Class<?> resolveActualClass() {
         return actualClass;
     }
 
@@ -270,13 +268,11 @@ public class PropertyMetadataImpl implements PropertyMetadata {
         return builder;
     }
 
-    @Override
-    public int compareTo(final PropertyMetadata other) {
+    @Override public int compareTo(final PropertyMetadata other) {
         return name.compareTo(other.getName());
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         final List<Object> elements = new ArrayList<>();
 
         elements.add("'" + getName() + "' (" + getPropertyClass() + ")");

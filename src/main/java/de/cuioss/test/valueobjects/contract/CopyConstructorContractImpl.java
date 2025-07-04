@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 
 import de.cuioss.test.valueobjects.api.TestContract;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
@@ -76,8 +77,7 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
     private final boolean verifyDeepCopy;
     private final Collection<String> verifyDeepCopyIgnore;
 
-    @Override
-    public void assertContract() {
+    @Override public void assertContract() {
         var builder = new StringBuilder("Verifying ");
         builder.append(getClass().getName()).append("\nWith instantiator: ").append(copyInstantiator.toString())
                 .append("\nWith sourceInstantiator: ").append(instantiator.toString());
@@ -110,8 +110,7 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
 
         final var all = instantiator.getRuntimeProperties().getAllAsPropertySupport(true);
 
-        final var copyAttribute = copyInstantiator.getRuntimeProperties().getAllAsPropertySupport(false).iterator()
-                .next();
+        final var copyAttribute = copyInstantiator.getRuntimeProperties().getAllAsPropertySupport(false).getFirst();
         copyAttribute.setGeneratedValue(instantiator.newInstance(all, false));
         var original = copyAttribute.getGeneratedValue();
         Object copy = copyInstantiator.newInstance(immutableList(copyAttribute), false);
@@ -122,8 +121,7 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
 
         final var all = instantiator.getRuntimeProperties().getAllAsPropertySupport(true);
 
-        final var copyAttribute = copyInstantiator.getRuntimeProperties().getAllAsPropertySupport(false).iterator()
-                .next();
+        final var copyAttribute = copyInstantiator.getRuntimeProperties().getAllAsPropertySupport(false).getFirst();
         copyAttribute.setGeneratedValue(instantiator.newInstance(all, false));
 
         final var copy = copyInstantiator.newInstance(immutableList(copyAttribute), false);
@@ -216,7 +214,7 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
             }
         }
         log.warn("No fitting ParameterizedInstantiator found, using best-fit");
-        return existingContracts.iterator().next().getInstantiator();
+        return existingContracts.getFirst().getInstantiator();
     }
 
 }

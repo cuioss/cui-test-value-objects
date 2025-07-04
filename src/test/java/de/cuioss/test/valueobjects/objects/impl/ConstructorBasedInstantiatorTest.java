@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,16 +22,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.testbeans.ComplexBean;
 import de.cuioss.test.valueobjects.testbeans.constructor.SimpleConstructor;
 import de.cuioss.test.valueobjects.util.ReflectionHelper;
 import de.cuioss.tools.collect.CollectionLiterals;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ConstructorBasedInstantiatorTest {
 
@@ -39,20 +38,17 @@ class ConstructorBasedInstantiatorTest {
 
     private RuntimeProperties simpleConstructorMeta;
 
-    @AfterEach
-    void after() {
+    @AfterEach void after() {
         TypedGeneratorRegistry.clear();
     }
 
-    @BeforeEach
-    void before() {
+    @BeforeEach void before() {
         TypedGeneratorRegistry.registerBasicTypes();
         simpleConstructorMeta = new RuntimeProperties(
                 ReflectionHelper.scanBeanTypeForProperties(SimpleConstructor.class, null));
     }
 
-    @Test
-    void shouldHandleDefaultConstructor() {
+    @Test void shouldHandleDefaultConstructor() {
         final var instantiator = new ConstructorBasedInstantiator<>(ComplexBean.class, EMPTY_METADATA);
         assertNotNull(instantiator.newInstanceMinimal());
         assertNotNull(instantiator.newInstanceFull());
@@ -61,8 +57,7 @@ class ConstructorBasedInstantiatorTest {
         assertNotNull(instantiator.newInstance(simpleConstructorMeta.getAllProperties()));
     }
 
-    @Test
-    void shouldHandleSimpleConstructor() {
+    @Test void shouldHandleSimpleConstructor() {
         final var instantiator = new ConstructorBasedInstantiator<>(SimpleConstructor.class, simpleConstructorMeta);
         var instance = instantiator.newInstanceMinimal();
         assertNotNull(instance);
@@ -79,9 +74,8 @@ class ConstructorBasedInstantiatorTest {
         assertNotNull(instantiator.newInstance(mutableList()));
     }
 
-    @Test
-    void shouldFailWithInvalidConstructor() {
-        var firstProperty = simpleConstructorMeta.getAllProperties().get(0);
+    @Test void shouldFailWithInvalidConstructor() {
+        var firstProperty = simpleConstructorMeta.getAllProperties().getFirst();
         var runtimeProperties = new RuntimeProperties(CollectionLiterals.immutableList(firstProperty));
         assertThrows(AssertionError.class, () -> {
             new ConstructorBasedInstantiator<>(SimpleConstructor.class, runtimeProperties);

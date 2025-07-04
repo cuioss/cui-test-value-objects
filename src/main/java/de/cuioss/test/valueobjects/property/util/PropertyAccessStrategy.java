@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
+
 
 import de.cuioss.test.valueobjects.objects.impl.ExceptionHelper;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
@@ -49,8 +50,7 @@ public enum PropertyAccessStrategy {
      */
     BEAN_PROPERTY {
 
-        @Override
-        public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
+        @Override public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
                 final Object propertyValue) {
             assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
             assertNotNull(target, PROPERTY_METADATA_MUST_NOT_BE_NULL);
@@ -64,8 +64,7 @@ public enum PropertyAccessStrategy {
 
         }
 
-        @Override
-        public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
+        @Override public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
             assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
             assertNotNull(target, PROPERTY_METADATA_MUST_NOT_BE_NULL);
             try {
@@ -96,10 +95,10 @@ public enum PropertyAccessStrategy {
      * </pre>
      *
      * This strategy writes the property using <em>both</em> methods. Therefore it
-     * uses {@link BuilderMetadata#getBuilderSingleAddMethodName()} in order to find
+     * uses the builder single add method name in order to find
      * the single addMethod. The plural add method is supposed to be the name of the
      * property itself therefore derived by
-     * {@link BuilderMetadata#getBuilderAddMethodName()}. In case there is different
+     * the builder add method name. In case there is different
      * methodName for adding, e.g.
      *
      * <pre>
@@ -121,8 +120,7 @@ public enum PropertyAccessStrategy {
      */
     BUILDER_COLLECTION_AND_SINGLE_ELEMENT {
 
-        @Override
-        public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
+        @Override public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
                 final Object propertyValue) {
             if (!(propertyValue instanceof Iterable)) {
                 throw new AssertionError(
@@ -138,7 +136,7 @@ public enum PropertyAccessStrategy {
             }
             try {
                 if (!elements.isEmpty()) {
-                    final Object singleElement = elements.iterator().next();
+                    final Object singleElement = elements.getFirst();
 
                     final var writeAddMethod = target.getClass().getMethod(
                             builderMetadata.getBuilderSingleAddMethodName(), propertyMetadata.getPropertyClass());
@@ -173,14 +171,13 @@ public enum PropertyAccessStrategy {
                     CollectionType.COLLECTION.getIterableType());
         }
 
-        @Override
-        public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
+        @Override public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
             return PropertyAccessStrategy.BEAN_PROPERTY.readProperty(target, propertyMetadata);
         }
     },
     /**
      * Writes a property in a builder using
-     * {@link BuilderMetadata#getBuilderAddMethodName()} to determine the correct
+     * the builder add method name to determine the correct
      * write method. The parameter type is exactly the same as defined at
      * {@link PropertyMetadata#getPropertyClass()}. The read method delegates to
      * {@link PropertyAccessStrategy#BEAN_PROPERTY} because it can not be read from
@@ -190,8 +187,7 @@ public enum PropertyAccessStrategy {
      */
     BUILDER_DIRECT {
 
-        @Override
-        public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
+        @Override public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
                 final Object propertyValue) {
             BuilderMetadata builderMetadata;
             if (!(propertyMetadata instanceof BuilderMetadata metadata)) {
@@ -212,8 +208,7 @@ public enum PropertyAccessStrategy {
             }
         }
 
-        @Override
-        public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
+        @Override public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
             return PropertyAccessStrategy.BEAN_PROPERTY.readProperty(target, propertyMetadata);
         }
     },
@@ -225,8 +220,7 @@ public enum PropertyAccessStrategy {
      */
     FLUENT_WRITER {
 
-        @Override
-        public Object writeProperty(Object target, PropertyMetadata propertyMetadata, Object propertyValue) {
+        @Override public Object writeProperty(Object target, PropertyMetadata propertyMetadata, Object propertyValue) {
             var writeMethod = MoreReflection.retrieveWriteMethod(target.getClass(), propertyMetadata.getName(),
                     propertyMetadata.resolveActualClass());
             if (writeMethod.isEmpty()) {
@@ -242,8 +236,7 @@ public enum PropertyAccessStrategy {
             }
         }
 
-        @Override
-        public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
+        @Override public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
             return PropertyAccessStrategy.BEAN_PROPERTY.readProperty(target, propertyMetadata);
         }
 

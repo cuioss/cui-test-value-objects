@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,21 +18,18 @@ package de.cuioss.test.valueobjects.mapper;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.MapperTest;
 import de.cuioss.test.valueobjects.api.VerifyMapperConfiguration;
 import de.cuioss.test.valueobjects.testbeans.mapper.SimpleErrorMapperWrongField;
 import de.cuioss.test.valueobjects.testbeans.mapper.SimpleSourceBean;
 import de.cuioss.test.valueobjects.testbeans.mapper.SimpleTargetBean;
+import org.junit.jupiter.api.Test;
 
 @VerifyMapperConfiguration(equals = {"firstname:nameFirst", "lastname:nameLast", "attributeList:listOfAttributes"})
 class BaseMapperTestErrorCollectionMapperTest
         extends MapperTest<SimpleErrorMapperWrongField, SimpleSourceBean, SimpleTargetBean> {
 
-    @Override
-    @Test
-    protected void verifyMapper() {
+    @Override @Test protected void verifyMapper() {
         assertThrows(AssertionError.class, super::verifyMapper);
     }
 }

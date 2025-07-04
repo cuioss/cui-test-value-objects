@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,6 +27,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 
+
 import de.cuioss.test.generator.impl.CollectionGenerator;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -45,18 +46,15 @@ public enum CollectionType {
     /** Represents a {@link Collection}. The implementation will return a list. */
     COLLECTION(Collection.class) {
 
-        @Override
-        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             return collectionGenerator.list();
         }
 
-        @Override
-        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             return mutableList(iterable);
         }
 
-        @Override
-        public Iterable<?> emptyCollection() {
+        @Override public Iterable<?> emptyCollection() {
             return immutableList();
         }
 
@@ -64,18 +62,15 @@ public enum CollectionType {
     /** Represents a {@link List}. */
     LIST(List.class) {
 
-        @Override
-        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             return collectionGenerator.list();
         }
 
-        @Override
-        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             return mutableList(iterable);
         }
 
-        @Override
-        public Iterable<?> emptyCollection() {
+        @Override public Iterable<?> emptyCollection() {
             return immutableList();
         }
 
@@ -83,18 +78,15 @@ public enum CollectionType {
     /** Represents a {@link Set}. */
     SET(Set.class) {
 
-        @Override
-        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             return collectionGenerator.set();
         }
 
-        @Override
-        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             return mutableSet(iterable);
         }
 
-        @Override
-        public Iterable<?> emptyCollection() {
+        @Override public Iterable<?> emptyCollection() {
             return immutableSet();
         }
 
@@ -102,18 +94,15 @@ public enum CollectionType {
     /** Represents a {@link SortedSet}. */
     SORTED_SET(SortedSet.class) {
 
-        @Override
-        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             return collectionGenerator.sortedSet();
         }
 
-        @Override
-        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             return immutableSortedSet(iterable);
         }
 
-        @Override
-        public Iterable<?> emptyCollection() {
+        @Override public Iterable<?> emptyCollection() {
             return immutableSortedSet();
         }
 
@@ -125,18 +114,15 @@ public enum CollectionType {
      */
     ARRAY_MARKER(Iterable.class) {
 
-        @Override
-        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Iterable<?> emptyCollection() {
+        @Override public Iterable<?> emptyCollection() {
             throw new UnsupportedOperationException();
         }
 
@@ -147,18 +133,15 @@ public enum CollectionType {
      */
     NO_ITERABLE(Iterable.class) {
 
-        @Override
-        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Iterable<?> emptyCollection() {
+        @Override public Iterable<?> emptyCollection() {
             throw new UnsupportedOperationException();
         }
 

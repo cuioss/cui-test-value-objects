@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,9 +31,6 @@ import java.util.Map;
 import java.util.Set;
 
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.api.object.VetoObjectTestContract;
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
@@ -45,16 +42,16 @@ import de.cuioss.test.valueobjects.generator.dynamic.impl.InterfaceProxyGenerato
 import de.cuioss.test.valueobjects.objects.BuilderInstantiator;
 import de.cuioss.test.valueobjects.testbeans.ComplexBean;
 import de.cuioss.tools.property.PropertyMemberInfo;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class GeneratorResolverTest {
 
-    @BeforeEach
-    void before() {
+    @BeforeEach void before() {
         TypedGeneratorRegistry.clear();
     }
 
-    @Test
-    void shouldProvideAnyGenerator() {
+    @Test void shouldProvideAnyGenerator() {
         TypedGeneratorRegistry.registerBasicTypes();
         assertNotNull(resolveGenerator(String.class));
         // enum types
@@ -86,8 +83,7 @@ class GeneratorResolverTest {
                 TypedGeneratorRegistry.getGenerator(AbstractList.class).get().getClass());
     }
 
-    @Test
-    void shouldResolvePrimitiveArrayGenerator() {
+    @Test void shouldResolvePrimitiveArrayGenerator() {
         TypedGeneratorRegistry.registerBasicTypes();
         final Class<? extends byte[]> byteArrayClass = byte[].class;
         final TypedGenerator<? extends byte[]> resolved = resolveGenerator(byteArrayClass);
@@ -96,8 +92,7 @@ class GeneratorResolverTest {
         assertNotNull(generated);
     }
 
-    @Test
-    void collectionStrategyShouldHandleCollectionOnly() {
+    @Test void collectionStrategyShouldHandleCollectionOnly() {
         assertFalse(resolveCollectionGenerator(null).isPresent());
         assertFalse(resolveCollectionGenerator(PropertyMemberInfo.class).isPresent());
         assertFalse(resolveCollectionGenerator(Serializable.class).isPresent());
@@ -108,8 +103,7 @@ class GeneratorResolverTest {
         assertEquals(EmptyMapGenerator.class, resolveCollectionGenerator(Map.class).get().getClass());
     }
 
-    @Test
-    void shouldFailToHandleAnnotations() {
+    @Test void shouldFailToHandleAnnotations() {
         assertThrows(IllegalArgumentException.class, () -> resolveGenerator(VetoObjectTestContract.class));
     }
 }

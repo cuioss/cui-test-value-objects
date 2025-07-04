@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,25 +34,22 @@ import java.util.Set;
 import java.util.SortedSet;
 
 
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.generator.Generators;
 import de.cuioss.test.generator.impl.CollectionGenerator;
+import org.junit.jupiter.api.Test;
 
 class CollectionTypeTest {
 
     private final CollectionGenerator<String> generator = Generators.asCollectionGenerator(Generators.letterStrings());
 
-    @Test
-    void shouldFullfillContract() {
+    @Test void shouldFullfillContract() {
         assertContract(SORTED_SET, SortedSet.class);
         assertContract(SET, Set.class);
         assertContract(LIST, List.class);
         assertContract(COLLECTION, Collection.class);
     }
 
-    @SuppressWarnings("rawtypes")
-    private void assertContract(final CollectionType type, final Class<? extends Iterable> interfaceType) {
+    @SuppressWarnings("rawtypes") private void assertContract(final CollectionType type, final Class<? extends Iterable> interfaceType) {
         assertNotNull(type.nextIterable(generator));
         Class<? extends Iterable> classType = type.nextIterable(generator).getClass();
         assertTrue(interfaceType.isAssignableFrom(classType));
@@ -70,8 +67,7 @@ class CollectionTypeTest {
         assertFalse(Map.class.isAssignableFrom(classType));
     }
 
-    @Test
-    void shouldFindCollectionPerType() {
+    @Test void shouldFindCollectionPerType() {
         assertFalse(findResponsibleCollectionType(null).isPresent());
         assertFalse(findResponsibleCollectionType(Object.class).isPresent());
         assertFalse(findResponsibleCollectionType(ArrayList.class).isPresent());
@@ -81,8 +77,7 @@ class CollectionTypeTest {
         assertEquals(COLLECTION, findResponsibleCollectionType(Collection.class).get());
     }
 
-    @Test
-    void shouldIgnoreIterable() {
+    @Test void shouldIgnoreIterable() {
         assertFalse(findResponsibleCollectionType(Iterable.class).isPresent());
     }
 }

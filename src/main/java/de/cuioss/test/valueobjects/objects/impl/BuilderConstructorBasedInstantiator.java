@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 
 import de.cuioss.test.valueobjects.contract.BuilderContractImpl;
 import de.cuioss.test.valueobjects.objects.BuilderInstantiator;
@@ -69,8 +70,7 @@ public class BuilderConstructorBasedInstantiator<T> implements BuilderInstantiat
      * @param buildMethodName the actual name or the builder-method, must not be
      *                        null nor empty
      */
-    @SuppressWarnings("unchecked")
-    public BuilderConstructorBasedInstantiator(final Class<?> builderType, final String buildMethodName) {
+    @SuppressWarnings("unchecked") public BuilderConstructorBasedInstantiator(final Class<?> builderType, final String buildMethodName) {
 
         requireNonNull(builderType, "builderType must not be null");
         requireNonNull(emptyToNull(buildMethodName), "builderMethodName must not be null");
@@ -88,14 +88,11 @@ public class BuilderConstructorBasedInstantiator<T> implements BuilderInstantiat
 
     }
 
-    @Override
-    public Object newBuilderInstance() {
+    @Override public Object newBuilderInstance() {
         return builderInstantiator.newInstance();
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public T build(final Object builder) {
+    @SuppressWarnings("unchecked") @Override public T build(final Object builder) {
         try {
             return (T) builderMethod.invoke(builder);
         } catch (IllegalAccessException | InvocationTargetException | RuntimeException e) {

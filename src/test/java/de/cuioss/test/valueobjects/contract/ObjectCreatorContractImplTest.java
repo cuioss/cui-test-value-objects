@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,10 +26,6 @@ import java.util.Collections;
 import java.util.List;
 
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.objects.impl.ConstructorBasedInstantiator;
@@ -41,6 +37,9 @@ import de.cuioss.test.valueobjects.testbeans.constructor.SimpleConstructor;
 import de.cuioss.test.valueobjects.testbeans.factory.TwoFactoryBean;
 import de.cuioss.test.valueobjects.util.PropertyHelper;
 import de.cuioss.test.valueobjects.util.ReflectionHelper;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ObjectCreatorContractImplTest {
 
@@ -50,13 +49,11 @@ class ObjectCreatorContractImplTest {
 
     private List<PropertyMetadata> complexConstructorMeta;
 
-    @AfterEach
-    void after() {
+    @AfterEach void after() {
         TypedGeneratorRegistry.clear();
     }
 
-    @BeforeEach
-    void before() {
+    @BeforeEach void before() {
         TypedGeneratorRegistry.registerBasicTypes();
         simpleConstructorMeta = new RuntimeProperties(
                 ReflectionHelper.scanBeanTypeForProperties(SimpleConstructor.class, null));
@@ -64,15 +61,13 @@ class ObjectCreatorContractImplTest {
                 ReflectionHelper.scanBeanTypeForProperties(PropertyMetadataImpl.class, null));
     }
 
-    @Test
-    void shouldHandleConstructorForStandardBean() {
+    @Test void shouldHandleConstructorForStandardBean() {
         final var contract = new ObjectCreatorContractImpl<>(
                 new ConstructorBasedInstantiator<>(SimpleConstructor.class, simpleConstructorMeta));
         contract.assertContract();
     }
 
-    @Test
-    void shouldDetectInvalidRequired() {
+    @Test void shouldDetectInvalidRequired() {
         final var map = PropertyHelper.toMapView(simpleConstructorMeta.getAllProperties());
         final PropertyMetadata newAttribute2 = PropertyMetadataImpl.builder(map.get(ATTRIBUTE2)).required(true).build();
         map.put(ATTRIBUTE2, newAttribute2);
@@ -85,20 +80,17 @@ class ObjectCreatorContractImplTest {
         assertThrows(AssertionError.class, contract::assertContract);
     }
 
-    @Test
-    void factoryShouldIgnoreInvalidType() {
+    @Test void factoryShouldIgnoreInvalidType() {
         assertTrue(createTestContracts(ObjectCreatorContractImplTest.class, ObjectCreatorContractImplTest.class,
                 Collections.emptyList()).isEmpty());
     }
 
-    @Test
-    void factoryShouldHandleSingleAnnotation() {
+    @Test void factoryShouldHandleSingleAnnotation() {
         assertEquals(1, createTestContracts(BeanWithOneConstructorAnnotation.class,
                 BeanWithOneConstructorAnnotation.class, complexConstructorMeta).size());
     }
 
-    @Test
-    void shouldDetectFactoryType() {
+    @Test void shouldDetectFactoryType() {
         final List<ObjectCreatorContractImpl<TwoFactoryBean>> contracts = createTestContracts(TwoFactoryBean.class,
                 TwoFactoryBean.class, immutableList(TwoFactoryBean.ATTRIBUTE));
         assertEquals(2, contracts.size());

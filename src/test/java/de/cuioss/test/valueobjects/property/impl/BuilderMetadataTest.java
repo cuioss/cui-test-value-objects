@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,8 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.generator.Generators;
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyBuilder;
@@ -34,6 +32,7 @@ import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy;
 import de.cuioss.tools.property.PropertyReadWrite;
+import org.junit.jupiter.api.Test;
 
 @PropertyReflectionConfig(skip = true)
 @PropertyGeneratorHint(declaredType = PropertyMetadata.class, implementationType = PropertyMetadataImpl.class)
@@ -59,26 +58,22 @@ class BuilderMetadataTest extends ValueObjectTest<BuilderMetadata> {
 
     private static final String BUILDER_METHOD_NAME = "builderMethodName";
 
-    @Test
-    void shouldPrefixBuilderMethod() {
+    @Test void shouldPrefixBuilderMethod() {
         assertEquals(TARGET_NAME_SHORT, prefixBuilderMethod(PROPERTY_NAME_SHORT, BUILDER_PREFIX));
         assertEquals(PROPERTY_NAME_SHORT, prefixBuilderMethod(PROPERTY_NAME_SHORT, null));
         assertEquals(PROPERTY_NAME_SHORT, prefixBuilderMethod(PROPERTY_NAME_SHORT, ""));
         assertEquals(PROPERTY_NAME, prefixBuilderMethod(PROPERTY_NAME, null));
     }
 
-    @Test
-    void shouldFailToPrefixOnNullName() {
+    @Test void shouldFailToPrefixOnNullName() {
         assertThrows(NullPointerException.class, () -> prefixBuilderMethod(null, null));
     }
 
-    @Test
-    void shouldFailToPrefixOnEmptyName() {
+    @Test void shouldFailToPrefixOnEmptyName() {
         assertThrows(NullPointerException.class, () -> prefixBuilderMethod("", null));
     }
 
-    @Test
-    void shouldBuildMinimal() {
+    @Test void shouldBuildMinimal() {
         final var metadata = BuilderMetadata.builder().delegateMetadata(STRING_METADATA).build();
         assertNotNull(metadata);
         assertEquals(PROPERTY_NAME, metadata.getName());
@@ -87,8 +82,7 @@ class BuilderMetadataTest extends ValueObjectTest<BuilderMetadata> {
         assertEquals(PropertyAccessStrategy.BUILDER_DIRECT, metadata.getPropertyAccessStrategy());
     }
 
-    @Test
-    void shouldPrefixMethod() {
+    @Test void shouldPrefixMethod() {
         final var metadata = BuilderMetadata.builder().delegateMetadata(STRING_METADATA)
                 .builderMethodPrefix(BUILDER_PREFIX).build();
         assertNotNull(metadata);
@@ -97,8 +91,7 @@ class BuilderMetadataTest extends ValueObjectTest<BuilderMetadata> {
         assertEquals(TARGET_NAME_LONG, metadata.getBuilderSingleAddMethodName());
     }
 
-    @Test
-    void shouldUseFixedMethods() {
+    @Test void shouldUseFixedMethods() {
         final var metadata = BuilderMetadata.builder().delegateMetadata(STRING_METADATA)
                 .builderMethodName(BUILDER_METHOD_NAME).builderSingleAddMethodName(SINGLE_ADD_METHOD_NAME).build();
         assertNotNull(metadata);

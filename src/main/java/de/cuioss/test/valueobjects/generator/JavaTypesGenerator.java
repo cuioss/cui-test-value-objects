@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -67,6 +67,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+
 
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
@@ -160,19 +161,19 @@ public final class JavaTypesGenerator<T> {
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for {@link Integer} which
-     * is bound between 1 <= bound <= 31, used for representing days in a month
+     * is bound between 1 &lt;= bound &lt;= 31, used for representing days in a month
      */
     public static final JavaTypesGenerator<Integer> INTEGER_DAYS = new JavaTypesGenerator<>(integers(1, 31), null);
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for {@link Integer} which
-     * is bound between 1 <= bound <= 12, used for representing months in a year
+     * is bound between 1 &lt;= bound &lt;= 12, used for representing months in a year
      */
     public static final JavaTypesGenerator<Integer> INTEGER_MONTHS = new JavaTypesGenerator<>(integers(1, 12), null);
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for {@link Integer} which
-     * is bound between 1900 <= bound <= 2100, used for representing years
+     * is bound between 1900 &lt;= bound &lt;= 2100, used for representing years
      */
     public static final JavaTypesGenerator<Integer> INTEGER_YEARS = new JavaTypesGenerator<>(integers(1900, 2100),
             null);

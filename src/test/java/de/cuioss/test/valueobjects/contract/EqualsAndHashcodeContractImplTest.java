@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
-
-import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
@@ -38,6 +36,7 @@ import de.cuioss.test.valueobjects.testbeans.objectcontract.BadObjectBeanWithInv
 import de.cuioss.test.valueobjects.testbeans.objectcontract.EqualsAndHashcodeTwoArgumentBean;
 import de.cuioss.test.valueobjects.testbeans.objectcontract.EqualsAndHashcodeWithExlude;
 import de.cuioss.test.valueobjects.util.ReflectionHelper;
+import org.junit.jupiter.api.Test;
 
 class EqualsAndHashcodeContractImplTest {
 
@@ -55,42 +54,36 @@ class EqualsAndHashcodeContractImplTest {
     public static final BeanInstantiator<ComplexBean> EMPTY_BEAN_INSTANIATOR = new BeanInstantiator<>(
             SIMPLE_BEAN_INSTANIATOR, EMPTY_RUNTIME_INFORMATION);
 
-    @Test
-    void shouldHandleSimpleBeanWithAllAttributesCorrectly() {
+    @Test void shouldHandleSimpleBeanWithAllAttributesCorrectly() {
         new EqualsAndHashcodeContractImpl().assertContract(FULL_BEAN_INSTANIATOR, null);
     }
 
-    @Test
-    void shouldHandleSimpleBeanWithoutAttributesCorrectly() {
+    @Test void shouldHandleSimpleBeanWithoutAttributesCorrectly() {
         new EqualsAndHashcodeContractImpl().assertContract(EMPTY_BEAN_INSTANIATOR, null);
     }
 
-    @Test
-    void shouldFailOnBadObjectBean() {
+    @Test void shouldFailOnBadObjectBean() {
         var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBean.class),
                 EMPTY_RUNTIME_INFORMATION);
         var contract = new EqualsAndHashcodeContractImpl();
         assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
     }
 
-    @Test
-    void shouldFailOnBadObjectWithInvalidEquals() {
+    @Test void shouldFailOnBadObjectWithInvalidEquals() {
         var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBeanWithInvalidEquals.class),
                 EMPTY_RUNTIME_INFORMATION);
         var contract = new EqualsAndHashcodeContractImpl();
         assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
     }
 
-    @Test
-    void shouldFailOnBadObjectWithInvalidHashCode() {
+    @Test void shouldFailOnBadObjectWithInvalidHashCode() {
         var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBeanWithInvalidHashCode.class),
                 EMPTY_RUNTIME_INFORMATION);
         var contract = new EqualsAndHashcodeContractImpl();
         assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
     }
 
-    @Test
-    void shouldHandleComplexBean() {
+    @Test void shouldHandleComplexBean() {
         TypedGeneratorRegistry.registerBasicTypes();
         final var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(ComplexBean.class),
                 new RuntimeProperties(ComplexBean.completeValidMetadata()));
@@ -98,8 +91,7 @@ class EqualsAndHashcodeContractImplTest {
         TypedGeneratorRegistry.clear();
     }
 
-    @Test
-    void shouldHandleTwoArgumentBean() {
+    @Test void shouldHandleTwoArgumentBean() {
         TypedGeneratorRegistry.registerBasicTypes();
         final List<PropertyMetadata> meta = ReflectionHelper
                 .handlePropertyMetadata(EqualsAndHashcodeTwoArgumentBean.class, EqualsAndHashcodeTwoArgumentBean.class);
@@ -109,8 +101,7 @@ class EqualsAndHashcodeContractImplTest {
         TypedGeneratorRegistry.clear();
     }
 
-    @Test
-    void shouldHandleExclude() {
+    @Test void shouldHandleExclude() {
         TypedGeneratorRegistry.registerBasicTypes();
         final List<PropertyMetadata> meta = ReflectionHelper.handlePropertyMetadata(EqualsAndHashcodeWithExlude.class,
                 EqualsAndHashcodeWithExlude.class);

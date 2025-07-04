@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,12 +22,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Collections;
 
 
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.testbeans.factory.BadFactoryBean;
 import de.cuioss.test.valueobjects.testbeans.factory.TwoFactoryBean;
 import de.cuioss.tools.logging.CuiLogger;
+import org.junit.jupiter.api.Test;
 
 class FactoryBasedInstantiatorTest {
 
@@ -35,8 +34,7 @@ class FactoryBasedInstantiatorTest {
 
     private static final RuntimeProperties EMPTY_INFORMATION = new RuntimeProperties(Collections.emptyList());
 
-    @Test
-    void shouldInstantiateWithNoArgsConstructor() {
+    @Test void shouldInstantiateWithNoArgsConstructor() {
         var instantiaor = new FactoryBasedInstantiator<>(TwoFactoryBean.class, EMPTY_INFORMATION, TwoFactoryBean.class,
                 TwoFactoryBean.CREATE_METHOD_NAME);
         log.info(instantiaor.toString());
@@ -45,8 +43,7 @@ class FactoryBasedInstantiatorTest {
         assertNotNull(instantiaor.newInstance(Collections.emptyList()));
     }
 
-    @Test
-    void shouldInstantiateWithSingleArgsConstructor() {
+    @Test void shouldInstantiateWithSingleArgsConstructor() {
         var instantiaor = new FactoryBasedInstantiator<>(TwoFactoryBean.class, TwoFactoryBean.INFORMATION,
                 TwoFactoryBean.class, TwoFactoryBean.CREATE_METHOD_NAME);
         log.info(instantiaor.toString());
@@ -60,28 +57,24 @@ class FactoryBasedInstantiatorTest {
         assertNotNull(instantiaor.newInstance(TwoFactoryBean.INFORMATION.getAllProperties()).getAttribute());
     }
 
-    @Test
-    void shouldFailOnExceptionMethod() {
+    @Test void shouldFailOnExceptionMethod() {
         var instantiator = new FactoryBasedInstantiator<>(BadFactoryBean.class, EMPTY_INFORMATION, BadFactoryBean.class,
                 "boom");
         assertThrows(AssertionError.class, instantiator::newInstanceFull);
     }
 
-    @Test
-    void shouldFailOnInvalidReturnType() {
+    @Test void shouldFailOnInvalidReturnType() {
         assertThrows(AssertionError.class, () -> new FactoryBasedInstantiator<>(BadFactoryBean.class, EMPTY_INFORMATION,
                 BadFactoryBean.class, "invalidType"));
 
     }
 
-    @Test
-    void shouldFailOnVoidReturnType() {
+    @Test void shouldFailOnVoidReturnType() {
         assertThrows(AssertionError.class, () -> new FactoryBasedInstantiator<>(BadFactoryBean.class, EMPTY_INFORMATION,
                 BadFactoryBean.class, "voidMethod"));
     }
 
-    @Test
-    void shouldFailOnNotExistingMethod() {
+    @Test void shouldFailOnNotExistingMethod() {
         assertThrows(AssertionError.class, () -> new FactoryBasedInstantiator<>(BadFactoryBean.class, EMPTY_INFORMATION,
                 BadFactoryBean.class, "notThere"));
 

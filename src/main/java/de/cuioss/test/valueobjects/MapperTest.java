@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,8 +33,6 @@ import java.util.TreeSet;
 import java.util.function.Function;
 
 
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.api.VerifyMapperConfiguration;
 import de.cuioss.test.valueobjects.api.property.PropertyConfig;
@@ -55,6 +53,7 @@ import de.cuioss.tools.base.Preconditions;
 import de.cuioss.tools.reflect.MoreReflection;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.junit.jupiter.api.Test;
 
 /**
  * Allows to test a mapper implementing a {@link Function} to map a (pseudo-)DTO
@@ -103,18 +102,17 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
     private Class<T> targetClass;
 
     /**
-     * Reads the type information and fills the fields {@link #getMapperClass()},
-     * {@link #getSourceClass()}, {@link #getTargetClass()}. It runs it checks only
+     * Reads the type information and fills the fields {@link #mapperClass},
+     * {@link #sourceClass}, {@link #targetClass}. It runs it checks only
      * once
      */
-    @SuppressWarnings({"unchecked"})
-    protected void intializeTypeInformation() {
+    @SuppressWarnings({"unchecked"}) protected void intializeTypeInformation() {
         if (null == mapperClass) {
             var parameterized = MoreReflection.extractParameterizedType(getClass()).orElseThrow(
                     () -> new IllegalArgumentException("Given type defines no generic Type: " + getClass()));
             List<Type> types = immutableList(parameterized.getActualTypeArguments());
             Preconditions.checkArgument(3 == types.size(), "Super Class must provide 3 generic types in order to work");
-            mapperClass = (Class<M>) MoreReflection.extractGenericTypeCovariantly(types.get(0))
+            mapperClass = (Class<M>) MoreReflection.extractGenericTypeCovariantly(types.getFirst())
                     .orElseThrow(() -> new AssertionError("Unable to determine mapperClass from type" + getClass()));
             assertNotNull(mapperClass, "Unable to determine mapperClass");
             assertFalse(mapperClass.isInterface(),
@@ -132,8 +130,7 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      * Shorthand for calling
      * {@link MapperTest#verifyMapper(PropertyReflectionConfig)} with {@code null}
      */
-    @Test
-    protected void verifyMapper() {
+    @Test protected void verifyMapper() {
         verifyMapper(null);
     }
 
@@ -162,8 +159,7 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
         new MapperContractImpl<>(config.get(), sourceInstantiator, targetProperties, getUnderTest()).assertContract();
     }
 
-    @Override
-    public M getUnderTest() {
+    @Override public M getUnderTest() {
         intializeTypeInformation();
         return new DefaultInstantiator<>(mapperClass).newInstance();
     }

@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,8 +30,6 @@ import java.util.Optional;
 import java.util.SortedSet;
 
 
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.api.TestContract;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.objects.impl.BeanInstantiator;
@@ -39,6 +37,7 @@ import de.cuioss.test.valueobjects.objects.impl.DefaultInstantiator;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.testbeans.ComplexBean;
 import de.cuioss.test.valueobjects.testbeans.beanproperty.BeanPropertyTestClassSimple;
+import org.junit.jupiter.api.Test;
 
 class BeanPropertyContractImplTest {
 
@@ -50,14 +49,12 @@ class BeanPropertyContractImplTest {
     private static final BeanInstantiator<ComplexBean> BEAN_INSTANTIATOR = new BeanInstantiator<>(
             new DefaultInstantiator<>(ComplexBean.class), new RuntimeProperties(COMPLETE_METADATA));
 
-    @Test
-    void shouldHandleComplexSetup() {
+    @Test void shouldHandleComplexSetup() {
         final var support = new BeanPropertyContractImpl<>(BEAN_INSTANTIATOR);
         support.assertContract();
     }
 
-    @Test
-    void shouldFailOnInvalidBean() {
+    @Test void shouldFailOnInvalidBean() {
         final SortedSet<PropertyMetadata> generators = mutableSortedSet();
         generators.add(STRINGS.metadata(ATTRIBUTE_BAD_STRING));
         final var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(ComplexBean.class),
@@ -66,8 +63,7 @@ class BeanPropertyContractImplTest {
         assertThrows(AssertionError.class, support::assertContract);
     }
 
-    @Test
-    void factoryMethodShouldProvideContractOnValidParameter() {
+    @Test void factoryMethodShouldProvideContractOnValidParameter() {
         final Optional<TestContract<ComplexBean>> contract = BeanPropertyContractImpl.createBeanPropertyTestContract(
                 ComplexBean.class, BeanPropertyTestClassSimple.class, COMPLETE_METADATA_AS_LIST);
         assertTrue(contract.isPresent());
@@ -75,8 +71,7 @@ class BeanPropertyContractImplTest {
         assertNotNull(contract.get().getInstantiator());
     }
 
-    @Test
-    void factoryMethodShouldNotProvideContractOnInvalidParameter() {
+    @Test void factoryMethodShouldNotProvideContractOnInvalidParameter() {
         Optional<TestContract<ComplexBean>> contract = BeanPropertyContractImpl
                 .createBeanPropertyTestContract(ComplexBean.class, this.getClass(), COMPLETE_METADATA_AS_LIST);
         assertFalse(contract.isPresent());

@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,12 +26,11 @@ import java.util.Collections;
 import java.util.List;
 
 
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.PropertySupport;
 import de.cuioss.test.valueobjects.testbeans.ComplexBean;
+import org.junit.jupiter.api.Test;
 
 class BeanInstantiatorTest {
 
@@ -43,28 +42,23 @@ class BeanInstantiatorTest {
     private final BeanInstantiator<ComplexBean> populator = new BeanInstantiator<>(instantiator,
             fullRuntimeInformation);
 
-    @Test
-    void shouldFailOnNullInstantiatorParameter() {
+    @Test void shouldFailOnNullInstantiatorParameter() {
         assertThrows(NullPointerException.class, () -> new BeanInstantiator<ComplexBean>(null, fullRuntimeInformation));
     }
 
-    @Test
-    void shouldFailOnNullRuntimeInformation() {
+    @Test void shouldFailOnNullRuntimeInformation() {
         assertThrows(NullPointerException.class, () -> new BeanInstantiator<>(instantiator, null));
     }
 
-    @Test
-    void shouldFailNullProperties() {
+    @Test void shouldFailNullProperties() {
         assertThrows(AssertionError.class, () -> populator.newInstance(null, true));
     }
 
-    @Test
-    void shouldHandleEmptyProperties() {
+    @Test void shouldHandleEmptyProperties() {
         assertEquals(new ComplexBean(), populator.newInstance(Collections.emptyList(), true));
     }
 
-    @Test
-    void shouldNotCreateProperties() {
+    @Test void shouldNotCreateProperties() {
         final var props = basicProperties();
         final var target = instantiator.newInstance();
         for (final PropertySupport propertySupport : props) {
@@ -77,8 +71,7 @@ class BeanInstantiatorTest {
         }
     }
 
-    @Test
-    void shouldCreateProperties() {
+    @Test void shouldCreateProperties() {
         final var props = basicProperties();
         final var populated = populator.newInstance(props, true);
         assertNotEquals(new ComplexBean(), populated);
@@ -88,8 +81,7 @@ class BeanInstantiatorTest {
         }
     }
 
-    @Test
-    void shouldCreateAny() {
+    @Test void shouldCreateAny() {
         final var populated = populator.newInstanceFull();
         assertNotEquals(new ComplexBean(), populated);
     }

@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
+
 
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.PropertySupport;
@@ -132,7 +133,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getAllProperties()}
+     * out of {@link #allProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -145,7 +146,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getAllProperties()} but filtered according to the given names.
+     * out of {@link #allProperties} but filtered according to the given names.
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -162,7 +163,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getRequiredProperties()}
+     * out of {@link #requiredProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -175,7 +176,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getRequiredProperties()} but filtered according to the given
+     * out of {@link #requiredProperties} but filtered according to the given
      * names.
      *
      * @param generateTestValue boolean indicating whether to call
@@ -194,7 +195,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getDefaultProperties()}
+     * out of {@link #defaultProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -207,7 +208,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getDefaultProperties()} but filtered according to the given
+     * out of {@link #defaultProperties} but filtered according to the given
      * names.
      *
      * @param generateTestValue boolean indicating whether to call
@@ -226,7 +227,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getAdditionalProperties()}
+     * out of {@link #additionalProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -239,7 +240,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getAdditionalProperties()}
+     * out of {@link #additionalProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -257,7 +258,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getWritableProperties()}
+     * out of {@link #writableProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -270,7 +271,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getWritableProperties()}
+     * out of {@link #writableProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -314,8 +315,7 @@ public class RuntimeProperties {
         return builder;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         final var builder = new StringBuilder(getClass().getName());
         builder.append("\nRequired properties: ").append(getPropertyNames(requiredProperties));
         builder.append("\nAdditional properties: ").append(getPropertyNames(additionalProperties));

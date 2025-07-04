@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,10 +39,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
@@ -63,21 +59,21 @@ import de.cuioss.test.valueobjects.testbeans.reflection.StringTypedGenericType;
 import de.cuioss.tools.property.PropertyMemberInfo;
 import de.cuioss.tools.property.PropertyReadWrite;
 import de.cuioss.tools.reflect.MoreReflection;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ReflectionHelperTest {
 
-    @BeforeEach
-    final void before() {
+    @BeforeEach final void before() {
         TypedGeneratorRegistry.registerBasicTypes();
     }
 
-    @AfterEach
-    final void after() {
+    @AfterEach final void after() {
         TypedGeneratorRegistry.clear();
     }
 
-    @Test
-    void shouldScanBeanWithReadWriteProperties() {
+    @Test void shouldScanBeanWithReadWriteProperties() {
         final Map<String, PropertyMetadata> map = new HashMap<>();
         scanBeanTypeForProperties(BeanWithReadWriteProperties.class, null).forEach(p -> map.put(p.getName(), p));
         assertEquals(4, map.size());
@@ -117,8 +113,7 @@ class ReflectionHelperTest {
         assertFalse(metadata.isDefaultValue());
     }
 
-    @Test
-    void shouldScanBeanWithCollections() {
+    @Test void shouldScanBeanWithCollections() {
         final Map<String, PropertyMetadata> map = new HashMap<>();
         scanBeanTypeForProperties(ComplexBean.class, null).forEach(p -> map.put(p.getName(), p));
         assertEquals(13, map.size(), "Wrong count of class properties detected.");
@@ -136,28 +131,25 @@ class ReflectionHelperTest {
         assertEquals(String.class, metadata.getPropertyClass());
     }
 
-    @Test
-    void shouldScanBeanWithArrayTypes() {
+    @Test void shouldScanBeanWithArrayTypes() {
         final var types = scanBeanTypeForProperties(BeanWithStringArray.class, null);
         assertFalse(types.isEmpty());
-        final var type = types.first();
+        final var type = types.getFirst();
         assertEquals(String.class, type.getPropertyClass());
         assertEquals(String[].class, type.resolveActualClass());
     }
 
-    @Test
-    void shouldScanBeanWithPrimitiveArrayTypes() {
+    @Test void shouldScanBeanWithPrimitiveArrayTypes() {
         final var types = scanBeanTypeForProperties(BeanWithPrimitiveByteArray.class, null);
         assertFalse(types.isEmpty());
-        final var type = types.first();
+        final var type = types.getFirst();
         assertEquals(byte.class, type.getPropertyClass());
         assertEquals(byte[].class, type.resolveActualClass());
         // Primitive Arrays should not be set as default
         assertFalse(type.isDefaultValue());
     }
 
-    @Test
-    void handlePostProcessShouldIgnoreOnEmpty() {
+    @Test void handlePostProcessShouldIgnoreOnEmpty() {
         final var scanned = scanBeanTypeForProperties(BeanWithReadWriteProperties.class, null);
         final Map<String, PropertyMetadata> map = new HashMap<>();
         handlePostProcess(ReflectionPostProcessMinimal.class, scanned).forEach(p -> map.put(p.getName(), p));
@@ -167,8 +159,7 @@ class ReflectionHelperTest {
         assertMetatada(map2);
     }
 
-    @Test
-    void handlePostProcessShouldHandleComplex() {
+    @Test void handlePostProcessShouldHandleComplex() {
         final var scanned = scanBeanTypeForProperties(BeanWithReadWriteProperties.class, null);
         final Map<String, PropertyMetadata> map = new HashMap<>();
         handlePostProcess(ReflectionPostProcessComplex.class, scanned).forEach(p -> map.put(p.getName(), p));
@@ -176,66 +167,56 @@ class ReflectionHelperTest {
         assertFalse(map.containsKey(ATTRIBUTE_DEFAULT_VALUE));
     }
 
-    @Test
-    void shouldHandleSkip() {
+    @Test void shouldHandleSkip() {
         assertTrue(shouldScanClass(getClass()));
         assertFalse(shouldScanClass(PropertyReflectionShouldSkip.class));
         assertTrue(shouldScanClass(PropertyReflectionShouldNotSkip.class));
     }
 
-    @Test
-    void shouldHandleMetadataExtraction() {
+    @Test void shouldHandleMetadataExtraction() {
         assertNotNull(handlePropertyMetadata(getClass(), ComplexBean.class));
         assertTrue(handlePropertyMetadata(PropertyReflectionShouldSkip.class, PropertyReflectionShouldSkip.class)
                 .isEmpty());
     }
 
-    @Test
-    void shouldFailOnNestedGenerics() {
+    @Test void shouldFailOnNestedGenerics() {
         assertThrows(IllegalStateException.class, () -> scanBeanTypeForProperties(BeanWithNestedGenerics.class, null));
     }
 
-    @Test
-    @SuppressWarnings("java:S2699") // owolff not throwing an exception is the actual test
+    @Test @SuppressWarnings("java:S2699") // owolff not throwing an exception is the actual test
     void shouldSkipNestedGenerics() {
         scanBeanTypeForProperties(BeanWithNestedGenericsButFiltered.class, MoreReflection
                 .extractAnnotation(BeanWithNestedGenericsButFiltered.class, PropertyReflectionConfig.class).get());
     }
 
-    @Test
-    void shouldExtractTypeArgument() {
+    @Test void shouldExtractTypeArgument() {
         assertEquals(String.class, determineSupertypeFromIterable(immutableList("String")));
         assertEquals(Integer.class, determineSupertypeFromIterable(immutableList(1, 2, 4)));
     }
 
-    @Test
-    void shouldFailToExtractTypeArgumentForNull() {
+    @Test void shouldFailToExtractTypeArgumentForNull() {
         assertThrows(NullPointerException.class, () -> determineSupertypeFromIterable(null));
     }
 
-    @Test
-    @SuppressWarnings("java:S5778") // owolff
+    @Test @SuppressWarnings("java:S5778") // owolff
     void shouldFailToExtractTypeArgumentForEmptyIterable() {
         assertThrows(IllegalArgumentException.class, () -> determineSupertypeFromIterable(Collections.emptyList()));
     }
 
-    @Test
-    void test() {
+    @Test void test() {
         assertFalse("ss".getClass().isPrimitive());
     }
 
-    @Test
-    void shouldScanGenericType() {
+    @Test void shouldScanGenericType() {
         var scanned = scanBeanTypeForProperties(GenericTypeWithLowerBoundType.class, null);
         assertEquals(2, scanned.size());
-        assertEquals(Serializable.class, scanned.first().getPropertyClass(),
+        assertEquals(Serializable.class, scanned.getFirst().getPropertyClass(),
                 "Should resolve lower bound parameter at least");
     }
 
-    @Test
-    void shouldScanStringTypedGenericType() {
+    @Test void shouldScanStringTypedGenericType() {
         var scanned = scanBeanTypeForProperties(StringTypedGenericType.class, null);
         assertEquals(2, scanned.size());
-        assertEquals(String.class, scanned.first().getPropertyClass(), "Should resolve to the actual type 'String'");
+        assertEquals(String.class, scanned.getFirst().getPropertyClass(), "Should resolve to the actual type 'String'");
     }
 }

@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,8 +25,6 @@ import java.util.Locale;
 import java.util.SortedSet;
 
 
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.generator.Generators;
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.ValueObjectTest;
@@ -37,6 +35,7 @@ import de.cuioss.test.valueobjects.api.object.VetoObjectTestContract;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.util.CollectionType;
+import org.junit.jupiter.api.Test;
 
 @VetoObjectTestContract(ObjectTestContracts.SERIALIZABLE)
 @VerifyBuilder
@@ -47,26 +46,22 @@ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
 
     private final TypedGenerator<String> names = Generators.letterStrings();
 
-    @Test
-    void shouldFailOnEmptyBuilder() {
+    @Test void shouldFailOnEmptyBuilder() {
         var builder = PropertyMetadataImpl.builder();
         assertThrows(NullPointerException.class, builder::build);
     }
 
-    @Test
-    void shouldFailOnMissingGenerator() {
+    @Test void shouldFailOnMissingGenerator() {
         var builder = PropertyMetadataImpl.builder().name(names.next()).propertyClass(String.class);
         assertThrows(NullPointerException.class, builder::build);
     }
 
-    @Test
-    void shouldFailOnMissingName() {
+    @Test void shouldFailOnMissingName() {
         var builder = PropertyMetadataImpl.builder().generator(names);
         assertThrows(NullPointerException.class, builder::build);
     }
 
-    @Test
-    void shouldBuildMinimal() {
+    @Test void shouldBuildMinimal() {
         final var propertyName = names.next();
         final PropertyMetadata meta = PropertyMetadataImpl.builder().generator(names).name(propertyName)
                 .propertyClass(String.class).build();
@@ -78,8 +73,7 @@ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
         assertFalse(meta.isRequired());
     }
 
-    @Test
-    void shouldBuildWithPropertyValueGenerator() {
+    @Test void shouldBuildWithPropertyValueGenerator() {
         final var propertyName = names.next();
         final PropertyMetadata support = PropertyMetadataImpl.builder().generator(Generators.locales())
                 .name(propertyName).build();
@@ -87,23 +81,20 @@ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
         assertEquals(Locale.class, support.getPropertyClass());
     }
 
-    @Test
-    void shouldCopyFrom() {
+    @Test void shouldCopyFrom() {
         final PropertyMetadata template = anyValueObject();
         final PropertyMetadata copy = PropertyMetadataImpl.builder(template).build();
         assertEquals(template, copy);
     }
 
-    @Test
-    void shouldHandleArrays() {
+    @Test void shouldHandleArrays() {
         final PropertyMetadata meta = PropertyMetadataImpl.builder().generator(Generators.bytes())
                 .collectionType(CollectionType.ARRAY_MARKER).name(names.next()).propertyClass(String.class).build();
         assertTrue(meta.next().getClass().isArray());
         assertEquals(String[].class, meta.resolveActualClass());
     }
 
-    @Test
-    void shouldHandlePrimitiveByteArrays() {
+    @Test void shouldHandlePrimitiveByteArrays() {
         final PropertyMetadata meta = PropertyMetadataImpl.builder().generator(Generators.bytes())
                 .collectionType(CollectionType.ARRAY_MARKER).name(names.next()).propertyClass(byte.class).build();
         assertTrue(meta.next().getClass().isArray());
@@ -113,8 +104,7 @@ class PropertyMetadataImplTest extends ValueObjectTest<PropertyMetadataImpl> {
         assertNotNull(castArray);
     }
 
-    @Test
-    void shouldHandleCollections() {
+    @Test void shouldHandleCollections() {
         final PropertyMetadata meta = PropertyMetadataImpl.builder().generator(names)
                 .collectionType(CollectionType.SORTED_SET).name(names.next()).propertyClass(String.class).build();
         assertTrue(SortedSet.class.isAssignableFrom(meta.next().getClass()));

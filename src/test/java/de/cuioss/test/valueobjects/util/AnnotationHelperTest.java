@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,8 +35,6 @@ import java.util.List;
 import java.util.Map;
 
 
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.api.object.VetoObjectTestContract;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.testbeans.beanproperty.BeanPropertyTestClassComplexSample;
@@ -60,6 +58,7 @@ import de.cuioss.test.valueobjects.testbeans.veto.InheritedVeto;
 import de.cuioss.tools.property.PropertyMemberInfo;
 import de.cuioss.tools.property.PropertyReadWrite;
 import de.cuioss.tools.reflect.MoreReflection;
+import org.junit.jupiter.api.Test;
 
 class AnnotationHelperTest {
 
@@ -68,22 +67,19 @@ class AnnotationHelperTest {
 
     // Tests for
     // de.cuioss.test.valueobjects.util.AnnotationHelper.extractConfiguredConstructorContracts
-    @Test
-    void extractConfiguredConstructorContractsShouldHandleVariants() {
+    @Test void extractConfiguredConstructorContractsShouldHandleVariants() {
         assertTrue(extractConfiguredConstructorContracts(SimpleConstructor.class).isEmpty());
         assertEquals(1, extractConfiguredConstructorContracts(BeanWithOneConstructorAnnotation.class).size());
         assertEquals(2, extractConfiguredConstructorContracts(BeanWithMultipleConstructorAnnotation.class).size());
     }
 
-    @Test
-    void shouldExtractVerifyFActoryMethodAnnotations() {
+    @Test void shouldExtractVerifyFActoryMethodAnnotations() {
         assertTrue(extractConfiguredFactoryContracts(SimpleConstructor.class).isEmpty());
         assertEquals(2, extractConfiguredFactoryContracts(TwoFactoryBean.class).size());
         assertEquals(1, extractConfiguredFactoryContracts(OneFactoryBean.class).size());
     }
 
-    @Test
-    void constructorConfigToPropertyMetadataShouldMapCorrectly() {
+    @Test void constructorConfigToPropertyMetadataShouldMapCorrectly() {
         final var meta = constructorConfigToPropertyMetadata(
                 extractConfiguredConstructorContracts(BeanWithAllRequriedConstructorAnnotation.class).iterator().next(),
                 FULL_PROPERTY_LIST);
@@ -92,8 +88,7 @@ class AnnotationHelperTest {
         meta.forEach(p -> assertTrue(p.isRequired(), p.getName() + " must be required"));
     }
 
-    @Test
-    void constructorConfigToPropertyMetadataShouldHAndleAllRequried() {
+    @Test void constructorConfigToPropertyMetadataShouldHAndleAllRequried() {
         final var meta = constructorConfigToPropertyMetadata(
                 extractConfiguredConstructorContracts(BeanWithOneConstructorAnnotation.class).iterator().next(),
                 FULL_PROPERTY_LIST);
@@ -103,33 +98,28 @@ class AnnotationHelperTest {
 
     // Tests for
     // de.cuioss.test.valueobjects.util.AnnotationHelper.handleMetadataForPropertyTest
-    @Test
-    void handleMetadataForPropertyTestShouldHandleEmptySet() {
+    @Test void handleMetadataForPropertyTestShouldHandleEmptySet() {
         assertTrue(handleMetadataForPropertyTest(BeanPropertyTestClassSimple.class, mutableList()).isEmpty());
     }
 
-    @Test
-    void handleMetadataForPropertyTestShouldNotFilter() {
+    @Test void handleMetadataForPropertyTestShouldNotFilter() {
         assertEquals(8, handleMetadataForPropertyTest(BeanPropertyTestClassSimple.class, FULL_PROPERTY_LIST).size());
     }
 
-    @Test
-    void handleMetadataForPropertyTestShouldExcludeName() {
+    @Test void handleMetadataForPropertyTestShouldExcludeName() {
         final var filtered = handleMetadataForPropertyTest(BeanPropertyTestClassExcludeName.class, FULL_PROPERTY_LIST);
         assertEquals(7, filtered.size());
         filtered.forEach(p -> assertNotEquals("name", p.getName()));
     }
 
-    @Test
-    void handleMetadataForPropertyTestShouldWhitelist() {
+    @Test void handleMetadataForPropertyTestShouldWhitelist() {
         final var filtered = handleMetadataForPropertyTest(BeanPropertyTestClassOf.class, FULL_PROPERTY_LIST);
         assertEquals(2, filtered.size());
         final List<String> whitelist = immutableList("name", "generator");
         filtered.forEach(p -> assertTrue(whitelist.contains(p.getName())));
     }
 
-    @Test
-    void handleMetadataForPropertyTestShouldExecuteComplexSample() {
+    @Test void handleMetadataForPropertyTestShouldExecuteComplexSample() {
         final var filtered = handleMetadataForPropertyTest(BeanPropertyTestClassComplexSample.class,
                 FULL_PROPERTY_LIST);
         final Map<String, PropertyMetadata> map = new HashMap<>();
@@ -141,8 +131,7 @@ class AnnotationHelperTest {
         assertEquals(PropertyMemberInfo.TRANSIENT, map.get("propertyMemberInfo").getPropertyMemberInfo());
     }
 
-    @Test
-    void handleMetadataForPropertyTestShouldExcludeMultiple() {
+    @Test void handleMetadataForPropertyTestShouldExcludeMultiple() {
         final var filtered = handleMetadataForPropertyTest(BeanPropertyTestClassExcludeNameAndDefaultValue.class,
                 FULL_PROPERTY_LIST);
         assertEquals(6, filtered.size());
@@ -150,24 +139,20 @@ class AnnotationHelperTest {
         filtered.forEach(p -> assertNotEquals("defaultValue", p.getName()));
     }
 
-    @Test
-    void handleMetadataForPropertyTestShouldFailWithoutAnnotation() {
+    @Test void handleMetadataForPropertyTestShouldFailWithoutAnnotation() {
         assertThrows(IllegalArgumentException.class,
                 () -> handleMetadataForPropertyTest(ClassWithOneVeto.class, FULL_PROPERTY_LIST));
     }
 
-    @Test
-    void handleMetadataForBuilderTestShouldHandleEmptySet() {
+    @Test void handleMetadataForBuilderTestShouldHandleEmptySet() {
         assertTrue(handleMetadataForBuilderTest(BuilderMinimalTestClassSimple.class, mutableList()).isEmpty());
     }
 
-    @Test
-    void handleMetadataForBuilderTestShouldNotFilter() {
+    @Test void handleMetadataForBuilderTestShouldNotFilter() {
         assertEquals(8, handleMetadataForBuilderTest(BuilderMinimalTestClassSimple.class, FULL_PROPERTY_LIST).size());
     }
 
-    @Test
-    void handleMetadataForBuilderTestShouldExecuteComplexSample() {
+    @Test void handleMetadataForBuilderTestShouldExecuteComplexSample() {
         final var filtered = handleMetadataForBuilderTest(BuilderMinimalTestClassComplexSample.class,
                 FULL_PROPERTY_LIST);
         final Map<String, PropertyMetadata> map = new HashMap<>();
@@ -179,8 +164,7 @@ class AnnotationHelperTest {
         assertEquals(PropertyMemberInfo.TRANSIENT, map.get("propertyMemberInfo").getPropertyMemberInfo());
     }
 
-    @Test
-    void shouldExtractAllAnnotations() {
+    @Test void shouldExtractAllAnnotations() {
         assertTrue(MoreReflection.extractAllAnnotations(null, VetoObjectTestContract.class).isEmpty());
         assertTrue(MoreReflection.extractAllAnnotations(Object.class, VetoObjectTestContract.class).isEmpty());
         assertTrue(MoreReflection.extractAllAnnotations(List.class, VetoObjectTestContract.class).isEmpty());
@@ -193,8 +177,7 @@ class AnnotationHelperTest {
         assertEquals(2, MoreReflection.extractAllAnnotations(InheritedVeto.class, VetoObjectTestContract.class).size());
     }
 
-    @Test
-    void modifyPropertyMetadatashouldHAndleLists() {
+    @Test void modifyPropertyMetadatashouldHAndleLists() {
         assertNotNull(AnnotationHelper.modifyPropertyMetadata(new HashMap<>(), Collections.emptyList(),
                 Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
                 Collections.emptyList()));

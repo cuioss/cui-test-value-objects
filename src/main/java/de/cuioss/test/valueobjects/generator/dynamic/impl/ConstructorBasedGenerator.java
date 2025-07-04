@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+
 
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
@@ -55,8 +56,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
     @NonNull
     private final Constructor<T> constructor;
 
-    @Override
-    public T next() {
+    @Override public T next() {
         if (constructorGenerators.isEmpty()) {
             try {
                 return constructor.newInstance();
@@ -109,8 +109,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
         return Joiner.on(", ").skipNulls().join(parameterInfo);
     }
 
-    @Override
-    public Class<T> getType() {
+    @Override public Class<T> getType() {
         return type;
     }
 
@@ -175,7 +174,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
         log.debug("Searching constructor for class {}", type);
         if (1 == constructorList.size()) {
             log.debug("Only one constructor present, so choosing this one");
-            return createForConstructor(type, constructorList.get(0));
+            return createForConstructor(type, constructorList.getFirst());
         }
         for (final Constructor<?> con : constructorList) {
             // Ok, try to find a constructor where the parameter are already registered
@@ -206,8 +205,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
 
     @SuppressWarnings("java:S3011") // owolff: Setting accessible is ok for test-code
     private static <T> Optional<TypedGenerator<T>> createForConstructor(final Class<T> type, final Constructor<?> con) {
-        @SuppressWarnings("unchecked")
-        final var constructor = (Constructor<T>) con;
+        @SuppressWarnings("unchecked") final var constructor = (Constructor<T>) con;
         constructor.setAccessible(true);
 
         final List<TypedGenerator<?>> generators = new ArrayList<>();

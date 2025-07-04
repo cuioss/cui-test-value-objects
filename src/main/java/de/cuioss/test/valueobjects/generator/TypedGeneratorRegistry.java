@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.concurrent.ConcurrentHashMap;
+
 
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.generator.dynamic.impl.CollectionTypeGenerator;
@@ -62,8 +63,7 @@ public final class TypedGeneratorRegistry {
      *         {@link Optional#empty()} if none could be found. Consider checking
      *         first: {@link #containsGenerator(Class)}
      */
-    @SuppressWarnings("unchecked")
-    public static <T> Optional<TypedGenerator<T>> getGenerator(final Class<T> type) {
+    @SuppressWarnings("unchecked") public static <T> Optional<TypedGenerator<T>> getGenerator(final Class<T> type) {
         requireNonNull(type, TYPE_MUST_NOT_BE_NULL);
         if (!REGISTRY.containsKey(type)) {
             return Optional.empty();

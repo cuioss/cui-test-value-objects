@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -69,7 +69,7 @@ public class DeepCopyTestHelper {
         testDeepCopy(source, copy, null, ignoreProperties);
     }
 
-    @SuppressWarnings("java:S2259") // owolff: False positive: assertions are not considered here
+    @SuppressWarnings({"java:S2259", "java:S135"}) // owolff: False positive: assertions are not considered here
     private static void testDeepCopy(Object source, Object copy, String propertyString,
             Collection<String> ignoreProperties) {
 
@@ -132,10 +132,9 @@ public class DeepCopyTestHelper {
 
     private boolean checkForList(Object resultSource, Object resultCopy, String currentPropertyString,
             String propertyName) {
-        if (!(resultSource instanceof List)) {
+        if (!(resultSource instanceof List<?> resultSourceList)) {
             return false;
         }
-        List<?> resultSourceList = (List<?>) resultSource;
         for (var i = 0; i < resultSourceList.size(); i++) {
             testDeepCopy(resultSourceList.get(i), ((List<?>) resultCopy).get(i),
                     currentPropertyString + propertyName + "[" + i + "]", Collections.emptyList());
