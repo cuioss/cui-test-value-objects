@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,22 +15,6 @@
  */
 package de.cuioss.test.valueobjects.contract;
 
-import static java.util.Objects.requireNonNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-
 import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
 import de.cuioss.test.valueobjects.api.object.ObjectTestContract;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
@@ -38,6 +22,15 @@ import de.cuioss.test.valueobjects.objects.impl.ExceptionHelper;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.tools.logging.CuiLogger;
 import lombok.RequiredArgsConstructor;
+
+import java.io.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import static java.util.Objects.requireNonNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests whether the object in hand implements {@link Serializable} and than
@@ -51,20 +44,18 @@ public class SerializableContractImpl implements ObjectTestContract {
 
     private static final CuiLogger log = new CuiLogger(SerializableContractImpl.class);
 
-    @Override public void assertContract(final ParameterizedInstantiator<?> instantiator,
-            final ObjectTestConfig objectTestConfig) {
+    @Override
+    public void assertContract(final ParameterizedInstantiator<?> instantiator,
+                               final ObjectTestConfig objectTestConfig) {
         requireNonNull(instantiator);
 
-        final var builder = new StringBuilder("Verifying ");
-        builder.append(getClass().getName()).append("\nWith configuration: ").append(instantiator.toString());
-        log.info(builder.toString());
+        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator);
 
         var shouldUseEquals = checkForEqualsComparison(objectTestConfig);
 
         Object template = instantiator.newInstanceMinimal();
 
-        assertTrue(template instanceof Serializable,
-                template.getClass().getName() + " does not implement java.io.Serializable");
+        assertInstanceOf(Serializable.class, template, template.getClass().getName() + " does not implement java.io.Serializable");
 
         final var serializationFailedMessage = template.getClass().getName() + " is not equal after serialization";
         var serializeAndDeserialize = serializeAndDeserialize(template);
@@ -72,9 +63,9 @@ public class SerializableContractImpl implements ObjectTestContract {
             assertEquals(template, serializeAndDeserialize, serializationFailedMessage);
         }
         if (!checkTestBasicOnly(objectTestConfig)
-                && !instantiator.getRuntimeProperties().getWritableProperties().isEmpty()) {
+            && !instantiator.getRuntimeProperties().getWritableProperties().isEmpty()) {
             var properties = filterProperties(instantiator.getRuntimeProperties().getWritableProperties(),
-                    objectTestConfig);
+                objectTestConfig);
             template = instantiator.newInstance(properties);
             serializeAndDeserialize = serializeAndDeserialize(template);
             if (shouldUseEquals) {
@@ -84,7 +75,7 @@ public class SerializableContractImpl implements ObjectTestContract {
     }
 
     static List<PropertyMetadata> filterProperties(final List<PropertyMetadata> allProperties,
-            final ObjectTestConfig objectTestConfig) {
+                                                   final ObjectTestConfig objectTestConfig) {
         if (null == objectTestConfig) {
             return allProperties;
         }
@@ -135,7 +126,7 @@ public class SerializableContractImpl implements ObjectTestContract {
             oas.flush();
         } catch (final Exception e) {
             throw new AssertionError(
-                    "Unable to serialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
+                "Unable to serialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
         }
         return baos.toByteArray();
     }
@@ -153,7 +144,7 @@ public class SerializableContractImpl implements ObjectTestContract {
             return ois.readObject();
         } catch (final Exception e) {
             throw new AssertionError(
-                    "Unable to deserialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
+                "Unable to deserialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
         }
     }
 

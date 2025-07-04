@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,32 +15,31 @@
  */
 package de.cuioss.test.valueobjects.generator.dynamic.impl;
 
-import static de.cuioss.test.valueobjects.generator.dynamic.impl.ArraysGenerator.getGeneratorForType;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static de.cuioss.test.valueobjects.generator.dynamic.impl.ArraysGenerator.getGeneratorForType;
+import static org.junit.jupiter.api.Assertions.*;
+
 class ArraysGeneratorTest {
 
-    @BeforeEach void before() {
+    @BeforeEach
+    void before() {
         TypedGeneratorRegistry.clear();
         TypedGeneratorRegistry.registerBasicTypes();
     }
 
-    @Test void shouldIgnoreInvalidTypes() {
+    @Test
+    void shouldIgnoreInvalidTypes() {
         assertFalse(getGeneratorForType(null).isPresent());
         assertFalse(getGeneratorForType(String.class).isPresent());
         assertFalse(getGeneratorForType(PropertyMetadata.class).isPresent());
     }
 
-    @Test void shouldHandleConcreteArrays() {
+    @Test
+    void shouldHandleConcreteArrays() {
         final Class<?> arrayClass = Integer[].class;
         assertTrue(getGeneratorForType(arrayClass).isPresent());
         assertEquals(arrayClass, getGeneratorForType(arrayClass).get().getType());
@@ -54,7 +53,8 @@ class ArraysGeneratorTest {
         TypedGeneratorRegistry.clear();
     }
 
-    @Test void shouldResolvePrimitiveArrayGenerator() {
+    @Test
+    void shouldResolvePrimitiveArrayGenerator() {
         Class<? extends byte[]> arrayClass = byte[].class;
         assertTrue(getGeneratorForType(arrayClass).isPresent());
         assertEquals(arrayClass, getGeneratorForType(arrayClass).get().getType());

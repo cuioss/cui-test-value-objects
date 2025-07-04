@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,22 +15,6 @@
  */
 package de.cuioss.test.valueobjects.contract;
 
-import static java.util.Objects.requireNonNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-
 import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
 import de.cuioss.test.valueobjects.api.object.ObjectTestContract;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
@@ -38,6 +22,11 @@ import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.property.PropertySupport;
 import de.cuioss.tools.logging.CuiLogger;
 import de.cuioss.tools.property.PropertyMemberInfo;
+
+import java.util.*;
+
+import static java.util.Objects.requireNonNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Helper class providing base functionality for test for the
@@ -52,12 +41,13 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
 
     private static final CuiLogger log = new CuiLogger(EqualsAndHashcodeContractImpl.class);
 
-    @Override public void assertContract(final ParameterizedInstantiator<?> instantiator,
-            final ObjectTestConfig objectTestConfig) {
+    @Override
+    public void assertContract(final ParameterizedInstantiator<?> instantiator,
+                               final ObjectTestConfig objectTestConfig) {
 
         requireNonNull(instantiator, "parameterizedInstantiator must not be null");
 
-        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator.toString());
+        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator);
 
         final Object target = instantiator.newInstanceMinimal();
         assertBasicContractOnEquals(target);
@@ -79,11 +69,11 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param objectTestConfig the configuration for object testing
      */
     private static void executePropertyTests(final ParameterizedInstantiator<?> instantiator,
-            final ObjectTestConfig objectTestConfig) {
+                                             final ObjectTestConfig objectTestConfig) {
         final SortedSet<String> consideredAttributes = new TreeSet<>();
         instantiator.getRuntimeProperties().getWritableProperties().stream()
-                .filter(p -> PropertyMemberInfo.DEFAULT.equals(p.getPropertyMemberInfo()))
-                .forEach(p -> consideredAttributes.add(p.getName()));
+            .filter(p -> PropertyMemberInfo.DEFAULT.equals(p.getPropertyMemberInfo()))
+            .forEach(p -> consideredAttributes.add(p.getName()));
 
         if (null != objectTestConfig) {
             // Whitelist takes precedence
@@ -120,7 +110,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param consideredAttributes the set of attribute names to consider for testing
      */
     private static void assertEqualsAndHashCodeWithVariants(final ParameterizedInstantiator<?> instantiator,
-            final SortedSet<String> consideredAttributes) {
+                                                            final SortedSet<String> consideredAttributes) {
 
         assertEqualsAndHasCodeWithAllPropertiesSet(instantiator, consideredAttributes);
 
@@ -138,11 +128,11 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param consideredAttributes the set of attribute names to consider for testing
      */
     private static void assertEqualsAndHasCodeWithAllPropertiesSet(final ParameterizedInstantiator<?> instantiator,
-            final SortedSet<String> consideredAttributes) {
+                                                                   final SortedSet<String> consideredAttributes) {
         final Collection<String> actualAttributes = new ArrayList<>(consideredAttributes);
 
         final Collection<String> requiredNames = RuntimeProperties
-                .extractNames(instantiator.getRuntimeProperties().getRequiredProperties());
+            .extractNames(instantiator.getRuntimeProperties().getRequiredProperties());
 
         actualAttributes.addAll(requiredNames);
 
@@ -154,7 +144,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
         assertEquals(fullObject1, fullObject2, "Objects should be equal with all properties set");
 
         assertEquals(fullObject2, fullObject1,
-                "Objects should be equal with all properties set, but are not symmetric");
+            "Objects should be equal with all properties set, but are not symmetric");
 
         assertBasicContractOnHashCode(fullObject1);
     }
@@ -168,19 +158,19 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param consideredAttributes the set of attribute names to consider for testing
      */
     private static void assertEqualsAndHashCodeWithSkippingProperties(final ParameterizedInstantiator<?> instantiator,
-            final Set<String> consideredAttributes) {
+                                                                      final Set<String> consideredAttributes) {
 
         final var information = instantiator.getRuntimeProperties();
 
         final var allWritableProperties = information.getWritableAsPropertySupport(true).stream()
-                .filter(prop -> consideredAttributes.contains(prop.getName())).toList();
+            .filter(prop -> consideredAttributes.contains(prop.getName())).toList();
 
         final var nonDefaultProperties = allWritableProperties.stream().filter(prop -> !prop.isDefaultValue()).toList();
 
         final var requiredProperties = nonDefaultProperties.stream().filter(PropertySupport::isRequired).toList();
 
         final var additionalProperties = nonDefaultProperties.stream().filter(property -> !property.isRequired())
-                .toList();
+            .toList();
 
         final var upperBound = Math.min(nonDefaultProperties.size(), consideredAttributes.size()) - 2;
         if (additionalProperties.isEmpty()) {
@@ -263,11 +253,11 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param consideredAttributes the set of attribute names to consider for testing
      */
     private static void assertEqualsAndHashCodeWithChangingProperties(final ParameterizedInstantiator<?> instantiator,
-            final SortedSet<String> consideredAttributes) {
+                                                                      final SortedSet<String> consideredAttributes) {
         final Map<String, PropertySupport> allWritableProperties = new HashMap<>();
 
         instantiator.getRuntimeProperties().getWritableAsPropertySupport(true)
-                .forEach(p -> allWritableProperties.put(p.getName(), p));
+            .forEach(p -> allWritableProperties.put(p.getName(), p));
 
         final Object expected = instantiator.newInstance(new ArrayList<>(allWritableProperties.values()), false);
         for (final String name : consideredAttributes) {
@@ -297,9 +287,9 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param deltaPropertyName the name of the property that differs between objects
      */
     private static void assertEqualObjectAreNotEqual(final Object expected, final Object actual,
-            final String deltaPropertyName) {
+                                                     final String deltaPropertyName) {
         final var message = "The Objects of type " + expected.getClass().getName() +
-                " should not be equal, current property=" + deltaPropertyName;
+            " should not be equal, current property=" + deltaPropertyName;
         assertNotEquals(expected, actual, message);
         assertNotEquals(expected, actual, message);
     }
@@ -326,17 +316,17 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
 
         // basic checks to equals implementation
         final var msgNotEqualsNull = "Expected result for equals(null) will be 'false'. Class was : "
-                + underTest.getClass();
+            + underTest.getClass();
 
         assertNotEquals(null, underTest, msgNotEqualsNull);
 
         final var msgNotEqualsObject = "Expected result for equals(new Object()) will be 'false'. Class was : "
-                + underTest.getClass();
+            + underTest.getClass();
 
         assertNotEquals(new Object(), underTest, msgNotEqualsObject);
 
         final var msgEqualsToSelf = "Expected result for equals(underTest) will be 'true'. Class was : "
-                + underTest.getClass();
+            + underTest.getClass();
 
         assertEquals(underTest, underTest, msgEqualsToSelf);
 
@@ -351,7 +341,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
 
         // basic checks to hashCode implementation
         assertNotEquals(DEFAULT_INT_VALUE, underTest.hashCode(),
-                "Expected result of hashCode method is not '0'. Class was : " + underTest.getClass());
+            "Expected result of hashCode method is not '0'. Class was : " + underTest.getClass());
     }
 
 }

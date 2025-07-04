@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,9 +15,6 @@
  */
 package de.cuioss.test.valueobjects.junit5.extension;
 
-import java.util.Collections;
-
-
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
 import de.cuioss.test.valueobjects.util.GeneratorAnnotationHelper;
 import de.cuioss.test.valueobjects.util.GeneratorRegistry;
@@ -25,6 +22,8 @@ import de.cuioss.tools.logging.CuiLogger;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
+
+import java.util.Collections;
 
 /**
  * This extension handles the test-generator handling, see
@@ -37,22 +36,24 @@ public class GeneratorRegistryController implements TestInstancePostProcessor, A
 
     private static final CuiLogger LOGGER = new CuiLogger(GeneratorRegistryController.class);
 
-    @Override public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
+    @Override
+    public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
         LOGGER.debug(() -> "Clearing TypedGeneratorRegistry registry");
         TypedGeneratorRegistry.clear();
         if (testInstance instanceof GeneratorRegistry registry) {
             LOGGER.debug(() -> "Test-class '" + testInstance.getClass()
-                    + "' is of type de.cuioss.test.valueobjects.util.GeneratorRegistry, initializing Generator framework");
+                + "' is of type de.cuioss.test.valueobjects.util.GeneratorRegistry, initializing Generator framework");
             GeneratorAnnotationHelper.handleGeneratorsForTestClass(registry, registry.registerAdditionalGenerators());
         } else {
             LOGGER.debug(() -> "Test-class '{" + testInstance.getClass()
-                    + "}' is NOT of type de.cuioss.test.valueobjects.util.GeneratorRegistry, initializing Generator framework without local Generator");
+                + "}' is NOT of type de.cuioss.test.valueobjects.util.GeneratorRegistry, initializing Generator framework without local Generator");
             GeneratorAnnotationHelper.handleGeneratorsForTestClass(testInstance, Collections.emptyList());
         }
 
     }
 
-    @Override public void afterAll(ExtensionContext context) {
+    @Override
+    public void afterAll(ExtensionContext context) {
         LOGGER.debug(() -> "Tearing down TypedGeneratorRegistry registry");
         TypedGeneratorRegistry.clear();
     }

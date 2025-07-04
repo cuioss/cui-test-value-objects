@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,19 +15,18 @@
  */
 package de.cuioss.test.valueobjects.objects.impl;
 
-import static de.cuioss.test.valueobjects.objects.impl.ExceptionHelper.extractCauseMessageFromThrowable;
-import static de.cuioss.tools.string.MoreStrings.emptyToNull;
-import static java.util.Objects.requireNonNull;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-
 import de.cuioss.test.valueobjects.contract.BuilderContractImpl;
 import de.cuioss.test.valueobjects.objects.BuilderInstantiator;
 import de.cuioss.test.valueobjects.objects.ObjectInstantiator;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import static de.cuioss.test.valueobjects.objects.impl.ExceptionHelper.extractCauseMessageFromThrowable;
+import static de.cuioss.tools.string.MoreStrings.emptyToNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Used for creating instances of a builder. This variant relies on the
@@ -70,7 +69,8 @@ public class BuilderConstructorBasedInstantiator<T> implements BuilderInstantiat
      * @param buildMethodName the actual name or the builder-method, must not be
      *                        null nor empty
      */
-    @SuppressWarnings("unchecked") public BuilderConstructorBasedInstantiator(final Class<?> builderType, final String buildMethodName) {
+    @SuppressWarnings("unchecked")
+    public BuilderConstructorBasedInstantiator(final Class<?> builderType, final String buildMethodName) {
 
         requireNonNull(builderType, "builderType must not be null");
         requireNonNull(emptyToNull(buildMethodName), "builderMethodName must not be null");
@@ -83,21 +83,24 @@ public class BuilderConstructorBasedInstantiator<T> implements BuilderInstantiat
             targetClass = (Class<T>) builderMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
             throw new AssertionError("Unable to access method " + buildMethodName + " on type " + builderType.getName()
-                    + ", due to " + extractCauseMessageFromThrowable(e), e);
+                + ", due to " + extractCauseMessageFromThrowable(e), e);
         }
 
     }
 
-    @Override public Object newBuilderInstance() {
+    @Override
+    public Object newBuilderInstance() {
         return builderInstantiator.newInstance();
     }
 
-    @SuppressWarnings("unchecked") @Override public T build(final Object builder) {
+    @SuppressWarnings("unchecked")
+    @Override
+    public T build(final Object builder) {
         try {
             return (T) builderMethod.invoke(builder);
         } catch (IllegalAccessException | InvocationTargetException | RuntimeException e) {
             throw new AssertionError("Unable to access method " + builderMethod.getName() + " on type "
-                    + getBuilderClass().getName() + ", due to " + extractCauseMessageFromThrowable(e), e);
+                + getBuilderClass().getName() + ", due to " + extractCauseMessageFromThrowable(e), e);
         }
     }
 }

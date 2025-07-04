@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,13 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects.objects.impl;
-
-import static de.cuioss.test.valueobjects.objects.impl.AbstractInlineInstantiator.PROPERTIES_MUST_NOT_BE_NULL;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.io.Serializable;
-import java.util.List;
-
 
 import de.cuioss.test.valueobjects.objects.ConfigurationCallBackHandler;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
@@ -31,6 +24,12 @@ import de.cuioss.test.valueobjects.property.PropertySupport;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+import java.io.Serializable;
+import java.util.List;
+
+import static de.cuioss.test.valueobjects.objects.impl.AbstractInlineInstantiator.PROPERTIES_MUST_NOT_BE_NULL;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Variant of {@link ParameterizedInstantiator} that deals with test, where the
@@ -52,10 +51,11 @@ public class InjectedBeanInstantiator<T> implements ParameterizedInstantiator<T>
     @NonNull
     private final RuntimeProperties runtimeProperties;
 
-    @Override public T newInstance(final List<PropertySupport> properties, final boolean generatePropertyValues) {
+    @Override
+    public T newInstance(final List<PropertySupport> properties, final boolean generatePropertyValues) {
         assertNotNull(properties, PROPERTIES_MUST_NOT_BE_NULL);
         final var instance = objectProvider.getUnderTest();
-        assertNotNull(instance, "Unable to obtain instance from " + objectProvider.toString());
+        assertNotNull(instance, "Unable to obtain instance from " + objectProvider);
         if (generatePropertyValues) {
             properties.forEach(PropertySupport::generateTestValue);
         }
@@ -66,23 +66,25 @@ public class InjectedBeanInstantiator<T> implements ParameterizedInstantiator<T>
         return instance;
     }
 
-    @Override public T newInstanceFull() {
+    @Override
+    public T newInstanceFull() {
         return newInstance(runtimeProperties.getAdditionalProperties());
     }
 
-    @Override public T newInstance(final List<PropertyMetadata> properties) {
+    @Override
+    public T newInstance(final List<PropertyMetadata> properties) {
         assertNotNull(properties, PROPERTIES_MUST_NOT_BE_NULL);
         return newInstance(properties.stream().map(PropertySupport::new).toList(), true);
     }
 
-    @Override public T newInstanceMinimal() {
+    @Override
+    public T newInstanceMinimal() {
         return newInstance(runtimeProperties.getRequiredProperties());
     }
 
-    @Override public String toString() {
-        final var builder = new StringBuilder(getClass().getName());
-        builder.append("\nProperty Configuration: ").append(runtimeProperties.toString());
-        return builder.toString();
+    @Override
+    public String toString() {
+        return getClass().getName() + "\nProperty Configuration: " + runtimeProperties;
     }
 
 }

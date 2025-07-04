@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,15 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects;
-
-import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.api.ObjectContractTestSupport;
@@ -41,6 +32,14 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Base-class for running tests on value-objects. It runs two type of tests:
@@ -88,7 +87,8 @@ public class ValueObjectTest<T> extends PropertyAwareTest<T> implements ObjectCo
     /**
      * Initializes all contracts
      */
-    @BeforeEach void initializeBaseClass() {
+    @BeforeEach
+    void initializeBaseClass() {
         activeObjectContracts = ObjectContractHelper.handleVetoedContracts(getClass());
 
         testContracts = resolveTestContracts(getPropertyMetadata());
@@ -108,13 +108,16 @@ public class ValueObjectTest<T> extends PropertyAwareTest<T> implements ObjectCo
         return ContractRegistry.resolveTestContracts(getTargetBeanClass(), getClass(), initialMetadata);
     }
 
-    @Override @Test public void shouldImplementObjectContracts() {
+    @Override
+    @Test
+    public void shouldImplementObjectContracts() {
         var instantiators = getObjectContractInstantiator();
         if (instantiators.isEmpty()) {
             assertNotNull(anyValueObject(), ANY_VALUE_OBJECT_NEEDED);
             instantiators = immutableList(new AbstractInlineInstantiator<>() {
 
-                @Override protected T any() {
+                @Override
+                protected T any() {
                     return anyValueObject();
                 }
             });
@@ -134,7 +137,8 @@ public class ValueObjectTest<T> extends PropertyAwareTest<T> implements ObjectCo
      * resolveTestContracts(SortedSet)
      * </p>
      */
-    @Test final void shouldVerifyTestContracts() {
+    @Test
+    final void shouldVerifyTestContracts() {
         for (final TestContract<T> contract : getTestContracts()) {
             contract.assertContract();
         }

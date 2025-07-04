@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,15 +15,6 @@
  */
 package de.cuioss.test.valueobjects.util;
 
-import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
-import static java.util.Objects.requireNonNull;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-
 import de.cuioss.test.valueobjects.api.object.ObjectTestContracts;
 import de.cuioss.test.valueobjects.api.object.VerifyObjectTestContract;
 import de.cuioss.test.valueobjects.api.object.VetoObjectTestContract;
@@ -31,6 +22,14 @@ import de.cuioss.test.valueobjects.api.object.VetoObjectTestContracts;
 import de.cuioss.tools.collect.CollectionBuilder;
 import de.cuioss.tools.reflect.MoreReflection;
 import lombok.experimental.UtilityClass;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utility class for dealing with {@link ObjectTestContracts} and the
@@ -55,7 +54,7 @@ public final class ObjectContractHelper {
         final Set<ObjectTestContracts> objectTestContracts = new HashSet<>(ObjectTestContracts.OBJECT_CONTRACTS);
 
         extractConfiguredVetoObjectContracts(annotated)
-                .forEach(veto -> objectTestContracts.removeAll(Arrays.asList(veto.value())));
+            .forEach(veto -> objectTestContracts.removeAll(Arrays.asList(veto.value())));
 
         return immutableSet(objectTestContracts);
     }
@@ -75,7 +74,7 @@ public final class ObjectContractHelper {
         final var builder = new CollectionBuilder<VetoObjectTestContract>();
 
         MoreReflection.extractAllAnnotations(annotated, VetoObjectTestContracts.class)
-                .forEach(contract -> builder.add(contract.value()));
+            .forEach(contract -> builder.add(contract.value()));
         MoreReflection.extractAllAnnotations(annotated, VetoObjectTestContract.class).forEach(builder::add);
 
         return builder.toImmutableSet();
@@ -93,7 +92,7 @@ public final class ObjectContractHelper {
         final Set<ObjectTestContracts> builder = new HashSet<>();
 
         List<VerifyObjectTestContract> annotations = MoreReflection.extractAllAnnotations(annotated,
-                VerifyObjectTestContract.class);
+            VerifyObjectTestContract.class);
         if (!annotations.isEmpty()) {
             builder.addAll(Arrays.asList(ObjectTestContracts.values()));
         }

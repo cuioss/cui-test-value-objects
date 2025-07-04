@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,22 +15,21 @@
  */
 package de.cuioss.test.valueobjects.objects.impl;
 
-import static de.cuioss.test.valueobjects.objects.impl.ExceptionHelper.extractCauseMessageFromThrowable;
-import static de.cuioss.tools.base.Preconditions.checkArgument;
-import static de.cuioss.tools.string.MoreStrings.isEmpty;
-import static java.util.Objects.requireNonNull;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
+import de.cuioss.test.valueobjects.objects.RuntimeProperties;
+import de.cuioss.tools.logging.CuiLogger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
-import de.cuioss.test.valueobjects.objects.RuntimeProperties;
-import de.cuioss.tools.logging.CuiLogger;
+import static de.cuioss.test.valueobjects.objects.impl.ExceptionHelper.extractCauseMessageFromThrowable;
+import static de.cuioss.tools.base.Preconditions.checkArgument;
+import static de.cuioss.tools.string.MoreStrings.isEmpty;
+import static java.util.Objects.requireNonNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This {@link ParameterizedInstantiator} uses a factory method derived by the
@@ -59,7 +58,7 @@ public class FactoryBasedInstantiator<T> extends AbstractOrderedArgsInstantiator
      *                          nor empty.
      */
     public FactoryBasedInstantiator(final Class<T> type, final RuntimeProperties runtimeProperties,
-            final Class<?> enclosingType, final String factoryMethodName) {
+                                    final Class<?> enclosingType, final String factoryMethodName) {
 
         super(runtimeProperties);
         requireNonNull(type, "type must not be null");
@@ -77,32 +76,32 @@ public class FactoryBasedInstantiator<T> extends AbstractOrderedArgsInstantiator
             }
             assertNotNull(
 
-                    factoryMethod,
-                    "Unable to find a factory method with signature " + parameter + " and name " + factoryMethodName);
+                factoryMethod,
+                "Unable to find a factory method with signature " + parameter + " and name " + factoryMethodName);
             assertTrue(type.isAssignableFrom(factoryMethod.getReturnType()),
-                    "Invalid type found on factory method: " + factoryMethod.getReturnType());
+                "Invalid type found on factory method: " + factoryMethod.getReturnType());
         } catch (NoSuchMethodException | SecurityException e) {
-            final var message = new StringBuilder("Unable to find a constructor with signature ").append(parameter)
-                    .toString();
+            final var message = "Unable to find a constructor with signature " + parameter;
             log.error(message, e);
             throw new AssertionError(message);
         }
     }
 
-    @SuppressWarnings("unchecked") @Override protected T doInstantiate(final Object... args) {
+    @SuppressWarnings("unchecked")
+    @Override
+    protected T doInstantiate(final Object... args) {
         try {
             return (T) factoryMethod.invoke(null, args);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            final var message = new StringBuilder("Unable to invoke constructor ").append(", due to ")
-                    .append(extractCauseMessageFromThrowable(e)).toString();
+            final var message = "Unable to invoke constructor " + ", due to " +
+                extractCauseMessageFromThrowable(e);
             throw new AssertionError(message, e);
         }
     }
 
-    @Override public String toString() {
-        final var builder = new StringBuilder(getClass().getName());
-        builder.append("\nFactory Method: ").append(factoryMethod);
-        builder.append("\nProperty Configuration: ").append(getRuntimeProperties().toString());
-        return builder.toString();
+    @Override
+    public String toString() {
+        return getClass().getName() + "\nFactory Method: " + factoryMethod +
+            "\nProperty Configuration: " + getRuntimeProperties().toString();
     }
 }

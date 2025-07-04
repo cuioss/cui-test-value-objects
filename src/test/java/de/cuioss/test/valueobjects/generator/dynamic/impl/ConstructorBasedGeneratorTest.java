@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,17 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects.generator.dynamic.impl;
-
-import static de.cuioss.test.valueobjects.generator.dynamic.impl.ConstructorBasedGenerator.getGeneratorForType;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.Serializable;
-import java.util.AbstractList;
-
 
 import de.cuioss.test.valueobjects.api.object.VetoObjectTestContract;
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
@@ -39,17 +28,26 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serializable;
+import java.util.AbstractList;
+
+import static de.cuioss.test.valueobjects.generator.dynamic.impl.ConstructorBasedGenerator.getGeneratorForType;
+import static org.junit.jupiter.api.Assertions.*;
+
 class ConstructorBasedGeneratorTest {
 
-    @BeforeEach void before() {
+    @BeforeEach
+    void before() {
         TypedGeneratorRegistry.registerBasicTypes();
     }
 
-    @AfterEach void after() {
+    @AfterEach
+    void after() {
         TypedGeneratorRegistry.clear();
     }
 
-    @Test void shouldHandleDefaultConstructor() {
+    @Test
+    void shouldHandleDefaultConstructor() {
         assertTrue(getGeneratorForType(ComplexBean.class).isPresent());
         final var generator = getGeneratorForType(ComplexBean.class).get();
         assertEquals(ComplexBean.class, generator.getType());
@@ -58,7 +56,8 @@ class ConstructorBasedGeneratorTest {
         assertEquals(ComplexBean.class, next.getClass());
     }
 
-    @Test void shouldHandledOneArgumentConstructor() {
+    @Test
+    void shouldHandledOneArgumentConstructor() {
         assertTrue(getGeneratorForType(BeanWithSingleArgumentConstructor.class).isPresent());
         final var generator = getGeneratorForType(BeanWithSingleArgumentConstructor.class).get();
         assertEquals(BeanWithSingleArgumentConstructor.class, generator.getType());
@@ -68,7 +67,8 @@ class ConstructorBasedGeneratorTest {
         assertNotNull(next.getName());
     }
 
-    @Test void shouldHandledMultipleConstructor() {
+    @Test
+    void shouldHandledMultipleConstructor() {
         assertTrue(getGeneratorForType(BeanWithMultiplePublicConstructor.class).isPresent());
         final var generator = getGeneratorForType(BeanWithMultiplePublicConstructor.class).get();
         assertEquals(BeanWithMultiplePublicConstructor.class, generator.getType());
@@ -78,7 +78,8 @@ class ConstructorBasedGeneratorTest {
         assertNull(next.getName());
     }
 
-    @Test void shouldHandleComplexPublicConstructor() {
+    @Test
+    void shouldHandleComplexPublicConstructor() {
         assertTrue(getGeneratorForType(BeanWithMultipleArgumentConstructor.class).isPresent());
         final var generator = getGeneratorForType(BeanWithMultipleArgumentConstructor.class).get();
         assertEquals(BeanWithMultipleArgumentConstructor.class, generator.getType());
@@ -93,7 +94,8 @@ class ConstructorBasedGeneratorTest {
         assertNotNull(next.getFormattable());
     }
 
-    @Test void shouldHandleComplexPackagePrivateConstructor() {
+    @Test
+    void shouldHandleComplexPackagePrivateConstructor() {
         assertTrue(getGeneratorForType(PropertyMetadataImpl.class).isPresent());
         final var generator = getGeneratorForType(PropertyMetadataImpl.class).get();
         assertEquals(PropertyMetadataImpl.class, generator.getType());
@@ -106,7 +108,8 @@ class ConstructorBasedGeneratorTest {
         assertNotNull(next.getPropertyClass());
     }
 
-    @Test void shouldNotHandleInvalidTypes() {
+    @Test
+    void shouldNotHandleInvalidTypes() {
         assertFalse(getGeneratorForType(null).isPresent());
         assertFalse(getGeneratorForType(PropertyMemberInfo.class).isPresent());
         assertFalse(getGeneratorForType(Serializable.class).isPresent());

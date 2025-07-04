@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,39 +15,28 @@
  */
 package de.cuioss.test.valueobjects.util;
 
-import static de.cuioss.test.valueobjects.util.GeneratorAnnotationHelper.extractConfiguredGeneratorHints;
-import static de.cuioss.test.valueobjects.util.GeneratorAnnotationHelper.extractConfiguredPropertyGenerator;
-import static de.cuioss.test.valueobjects.util.GeneratorAnnotationHelper.handleGeneratorHints;
-import static de.cuioss.test.valueobjects.util.GeneratorAnnotationHelper.handlePropertyGenerator;
-import static de.cuioss.test.valueobjects.util.GeneratorAnnotationHelper.handleUnitClassImplementation;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import de.cuioss.test.generator.Generators;
+import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
+import de.cuioss.test.valueobjects.testbeans.generator.*;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
-
-import de.cuioss.test.generator.Generators;
-import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
-import de.cuioss.test.valueobjects.testbeans.generator.ClassWithMixedGenerator;
-import de.cuioss.test.valueobjects.testbeans.generator.ClassWithOneGenerator;
-import de.cuioss.test.valueobjects.testbeans.generator.ClassWithTwoGenerator;
-import de.cuioss.test.valueobjects.testbeans.generator.GeneratorHintMultipleAnnotations;
-import de.cuioss.test.valueobjects.testbeans.generator.GeneratorHintSingleAnnotation;
-import org.junit.jupiter.api.Test;
+import static de.cuioss.test.valueobjects.util.GeneratorAnnotationHelper.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GeneratorAnnotationHelperTest {
 
-    @Test void shouldHandleGeneratorHints() {
+    @Test
+    void shouldHandleGeneratorHints() {
         assertEquals(0, extractConfiguredGeneratorHints(getClass()).size());
         assertEquals(1, extractConfiguredGeneratorHints(GeneratorHintSingleAnnotation.class).size());
         assertEquals(2, extractConfiguredGeneratorHints(GeneratorHintMultipleAnnotations.class).size());
     }
 
-    @Test void shouldRegisterConfiguredGeneratorHints() {
+    @Test
+    void shouldRegisterConfiguredGeneratorHints() {
         TypedGeneratorRegistry.registerBasicTypes();
         assertNotEquals(Integer.class, TypedGeneratorRegistry.getGenerator(Serializable.class).get().getType());
         handleGeneratorHints(GeneratorHintMultipleAnnotations.class);
@@ -56,14 +45,16 @@ class GeneratorAnnotationHelperTest {
         TypedGeneratorRegistry.clear();
     }
 
-    @Test void shouldExtractPropertyGenerator() {
+    @Test
+    void shouldExtractPropertyGenerator() {
         assertTrue(extractConfiguredPropertyGenerator(getClass()).isEmpty());
         assertEquals(1, extractConfiguredPropertyGenerator(ClassWithOneGenerator.class).size());
         assertEquals(2, extractConfiguredPropertyGenerator(ClassWithTwoGenerator.class).size());
         assertEquals(2, extractConfiguredPropertyGenerator(ClassWithMixedGenerator.class).size());
     }
 
-    @Test void shouldRegisterConfiguredPropertyGenerator() {
+    @Test
+    void shouldRegisterConfiguredPropertyGenerator() {
         TypedGeneratorRegistry.clear();
         assertFalse(TypedGeneratorRegistry.containsGenerator(LocalDate.class));
         assertFalse(TypedGeneratorRegistry.containsGenerator(Number.class));
@@ -75,12 +66,14 @@ class GeneratorAnnotationHelperTest {
         TypedGeneratorRegistry.clear();
     }
 
-    @Test void shouldNotRegisterTestObjectAsGenerator() {
+    @Test
+    void shouldNotRegisterTestObjectAsGenerator() {
         assertDoesNotThrow(() -> handleUnitClassImplementation(this));
         assertDoesNotThrow(() -> handleUnitClassImplementation(null));
     }
 
-    @Test void shouldRegisterTestObjectAsGenerator() {
+    @Test
+    void shouldRegisterTestObjectAsGenerator() {
         TypedGeneratorRegistry.clear();
         assertFalse(TypedGeneratorRegistry.containsGenerator(Throwable.class));
         handleUnitClassImplementation(Generators.throwables());

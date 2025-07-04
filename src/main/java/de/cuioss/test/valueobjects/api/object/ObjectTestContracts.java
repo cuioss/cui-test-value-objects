@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,18 +15,17 @@
  */
 package de.cuioss.test.valueobjects.api.object;
 
-import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
-
-import java.io.Serializable;
-import java.util.Set;
-
-
 import de.cuioss.test.valueobjects.contract.EqualsAndHashcodeContractImpl;
 import de.cuioss.test.valueobjects.contract.SerializableContractImpl;
 import de.cuioss.test.valueobjects.contract.ToStringContractImpl;
 import de.cuioss.test.valueobjects.objects.impl.DefaultInstantiator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.io.Serializable;
+import java.util.Set;
+
+import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
 
 /**
  * Shorthand identifier / factory for the individual test contracts
@@ -68,5 +67,5 @@ public enum ObjectTestContracts {
 
     /** Identifies the contract that are specific to Object contracts. */
     public static final Set<ObjectTestContracts> OBJECT_CONTRACTS = immutableSet(EQUALS_AND_HASHCODE, SERIALIZABLE,
-            TO_STRING);
+        TO_STRING);
 }

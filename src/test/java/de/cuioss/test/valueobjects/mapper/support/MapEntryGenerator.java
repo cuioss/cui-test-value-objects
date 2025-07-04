@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,19 +15,19 @@
  */
 package de.cuioss.test.valueobjects.mapper.support;
 
-import java.util.Map.Entry;
-
-
 import de.cuioss.test.generator.Generators;
 import de.cuioss.test.generator.TypedGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Map.Entry;
+
 public class MapEntryGenerator implements TypedGenerator<Entry<?, ?>> {
 
     private final TypedGenerator<String> letters = Generators.nonEmptyStrings();
 
-    @Override public Entry<String, String> next() {
+    @Override
+    public Entry<String, String> next() {
         return new StringEntry(letters.next(), letters.next());
     }
 
@@ -39,7 +39,8 @@ public class MapEntryGenerator implements TypedGenerator<Entry<?, ?>> {
         @Getter
         private String value;
 
-        @Override public String setValue(String value) {
+        @Override
+        public String setValue(String value) {
             var old = this.value;
             this.value = value;
             return old;

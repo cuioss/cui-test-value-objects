@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,14 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects.property.impl;
-
-import static de.cuioss.tools.string.MoreStrings.emptyToNull;
-import static java.util.Objects.requireNonNull;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
 
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.generator.impl.CollectionGenerator;
@@ -37,6 +29,13 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import static de.cuioss.tools.string.MoreStrings.emptyToNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Gathers all information needed for dynamically creating / asserting
@@ -80,7 +79,8 @@ public class PropertyMetadataImpl implements PropertyMetadata {
     @Getter
     private final AssertionStrategy assertionStrategy;
 
-    @Override public Object next() {
+    @Override
+    public Object next() {
         switch (collectionType) {
             case NO_ITERABLE:
                 return generator.next();
@@ -94,11 +94,13 @@ public class PropertyMetadataImpl implements PropertyMetadata {
         }
     }
 
-    @Override public CollectionGenerator<?> resolveCollectionGenerator() {
+    @Override
+    public CollectionGenerator<?> resolveCollectionGenerator() {
         return new CollectionGenerator<>(generator);
     }
 
-    @Override public Class<?> resolveActualClass() {
+    @Override
+    public Class<?> resolveActualClass() {
         return actualClass;
     }
 
@@ -236,8 +238,8 @@ public class PropertyMetadataImpl implements PropertyMetadata {
             }
 
             return new PropertyMetadataImpl(tempName, tempGenerator, tempDefaultValue, tempPropertyClass, actualClass,
-                    tempRequired, tempPropertyAccessStrategy, tempCollectionType, tempPropertyMemberInfo,
-                    tempPropertyReadWrite, tempAssertionStrategy);
+                tempRequired, tempPropertyAccessStrategy, tempCollectionType, tempPropertyMemberInfo,
+                tempPropertyReadWrite, tempAssertionStrategy);
         }
 
     }
@@ -268,11 +270,13 @@ public class PropertyMetadataImpl implements PropertyMetadata {
         return builder;
     }
 
-    @Override public int compareTo(final PropertyMetadata other) {
+    @Override
+    public int compareTo(final PropertyMetadata other) {
         return name.compareTo(other.getName());
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         final List<Object> elements = new ArrayList<>();
 
         elements.add("'" + getName() + "' (" + getPropertyClass() + ")");

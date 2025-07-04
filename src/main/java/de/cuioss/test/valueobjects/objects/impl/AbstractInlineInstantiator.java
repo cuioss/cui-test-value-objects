@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,15 +15,14 @@
  */
 package de.cuioss.test.valueobjects.objects.impl;
 
-import java.util.Collections;
-import java.util.List;
-
-
 import de.cuioss.test.valueobjects.api.object.ObjectTestContract;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.PropertySupport;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * {@link ParameterizedInstantiator} for cases you actually are not able to use
@@ -38,23 +37,28 @@ public abstract class AbstractInlineInstantiator<T> implements ParameterizedInst
     /** "Properties must not be null, but may be empty". */
     public static final String PROPERTIES_MUST_NOT_BE_NULL = "Properties must not be null, but may be empty";
 
-    @Override public T newInstance(final List<PropertySupport> properties, final boolean generatePropertyValues) {
+    @Override
+    public T newInstance(final List<PropertySupport> properties, final boolean generatePropertyValues) {
         return any();
     }
 
-    @Override public T newInstance(final List<PropertyMetadata> properties) {
+    @Override
+    public T newInstance(final List<PropertyMetadata> properties) {
         return any();
     }
 
-    @Override public RuntimeProperties getRuntimeProperties() {
+    @Override
+    public RuntimeProperties getRuntimeProperties() {
         return new RuntimeProperties(Collections.emptyList());
     }
 
-    @Override public T newInstanceMinimal() {
+    @Override
+    public T newInstanceMinimal() {
         return any();
     }
 
-    @Override public T newInstanceFull() {
+    @Override
+    public T newInstanceFull() {
         return any();
     }
 

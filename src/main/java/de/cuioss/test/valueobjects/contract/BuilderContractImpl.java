@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,13 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects.contract;
-
-import static de.cuioss.tools.collect.CollectionLiterals.mutableList;
-import static java.util.Objects.requireNonNull;
-
-import java.util.List;
-import java.util.Optional;
-
 
 import de.cuioss.test.valueobjects.api.TestContract;
 import de.cuioss.test.valueobjects.api.contracts.VerifyBuilder;
@@ -35,6 +28,12 @@ import de.cuioss.test.valueobjects.property.PropertySupport;
 import de.cuioss.test.valueobjects.util.AnnotationHelper;
 import de.cuioss.tools.logging.CuiLogger;
 import de.cuioss.tools.reflect.MoreReflection;
+
+import java.util.List;
+import java.util.Optional;
+
+import static de.cuioss.tools.collect.CollectionLiterals.mutableList;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Defines basic tests for builder. In essence it will try to create a builder
@@ -68,11 +67,10 @@ public class BuilderContractImpl<T> implements TestContract<T> {
         this.runtimeProperties = requireNonNull(runtimeProperties, "runtimeProperties must not be null.");
     }
 
-    @Override public void assertContract() {
+    @Override
+    public void assertContract() {
 
-        final var builder = new StringBuilder("Verifying ");
-        builder.append(getClass().getName()).append("\nWith configuration: ").append(builderInstantiator.toString());
-        log.info(builder.toString());
+        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + builderInstantiator.toString());
         setAndVerifyProperties(runtimeProperties.getRequiredProperties());
         setAndVerifyProperties(runtimeProperties.getAllProperties());
         shouldFailOnMissingRequiredAttributes();
@@ -112,12 +110,13 @@ public class BuilderContractImpl<T> implements TestContract<T> {
             }
             if (failed) {
                 throw new AssertionError("Property is marked as required but the builder accepts if it is missing: "
-                        + property.toString());
+                    + property.toString());
             }
         }
     }
 
-    @Override public ParameterizedInstantiator<T> getInstantiator() {
+    @Override
+    public ParameterizedInstantiator<T> getInstantiator() {
         return new BuilderParameterizedInstantiator<>(builderInstantiator, runtimeProperties);
     }
 
@@ -142,7 +141,7 @@ public class BuilderContractImpl<T> implements TestContract<T> {
      *         {@link Optional#empty()}
      */
     public static final <T> Optional<BuilderContractImpl<T>> createBuilderTestContract(final Class<T> beanType,
-            final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata) {
+                                                                                       final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata) {
 
         requireNonNull(beanType, "beantype must not be null");
         requireNonNull(annotated, "annotated must not be null");
@@ -161,14 +160,14 @@ public class BuilderContractImpl<T> implements TestContract<T> {
         if (VerifyBuilder.class.equals(contract.builderClass())) {
             if (VerifyBuilder.class.equals(contract.builderFactoryProvidingClass())) {
                 instantiator = new BuilderFactoryBasedInstantiator<>(beanType, contract.builderFactoryMethodName(),
-                        contract.builderMethodName());
+                    contract.builderMethodName());
             } else {
                 instantiator = new BuilderFactoryBasedInstantiator<>(contract.builderFactoryProvidingClass(),
-                        contract.builderFactoryMethodName(), contract.builderMethodName());
+                    contract.builderFactoryMethodName(), contract.builderMethodName());
             }
         } else {
             instantiator = new BuilderConstructorBasedInstantiator<>(contract.builderClass(),
-                    contract.builderMethodName());
+                contract.builderMethodName());
         }
 
         return Optional.of(new BuilderContractImpl<>(instantiator, new RuntimeProperties(metadata)));

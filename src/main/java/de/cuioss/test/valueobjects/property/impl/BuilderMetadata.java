@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,19 +15,14 @@
  */
 package de.cuioss.test.valueobjects.property.impl;
 
+import de.cuioss.test.valueobjects.property.PropertyMetadata;
+import de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy;
+import lombok.*;
+import lombok.experimental.Delegate;
+
 import static de.cuioss.tools.string.MoreStrings.emptyToNull;
 import static de.cuioss.tools.string.MoreStrings.isEmpty;
 import static java.util.Objects.requireNonNull;
-
-
-import de.cuioss.test.valueobjects.property.PropertyMetadata;
-import de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Delegate;
 
 /**
  * Extensions of {@link PropertyMetadata} that deals with builder-specific
@@ -47,7 +42,7 @@ public class BuilderMetadata implements PropertyMetadata {
      * Used for builder testing / verifying: In case builderMethodPrefix is null the
      * corresponding build method to be accessed for setting the value is the name
      * attribute: {@link PropertyMetadata#getName()}, in case it is a concrete
-     * value, e.g. 'with' it will taken into account: withPropertName().
+     * value, e.g. 'with' it will take into account: withPropertyName().
      */
     @Getter
     private final String builderAddMethodName;
@@ -61,7 +56,7 @@ public class BuilderMetadata implements PropertyMetadata {
      * <li>Base-name: In case
      * {@link BuilderMetadataBuilder#builderSingleAddMethodName(String)} is not set
      * it used {@link PropertyMetadata#getName()} as base name -> Overloading</li>
-     * <li>The base-name will prefixed if there is a builderPerfixed configured, see
+     * <li>The base-name will prefixed if there is a builderPrefixed configured, see
      * {@link BuilderMetadataBuilder#builderMethodPrefix(String)}</li>
      * </ul>
      */
@@ -73,10 +68,8 @@ public class BuilderMetadata implements PropertyMetadata {
         if (isEmpty(builderMethodPrefix)) {
             return nameToBePrefixed;
         }
-        final var builder = new StringBuilder(builderMethodPrefix);
-        builder.append(Character.toUpperCase(nameToBePrefixed.charAt(0)));
-        builder.append(nameToBePrefixed.substring(1));
-        return builder.toString();
+        return builderMethodPrefix + Character.toUpperCase(nameToBePrefixed.charAt(0)) +
+            nameToBePrefixed.substring(1);
     }
 
     /**

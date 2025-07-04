@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,37 +15,38 @@
  */
 package de.cuioss.test.valueobjects.property.generator;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import de.cuioss.test.valueobjects.generator.JavaTypesGenerator;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.TimeZone;
 
-
-import de.cuioss.test.valueobjects.generator.JavaTypesGenerator;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class JavaTypesGeneratorTest {
 
-    @Test void shouldProvideStringGeneratorBuilder() {
+    @Test
+    void shouldProvideStringGeneratorBuilder() {
         final var stringGenerator = JavaTypesGenerator.STRINGS.metadataBuilder("strings");
         assertNotNull(stringGenerator);
         assertEquals(String.class, stringGenerator.build().getPropertyClass());
     }
 
-    @Test void shouldProvideStringGenerator() {
+    @Test
+    void shouldProvideStringGenerator() {
         final var stringGenerator = JavaTypesGenerator.STRINGS.metadata("strings");
         assertNotNull(stringGenerator);
         assertEquals(String.class, stringGenerator.getPropertyClass());
     }
 
-    @Test void shouldFailOnEmptyName() {
+    @Test
+    void shouldFailOnEmptyName() {
         assertThrows(IllegalArgumentException.class, () -> JavaTypesGenerator.STRINGS.metadataBuilder(""));
     }
 
-    @Test void shouldProvideObjectGenerator() {
+    @Test
+    void shouldProvideObjectGenerator() {
         assertEquals(Boolean.class, JavaTypesGenerator.BOOLEANS.metadata("booleans").getPropertyClass());
         assertEquals(Byte.class, JavaTypesGenerator.BYTES.metadata("bytes").getPropertyClass());
         assertEquals(Character.class, JavaTypesGenerator.CHARACTERS.metadata("character").getPropertyClass());
@@ -59,7 +60,8 @@ class JavaTypesGeneratorTest {
         assertEquals(TimeZone.class, JavaTypesGenerator.TIME_ZONES.metadata("timezones").getPropertyClass());
     }
 
-    @Test void shouldProvidePimitiveGenerator() {
+    @Test
+    void shouldProvidePimitiveGenerator() {
         assertEquals(boolean.class, JavaTypesGenerator.BOOLEANS_PRIMITIVE.metadata("booleans").getPropertyClass());
         assertEquals(byte.class, JavaTypesGenerator.BYTES_PRIMITIVE.metadata("bytes").getPropertyClass());
         assertEquals(char.class, JavaTypesGenerator.CHARACTERS_PRIMITIVE.metadata("character").getPropertyClass());

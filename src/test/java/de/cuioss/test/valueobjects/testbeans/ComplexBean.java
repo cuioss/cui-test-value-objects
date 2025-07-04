@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,21 +15,6 @@
  */
 package de.cuioss.test.valueobjects.testbeans;
 
-import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.BOOLEANS;
-import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.BOOLEANS_PRIMITIVE;
-import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.STRINGS;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-
-
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.util.CollectionType;
 import de.cuioss.tools.property.PropertyMemberInfo;
@@ -37,6 +22,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
+
+import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.*;
 
 @EqualsAndHashCode(exclude = {"noObjectIdentitiyString", "badstring"})
 @ToString(exclude = {"noObjectIdentitiyString", "badstring"})
@@ -125,16 +118,16 @@ public class ComplexBean implements Serializable {
         metadata.add(STRINGS.metadata(ATTRIBUTE_STRING_LIST, CollectionType.LIST));
         metadata.add(STRINGS.metadata(ATTRIBUTE_STRING_SET, CollectionType.SET));
         metadata.add(
-                STRINGS.metadataBuilder(ATTRIBUTE_STRING_SORTED_SET).collectionType(CollectionType.SORTED_SET).build());
+            STRINGS.metadataBuilder(ATTRIBUTE_STRING_SORTED_SET).collectionType(CollectionType.SORTED_SET).build());
         metadata.add(
-                STRINGS.metadataBuilder(ATTRIBUTE_STRING_COLLECTION).collectionType(CollectionType.COLLECTION).build());
+            STRINGS.metadataBuilder(ATTRIBUTE_STRING_COLLECTION).collectionType(CollectionType.COLLECTION).build());
         metadata.add(BOOLEANS.metadata(ATTRIBUTE_BOOLEAN_OBJECT));
         metadata.add(BOOLEANS_PRIMITIVE.metadata(ATTRIBUTE_BOOLEAN_PRIMITIVE));
         metadata.add(STRINGS.metadataBuilder(ATTRIBUTE_STRING_WITH_DEFAULT).defaultValue(true).build());
         metadata.add(STRINGS.metadataBuilder(ATTRIBUTE_TRANSIENT_STRING)
-                .propertyMemberInfo(PropertyMemberInfo.TRANSIENT).build());
+            .propertyMemberInfo(PropertyMemberInfo.TRANSIENT).build());
         metadata.add(STRINGS.metadataBuilder(ATTRIBUTE_NO_OBJECT_IDENTITY_STRING)
-                .propertyMemberInfo(PropertyMemberInfo.NO_IDENTITY).build());
+            .propertyMemberInfo(PropertyMemberInfo.NO_IDENTITY).build());
         return metadata;
     }
 

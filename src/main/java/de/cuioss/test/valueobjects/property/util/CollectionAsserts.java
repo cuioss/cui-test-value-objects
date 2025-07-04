@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,10 +15,9 @@
  */
 package de.cuioss.test.valueobjects.property.util;
 
-import java.util.Collection;
-
-
 import lombok.experimental.UtilityClass;
+
+import java.util.Collection;
 
 /**
  * Helper class for asserts on Collection level
@@ -43,7 +42,7 @@ public final class CollectionAsserts {
      * @param actual
      */
     public static void assertListsAreEqualIgnoringOrder(final String propertyName, final Object expected,
-            final Object actual) {
+                                                        final Object actual) {
         // Same instance or both null
         if (expected == actual) {
             return;
@@ -82,7 +81,7 @@ public final class CollectionAsserts {
     }
 
     private static void fail(final String template, final String propertyName, final Object expected,
-            final Object actual) {
+                             final Object actual) {
         final var expectedString = String.valueOf(expected);
         final var actualString = String.valueOf(actual);
         throw new AssertionError(template.formatted(propertyName, expectedString, actualString));

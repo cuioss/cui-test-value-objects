@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,17 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects.generator.dynamic.impl;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Parameter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-
 
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
@@ -36,6 +25,12 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
+import java.util.*;
 
 /**
  * @author Oliver Wolff
@@ -56,14 +51,15 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
     @NonNull
     private final Constructor<T> constructor;
 
-    @Override public T next() {
+    @Override
+    public T next() {
         if (constructorGenerators.isEmpty()) {
             try {
                 return constructor.newInstance();
             } catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException e) {
+                           | InvocationTargetException e) {
                 throw new IllegalStateException(
-                        UNABLE_TO_CALL_CONSTRUCTOR_FOR_CLASS.formatted(constructor, type, e.getMessage()), e);
+                    UNABLE_TO_CALL_CONSTRUCTOR_FOR_CLASS.formatted(constructor, type, e.getMessage()), e);
             }
         }
         final var parameter = new ArrayList<>();
@@ -72,9 +68,9 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
             logExtendedInformationAboutUsedConstructor(parameter);
             return constructor.newInstance(parameter.toArray());
         } catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
+                       | InvocationTargetException e) {
             throw new IllegalStateException(UNABLE_TO_CALL_CONSTRUCTOR_FOR_CLASS.formatted(constructor, type,
-                    ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
+                ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
         }
     }
 
@@ -83,10 +79,10 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
         if (!Modifier.isPublic(constructorModifierValue)) {
 
             log.warn("""
-                    !!! Attention :\s\
-                    A non public constructor will be used to create an instance for {}.\s\
-                    This is illegal and can cause unexpected behaviour.\s\
-                    Solution: provide a fitting generator instead!""", constructor.getName());
+                !!! Attention : \
+                A non public constructor will be used to create an instance for {}. \
+                This is illegal and can cause unexpected behaviour. \
+                Solution: provide a fitting generator instead!""", constructor.getName());
 
             final List<String> parameterInfo = new ArrayList<>(constructor.getParameters().length);
             for (final Parameter parameter : constructor.getParameters()) {
@@ -95,7 +91,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
 
             final var modifier = Modifier.toString(constructorModifierValue);
             final var constructorInfo = modifier + " " + constructor.getName() + "("
-                    + Joiner.on(", ").skipNulls().join(parameterInfo) + ")";
+                + Joiner.on(", ").skipNulls().join(parameterInfo) + ")";
             log.info("Used constructor : {}", constructorInfo);
             log.info("Used constructor parameter : {}", logUsedValuesForConstructor(parameterValues));
         }
@@ -104,12 +100,13 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
     private static String logUsedValuesForConstructor(final ArrayList<Object> parameter) {
         final List<String> parameterInfo = new ArrayList<>();
         for (final Object object : parameter) {
-            parameterInfo.add("[" + object.getClass().getSimpleName() + " " + object.toString() + "]");
+            parameterInfo.add("[" + object.getClass().getSimpleName() + " " + object + "]");
         }
         return Joiner.on(", ").skipNulls().join(parameterInfo);
     }
 
-    @Override public Class<T> getType() {
+    @Override
+    public Class<T> getType() {
         return type;
     }
 
@@ -170,7 +167,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
     }
 
     private static <T> Optional<TypedGenerator<T>> findFittingConstructor(final Class<T> type,
-            final List<Constructor<?>> constructorList) {
+                                                                          final List<Constructor<?>> constructorList) {
         log.debug("Searching constructor for class {}", type);
         if (1 == constructorList.size()) {
             log.debug("Only one constructor present, so choosing this one");
@@ -179,7 +176,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
         for (final Constructor<?> con : constructorList) {
             // Ok, try to find a constructor where the parameter are already registered
             // Generator
-            final List<Class<?>> parameter = Arrays.asList(con.getParameterTypes());
+            final Class<?>[] parameter = con.getParameterTypes();
             var allGeneratorAvailable = true;
             for (final Class<?> param : parameter) {
                 if (!TypedGeneratorRegistry.containsGenerator(param)) {
@@ -214,8 +211,8 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
                 // Special case her: eventually copy-constructor -> Play safe prevent infinite
                 // loop, type in this case is not an interface
                 log.warn(
-                        "Unable to create a generator for copy-constuctor of same type for class {}, constructor parameter type = {}",
-                        type, parameterType);
+                    "Unable to create a generator for copy-constuctor of same type for class {}, constructor parameter type = {}",
+                    type, parameterType);
                 return Optional.empty();
 
             }

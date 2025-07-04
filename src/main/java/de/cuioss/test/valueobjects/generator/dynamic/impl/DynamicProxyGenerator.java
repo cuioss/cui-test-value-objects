@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,9 +15,6 @@
  */
 package de.cuioss.test.valueobjects.generator.dynamic.impl;
 
-import java.util.Optional;
-
-
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.tools.logging.CuiLogger;
 import javassist.util.proxy.ProxyFactory;
@@ -25,6 +22,8 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.util.Optional;
 
 /**
  * Creates proxies using javassist for any type given that is not an interface
@@ -44,11 +43,13 @@ public class DynamicProxyGenerator<T> implements TypedGenerator<T> {
 
     private final TypedGenerator<T> wrappedGenerator;
 
-    @Override public T next() {
+    @Override
+    public T next() {
         return wrappedGenerator.next();
     }
 
-    @Override public Class<T> getType() {
+    @Override
+    public Class<T> getType() {
         return type;
     }
 
@@ -71,7 +72,7 @@ public class DynamicProxyGenerator<T> implements TypedGenerator<T> {
 
         Class<?> createClassType = proxyFactory.createClass();
         @SuppressWarnings("unchecked") final Optional<TypedGenerator<T>> constructorGenerator = ConstructorBasedGenerator
-                .getGeneratorForType((Class<T>) createClassType);
+            .getGeneratorForType((Class<T>) createClassType);
         if (constructorGenerator.isPresent()) {
             return Optional.of(new DynamicProxyGenerator<>(type, constructorGenerator.get()));
         }

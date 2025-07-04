@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,23 +15,14 @@
  */
 package de.cuioss.test.valueobjects.property.util;
 
-import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
-import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
-import static de.cuioss.tools.collect.CollectionLiterals.immutableSortedSet;
-import static de.cuioss.tools.collect.CollectionLiterals.mutableList;
-import static de.cuioss.tools.collect.CollectionLiterals.mutableSet;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.SortedSet;
-
-
 import de.cuioss.test.generator.impl.CollectionGenerator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.*;
+
+import static de.cuioss.tools.collect.CollectionLiterals.*;
 
 /**
  * Used for static intersection of collection-types.
@@ -45,64 +36,72 @@ public enum CollectionType {
 
     /** Represents a {@link Collection}. The implementation will return a list. */
     COLLECTION(Collection.class) {
-
-        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override
+        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             return collectionGenerator.list();
         }
 
-        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override
+        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             return mutableList(iterable);
         }
 
-        @Override public Iterable<?> emptyCollection() {
+        @Override
+        public Iterable<?> emptyCollection() {
             return immutableList();
         }
 
     },
     /** Represents a {@link List}. */
     LIST(List.class) {
-
-        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override
+        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             return collectionGenerator.list();
         }
 
-        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override
+        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             return mutableList(iterable);
         }
 
-        @Override public Iterable<?> emptyCollection() {
+        @Override
+        public Iterable<?> emptyCollection() {
             return immutableList();
         }
 
     },
     /** Represents a {@link Set}. */
     SET(Set.class) {
-
-        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override
+        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             return collectionGenerator.set();
         }
 
-        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override
+        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             return mutableSet(iterable);
         }
 
-        @Override public Iterable<?> emptyCollection() {
+        @Override
+        public Iterable<?> emptyCollection() {
             return immutableSet();
         }
 
     },
     /** Represents a {@link SortedSet}. */
     SORTED_SET(SortedSet.class) {
-
-        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override
+        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             return collectionGenerator.sortedSet();
         }
 
-        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override
+        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             return immutableSortedSet(iterable);
         }
 
-        @Override public Iterable<?> emptyCollection() {
+        @Override
+        public Iterable<?> emptyCollection() {
             return immutableSortedSet();
         }
 
@@ -113,16 +112,18 @@ public enum CollectionType {
      * be used directly
      */
     ARRAY_MARKER(Iterable.class) {
-
-        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override
+        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             throw new UnsupportedOperationException();
         }
 
-        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override
+        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             throw new UnsupportedOperationException();
         }
 
-        @Override public Iterable<?> emptyCollection() {
+        @Override
+        public Iterable<?> emptyCollection() {
             throw new UnsupportedOperationException();
         }
 
@@ -132,16 +133,18 @@ public enum CollectionType {
      * {@link UnsupportedOperationException}
      */
     NO_ITERABLE(Iterable.class) {
-
-        @Override public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
+        @Override
+        public Iterable<?> nextIterable(final CollectionGenerator<?> collectionGenerator) {
             throw new UnsupportedOperationException();
         }
 
-        @Override public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
+        @Override
+        public Iterable<?> wrapToIterable(final Iterable<?> iterable) {
             throw new UnsupportedOperationException();
         }
 
-        @Override public Iterable<?> emptyCollection() {
+        @Override
+        public Iterable<?> emptyCollection() {
             throw new UnsupportedOperationException();
         }
 

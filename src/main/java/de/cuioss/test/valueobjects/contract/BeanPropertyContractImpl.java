@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects.contract;
-
-import static java.util.Objects.requireNonNull;
-
-import java.util.List;
-import java.util.Optional;
-
 
 import de.cuioss.test.valueobjects.api.TestContract;
 import de.cuioss.test.valueobjects.api.contracts.VerifyBeanProperty;
@@ -35,6 +29,11 @@ import de.cuioss.tools.property.PropertyReadWrite;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Tests all given properties according to the given List of
@@ -52,10 +51,9 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
     @NonNull
     private final ParameterizedInstantiator<T> instantiator;
 
-    @Override public void assertContract() {
-        final var builder = new StringBuilder("Verifying ");
-        builder.append(getClass().getName()).append("\nWith configuration: ").append(getInstantiator().toString());
-        log.info(builder.toString());
+    @Override
+    public void assertContract() {
+        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + getInstantiator());
 
         checkGetterAndSetterContract();
         checkDefaultContract();
@@ -63,14 +61,14 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
 
     private void checkGetterAndSetterContract() {
         final var readWriteProperties = getInstantiator().getRuntimeProperties().getAllProperties().stream()
-                .filter(p -> PropertyReadWrite.READ_WRITE.equals(p.getPropertyReadWrite())).toList();
+            .filter(p -> PropertyReadWrite.READ_WRITE.equals(p.getPropertyReadWrite())).toList();
 
         if (readWriteProperties.isEmpty()) {
             log.warn(
-                    "There are no properties defined that are readable and writable. Consider your configuration and/or the base class for your test.");
+                "There are no properties defined that are readable and writable. Consider your configuration and/or the base class for your test.");
         } else {
             log.info("Verifying properties that are Read and Write: "
-                    + RuntimeProperties.extractNames(readWriteProperties));
+                + RuntimeProperties.extractNames(readWriteProperties));
 
             final var supportList = readWriteProperties.stream().map(PropertySupport::new).toList();
             final Object target = getInstantiator().newInstanceMinimal();
@@ -123,7 +121,7 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
      *         {@link Optional#empty()}
      */
     public static final <T> Optional<TestContract<T>> createBeanPropertyTestContract(final Class<T> beanType,
-            final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata) {
+                                                                                     final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata) {
 
         requireNonNull(beanType, "beantype must not be null");
         requireNonNull(annotated, "annotated must not be null");
@@ -141,6 +139,6 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
         final var metadata = AnnotationHelper.handleMetadataForPropertyTest(annotated, initialPropertyMetadata);
 
         return Optional.of(
-                new BeanPropertyContractImpl<>(new BeanInstantiator<>(instantiator, new RuntimeProperties(metadata))));
+            new BeanPropertyContractImpl<>(new BeanInstantiator<>(instantiator, new RuntimeProperties(metadata))));
     }
 }

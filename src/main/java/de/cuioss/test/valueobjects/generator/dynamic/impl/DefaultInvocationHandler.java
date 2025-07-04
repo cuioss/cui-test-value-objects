@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,7 +48,8 @@ class DefaultInvocationHandler implements InvocationHandler {
      * <li>other method calls return null.
      * </ul>
      */
-    @Override public final Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    @Override
+    public final Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if (args == null) {
             args = NO_ARGS;
         }
@@ -84,7 +85,8 @@ class DefaultInvocationHandler implements InvocationHandler {
      * <p>
      * Subclasses can override this method to provide custom equality.
      */
-    @Override public boolean equals(Object obj) {
+    @Override
+    public boolean equals(Object obj) {
         return super.equals(obj);
     }
 
@@ -93,7 +95,8 @@ class DefaultInvocationHandler implements InvocationHandler {
      * {@code hashCode()} will delegate to this method. Subclasses can override this
      * method to provide custom equality.
      */
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return super.hashCode();
     }
 
@@ -102,21 +105,22 @@ class DefaultInvocationHandler implements InvocationHandler {
      * {@code toString()} will delegate to this method. Subclasses can override this
      * method to provide custom string representation for the proxies.
      */
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return super.toString();
     }
 
     private static boolean isProxyOfSameInterfaces(Object arg, Class<?> proxyClass) {
         return proxyClass.isInstance(arg)
-                // Equal proxy instances should mostly be instance of proxyClass
-                // Under some edge cases (such as the proxy of JDK types serialized and then
-                // deserialized)
-                // the proxy type may not be the same.
-                // We first check isProxyClass() so that the common case of comparing with
-                // non-proxy
-                // objects
-                // is efficient.
-                || Proxy.isProxyClass(arg.getClass())
-                && Arrays.equals(arg.getClass().getInterfaces(), proxyClass.getInterfaces());
+            // Equal proxy instances should mostly be instance of proxyClass
+            // Under some edge cases (such as the proxy of JDK types serialized and then
+            // deserialized)
+            // the proxy type may not be the same.
+            // We first check isProxyClass() so that the common case of comparing with
+            // non-proxy
+            // objects
+            // is efficient.
+            || Proxy.isProxyClass(arg.getClass())
+            && Arrays.equals(arg.getClass().getInterfaces(), proxyClass.getInterfaces());
     }
 }

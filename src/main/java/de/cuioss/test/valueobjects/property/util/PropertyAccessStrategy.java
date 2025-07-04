@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,15 +15,6 @@
  */
 package de.cuioss.test.valueobjects.property.util;
 
-import static de.cuioss.tools.collect.CollectionLiterals.mutableList;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.List;
-
-
 import de.cuioss.test.valueobjects.objects.impl.ExceptionHelper;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.impl.BuilderMetadata;
@@ -31,6 +22,14 @@ import de.cuioss.test.valueobjects.property.impl.BuilderMetadata.BuilderMetadata
 import de.cuioss.tools.logging.CuiLogger;
 import de.cuioss.tools.property.PropertyUtil;
 import de.cuioss.tools.reflect.MoreReflection;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.List;
+
+import static de.cuioss.tools.collect.CollectionLiterals.mutableList;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Defines different ways for reading / writing properties.
@@ -49,9 +48,9 @@ public enum PropertyAccessStrategy {
      * @author Oliver Wolff
      */
     BEAN_PROPERTY {
-
-        @Override public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
-                final Object propertyValue) {
+        @Override
+        public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
+                                    final Object propertyValue) {
             assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
             assertNotNull(target, PROPERTY_METADATA_MUST_NOT_BE_NULL);
             try {
@@ -59,19 +58,20 @@ public enum PropertyAccessStrategy {
                 return target;
             } catch (IllegalArgumentException | IllegalStateException e) {
                 throw new AssertionError(UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
-                        ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
+                    ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
             }
 
         }
 
-        @Override public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
+        @Override
+        public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
             assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
             assertNotNull(target, PROPERTY_METADATA_MUST_NOT_BE_NULL);
             try {
                 return PropertyUtil.readProperty(target, propertyMetadata.getName());
             } catch (IllegalArgumentException | IllegalStateException e) {
                 throw new AssertionError(UNABLE_TO_READ_PROPERTY.formatted(propertyMetadata.getName(),
-                        ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
+                    ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
             }
         }
     },
@@ -119,14 +119,13 @@ public enum PropertyAccessStrategy {
      * @author Oliver Wolff
      */
     BUILDER_COLLECTION_AND_SINGLE_ELEMENT {
-
-        @Override public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
-                final Object propertyValue) {
-            if (!(propertyValue instanceof Iterable)) {
+        @Override
+        public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
+                                    final Object propertyValue) {
+            if (!(propertyValue instanceof Iterable<?> iterable)) {
                 throw new AssertionError(
-                        "Invalid valueType given, must be at least Iterable, but was " + propertyValue);
+                    "Invalid valueType given, must be at least Iterable, but was " + propertyValue);
             }
-            final Iterable<?> iterable = (Iterable<?>) propertyValue;
             final List<?> elements = mutableList(iterable);
             BuilderMetadata builderMetadata;
             if (!(propertyMetadata instanceof BuilderMetadata metadata)) {
@@ -139,39 +138,40 @@ public enum PropertyAccessStrategy {
                     final Object singleElement = elements.getFirst();
 
                     final var writeAddMethod = target.getClass().getMethod(
-                            builderMetadata.getBuilderSingleAddMethodName(), propertyMetadata.getPropertyClass());
+                        builderMetadata.getBuilderSingleAddMethodName(), propertyMetadata.getPropertyClass());
                     writeAddMethod.invoke(target, singleElement);
 
                     // Remove the element from the elements list
                     elements.remove(singleElement);
                 }
                 final var writeCollectionMethod = determineCollectionWriteMethod(target, propertyMetadata,
-                        builderMetadata);
+                    builderMetadata);
 
                 // Now write the remaining elements
                 return writeCollectionMethod.invoke(target,
-                        propertyMetadata.getCollectionType().wrapToIterable(elements));
+                    propertyMetadata.getCollectionType().wrapToIterable(elements));
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException e) {
+                     | InvocationTargetException e) {
                 throw new AssertionError(UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
-                        ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
+                    ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
             }
 
         }
 
         private Method determineCollectionWriteMethod(final Object target, final PropertyMetadata propertyMetadata,
-                BuilderMetadata builderMetadata) throws NoSuchMethodException {
+                                                      BuilderMetadata builderMetadata) throws NoSuchMethodException {
             try {
                 return target.getClass().getMethod(builderMetadata.getBuilderAddMethodName(),
-                        propertyMetadata.getCollectionType().getIterableType());
+                    propertyMetadata.getCollectionType().getIterableType());
             } catch (NoSuchMethodException e) {
                 // Noop -> Assuming collection-parameter
             }
             return target.getClass().getMethod(builderMetadata.getBuilderAddMethodName(),
-                    CollectionType.COLLECTION.getIterableType());
+                CollectionType.COLLECTION.getIterableType());
         }
 
-        @Override public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
+        @Override
+        public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
             return PropertyAccessStrategy.BEAN_PROPERTY.readProperty(target, propertyMetadata);
         }
     },
@@ -186,9 +186,9 @@ public enum PropertyAccessStrategy {
      * @author Oliver Wolff
      */
     BUILDER_DIRECT {
-
-        @Override public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
-                final Object propertyValue) {
+        @Override
+        public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
+                                    final Object propertyValue) {
             BuilderMetadata builderMetadata;
             if (!(propertyMetadata instanceof BuilderMetadata metadata)) {
                 builderMetadata = BuilderMetadata.wrapFromMetadata(propertyMetadata);
@@ -197,18 +197,19 @@ public enum PropertyAccessStrategy {
             }
             try {
                 final var writeMethod = target.getClass().getMethod(builderMetadata.getBuilderAddMethodName(),
-                        propertyMetadata.resolveActualClass());
+                    propertyMetadata.resolveActualClass());
                 return writeMethod.invoke(target, propertyValue);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException e) {
+                     | InvocationTargetException e) {
                 var message = UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
-                        ExceptionHelper.extractCauseMessageFromThrowable(e));
+                    ExceptionHelper.extractCauseMessageFromThrowable(e));
                 new CuiLogger(getClass()).error(message);
                 throw new AssertionError(message, e);
             }
         }
 
-        @Override public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
+        @Override
+        public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
             return PropertyAccessStrategy.BEAN_PROPERTY.readProperty(target, propertyMetadata);
         }
     },
@@ -219,24 +220,25 @@ public enum PropertyAccessStrategy {
      * {@link PropertyAccessStrategy#BEAN_PROPERTY}
      */
     FLUENT_WRITER {
-
-        @Override public Object writeProperty(Object target, PropertyMetadata propertyMetadata, Object propertyValue) {
+        @Override
+        public Object writeProperty(Object target, PropertyMetadata propertyMetadata, Object propertyValue) {
             var writeMethod = MoreReflection.retrieveWriteMethod(target.getClass(), propertyMetadata.getName(),
-                    propertyMetadata.resolveActualClass());
+                propertyMetadata.resolveActualClass());
             if (writeMethod.isEmpty()) {
                 throw new AssertionError(
-                        UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(), "No write-method could be found"));
+                    UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(), "No write-method could be found"));
             }
             try {
                 return writeMethod.get().invoke(target, propertyValue);
             } catch (SecurityException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException e) {
+                     | InvocationTargetException e) {
                 throw new AssertionError(UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
-                        ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
+                    ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
             }
         }
 
-        @Override public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
+        @Override
+        public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
             return PropertyAccessStrategy.BEAN_PROPERTY.readProperty(target, propertyMetadata);
         }
 
@@ -257,7 +259,7 @@ public enum PropertyAccessStrategy {
      * @throws AssertionError in case the property can not be written.
      */
     public abstract Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
-            final Object propertyValue);
+                                         final Object propertyValue);
 
     /**
      * Reads the property from the given target;

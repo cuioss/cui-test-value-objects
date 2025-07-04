@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,24 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects;
-
-import static de.cuioss.test.valueobjects.util.ReflectionHelper.handlePostProcessConfig;
-import static de.cuioss.test.valueobjects.util.ReflectionHelper.handlePropertyMetadata;
-import static de.cuioss.test.valueobjects.util.ReflectionHelper.scanBeanTypeForProperties;
-import static de.cuioss.test.valueobjects.util.ReflectionHelper.shouldScanClass;
-import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.function.Function;
-
 
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.api.VerifyMapperConfiguration;
@@ -54,6 +36,14 @@ import de.cuioss.tools.reflect.MoreReflection;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.function.Function;
+
+import static de.cuioss.test.valueobjects.util.ReflectionHelper.*;
+import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Allows to test a mapper implementing a {@link Function} to map a (pseudo-)DTO
@@ -106,22 +96,23 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      * {@link #sourceClass}, {@link #targetClass}. It runs it checks only
      * once
      */
-    @SuppressWarnings({"unchecked"}) protected void intializeTypeInformation() {
+    @SuppressWarnings({"unchecked"})
+    protected void intializeTypeInformation() {
         if (null == mapperClass) {
             var parameterized = MoreReflection.extractParameterizedType(getClass()).orElseThrow(
-                    () -> new IllegalArgumentException("Given type defines no generic Type: " + getClass()));
+                () -> new IllegalArgumentException("Given type defines no generic Type: " + getClass()));
             List<Type> types = immutableList(parameterized.getActualTypeArguments());
             Preconditions.checkArgument(3 == types.size(), "Super Class must provide 3 generic types in order to work");
             mapperClass = (Class<M>) MoreReflection.extractGenericTypeCovariantly(types.getFirst())
-                    .orElseThrow(() -> new AssertionError("Unable to determine mapperClass from type" + getClass()));
+                .orElseThrow(() -> new AssertionError("Unable to determine mapperClass from type" + getClass()));
             assertNotNull(mapperClass, "Unable to determine mapperClass");
             assertFalse(mapperClass.isInterface(),
-                    "This type only works with concrete implementations, but was the interface " + mapperClass);
+                "This type only works with concrete implementations, but was the interface " + mapperClass);
             sourceClass = (Class<S>) MoreReflection.extractGenericTypeCovariantly(types.get(1))
-                    .orElseThrow(() -> new AssertionError("Unable to determine sourceClass from type" + getClass()));
+                .orElseThrow(() -> new AssertionError("Unable to determine sourceClass from type" + getClass()));
             assertNotNull(sourceClass, "Unable to determine sourceClass");
             targetClass = (Class<T>) MoreReflection.extractGenericTypeCovariantly(types.get(2))
-                    .orElseThrow(() -> new AssertionError("Unable to determine targetClass from type" + getClass()));
+                .orElseThrow(() -> new AssertionError("Unable to determine targetClass from type" + getClass()));
             assertNotNull(targetClass, "Unable to determine targetClass");
         }
     }
@@ -130,7 +121,8 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      * Shorthand for calling
      * {@link MapperTest#verifyMapper(PropertyReflectionConfig)} with {@code null}
      */
-    @Test protected void verifyMapper() {
+    @Test
+    protected void verifyMapper() {
         verifyMapper(null);
     }
 
@@ -142,24 +134,25 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
     public void verifyMapper(PropertyReflectionConfig targetConfig) {
         intializeTypeInformation();
         Optional<VerifyMapperConfiguration> config = MoreReflection.extractAnnotation(getClass(),
-                VerifyMapperConfiguration.class);
+            VerifyMapperConfiguration.class);
 
         assertTrue(config.isPresent(),
-                "The mapper test must be annotated with " + VerifyMapperConfiguration.class.getName());
+            "The mapper test must be annotated with " + VerifyMapperConfiguration.class.getName());
 
         @SuppressWarnings("squid:S3655") // owolff: false positive, checked above
         var processedSourceProperties = AnnotationHelper.handleMetadataForMapperTest(config.get(),
-                resolveSourcePropertyMetadata());
+            resolveSourcePropertyMetadata());
 
         ParameterizedInstantiator<? extends S> sourceInstantiator = getSourceInstantiator(
-                new RuntimeProperties(processedSourceProperties));
+            new RuntimeProperties(processedSourceProperties));
 
         var targetProperties = new RuntimeProperties(resolveTargetPropertyMetadata(targetConfig));
 
         new MapperContractImpl<>(config.get(), sourceInstantiator, targetProperties, getUnderTest()).assertContract();
     }
 
-    @Override public M getUnderTest() {
+    @Override
+    public M getUnderTest() {
         intializeTypeInformation();
         return new DefaultInstantiator<>(mapperClass).newInstance();
     }
@@ -191,7 +184,7 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
         final List<PropertyMetadata> builder = new ArrayList<>();
         if (shouldScanClass(getClass())) {
             final SortedSet<PropertyMetadata> scanned = new TreeSet<>(
-                    scanBeanTypeForProperties(anyTargetObject().getClass(), config));
+                scanBeanTypeForProperties(anyTargetObject().getClass(), config));
             builder.addAll(handlePostProcessConfig(config, scanned));
         }
         final var handled = PropertyHelper.handlePrimitiveAsDefaults(PropertyHelper.toMapView(builder).values());

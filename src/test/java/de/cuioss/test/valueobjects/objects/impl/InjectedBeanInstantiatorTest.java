@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects.objects.impl;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
 import de.cuioss.test.valueobjects.objects.ConfigurationCallBackHandler;
@@ -28,15 +24,19 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class InjectedBeanInstantiatorTest
-        implements TestObjectProvider<ComplexBean>, ConfigurationCallBackHandler<ComplexBean> {
+    implements TestObjectProvider<ComplexBean>, ConfigurationCallBackHandler<ComplexBean> {
 
     private RuntimeProperties runtimeProperties;
 
     /**
      * Clears the {@link TypedGeneratorRegistry}
      */
-    @BeforeEach void before() {
+    @BeforeEach
+    void before() {
         TypedGeneratorRegistry.registerBasicTypes();
         runtimeProperties = new RuntimeProperties(ComplexBean.completeValidMetadata());
     }
@@ -44,22 +44,26 @@ class InjectedBeanInstantiatorTest
     /**
      * Clears the {@link TypedGeneratorRegistry}
      */
-    @AfterEach void tearDownGeneratorRegistry() {
+    @AfterEach
+    void tearDownGeneratorRegistry() {
         TypedGeneratorRegistry.clear();
     }
 
-    @Override public ComplexBean getUnderTest() {
+    @Override
+    public ComplexBean getUnderTest() {
         return new ComplexBean();
     }
 
-    @Test void shouldHandleInstantiator() {
+    @Test
+    void shouldHandleInstantiator() {
         var instantiator = new InjectedBeanInstantiator<>(this, this, runtimeProperties);
         assertNotNull(instantiator.newInstanceFull());
         assertNotNull(instantiator.newInstanceMinimal());
         assertNotNull(instantiator.toString());
     }
 
-    @Test void shouldFailWithoutRuntimeProperties() {
+    @Test
+    void shouldFailWithoutRuntimeProperties() {
         assertThrows(NullPointerException.class, () -> new InjectedBeanInstantiator<>(this, this, null));
     }
 }
