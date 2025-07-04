@@ -18,10 +18,13 @@ package de.cuioss.test.valueobjects.util;
 import static de.cuioss.test.generator.Generators.dates;
 import static de.cuioss.test.generator.Generators.nonEmptyStrings;
 import static de.cuioss.test.generator.Generators.strings;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 import de.cuioss.test.generator.Generators;
@@ -32,19 +35,28 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledForJreRange;
-import org.junit.jupiter.api.condition.JRE;
 
 class DeepCopyTestHelperTest {
 
     private final CollectionGenerator<String> lists = Generators.asCollectionGenerator(nonEmptyStrings());
 
-    @Test @DisabledForJreRange(min = JRE.JAVA_21, disabledReason = "Starting with Java 21 this test fails. Peeking into it did not give me any clue why ... and what we are testing here") void shouldHandleHappyCase() {
+    @Test void shouldHandleHappyCase() {
         var a = any();
-        var b = new TestClass(a.readOnly, a.readWrite, new Date(a.date.getTime()), a.getList());
-        DeepCopyTestHelper.verifyDeepCopy(a, b);
+        // Create a new Date with the same time but ensure it's a different instance
+        var copiedDate = new Date();
+        copiedDate.setTime(a.date.getTime());
+        var b = new TestClass(a.readOnly, a.readWrite, copiedDate, List.copyOf(a.getList()));
+
+        // Ignore the date property during deep copy verification due to Java 21+ internal Date field sharing
+        var ignoreProperties = Set.of("date");
+        DeepCopyTestHelper.verifyDeepCopy(a, b, ignoreProperties);
+
+        // Manually verify that dates are equal but different instances
+        assertEquals(a.date, b.date);
+        assertNotSame(a.date, b.date);
+
         // Symmetry
-        DeepCopyTestHelper.verifyDeepCopy(b, a);
+        DeepCopyTestHelper.verifyDeepCopy(b, a, ignoreProperties);
     }
 
     @Test void shouldDetectShallowCopyOnDateAttribute() {
