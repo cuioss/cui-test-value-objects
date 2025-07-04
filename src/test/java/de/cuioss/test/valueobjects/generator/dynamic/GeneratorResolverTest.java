@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,36 +15,22 @@
  */
 package de.cuioss.test.valueobjects.generator.dynamic;
 
-import static de.cuioss.test.valueobjects.generator.dynamic.GeneratorResolver.resolveCollectionGenerator;
-import static de.cuioss.test.valueobjects.generator.dynamic.GeneratorResolver.resolveGenerator;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.Serializable;
-import java.util.AbstractList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.api.object.VetoObjectTestContract;
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
-import de.cuioss.test.valueobjects.generator.dynamic.impl.CollectionTypeGenerator;
-import de.cuioss.test.valueobjects.generator.dynamic.impl.ConstructorBasedGenerator;
-import de.cuioss.test.valueobjects.generator.dynamic.impl.DynamicProxyGenerator;
-import de.cuioss.test.valueobjects.generator.dynamic.impl.EmptyMapGenerator;
-import de.cuioss.test.valueobjects.generator.dynamic.impl.InterfaceProxyGenerator;
+import de.cuioss.test.valueobjects.generator.dynamic.impl.*;
 import de.cuioss.test.valueobjects.objects.BuilderInstantiator;
 import de.cuioss.test.valueobjects.testbeans.ComplexBean;
 import de.cuioss.tools.property.PropertyMemberInfo;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.Serializable;
+import java.util.*;
+
+import static de.cuioss.test.valueobjects.generator.dynamic.GeneratorResolver.resolveCollectionGenerator;
+import static de.cuioss.test.valueobjects.generator.dynamic.GeneratorResolver.resolveGenerator;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GeneratorResolverTest {
 
@@ -71,19 +57,19 @@ class GeneratorResolverTest {
         assertNotNull(resolveGenerator(ComplexBean.class));
         assertTrue(TypedGeneratorRegistry.containsGenerator(ComplexBean.class));
         assertEquals(ConstructorBasedGenerator.class,
-                TypedGeneratorRegistry.getGenerator(ComplexBean.class).get().getClass());
+            TypedGeneratorRegistry.getGenerator(ComplexBean.class).get().getClass());
         // Proxy based for interfaces
         assertFalse(TypedGeneratorRegistry.containsGenerator(BuilderInstantiator.class));
         assertNotNull(resolveGenerator(BuilderInstantiator.class));
         assertTrue(TypedGeneratorRegistry.containsGenerator(BuilderInstantiator.class));
         assertEquals(InterfaceProxyGenerator.class,
-                TypedGeneratorRegistry.getGenerator(BuilderInstantiator.class).get().getClass());
+            TypedGeneratorRegistry.getGenerator(BuilderInstantiator.class).get().getClass());
         // Proxy based for Abstract-classes
         assertFalse(TypedGeneratorRegistry.containsGenerator(AbstractList.class));
         assertNotNull(resolveGenerator(AbstractList.class));
         assertTrue(TypedGeneratorRegistry.containsGenerator(AbstractList.class));
         assertEquals(DynamicProxyGenerator.class,
-                TypedGeneratorRegistry.getGenerator(AbstractList.class).get().getClass());
+            TypedGeneratorRegistry.getGenerator(AbstractList.class).get().getClass());
     }
 
     @Test

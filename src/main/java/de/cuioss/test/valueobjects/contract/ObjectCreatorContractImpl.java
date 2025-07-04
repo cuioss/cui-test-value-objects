@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects.contract;
-
-import static java.util.Objects.requireNonNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import de.cuioss.test.valueobjects.api.TestContract;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
@@ -38,6 +33,11 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Objects.requireNonNull;
+
 /**
  * TestContract for dealing Constructor and factories, {@link VerifyConstructor}
  * and {@link VerifyFactoryMethod} respectively
@@ -56,9 +56,7 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
 
     @Override
     public void assertContract() {
-        final var builder = new StringBuilder("Verifying ");
-        builder.append(getClass().getName()).append("\nWith configuration: ").append(instantiator.toString());
-        log.info(builder.toString());
+        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator);
 
         shouldPersistAllParameter();
         shouldHandleRequiredAndDefaults();
@@ -148,7 +146,7 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
      *         will return an empty list
      */
     public static final <T> List<ObjectCreatorContractImpl<T>> createTestContracts(final Class<T> beanType,
-            final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata) {
+        final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata) {
 
         requireNonNull(beanType, "beantype must not be null");
         requireNonNull(initialPropertyMetadata, "initialPropertyMetadata must not be null");
@@ -157,9 +155,9 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
         // VerifyConstructor
         for (final VerifyConstructor contract : AnnotationHelper.extractConfiguredConstructorContracts(annotated)) {
             final var properties = AnnotationHelper.constructorConfigToPropertyMetadata(contract,
-                    initialPropertyMetadata);
+                initialPropertyMetadata);
             final ParameterizedInstantiator<T> instantiator = new ConstructorBasedInstantiator<>(beanType,
-                    new RuntimeProperties(properties));
+                new RuntimeProperties(properties));
             builder.add(new ObjectCreatorContractImpl<>(instantiator));
         }
         // Verify Factory method
@@ -170,7 +168,7 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
                 enclosingType = contract.enclosingType();
             }
             final ParameterizedInstantiator<T> instantiator = new FactoryBasedInstantiator<>(beanType,
-                    new RuntimeProperties(properties), enclosingType, contract.factoryMethodName());
+                new RuntimeProperties(properties), enclosingType, contract.factoryMethodName());
             builder.add(new ObjectCreatorContractImpl<>(instantiator));
         }
         return builder.toImmutableList();

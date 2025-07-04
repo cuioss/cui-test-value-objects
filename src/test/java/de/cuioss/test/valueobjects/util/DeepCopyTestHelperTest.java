@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,39 +15,40 @@
  */
 package de.cuioss.test.valueobjects.util;
 
-import static de.cuioss.test.generator.Generators.dates;
-import static de.cuioss.test.generator.Generators.nonEmptyStrings;
-import static de.cuioss.test.generator.Generators.strings;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import de.cuioss.test.generator.Generators;
+import de.cuioss.test.generator.impl.CollectionGenerator;
+import lombok.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledForJreRange;
-import org.junit.jupiter.api.condition.JRE;
-
-import de.cuioss.test.generator.Generators;
-import de.cuioss.test.generator.impl.CollectionGenerator;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import static de.cuioss.test.generator.Generators.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DeepCopyTestHelperTest {
 
     private final CollectionGenerator<String> lists = Generators.asCollectionGenerator(nonEmptyStrings());
 
     @Test
-    @DisabledForJreRange(min = JRE.JAVA_21, disabledReason = "Starting with Java 21 this test fails. Peeking into it did not give me any clue why ... and what we are testing here")
     void shouldHandleHappyCase() {
         var a = any();
-        var b = new TestClass(a.readOnly, a.readWrite, new Date(a.date.getTime()), a.getList());
-        DeepCopyTestHelper.verifyDeepCopy(a, b);
+        // Create a new Date with the same time but ensure it's a different instance
+        var copiedDate = new Date();
+        copiedDate.setTime(a.date.getTime());
+        var b = new TestClass(a.readOnly, a.readWrite, copiedDate, List.copyOf(a.getList()));
+
+        // Ignore the date property during deep copy verification due to Java 21+ internal Date field sharing
+        var ignoreProperties = Set.of("date");
+        DeepCopyTestHelper.verifyDeepCopy(a, b, ignoreProperties);
+
+        // Manually verify that dates are equal but different instances
+        assertEquals(a.date, b.date);
+        assertNotSame(a.date, b.date);
+
         // Symmetry
-        DeepCopyTestHelper.verifyDeepCopy(b, a);
+        DeepCopyTestHelper.verifyDeepCopy(b, a, ignoreProperties);
     }
 
     @Test
@@ -66,7 +67,7 @@ class DeepCopyTestHelperTest {
     @AllArgsConstructor
     @ToString
     @EqualsAndHashCode
-    class TestClass {
+    static class TestClass {
 
         @Getter
         private final String readOnly;

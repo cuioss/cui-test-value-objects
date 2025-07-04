@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,23 +15,17 @@
  */
 package de.cuioss.test.valueobjects.contract.support;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import de.cuioss.test.valueobjects.api.VerifyMapperConfiguration;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.tools.logging.CuiLogger;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Helper class for asserting single-attribute mappings for
@@ -47,11 +41,11 @@ public class MapperAttributesAsserts {
     private static final CuiLogger log = new CuiLogger(MapperAttributesAsserts.class);
 
     private static final String PROPERTY_MAPPING_INCOMPLETE = """
-            Caution: you have unmapped {}-properties: {} you can adapt this behavior by either:\
+        Caution: you have unmapped {}-properties: {} you can adapt this behavior by either:\
 
-            - @VerifyMapperConfiguration(equals("name:firstName"))\
+        - @VerifyMapperConfiguration(equals("name:firstName"))\
 
-            - Make use of the provided property controls like @VerifyMapperConfiguration(of("name"))""";
+        - Make use of the provided property controls like @VerifyMapperConfiguration(of("name"))""";
 
     private final List<AssertTuple> sourceAsserts;
 
@@ -61,7 +55,7 @@ public class MapperAttributesAsserts {
      * @param sourceProperties
      */
     public MapperAttributesAsserts(VerifyMapperConfiguration config, RuntimeProperties targetProperties,
-            RuntimeProperties sourceProperties) {
+        RuntimeProperties sourceProperties) {
         var targetPropertyMap = targetProperties.asMapView(false);
         var sourcePropertyMap = sourceProperties.asMapView(false);
         List<MappingTuple> mapping = new ArrayList<>(MappingAssertStrategy.EQUALS.readConfiguration(config));
@@ -70,15 +64,15 @@ public class MapperAttributesAsserts {
 
         for (MappingTuple tuple : mapping) {
             assertTrue(targetPropertyMap.containsKey(tuple.getTarget()),
-                    "Invalid (unmapped) attribute-name for target: " + tuple.toString());
+                "Invalid (unmapped) attribute-name for target: " + tuple);
             assertTrue(sourcePropertyMap.containsKey(tuple.getSource()),
-                    "Invalid (unmapped) attribute-name for source: " + tuple.toString());
+                "Invalid (unmapped) attribute-name for source: " + tuple);
         }
 
         sourceAsserts = new ArrayList<>();
         for (MappingTuple tuple : mapping) {
             sourceAsserts.add(new AssertTuple(sourcePropertyMap.get(tuple.getSource()),
-                    targetPropertyMap.get(tuple.getTarget()), tuple));
+                targetPropertyMap.get(tuple.getTarget()), tuple));
         }
         logConfigurationStatus(targetProperties, sourceProperties);
     }
@@ -86,12 +80,12 @@ public class MapperAttributesAsserts {
     private void logConfigurationStatus(RuntimeProperties targetProperties, RuntimeProperties sourceProperties) {
         if (sourceAsserts.isEmpty()) {
             log.warn(
-                    "No attribute specific mapping found. use @VerifyMapperConfiguration(equals(\"name:firstName\")) or @VerifyMapperConfiguration(notNull(\"name:lastName\")) in order to activate");
+                "No attribute specific mapping found. use @VerifyMapperConfiguration(equals(\"name:firstName\")) or @VerifyMapperConfiguration(notNull(\"name:lastName\")) in order to activate");
         }
         Set<String> sourceMappingNames = sourceAsserts.stream().map(a -> a.getMappingTuple().getSource())
-                .collect(Collectors.toSet());
+            .collect(Collectors.toSet());
         Set<String> targetMappingNames = sourceAsserts.stream().map(a -> a.getMappingTuple().getTarget())
-                .collect(Collectors.toSet());
+            .collect(Collectors.toSet());
         var sourceTypeProperties = RuntimeProperties.extractNames(sourceProperties.getAllProperties());
         var targetTypeProperties = RuntimeProperties.extractNames(targetProperties.getAllProperties());
 
@@ -147,7 +141,7 @@ public class MapperAttributesAsserts {
         for (AssertTuple nullAssert : nullAsserts) {
             log.debug("Asserting attribute to be null / not set {}", nullAssert.getTargetSupport().getName());
             MappingAssertStrategy.NULL_OR_DEFAULT.assertMapping(nullAssert.getSourceSupport(), source,
-                    nullAssert.getTargetSupport(), target);
+                nullAssert.getTargetSupport(), target);
         }
 
     }
