@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,17 +15,17 @@
  */
 package de.cuioss.test.valueobjects.objects.impl;
 
-import static de.cuioss.test.valueobjects.objects.impl.ExceptionHelper.extractCauseMessageFromThrowable;
-import static java.util.Objects.requireNonNull;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import de.cuioss.test.valueobjects.contract.BuilderContractImpl;
 import de.cuioss.test.valueobjects.objects.BuilderInstantiator;
 import de.cuioss.tools.logging.CuiLogger;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import static de.cuioss.test.valueobjects.objects.impl.ExceptionHelper.extractCauseMessageFromThrowable;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Used for creating instances of a builder. This variant relies on a factory
@@ -63,7 +63,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
      */
     public BuilderFactoryBasedInstantiator(final Class<?> enclosingType) {
         this(enclosingType, BuilderContractImpl.DEFAULT_BUILDER_FACTORY_METHOD_NAME,
-                BuilderContractImpl.DEFAULT_BUILD_METHOD_NAME);
+            BuilderContractImpl.DEFAULT_BUILD_METHOD_NAME);
     }
 
     /**
@@ -78,7 +78,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
      */
     @SuppressWarnings("unchecked")
     public BuilderFactoryBasedInstantiator(final Class<?> enclosingType, final String builderFactoryMethodName,
-            final String builderMethodName) {
+        final String builderMethodName) {
 
         requireNonNull(enclosingType, "enclosingType must not be null");
         requireNonNull(builderMethodName, "builderMethodName must not be null");
@@ -89,7 +89,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
             builderClass = builderFactoryMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderFactoryMethodName, enclosingType.getName(),
-                    extractCauseMessageFromThrowable(e));
+                extractCauseMessageFromThrowable(e));
             log.error(message, e);
             throw new AssertionError(message, e);
         }
@@ -99,7 +99,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
             targetClass = (Class<T>) builderMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderMethodName, builderClass,
-                    extractCauseMessageFromThrowable(e));
+                extractCauseMessageFromThrowable(e));
             log.error(message, e);
             throw new AssertionError(message, e);
         }
@@ -112,7 +112,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
             return builderFactoryMethod.invoke(null);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderFactoryMethod.getName(), targetClass,
-                    extractCauseMessageFromThrowable(e));
+                extractCauseMessageFromThrowable(e));
             log.error(message, e);
             throw new AssertionError(message, e);
         }
@@ -125,7 +125,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
             return (T) builderMethod.invoke(builder);
         } catch (IllegalAccessException | InvocationTargetException | RuntimeException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderMethod.getName(), builderClass.getName(),
-                    extractCauseMessageFromThrowable(e));
+                extractCauseMessageFromThrowable(e));
             log.debug(message, e);
             throw new AssertionError(message, e);
         }

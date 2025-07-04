@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects.util;
-
-import static java.util.Objects.requireNonNull;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
@@ -33,6 +27,12 @@ import de.cuioss.test.valueobjects.objects.impl.DefaultInstantiator;
 import de.cuioss.tools.collect.CollectionBuilder;
 import de.cuioss.tools.reflect.MoreReflection;
 import lombok.experimental.UtilityClass;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Provides utility methods for dealing with the creation of
@@ -59,7 +59,7 @@ public final class GeneratorAnnotationHelper {
      * @param additionalGenerator
      */
     public static void handleGeneratorsForTestClass(final Object testClass,
-            final List<TypedGenerator<?>> additionalGenerator) {
+        final List<TypedGenerator<?>> additionalGenerator) {
         requireNonNull(testClass);
         // Handle Generator
         TypedGeneratorRegistry.registerBasicTypes();
@@ -86,7 +86,7 @@ public final class GeneratorAnnotationHelper {
 
             final TypedGenerator<?> resolved = GeneratorResolver.resolveGenerator(hint.implementationType());
             TypedGeneratorRegistry.registerTypedGenerator(hint.declaredType(),
-                    new WildcardDecoratorGenerator(hint.declaredType(), resolved));
+                new WildcardDecoratorGenerator(hint.declaredType(), resolved));
         }
     }
 
@@ -102,7 +102,7 @@ public final class GeneratorAnnotationHelper {
         for (final PropertyGenerator config : extractConfiguredPropertyGenerator(annotated)) {
             for (final Class<?> typedClass : config.value()) {
                 TypedGeneratorRegistry
-                        .registerGenerator((TypedGenerator<?>) new DefaultInstantiator<>(typedClass).newInstance());
+                    .registerGenerator((TypedGenerator<?>) new DefaultInstantiator<>(typedClass).newInstance());
             }
         }
     }
@@ -134,7 +134,7 @@ public final class GeneratorAnnotationHelper {
         final var builder = new CollectionBuilder<PropertyGeneratorHint>();
 
         MoreReflection.extractAllAnnotations(annotated, PropertyGeneratorHints.class)
-                .forEach(contract -> builder.add(Arrays.asList(contract.value())));
+            .forEach(contract -> builder.add(Arrays.asList(contract.value())));
         MoreReflection.extractAllAnnotations(annotated, PropertyGeneratorHint.class).forEach(builder::add);
 
         return builder.toImmutableSet();
@@ -154,7 +154,7 @@ public final class GeneratorAnnotationHelper {
         final var builder = new CollectionBuilder<PropertyGenerator>();
 
         MoreReflection.extractAllAnnotations(annotated, PropertyGenerators.class)
-                .forEach(contract -> builder.add(Arrays.asList(contract.value())));
+            .forEach(contract -> builder.add(Arrays.asList(contract.value())));
         MoreReflection.extractAllAnnotations(annotated, PropertyGenerator.class).forEach(builder::add);
 
         return builder.toImmutableSet();

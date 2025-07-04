@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,24 +15,17 @@
  */
 package de.cuioss.test.valueobjects.objects;
 
-import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
-import static java.util.Objects.requireNonNull;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.PropertySupport;
 import de.cuioss.tools.collect.MapBuilder;
 import de.cuioss.tools.string.Joiner;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
+import java.util.*;
+
+import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Aggregates all information necessary to dynamically create Objects. In
@@ -97,7 +90,7 @@ public class RuntimeProperties {
         defaultProperties = allProperties.stream().filter(PropertyMetadata::isDefaultValue).toList();
 
         writableProperties = allProperties.stream().filter(metadata -> metadata.getPropertyReadWrite().isWriteable())
-                .toList();
+            .toList();
     }
 
     /**
@@ -118,7 +111,7 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public static List<PropertySupport> mapToPropertySupport(final Collection<PropertyMetadata> propertyMetadata,
-            final boolean generateTestValue) {
+        final boolean generateTestValue) {
         final List<PropertySupport> list = new ArrayList<>();
         if (null == propertyMetadata || propertyMetadata.isEmpty()) {
             return list;
@@ -132,7 +125,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getAllProperties()}
+     * out of {@link #allProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -145,7 +138,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getAllProperties()} but filtered according to the given names.
+     * out of {@link #allProperties} but filtered according to the given names.
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -155,14 +148,14 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public List<PropertySupport> getAllAsPropertySupport(final boolean generateTestValue,
-            final Collection<String> filter) {
+        final Collection<String> filter) {
         requireNonNull(filter);
         return getAllAsPropertySupport(generateTestValue).stream().filter(s -> filter.contains(s.getName())).toList();
     }
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getRequiredProperties()}
+     * out of {@link #requiredProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -175,7 +168,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getRequiredProperties()} but filtered according to the given
+     * out of {@link #requiredProperties} but filtered according to the given
      * names.
      *
      * @param generateTestValue boolean indicating whether to call
@@ -186,15 +179,15 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public List<PropertySupport> getRequiredAsPropertySupport(final boolean generateTestValue,
-            final Collection<String> filter) {
+        final Collection<String> filter) {
         requireNonNull(filter);
         return getRequiredAsPropertySupport(generateTestValue).stream().filter(s -> filter.contains(s.getName()))
-                .toList();
+            .toList();
     }
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getDefaultProperties()}
+     * out of {@link #defaultProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -207,7 +200,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getDefaultProperties()} but filtered according to the given
+     * out of {@link #defaultProperties} but filtered according to the given
      * names.
      *
      * @param generateTestValue boolean indicating whether to call
@@ -218,15 +211,15 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public List<PropertySupport> getDefaultAsPropertySupport(final boolean generateTestValue,
-            final Collection<String> filter) {
+        final Collection<String> filter) {
         requireNonNull(filter);
         return getDefaultAsPropertySupport(generateTestValue).stream().filter(s -> filter.contains(s.getName()))
-                .toList();
+            .toList();
     }
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getAdditionalProperties()}
+     * out of {@link #additionalProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -239,7 +232,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getAdditionalProperties()}
+     * out of {@link #additionalProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -249,15 +242,15 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public List<PropertySupport> getAdditionalAsPropertySupport(final boolean generateTestValue,
-            final Collection<String> filter) {
+        final Collection<String> filter) {
         requireNonNull(filter);
         return getAdditionalAsPropertySupport(generateTestValue).stream().filter(s -> filter.contains(s.getName()))
-                .toList();
+            .toList();
     }
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getWritableProperties()}
+     * out of {@link #writableProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -270,7 +263,7 @@ public class RuntimeProperties {
 
     /**
      * Creates a list of {@link PropertySupport} for each {@link PropertyMetadata}
-     * out of {@link #getWritableProperties()}
+     * out of {@link #writableProperties}
      *
      * @param generateTestValue boolean indicating whether to call
      *                          {@link PropertySupport#generateTestValue()} on each
@@ -280,10 +273,10 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public List<PropertySupport> getWritableAsPropertySupport(final boolean generateTestValue,
-            final Collection<String> filter) {
+        final Collection<String> filter) {
         requireNonNull(filter);
         return getWritableAsPropertySupport(generateTestValue).stream().filter(s -> filter.contains(s.getName()))
-                .toList();
+            .toList();
     }
 
     /**
@@ -316,12 +309,10 @@ public class RuntimeProperties {
 
     @Override
     public String toString() {
-        final var builder = new StringBuilder(getClass().getName());
-        builder.append("\nRequired properties: ").append(getPropertyNames(requiredProperties));
-        builder.append("\nAdditional properties: ").append(getPropertyNames(additionalProperties));
-        builder.append("\nDefault valued properties: ").append(getPropertyNames(defaultProperties));
-        builder.append("\nWritable properties: ").append(getPropertyNames(writableProperties));
-        return builder.toString();
+        return getClass().getName() + "\nRequired properties: " + getPropertyNames(requiredProperties) +
+            "\nAdditional properties: " + getPropertyNames(additionalProperties) +
+            "\nDefault valued properties: " + getPropertyNames(defaultProperties) +
+            "\nWritable properties: " + getPropertyNames(writableProperties);
     }
 
     private static String getPropertyNames(final List<PropertyMetadata> properties) {

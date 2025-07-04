@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,19 +15,13 @@
  */
 package de.cuioss.test.valueobjects.property;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.property.util.AssertionStrategy;
 import de.cuioss.test.valueobjects.property.util.CollectionAsserts;
 import de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Stateful wrapper around instances of {@link PropertyMetadata} that provides
@@ -61,6 +55,7 @@ public class PropertySupport {
     private Object generatedValue;
 
     // Shortcuts to PropertyMetadata
+
     /**
      * @return boolean indicating whether the current property is readable
      */
@@ -98,7 +93,7 @@ public class PropertySupport {
 
     /**
      * Generates a value from the contained generator and sets it to
-     * {@link #setGeneratedValue(Object)}.
+     * {@link #generatedValue}.
      *
      * @return the generated test value
      */
@@ -148,7 +143,7 @@ public class PropertySupport {
             CollectionAsserts.assertListsAreEqualIgnoringOrder(propertyMetadata.getName(), expected, actual);
         } else {
             assertEquals(expected, actual, "Invalid content found for property " + propertyMetadata.getName()
-                    + ", expected=" + expected + ", actual=" + actual);
+                + ", expected=" + expected + ", actual=" + actual);
         }
 
     }
@@ -186,7 +181,7 @@ public class PropertySupport {
         assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
 
         assertTrue(propertyMetadata.isDefaultValue(),
-                "There is no default value set: Invalid configuration for property " + propertyMetadata.getName());
+            "There is no default value set: Invalid configuration for property " + propertyMetadata.getName());
 
         assertNotNull(readProperty(target), "No defaultValue found for property " + propertyMetadata.getName());
     }
@@ -195,7 +190,7 @@ public class PropertySupport {
      * Creates a copy of this instance
      *
      * @param withGeneratedValue indicating whether to copy the currently
-     *                           {@link #getGeneratedValue()}
+     *                           {@link #generatedValue}
      * @return the created copy
      */
     public PropertySupport createCopy(final boolean withGeneratedValue) {

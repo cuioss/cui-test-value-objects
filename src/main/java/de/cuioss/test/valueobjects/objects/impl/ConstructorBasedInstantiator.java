@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,21 +15,21 @@
  */
 package de.cuioss.test.valueobjects.objects.impl;
 
-import static de.cuioss.test.valueobjects.objects.impl.ExceptionHelper.extractCauseMessageFromThrowable;
-import static java.util.Objects.requireNonNull;
+import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
+import de.cuioss.test.valueobjects.objects.RuntimeProperties;
+import de.cuioss.tools.logging.CuiLogger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
-import de.cuioss.test.valueobjects.objects.RuntimeProperties;
-import de.cuioss.tools.logging.CuiLogger;
+import static de.cuioss.test.valueobjects.objects.impl.ExceptionHelper.extractCauseMessageFromThrowable;
+import static java.util.Objects.requireNonNull;
 
 /**
  * This {@link ParameterizedInstantiator} uses a constructor derived by the
- * given {@link RuntimeProperties#getAllProperties()} in order to instantiate
+ * given all properties from RuntimeProperties in order to instantiate
  * {@link Object}s
  *
  * @param <T> identifying the type of objects to be created
@@ -49,7 +49,7 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
      *                          not be null
      * @param runtimeProperties must not be null. defines the attributes in the
      *                          exact order to be used for the constructor:
-     *                          {@link RuntimeProperties#getAllProperties()}
+     *                          all properties from RuntimeProperties
      */
     public ConstructorBasedInstantiator(final Class<T> type, final RuntimeProperties runtimeProperties) {
 
@@ -66,8 +66,8 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
             }
             requireNonNull(constructor, "Unable to find a constructor with signature " + parameter);
         } catch (NoSuchMethodException | SecurityException e) {
-            final var message = new StringBuilder("Unable to find a constructor with signature ").append(parameter)
-                    .append(", for type ").append(type.getName()).toString();
+            final var message = "Unable to find a constructor with signature " + parameter +
+                ", for type " + type.getName();
             log.error(message, e);
             for (Constructor<?> tempConstructor : type.getConstructors()) {
                 log.error("Found constructor: {}", tempConstructor.toGenericString());
@@ -84,18 +84,16 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
         try {
             return constructor.newInstance(args);
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
-            final var message = new StringBuilder("Unable to invoke constructor ").append(", due to ")
-                    .append(extractCauseMessageFromThrowable(e)).toString();
+            | InvocationTargetException e) {
+            final var message = "Unable to invoke constructor " + ", due to " +
+                extractCauseMessageFromThrowable(e);
             throw new AssertionError(message, e);
         }
     }
 
     @Override
     public String toString() {
-        final var builder = new StringBuilder(getClass().getName());
-        builder.append("\nConstructor: ").append(constructor);
-        builder.append("\nProperty Configuration: ").append(getRuntimeProperties().toString());
-        return builder.toString();
+        return getClass().getName() + "\nConstructor: " + constructor +
+            "\nProperty Configuration: " + getRuntimeProperties().toString();
     }
 }

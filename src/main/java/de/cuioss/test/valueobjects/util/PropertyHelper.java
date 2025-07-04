@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,17 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects.util;
-
-import static java.util.Objects.requireNonNull;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
 
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.api.property.PropertyConfig;
@@ -41,12 +30,17 @@ import de.cuioss.tools.string.Joiner;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
+import java.util.*;
+
+import static java.util.Objects.requireNonNull;
+
 /**
  * Provides utility methods for dealing with {@link PropertyMetadata}
  *
  * @author Oliver Wolff
  */
-@SuppressWarnings("squid:S1118") // owolff: lombok generated
+@SuppressWarnings("squid:S1118")
+// owolff: lombok generated
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class PropertyHelper {
 
@@ -72,7 +66,7 @@ public class PropertyHelper {
     public static void logMessageForPropertyMetadata(final Collection<? extends PropertyMetadata> handled) {
         if (!propertyInformationLogged) {
             final var messageBuilder = new StringBuilder(
-                    "Properties detected by using reflection and PropertyConfig-annotation: ").append("\n");
+                "Properties detected by using reflection and PropertyConfig-annotation: ").append("\n");
             final List<String> elements = new ArrayList<>();
             handled.forEach(data -> elements.add("-" + data.toString()));
             Collections.sort(elements);
@@ -117,7 +111,7 @@ public class PropertyHelper {
      * @return an immutable list with {@link PropertyMetadata}
      */
     public static final Collection<PropertyMetadata> handlePrimitiveAsDefaults(
-            final Collection<PropertyMetadata> metadata) {
+        final Collection<PropertyMetadata> metadata) {
         requireNonNull(metadata);
         if (metadata.isEmpty()) {
             return metadata;
@@ -125,7 +119,7 @@ public class PropertyHelper {
         final var builder = new CollectionBuilder<PropertyMetadata>();
         for (final PropertyMetadata propertyMetadata : metadata) {
             if (propertyMetadata.getPropertyClass().isPrimitive()
-                    && CollectionType.NO_ITERABLE.equals(propertyMetadata.getCollectionType())) {
+                && CollectionType.NO_ITERABLE.equals(propertyMetadata.getCollectionType())) {
                 builder.add(PropertyMetadataImpl.builder(propertyMetadata).defaultValue(true).build());
             } else {
                 builder.add(propertyMetadata);
@@ -180,15 +174,14 @@ public class PropertyHelper {
         final var builder = new CollectionBuilder<PropertyConfig>();
 
         MoreReflection.extractAllAnnotations(annotated, PropertyConfigs.class)
-                .forEach(contract -> builder.add(contract.value()));
+            .forEach(contract -> builder.add(contract.value()));
         MoreReflection.extractAllAnnotations(annotated, PropertyConfig.class).forEach(builder::add);
 
         return builder.toImmutableSet();
     }
 
     private static PropertyMetadata propertyConfigToPropertyMetadata(final PropertyConfig config) {
-        @SuppressWarnings("rawtypes")
-        final Class<? extends TypedGenerator> generatorClass = config.generator();
+        @SuppressWarnings("rawtypes") final Class<? extends TypedGenerator> generatorClass = config.generator();
         final TypedGenerator<?> generator;
         if (!DynamicTypedGenerator.class.equals(generatorClass)) {
             generator = new DefaultInstantiator<>(generatorClass).newInstance();
@@ -197,10 +190,10 @@ public class PropertyHelper {
         }
 
         return PropertyMetadataImpl.builder().name(config.name()).defaultValue(config.defaultValue())
-                .propertyAccessStrategy(config.propertyAccessStrategy()).generator(generator)
-                .propertyClass(config.propertyClass()).propertyMemberInfo(config.propertyMemberInfo())
-                .collectionType(config.collectionType()).assertionStrategy(config.assertionStrategy())
-                .propertyReadWrite(config.propertyReadWrite()).required(config.required()).build();
+            .propertyAccessStrategy(config.propertyAccessStrategy()).generator(generator)
+            .propertyClass(config.propertyClass()).propertyMemberInfo(config.propertyMemberInfo())
+            .collectionType(config.collectionType()).assertionStrategy(config.assertionStrategy())
+            .propertyReadWrite(config.propertyReadWrite()).required(config.required()).build();
     }
 
     /**
@@ -228,7 +221,7 @@ public class PropertyHelper {
      * @return the filtered property map
      */
     public static Map<String, PropertyMetadata> handleWhiteAndBlacklist(final String[] of, final String[] exclude,
-            final Collection<PropertyMetadata> givenMetadata) {
+        final Collection<PropertyMetadata> givenMetadata) {
         var map = PropertyHelper.toMapView(givenMetadata);
         if (of.length != 0) {
             // Whitelist takes precedence
@@ -257,7 +250,7 @@ public class PropertyHelper {
      * @return the filtered properties
      */
     public static List<PropertyMetadata> handleWhiteAndBlacklistAsList(final String[] of, final String[] exclude,
-            final List<PropertyMetadata> givenMetadata) {
+        final List<PropertyMetadata> givenMetadata) {
         if (null == givenMetadata || givenMetadata.isEmpty()) {
             return Collections.emptyList();
         }
@@ -281,7 +274,7 @@ public class PropertyHelper {
     public static void assertPropertyExists(final String name, final Map<String, PropertyMetadata> map) {
         if (!map.containsKey(name)) {
             throw new IllegalArgumentException("'" + name + "'"
-                    + " is not a configured property within the given properties, check your configuration");
+                + " is not a configured property within the given properties, check your configuration");
         }
     }
 

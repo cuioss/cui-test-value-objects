@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,64 +15,22 @@
  */
 package de.cuioss.test.valueobjects.generator;
 
-import static de.cuioss.test.generator.Generators.booleanObjects;
-import static de.cuioss.test.generator.Generators.booleans;
-import static de.cuioss.test.generator.Generators.byteObjects;
-import static de.cuioss.test.generator.Generators.bytes;
-import static de.cuioss.test.generator.Generators.characterObjects;
-import static de.cuioss.test.generator.Generators.characters;
-import static de.cuioss.test.generator.Generators.classTypes;
-import static de.cuioss.test.generator.Generators.dates;
-import static de.cuioss.test.generator.Generators.doubleObjects;
-import static de.cuioss.test.generator.Generators.doubles;
-import static de.cuioss.test.generator.Generators.floatObjects;
-import static de.cuioss.test.generator.Generators.floats;
-import static de.cuioss.test.generator.Generators.integerObjects;
-import static de.cuioss.test.generator.Generators.integers;
-import static de.cuioss.test.generator.Generators.letterStrings;
-import static de.cuioss.test.generator.Generators.localDateTimes;
-import static de.cuioss.test.generator.Generators.localDates;
-import static de.cuioss.test.generator.Generators.localTimes;
-import static de.cuioss.test.generator.Generators.locales;
-import static de.cuioss.test.generator.Generators.longObjects;
-import static de.cuioss.test.generator.Generators.longs;
-import static de.cuioss.test.generator.Generators.nonEmptyStrings;
-import static de.cuioss.test.generator.Generators.numbers;
-import static de.cuioss.test.generator.Generators.runtimeExceptions;
-import static de.cuioss.test.generator.Generators.serializables;
-import static de.cuioss.test.generator.Generators.shortObjects;
-import static de.cuioss.test.generator.Generators.shorts;
-import static de.cuioss.test.generator.Generators.temporals;
-import static de.cuioss.test.generator.Generators.throwables;
-import static de.cuioss.test.generator.Generators.timeZones;
-import static de.cuioss.test.generator.Generators.urls;
-import static de.cuioss.test.generator.Generators.zoneIds;
-import static de.cuioss.test.generator.Generators.zoneOffsets;
-import static de.cuioss.test.generator.Generators.zonedDateTimes;
-import static de.cuioss.tools.base.Preconditions.checkArgument;
-import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
-import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
-
-import java.io.Serializable;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.temporal.Temporal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
-
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.impl.PropertyMetadataImpl;
 import de.cuioss.test.valueobjects.property.impl.PropertyMetadataImpl.PropertyMetadataBuilder;
 import de.cuioss.test.valueobjects.property.util.CollectionType;
+
+import java.io.Serializable;
+import java.net.URL;
+import java.time.*;
+import java.time.temporal.Temporal;
+import java.util.*;
+
+import static de.cuioss.test.generator.Generators.*;
+import static de.cuioss.tools.base.Preconditions.checkArgument;
+import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
+import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
 
 /**
  * Factory for creating instances {@link PropertyMetadata} for standard
@@ -100,7 +58,7 @@ public final class JavaTypesGenerator<T> {
      * with a default value of <code>false</code>.
      */
     public static final JavaTypesGenerator<Boolean> BOOLEANS_PRIMITIVE = new JavaTypesGenerator<>(booleans(),
-            Boolean.FALSE);
+        Boolean.FALSE);
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for {@link Byte}.
@@ -123,7 +81,7 @@ public final class JavaTypesGenerator<T> {
      * default value of <code>\u0000</code>.
      */
     public static final JavaTypesGenerator<Character> CHARACTERS_PRIMITIVE = new JavaTypesGenerator<>(characters(),
-            '\u0000');
+        '\u0000');
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for {@link Class}.
@@ -160,22 +118,22 @@ public final class JavaTypesGenerator<T> {
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for {@link Integer} which
-     * is bound between 1 <= bound <= 31, used for representing days in a month
+     * is bound between 1 &lt;= bound &lt;= 31, used for representing days in a month
      */
     public static final JavaTypesGenerator<Integer> INTEGER_DAYS = new JavaTypesGenerator<>(integers(1, 31), null);
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for {@link Integer} which
-     * is bound between 1 <= bound <= 12, used for representing months in a year
+     * is bound between 1 &lt;= bound &lt;= 12, used for representing months in a year
      */
     public static final JavaTypesGenerator<Integer> INTEGER_MONTHS = new JavaTypesGenerator<>(integers(1, 12), null);
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for {@link Integer} which
-     * is bound between 1900 <= bound <= 2100, used for representing years
+     * is bound between 1900 &lt;= bound &lt;= 2100, used for representing years
      */
     public static final JavaTypesGenerator<Integer> INTEGER_YEARS = new JavaTypesGenerator<>(integers(1900, 2100),
-            null);
+        null);
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for int-primitives with a
@@ -210,13 +168,13 @@ public final class JavaTypesGenerator<T> {
      * corresponding exceptions.
      */
     public static final JavaTypesGenerator<RuntimeException> RUNTIME_EXCEPTIONS = new JavaTypesGenerator<>(
-            runtimeExceptions(), null);
+        runtimeExceptions(), null);
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for {@link Serializable}.
      */
     public static final JavaTypesGenerator<Serializable> SERIALIZABLES = new JavaTypesGenerator<>(serializables(),
-            null);
+        null);
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for {@link Short}.
@@ -266,7 +224,7 @@ public final class JavaTypesGenerator<T> {
      * Creates an instance of of {@link PropertyMetadata} for {@link LocalDateTime}.
      */
     public static final JavaTypesGenerator<LocalDateTime> LOCAL_DATE_TIMES = new JavaTypesGenerator<>(localDateTimes(),
-            null);
+        null);
 
     /**
      * Creates an instance of of {@link PropertyMetadata} for {@link Date}.
@@ -297,7 +255,7 @@ public final class JavaTypesGenerator<T> {
      * Creates an instance of of {@link PropertyMetadata} for {@link ZonedDateTime}.
      */
     public static final JavaTypesGenerator<ZonedDateTime> ZONED_DATE_TIME = new JavaTypesGenerator<>(zonedDateTimes(),
-            null);
+        null);
 
     /** The concrete type of the object created by the generator. */
     private final Class<T> propertyType;
@@ -402,7 +360,7 @@ public final class JavaTypesGenerator<T> {
     public PropertyMetadataBuilder metadataBuilder(final String name) {
         checkArgument(!nullToEmpty(name).isEmpty(), "name must not be null nor empty");
         return PropertyMetadataImpl.builder().name(name).generator(generator).defaultValue(defaultValue != null)
-                .propertyClass(propertyType);
+            .propertyClass(propertyType);
     }
 
 }

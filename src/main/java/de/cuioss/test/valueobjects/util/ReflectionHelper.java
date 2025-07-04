@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,23 +14,6 @@
  * limitations under the License.
  */
 package de.cuioss.test.valueobjects.util;
-
-import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
-import static de.cuioss.tools.collect.CollectionLiterals.immutableSortedSet;
-import static java.util.Objects.requireNonNull;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import de.cuioss.test.valueobjects.api.property.PropertyConfig;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
@@ -43,6 +26,15 @@ import de.cuioss.tools.logging.CuiLogger;
 import de.cuioss.tools.property.PropertyHolder;
 import de.cuioss.tools.reflect.MoreReflection;
 import lombok.experimental.UtilityClass;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.util.*;
+
+import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
+import static de.cuioss.tools.collect.CollectionLiterals.immutableSortedSet;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author Oliver Wolff
@@ -71,14 +63,14 @@ public final class ReflectionHelper {
      *         {@link PropertyHelper#handlePrimitiveAsDefaults(Collection)}
      */
     public static <T> List<PropertyMetadata> handlePropertyMetadata(final Class<?> annotated,
-            final Class<T> targetClass) {
+        final Class<T> targetClass) {
         requireNonNull(annotated);
         requireNonNull(targetClass);
 
         final List<PropertyMetadata> builder = new ArrayList<>();
         if (shouldScanClass(annotated)) {
             final SortedSet<PropertyMetadata> scanned = new TreeSet<>(scanBeanTypeForProperties(targetClass,
-                    MoreReflection.extractAnnotation(annotated, PropertyReflectionConfig.class).orElse(null)));
+                MoreReflection.extractAnnotation(annotated, PropertyReflectionConfig.class).orElse(null)));
 
             builder.addAll(handlePostProcess(annotated, scanned));
         }
@@ -104,11 +96,11 @@ public final class ReflectionHelper {
      *         {@link PropertyHelper#handlePrimitiveAsDefaults(Collection)}
      */
     public static <T> List<PropertyMetadata> handlePropertyMetadata(PropertyReflectionConfig propertyReflectionConfig,
-            final List<PropertyConfig> propertyConfig, final Class<T> targetClass) {
+        final List<PropertyConfig> propertyConfig, final Class<T> targetClass) {
         final List<PropertyMetadata> builder = new ArrayList<>();
         if (shouldScanClass(propertyReflectionConfig)) {
             final SortedSet<PropertyMetadata> scanned = new TreeSet<>(
-                    scanBeanTypeForProperties(targetClass, propertyReflectionConfig));
+                scanBeanTypeForProperties(targetClass, propertyReflectionConfig));
 
             builder.addAll(handlePostProcessConfig(propertyReflectionConfig, scanned));
         }
@@ -144,7 +136,7 @@ public final class ReflectionHelper {
      * @return a {@link SortedSet} containing the result of the inspection
      */
     public static SortedSet<PropertyMetadata> scanBeanTypeForProperties(final Class<?> beanType,
-            final PropertyReflectionConfig config) {
+        final PropertyReflectionConfig config) {
         final Set<String> filter = new HashSet<>(PROPERTY_IGNORE_SET);
         if (null != config) {
             filter.addAll(Arrays.asList(config.exclude()));
@@ -197,22 +189,22 @@ public final class ReflectionHelper {
                     propertyType = field.get().getType().getComponentType();
                 } else {
                     propertyType = extractParameterizedType(field.get(),
-                            (ParameterizedType) field.get().getGenericType());
+                        (ParameterizedType) field.get().getGenericType());
                 }
             }
         }
         if (null == propertyType) {
             throw new IllegalArgumentException("Unable to extract property '%s' on type '%s'"
-                    .formatted(propertyHolder.getName(), beanType.getName()));
+                .formatted(propertyHolder.getName(), beanType.getName()));
         }
         var defaultValued = propertyType.isPrimitive();
         if (defaultValued && CollectionType.ARRAY_MARKER.equals(collectionType)) {
             defaultValued = false;
         }
         return PropertyMetadataImpl.builder().name(propertyHolder.getName()).defaultValue(defaultValued)
-                .collectionType(collectionType).propertyMemberInfo(propertyHolder.getMemberInfo())
-                .propertyReadWrite(propertyHolder.getReadWrite())
-                .generator(GeneratorResolver.resolveGenerator(propertyType)).build();
+            .collectionType(collectionType).propertyMemberInfo(propertyHolder.getMemberInfo())
+            .propertyReadWrite(propertyHolder.getReadWrite())
+            .generator(GeneratorResolver.resolveGenerator(propertyType)).build();
     }
 
     private static Class<?> extractParameterizedType(final Field field, final ParameterizedType parameterizedType) {
@@ -220,11 +212,11 @@ public final class ReflectionHelper {
             return (Class<?>) parameterizedType.getActualTypeArguments()[0];
         } catch (final ClassCastException e) {
             throw new IllegalStateException("""
-                    Unable to determine generic-type for %s, ususally this is the case with nested generics.\s\
+                Unable to determine generic-type for %s, ususally this is the case with nested generics. \
 
-                    You need to provide a custom @PropertyConfig for this field and exclude it from scanning\
-                    , by using PropertyReflectionConfig#exclude.
-                    See package-javadoc of de.cuioss.test.valueobjects for samples.""".formatted(field.toString()), e);
+                You need to provide a custom @PropertyConfig for this field and exclude it from scanning\
+                , by using PropertyReflectionConfig#exclude.
+                See package-javadoc of de.cuioss.test.valueobjects for samples.""".formatted(field.toString()), e);
         }
     }
 
@@ -238,11 +230,11 @@ public final class ReflectionHelper {
      * @return the filtered {@link SortedSet}
      */
     public static SortedSet<PropertyMetadata> handlePostProcess(final Class<?> annotated,
-            final SortedSet<PropertyMetadata> metatdata) {
+        final SortedSet<PropertyMetadata> metatdata) {
         requireNonNull(annotated);
 
         final Optional<PropertyReflectionConfig> configOption = MoreReflection.extractAnnotation(annotated,
-                PropertyReflectionConfig.class);
+            PropertyReflectionConfig.class);
 
         return handlePostProcessConfig(configOption.orElse(null), metatdata);
     }
@@ -257,7 +249,7 @@ public final class ReflectionHelper {
      * @return the filtered {@link SortedSet}
      */
     public static SortedSet<PropertyMetadata> handlePostProcessConfig(final PropertyReflectionConfig config,
-            final SortedSet<PropertyMetadata> metatdata) {
+        final SortedSet<PropertyMetadata> metatdata) {
         requireNonNull(metatdata);
 
         if (metatdata.isEmpty() || null == config) {
@@ -267,7 +259,7 @@ public final class ReflectionHelper {
         var map = PropertyHelper.handleWhiteAndBlacklist(config.of(), config.exclude(), metatdata);
 
         map = AnnotationHelper.modifyPropertyMetadata(map, config.defaultValued(), config.readOnly(), config.required(),
-                config.transientProperties(), config.writeOnly(), config.assertUnorderedCollection());
+            config.transientProperties(), config.writeOnly(), config.assertUnorderedCollection());
 
         return immutableSortedSet(map.values());
     }
@@ -284,7 +276,7 @@ public final class ReflectionHelper {
         requireNonNull(annotated);
 
         return shouldScanClass(
-                MoreReflection.extractAnnotation(annotated, PropertyReflectionConfig.class).orElse(null));
+            MoreReflection.extractAnnotation(annotated, PropertyReflectionConfig.class).orElse(null));
     }
 
     /**

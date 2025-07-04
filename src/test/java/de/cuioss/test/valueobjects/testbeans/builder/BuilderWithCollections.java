@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,20 +15,6 @@
  */
 package de.cuioss.test.valueobjects.testbeans.builder;
 
-import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.STRINGS_LETTER;
-import static de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy.BUILDER_COLLECTION_AND_SINGLE_ELEMENT;
-import static de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy.BUILDER_DIRECT;
-import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.impl.BuilderMetadata;
 import de.cuioss.test.valueobjects.property.util.CollectionType;
@@ -36,6 +22,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.*;
+
+import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.STRINGS_LETTER;
+import static de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy.BUILDER_COLLECTION_AND_SINGLE_ELEMENT;
+import static de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy.BUILDER_DIRECT;
+import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode
@@ -98,42 +93,42 @@ public class BuilderWithCollections implements Serializable {
     }
 
     public static final List<PropertyMetadata> METADATA_COMPLETE = immutableList(BuilderMetadata.builder()
-                    .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSetElements").collectionType(CollectionType.SET)
-                            .propertyAccessStrategy(BUILDER_COLLECTION_AND_SINGLE_ELEMENT).build())
-                    .builderSingleAddMethodName("stringSetElement").build(),
-            BuilderMetadata.builder()
-                    .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSortedSetElements")
-                            .collectionType(CollectionType.SORTED_SET)
-                            .propertyAccessStrategy(BUILDER_COLLECTION_AND_SINGLE_ELEMENT).build())
-                    .builderSingleAddMethodName("stringSortedSetElement").build(),
-            BuilderMetadata.builder()
-                    .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringCollection")
-                            .collectionType(CollectionType.COLLECTION).propertyAccessStrategy(BUILDER_DIRECT).build())
-                    .build()
+            .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSetElements").collectionType(CollectionType.SET)
+                .propertyAccessStrategy(BUILDER_COLLECTION_AND_SINGLE_ELEMENT).build())
+            .builderSingleAddMethodName("stringSetElement").build(),
+        BuilderMetadata.builder()
+            .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSortedSetElements")
+                .collectionType(CollectionType.SORTED_SET)
+                .propertyAccessStrategy(BUILDER_COLLECTION_AND_SINGLE_ELEMENT).build())
+            .builderSingleAddMethodName("stringSortedSetElement").build(),
+        BuilderMetadata.builder()
+            .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringCollection")
+                .collectionType(CollectionType.COLLECTION).propertyAccessStrategy(BUILDER_DIRECT).build())
+            .build()
 
     );
 
     public static final List<PropertyMetadata> METADATA_COLLECTION_ONLY = immutableList(
-            BuilderMetadata.builder()
-                    .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSetElements")
-                            .collectionType(CollectionType.SET).propertyAccessStrategy(BUILDER_DIRECT).build())
-                    .build(),
-            BuilderMetadata.builder()
-                    .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSortedSetElements")
-                            .collectionType(CollectionType.SORTED_SET).propertyAccessStrategy(BUILDER_DIRECT).build())
-                    .build(),
-            BuilderMetadata.builder()
-                    .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringCollection")
-                            .collectionType(CollectionType.COLLECTION).propertyAccessStrategy(BUILDER_DIRECT).build())
-                    .build()
+        BuilderMetadata.builder()
+            .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSetElements")
+                .collectionType(CollectionType.SET).propertyAccessStrategy(BUILDER_DIRECT).build())
+            .build(),
+        BuilderMetadata.builder()
+            .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSortedSetElements")
+                .collectionType(CollectionType.SORTED_SET).propertyAccessStrategy(BUILDER_DIRECT).build())
+            .build(),
+        BuilderMetadata.builder()
+            .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringCollection")
+                .collectionType(CollectionType.COLLECTION).propertyAccessStrategy(BUILDER_DIRECT).build())
+            .build()
 
     );
 
     public static final List<PropertyMetadata> METADATA_SORTED_SET_ONLY = immutableList(
-            BuilderMetadata.builder()
-                    .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSortedSetElements")
-                            .collectionType(CollectionType.SORTED_SET).propertyAccessStrategy(BUILDER_DIRECT).build())
-                    .build()
+        BuilderMetadata.builder()
+            .delegateMetadata(STRINGS_LETTER.metadataBuilder("stringSortedSetElements")
+                .collectionType(CollectionType.SORTED_SET).propertyAccessStrategy(BUILDER_DIRECT).build())
+            .build()
 
     );
 

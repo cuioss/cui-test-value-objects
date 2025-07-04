@@ -1,12 +1,12 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
+/**
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,15 +15,13 @@
  */
 package de.cuioss.test.valueobjects.junit5.contracts;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import de.cuioss.test.valueobjects.contract.SerializableContractImpl;
+import de.cuioss.test.valueobjects.objects.TestObjectProvider;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 
-
-import org.junit.jupiter.api.Test;
-
-import de.cuioss.test.valueobjects.contract.SerializableContractImpl;
-import de.cuioss.test.valueobjects.objects.TestObjectProvider;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
  * Simple check whether the returned {@link TestObjectProvider#getUnderTest()}
@@ -43,8 +41,7 @@ public interface ShouldBeSerializable<T> extends TestObjectProvider<T> {
     @Test
     default void shouldImplementSerializable() {
         var underTest = getUnderTest();
-        assertTrue(underTest instanceof Serializable,
-                underTest.getClass().getName() + " does not implement java.io.Serializable");
+        assertInstanceOf(Serializable.class, underTest, underTest.getClass().getName() + " does not implement java.io.Serializable");
         SerializableContractImpl.serializeAndDeserialize(underTest);
     }
 }
