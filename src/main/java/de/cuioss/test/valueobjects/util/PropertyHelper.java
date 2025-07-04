@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -221,7 +221,7 @@ public class PropertyHelper {
      * @return the filtered property map
      */
     public static Map<String, PropertyMetadata> handleWhiteAndBlacklist(final String[] of, final String[] exclude,
-                                                                        final Collection<PropertyMetadata> givenMetadata) {
+        final Collection<PropertyMetadata> givenMetadata) {
         var map = PropertyHelper.toMapView(givenMetadata);
         if (of.length != 0) {
             // Whitelist takes precedence
@@ -250,7 +250,7 @@ public class PropertyHelper {
      * @return the filtered properties
      */
     public static List<PropertyMetadata> handleWhiteAndBlacklistAsList(final String[] of, final String[] exclude,
-                                                                       final List<PropertyMetadata> givenMetadata) {
+        final List<PropertyMetadata> givenMetadata) {
         if (null == givenMetadata || givenMetadata.isEmpty()) {
             return Collections.emptyList();
         }

@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,7 +50,7 @@ public enum PropertyAccessStrategy {
     BEAN_PROPERTY {
         @Override
         public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
-                                    final Object propertyValue) {
+            final Object propertyValue) {
             assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
             assertNotNull(target, PROPERTY_METADATA_MUST_NOT_BE_NULL);
             try {
@@ -121,7 +121,7 @@ public enum PropertyAccessStrategy {
     BUILDER_COLLECTION_AND_SINGLE_ELEMENT {
         @Override
         public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
-                                    final Object propertyValue) {
+            final Object propertyValue) {
             if (!(propertyValue instanceof Iterable<?> iterable)) {
                 throw new AssertionError(
                     "Invalid valueType given, must be at least Iterable, but was " + propertyValue);
@@ -151,7 +151,7 @@ public enum PropertyAccessStrategy {
                 return writeCollectionMethod.invoke(target,
                     propertyMetadata.getCollectionType().wrapToIterable(elements));
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-                     | InvocationTargetException e) {
+                | InvocationTargetException e) {
                 throw new AssertionError(UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
                     ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
             }
@@ -159,7 +159,7 @@ public enum PropertyAccessStrategy {
         }
 
         private Method determineCollectionWriteMethod(final Object target, final PropertyMetadata propertyMetadata,
-                                                      BuilderMetadata builderMetadata) throws NoSuchMethodException {
+            BuilderMetadata builderMetadata) throws NoSuchMethodException {
             try {
                 return target.getClass().getMethod(builderMetadata.getBuilderAddMethodName(),
                     propertyMetadata.getCollectionType().getIterableType());
@@ -188,7 +188,7 @@ public enum PropertyAccessStrategy {
     BUILDER_DIRECT {
         @Override
         public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
-                                    final Object propertyValue) {
+            final Object propertyValue) {
             BuilderMetadata builderMetadata;
             if (!(propertyMetadata instanceof BuilderMetadata metadata)) {
                 builderMetadata = BuilderMetadata.wrapFromMetadata(propertyMetadata);
@@ -200,7 +200,7 @@ public enum PropertyAccessStrategy {
                     propertyMetadata.resolveActualClass());
                 return writeMethod.invoke(target, propertyValue);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-                     | InvocationTargetException e) {
+                | InvocationTargetException e) {
                 var message = UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
                     ExceptionHelper.extractCauseMessageFromThrowable(e));
                 new CuiLogger(getClass()).error(message);
@@ -231,7 +231,7 @@ public enum PropertyAccessStrategy {
             try {
                 return writeMethod.get().invoke(target, propertyValue);
             } catch (SecurityException | IllegalAccessException | IllegalArgumentException
-                     | InvocationTargetException e) {
+                | InvocationTargetException e) {
                 throw new AssertionError(UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
                     ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
             }
@@ -259,7 +259,7 @@ public enum PropertyAccessStrategy {
      * @throws AssertionError in case the property can not be written.
      */
     public abstract Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
-                                         final Object propertyValue);
+        final Object propertyValue);
 
     /**
      * Reads the property from the given target;

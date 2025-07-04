@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,7 +43,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
 
     @Override
     public void assertContract(final ParameterizedInstantiator<?> instantiator,
-                               final ObjectTestConfig objectTestConfig) {
+        final ObjectTestConfig objectTestConfig) {
 
         requireNonNull(instantiator, "parameterizedInstantiator must not be null");
 
@@ -69,7 +69,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param objectTestConfig the configuration for object testing
      */
     private static void executePropertyTests(final ParameterizedInstantiator<?> instantiator,
-                                             final ObjectTestConfig objectTestConfig) {
+        final ObjectTestConfig objectTestConfig) {
         final SortedSet<String> consideredAttributes = new TreeSet<>();
         instantiator.getRuntimeProperties().getWritableProperties().stream()
             .filter(p -> PropertyMemberInfo.DEFAULT.equals(p.getPropertyMemberInfo()))
@@ -110,7 +110,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param consideredAttributes the set of attribute names to consider for testing
      */
     private static void assertEqualsAndHashCodeWithVariants(final ParameterizedInstantiator<?> instantiator,
-                                                            final SortedSet<String> consideredAttributes) {
+        final SortedSet<String> consideredAttributes) {
 
         assertEqualsAndHasCodeWithAllPropertiesSet(instantiator, consideredAttributes);
 
@@ -128,7 +128,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param consideredAttributes the set of attribute names to consider for testing
      */
     private static void assertEqualsAndHasCodeWithAllPropertiesSet(final ParameterizedInstantiator<?> instantiator,
-                                                                   final SortedSet<String> consideredAttributes) {
+        final SortedSet<String> consideredAttributes) {
         final Collection<String> actualAttributes = new ArrayList<>(consideredAttributes);
 
         final Collection<String> requiredNames = RuntimeProperties
@@ -158,7 +158,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param consideredAttributes the set of attribute names to consider for testing
      */
     private static void assertEqualsAndHashCodeWithSkippingProperties(final ParameterizedInstantiator<?> instantiator,
-                                                                      final Set<String> consideredAttributes) {
+        final Set<String> consideredAttributes) {
 
         final var information = instantiator.getRuntimeProperties();
 
@@ -253,7 +253,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param consideredAttributes the set of attribute names to consider for testing
      */
     private static void assertEqualsAndHashCodeWithChangingProperties(final ParameterizedInstantiator<?> instantiator,
-                                                                      final SortedSet<String> consideredAttributes) {
+        final SortedSet<String> consideredAttributes) {
         final Map<String, PropertySupport> allWritableProperties = new HashMap<>();
 
         instantiator.getRuntimeProperties().getWritableAsPropertySupport(true)
@@ -287,7 +287,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      * @param deltaPropertyName the name of the property that differs between objects
      */
     private static void assertEqualObjectAreNotEqual(final Object expected, final Object actual,
-                                                     final String deltaPropertyName) {
+        final String deltaPropertyName) {
         final var message = "The Objects of type " + expected.getClass().getName() +
             " should not be equal, current property=" + deltaPropertyName;
         assertNotEquals(expected, actual, message);

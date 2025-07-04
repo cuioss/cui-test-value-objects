@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -63,7 +63,7 @@ public final class ReflectionHelper {
      *         {@link PropertyHelper#handlePrimitiveAsDefaults(Collection)}
      */
     public static <T> List<PropertyMetadata> handlePropertyMetadata(final Class<?> annotated,
-                                                                    final Class<T> targetClass) {
+        final Class<T> targetClass) {
         requireNonNull(annotated);
         requireNonNull(targetClass);
 
@@ -96,7 +96,7 @@ public final class ReflectionHelper {
      *         {@link PropertyHelper#handlePrimitiveAsDefaults(Collection)}
      */
     public static <T> List<PropertyMetadata> handlePropertyMetadata(PropertyReflectionConfig propertyReflectionConfig,
-                                                                    final List<PropertyConfig> propertyConfig, final Class<T> targetClass) {
+        final List<PropertyConfig> propertyConfig, final Class<T> targetClass) {
         final List<PropertyMetadata> builder = new ArrayList<>();
         if (shouldScanClass(propertyReflectionConfig)) {
             final SortedSet<PropertyMetadata> scanned = new TreeSet<>(
@@ -136,7 +136,7 @@ public final class ReflectionHelper {
      * @return a {@link SortedSet} containing the result of the inspection
      */
     public static SortedSet<PropertyMetadata> scanBeanTypeForProperties(final Class<?> beanType,
-                                                                        final PropertyReflectionConfig config) {
+        final PropertyReflectionConfig config) {
         final Set<String> filter = new HashSet<>(PROPERTY_IGNORE_SET);
         if (null != config) {
             filter.addAll(Arrays.asList(config.exclude()));
@@ -230,7 +230,7 @@ public final class ReflectionHelper {
      * @return the filtered {@link SortedSet}
      */
     public static SortedSet<PropertyMetadata> handlePostProcess(final Class<?> annotated,
-                                                                final SortedSet<PropertyMetadata> metatdata) {
+        final SortedSet<PropertyMetadata> metatdata) {
         requireNonNull(annotated);
 
         final Optional<PropertyReflectionConfig> configOption = MoreReflection.extractAnnotation(annotated,
@@ -249,7 +249,7 @@ public final class ReflectionHelper {
      * @return the filtered {@link SortedSet}
      */
     public static SortedSet<PropertyMetadata> handlePostProcessConfig(final PropertyReflectionConfig config,
-                                                                      final SortedSet<PropertyMetadata> metatdata) {
+        final SortedSet<PropertyMetadata> metatdata) {
         requireNonNull(metatdata);
 
         if (metatdata.isEmpty() || null == config) {

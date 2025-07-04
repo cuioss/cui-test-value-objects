@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -156,8 +156,8 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
      *         return {@link Optional#empty()}
      */
     public static final <T> Optional<CopyConstructorContractImpl<T>> createTestContract(final Class<T> beanType,
-                                                                                        final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata,
-                                                                                        final List<TestContract<T>> existingContracts) {
+        final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata,
+        final List<TestContract<T>> existingContracts) {
 
         requireNonNull(annotated, "annotated must not be null");
 
@@ -188,7 +188,7 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
     }
 
     private static <T> ParameterizedInstantiator<T> createCopyInstantiator(final VerifyCopyConstructor config,
-                                                                           final Class<T> beanType) {
+        final Class<T> beanType) {
         Class<?> target = beanType;
         if (!VerifyCopyConstructor.class.equals(config.argumentType())) {
             target = config.argumentType();
@@ -200,7 +200,7 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
     }
 
     static <T> ParameterizedInstantiator<T> findFittingInstantiator(final List<TestContract<T>> existingContracts,
-                                                                    final Set<String> filteredNames) {
+        final Set<String> filteredNames) {
         for (final TestContract<T> contract : existingContracts) {
             final var contractNames = RuntimeProperties
                 .extractNames(contract.getInstantiator().getRuntimeProperties().getAllProperties());

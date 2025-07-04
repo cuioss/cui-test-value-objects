@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ enum MappingAssertStrategy {
     EQUALS {
         @Override
         public void assertMapping(PropertySupport sourceProperty, Object sourceObject, PropertySupport targetProperty,
-                                  Object targetObject) {
+            Object targetObject) {
             targetProperty.assertValueSet(targetObject, sourceProperty.readProperty(sourceObject));
         }
 
@@ -49,7 +49,7 @@ enum MappingAssertStrategy {
     NOT_NULL {
         @Override
         public void assertMapping(PropertySupport sourceProperty, Object sourceObject, PropertySupport targetProperty,
-                                  Object targetObject) {
+            Object targetObject) {
             var readProperty = targetProperty.readProperty(targetObject);
             assertNotNull(readProperty, "The given object must not be null " + targetProperty.getPropertyMetadata());
             if (readProperty instanceof Collection<?> collection) {
@@ -73,7 +73,7 @@ enum MappingAssertStrategy {
     NULL_OR_DEFAULT {
         @Override
         public void assertMapping(PropertySupport sourceProperty, Object sourceObject, PropertySupport targetProperty,
-                                  Object targetObject) {
+            Object targetObject) {
             if (targetProperty.isDefaultValue()) {
                 return;
             }
@@ -94,7 +94,7 @@ enum MappingAssertStrategy {
     };
 
     public abstract void assertMapping(PropertySupport sourceProperty, Object sourceObject,
-                                       PropertySupport targetProperty, Object targetObject);
+        PropertySupport targetProperty, Object targetObject);
 
     public abstract List<MappingTuple> readConfiguration(VerifyMapperConfiguration config);
 

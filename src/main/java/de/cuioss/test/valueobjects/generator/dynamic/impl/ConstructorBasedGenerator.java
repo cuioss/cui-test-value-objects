@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,7 +57,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
             try {
                 return constructor.newInstance();
             } catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
-                           | InvocationTargetException e) {
+                | InvocationTargetException e) {
                 throw new IllegalStateException(
                     UNABLE_TO_CALL_CONSTRUCTOR_FOR_CLASS.formatted(constructor, type, e.getMessage()), e);
             }
@@ -68,7 +68,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
             logExtendedInformationAboutUsedConstructor(parameter);
             return constructor.newInstance(parameter.toArray());
         } catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
-                       | InvocationTargetException e) {
+            | InvocationTargetException e) {
             throw new IllegalStateException(UNABLE_TO_CALL_CONSTRUCTOR_FOR_CLASS.formatted(constructor, type,
                 ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
         }
@@ -167,7 +167,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
     }
 
     private static <T> Optional<TypedGenerator<T>> findFittingConstructor(final Class<T> type,
-                                                                          final List<Constructor<?>> constructorList) {
+        final List<Constructor<?>> constructorList) {
         log.debug("Searching constructor for class {}", type);
         if (1 == constructorList.size()) {
             log.debug("Only one constructor present, so choosing this one");

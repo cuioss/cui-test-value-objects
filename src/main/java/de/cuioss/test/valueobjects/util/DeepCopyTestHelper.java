@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -67,7 +67,7 @@ public class DeepCopyTestHelper {
 
     @SuppressWarnings({"java:S2259", "java:S135"}) // owolff: False positive: assertions are not considered here
     private static void testDeepCopy(Object source, Object copy, String propertyString,
-                                     Collection<String> ignoreProperties) {
+        Collection<String> ignoreProperties) {
 
         assertNotNull(ignoreProperties, "ignore-properties my be empty but never null");
         // first check: check equals
@@ -111,7 +111,7 @@ public class DeepCopyTestHelper {
     }
 
     private boolean checkNullContract(Object resultSource, Object resultCopy, String currentPropertyString,
-                                      String propertyName) {
+        String propertyName) {
         // check for null
         if (null != resultSource) {
             if (null == resultCopy) {
@@ -127,7 +127,7 @@ public class DeepCopyTestHelper {
     }
 
     private boolean checkForList(Object resultSource, Object resultCopy, String currentPropertyString,
-                                 String propertyName) {
+        String propertyName) {
         if (!(resultSource instanceof List<?> resultSourceList)) {
             return false;
         }

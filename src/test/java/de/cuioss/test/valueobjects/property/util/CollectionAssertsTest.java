@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ class CollectionAssertsTest {
 
     @Test
     @SuppressWarnings("java:S5778")
-        // owolff: new ArrayList<>() is not a problem
+    // owolff: new ArrayList<>() is not a problem
     void shouldFailOnExpectedNull() {
         assertThrows(AssertionError.class,
             () -> assertListsAreEqualIgnoringOrder("propertyName", null, new ArrayList<>()));
@@ -44,7 +44,7 @@ class CollectionAssertsTest {
 
     @Test
     @SuppressWarnings("java:S5778")
-        // owolff: new ArrayList<>() is not a problem
+    // owolff: new ArrayList<>() is not a problem
     void shouldFailOnActualNull() {
         assertThrows(AssertionError.class,
             () -> assertListsAreEqualIgnoringOrder("propertyName", new ArrayList<>(), null));
@@ -67,7 +67,7 @@ class CollectionAssertsTest {
 
     @Test
     @SuppressWarnings("java:S5778")
-        // owolff: List instantiation is not a problem
+    // owolff: List instantiation is not a problem
     void shouldFailOnDifferentSizes() {
         assertThrows(AssertionError.class, () -> assertListsAreEqualIgnoringOrder("propertyName",
             immutableList("a", "b", "b"), immutableList("a", "b")));

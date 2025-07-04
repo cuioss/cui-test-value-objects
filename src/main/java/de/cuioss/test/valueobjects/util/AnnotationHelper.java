@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,7 +61,7 @@ public final class AnnotationHelper {
      *         parameter
      */
     public static List<PropertyMetadata> constructorConfigToPropertyMetadata(final VerifyConstructor config,
-                                                                             final Collection<PropertyMetadata> givenMetadata) {
+        final Collection<PropertyMetadata> givenMetadata) {
 
         requireNonNull(config);
         requireNonNull(givenMetadata);
@@ -112,7 +112,7 @@ public final class AnnotationHelper {
      *         parameter
      */
     public static List<PropertyMetadata> factoryConfigToPropertyMetadata(final VerifyFactoryMethod config,
-                                                                         final Collection<PropertyMetadata> givenMetadata) {
+        final Collection<PropertyMetadata> givenMetadata) {
 
         requireNonNull(config);
         requireNonNull(givenMetadata);
@@ -180,7 +180,7 @@ public final class AnnotationHelper {
      *         the given properties and the annotated {@link VerifyBeanProperty}
      */
     public static List<PropertyMetadata> handleMetadataForPropertyTest(final Class<?> annotated,
-                                                                       final List<PropertyMetadata> givenMetadata) {
+        final List<PropertyMetadata> givenMetadata) {
         requireNonNull(annotated);
         requireNonNull(givenMetadata);
 
@@ -204,7 +204,7 @@ public final class AnnotationHelper {
     }
 
     private static List<PropertyMetadata> orderPropertyMetadata(final String[] of,
-                                                                final Collection<PropertyMetadata> givenMetadata) {
+        final Collection<PropertyMetadata> givenMetadata) {
         final var builder = new CollectionBuilder<PropertyMetadata>();
         if (0 == of.length) {
             builder.add(givenMetadata);
@@ -229,7 +229,7 @@ public final class AnnotationHelper {
      *         the given properties and the annotated {@link VerifyBuilder}
      */
     public static List<PropertyMetadata> handleMetadataForBuilderTest(final Class<?> annotated,
-                                                                      final List<PropertyMetadata> givenMetadata) {
+        final List<PropertyMetadata> givenMetadata) {
 
         requireNonNull(annotated);
         requireNonNull(givenMetadata);
@@ -288,7 +288,7 @@ public final class AnnotationHelper {
      *         {@link VerifyMapperConfiguration}
      */
     public static List<PropertyMetadata> handleMetadataForMapperTest(final VerifyMapperConfiguration verifyMapper,
-                                                                     final List<PropertyMetadata> givenMetadata) {
+        final List<PropertyMetadata> givenMetadata) {
 
         requireNonNull(verifyMapper);
         requireNonNull(givenMetadata);
@@ -321,8 +321,8 @@ public final class AnnotationHelper {
      * @return the filtered map
      */
     public static Map<String, PropertyMetadata> modifyPropertyMetadata(final Map<String, PropertyMetadata> map,
-                                                                       final String[] defaultValued, final String[] readOnly, final String[] required,
-                                                                       final String[] transientProperties, final String[] writeOnly, final String[] unorderedCollection) {
+        final String[] defaultValued, final String[] readOnly, final String[] required,
+        final String[] transientProperties, final String[] writeOnly, final String[] unorderedCollection) {
 
         for (final String name : defaultValued) {
             PropertyHelper.assertPropertyExists(name, map);
@@ -370,9 +370,9 @@ public final class AnnotationHelper {
      * @return the filtered map
      */
     public static Map<String, PropertyMetadata> modifyPropertyMetadata(final Map<String, PropertyMetadata> map,
-                                                                       final List<String> defaultValued, final List<String> readOnly, final List<String> required,
-                                                                       final List<String> transientProperties, final List<String> writeOnly,
-                                                                       final List<String> unorderedCollection) {
+        final List<String> defaultValued, final List<String> readOnly, final List<String> required,
+        final List<String> transientProperties, final List<String> writeOnly,
+        final List<String> unorderedCollection) {
 
         return modifyPropertyMetadata(map, defaultValued.toArray(new String[defaultValued.size()]),
             readOnly.toArray(new String[readOnly.size()]), required.toArray(new String[required.size()]),

@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,7 +49,7 @@ public final class BuilderPropertyHelper {
      *         derived by the annotations.
      */
     public static List<PropertyMetadata> handleBuilderPropertyConfigAnnotations(final Class<?> annotated,
-                                                                                final List<PropertyMetadata> givenMetadata) {
+        final List<PropertyMetadata> givenMetadata) {
         requireNonNull(annotated);
         final var builder = new CollectionBuilder<PropertyMetadata>();
 
@@ -81,7 +81,7 @@ public final class BuilderPropertyHelper {
     }
 
     private static PropertyMetadata builderPropertyConfigToBuilderMetadata(final PropertyBuilderConfig config,
-                                                                           final Collection<PropertyMetadata> givenMetadata) {
+        final Collection<PropertyMetadata> givenMetadata) {
 
         final Map<String, PropertyMetadata> map = new HashMap<>();
         givenMetadata.forEach(meta -> map.put(meta.getName(), meta));

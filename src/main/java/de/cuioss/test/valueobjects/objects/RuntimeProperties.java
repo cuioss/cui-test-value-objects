@@ -1,12 +1,12 @@
 /**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -111,7 +111,7 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public static List<PropertySupport> mapToPropertySupport(final Collection<PropertyMetadata> propertyMetadata,
-                                                             final boolean generateTestValue) {
+        final boolean generateTestValue) {
         final List<PropertySupport> list = new ArrayList<>();
         if (null == propertyMetadata || propertyMetadata.isEmpty()) {
             return list;
@@ -148,7 +148,7 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public List<PropertySupport> getAllAsPropertySupport(final boolean generateTestValue,
-                                                         final Collection<String> filter) {
+        final Collection<String> filter) {
         requireNonNull(filter);
         return getAllAsPropertySupport(generateTestValue).stream().filter(s -> filter.contains(s.getName())).toList();
     }
@@ -179,7 +179,7 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public List<PropertySupport> getRequiredAsPropertySupport(final boolean generateTestValue,
-                                                              final Collection<String> filter) {
+        final Collection<String> filter) {
         requireNonNull(filter);
         return getRequiredAsPropertySupport(generateTestValue).stream().filter(s -> filter.contains(s.getName()))
             .toList();
@@ -211,7 +211,7 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public List<PropertySupport> getDefaultAsPropertySupport(final boolean generateTestValue,
-                                                             final Collection<String> filter) {
+        final Collection<String> filter) {
         requireNonNull(filter);
         return getDefaultAsPropertySupport(generateTestValue).stream().filter(s -> filter.contains(s.getName()))
             .toList();
@@ -242,7 +242,7 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public List<PropertySupport> getAdditionalAsPropertySupport(final boolean generateTestValue,
-                                                                final Collection<String> filter) {
+        final Collection<String> filter) {
         requireNonNull(filter);
         return getAdditionalAsPropertySupport(generateTestValue).stream().filter(s -> filter.contains(s.getName()))
             .toList();
@@ -273,7 +273,7 @@ public class RuntimeProperties {
      * @return the newly created mutable {@link List}
      */
     public List<PropertySupport> getWritableAsPropertySupport(final boolean generateTestValue,
-                                                              final Collection<String> filter) {
+        final Collection<String> filter) {
         requireNonNull(filter);
         return getWritableAsPropertySupport(generateTestValue).stream().filter(s -> filter.contains(s.getName()))
             .toList();
