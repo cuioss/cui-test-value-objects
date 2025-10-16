@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,7 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class FactoryBasedInstantiator<T> extends AbstractOrderedArgsInstantiator<T> {
 
-    private static final CuiLogger log = new CuiLogger(FactoryBasedInstantiator.class);
+    private static final CuiLogger LOGGER = new CuiLogger(FactoryBasedInstantiator.class);
 
     private final Method factoryMethod;
 
@@ -82,7 +82,7 @@ public class FactoryBasedInstantiator<T> extends AbstractOrderedArgsInstantiator
                 "Invalid type found on factory method: " + factoryMethod.getReturnType());
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = "Unable to find a constructor with signature " + parameter;
-            log.error(message, e);
+            LOGGER.error(e, message);
             throw new AssertionError(message);
         }
     }

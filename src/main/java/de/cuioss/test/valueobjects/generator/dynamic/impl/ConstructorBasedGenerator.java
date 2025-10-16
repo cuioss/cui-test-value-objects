@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,11 +36,12 @@ import java.util.*;
  * @author Oliver Wolff
  * @param <T> identifying the type to be generated
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
 
-    private static final CuiLogger log = new CuiLogger(ConstructorBasedGenerator.class);
+    private static final CuiLogger LOGGER = new CuiLogger(ConstructorBasedGenerator.class);
 
     private static final String UNABLE_TO_CALL_CONSTRUCTOR_FOR_CLASS = "Unable to call constructor '%s' for class '%s' due to: '%s'";
 
@@ -78,11 +79,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
         final var constructorModifierValue = constructor.getModifiers();
         if (!Modifier.isPublic(constructorModifierValue)) {
 
-            log.warn("""
-                !!! Attention : \
-                A non public constructor will be used to create an instance for {}. \
-                This is illegal and can cause unexpected behaviour. \
-                Solution: provide a fitting generator instead!""", constructor.getName());
+            /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn("!!! Attention : A non public constructor will be used to create an instance for %s. This is illegal and can cause unexpected behaviour. Solution: provide a fitting generator instead!", constructor.getName());
 
             final List<String> parameterInfo = new ArrayList<>(constructor.getParameters().length);
             for (final Parameter parameter : constructor.getParameters()) {
@@ -92,8 +89,8 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
             final var modifier = Modifier.toString(constructorModifierValue);
             final var constructorInfo = modifier + " " + constructor.getName() + "("
                 + Joiner.on(", ").skipNulls().join(parameterInfo) + ")";
-            log.info("Used constructor : {}", constructorInfo);
-            log.info("Used constructor parameter : {}", logUsedValuesForConstructor(parameterValues));
+            /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info("Used constructor : %s", constructorInfo);
+            /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info("Used constructor parameter : %s", logUsedValuesForConstructor(parameterValues));
         }
     }
 
@@ -126,7 +123,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
         }
         final List<Constructor<?>> constructors = Arrays.asList(type.getDeclaredConstructors());
         if (constructors.isEmpty()) {
-            log.warn("Unable to determine constructor for class {} ", type);
+            /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn("Unable to determine constructor for class %s ", type);
             return Optional.empty();
         }
         // Order according to parameter-count
@@ -155,7 +152,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
         if (!filteredConstructors.isEmpty()) {
             return findFittingConstructor(type, filteredConstructors);
         }
-        log.warn("Unable to determine constructor for class {} ", type);
+        /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn("Unable to determine constructor for class %s ", type);
         return Optional.empty();
     }
 
@@ -168,9 +165,9 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
 
     private static <T> Optional<TypedGenerator<T>> findFittingConstructor(final Class<T> type,
         final List<Constructor<?>> constructorList) {
-        log.debug("Searching constructor for class {}", type);
+        LOGGER.debug("Searching constructor for class %s", type);
         if (1 == constructorList.size()) {
-            log.debug("Only one constructor present, so choosing this one");
+            LOGGER.debug("Only one constructor present, so choosing this one");
             return createForConstructor(type, constructorList.getFirst());
         }
         for (final Constructor<?> con : constructorList) {
@@ -181,7 +178,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
             for (final Class<?> param : parameter) {
                 if (!TypedGeneratorRegistry.containsGenerator(param)) {
                     allGeneratorAvailable = false;
-                    log.debug("Missing generator for {}", param);
+                    LOGGER.debug("Missing generator for %s", param);
                     break;
                 }
             }
@@ -189,10 +186,10 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
                 return createForConstructor(type, con);
             }
         }
-        log.warn("No valid constructor found for class {}", type);
+        /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn("No valid constructor found for class %s", type);
         for (final Constructor<?> con : constructorList) {
             if (1 == con.getParameterCount() && con.getParameterTypes()[0].equals(type)) {
-                log.debug("Skipping copy constructor...");
+                LOGGER.debug("Skipping copy constructor...");
                 continue;
             }
             return createForConstructor(type, con);
@@ -210,8 +207,8 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
             if (parameterType.equals(type)) {
                 // Special case her: eventually copy-constructor -> Play safe prevent infinite
                 // loop, type in this case is not an interface
-                log.warn(
-                    "Unable to create a generator for copy-constuctor of same type for class {}, constructor parameter type = {}",
+                /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn(
+                    "Unable to create a generator for copy-constuctor of same type for class %s, constructor parameter type = %s",
                     type, parameterType);
                 return Optional.empty();
 

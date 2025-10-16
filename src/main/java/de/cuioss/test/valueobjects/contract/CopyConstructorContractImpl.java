@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,7 +53,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CopyConstructorContractImpl<T> implements TestContract<T> {
 
-    private static final CuiLogger log = new CuiLogger(CopyConstructorContractImpl.class);
+    private static final CuiLogger LOGGER = new CuiLogger(CopyConstructorContractImpl.class);
 
     private static final String PROPERTY_NAME_COPY_FROM = "copyFrom";
 
@@ -76,7 +76,7 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
         var builder = new StringBuilder("Verifying ");
         builder.append(getClass().getName()).append("\nWith instantiator: ").append(copyInstantiator.toString())
             .append("\nWith sourceInstantiator: ").append(instantiator);
-        log.info(builder.toString());
+        LOGGER.info(builder.toString());
 
         final var sourceAttributeNames = RuntimeProperties
             .extractNames(instantiator.getRuntimeProperties().getAllProperties());
@@ -87,10 +87,10 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
             builder = new StringBuilder("Not all attributes can be checked at field level:");
             builder.append("\nSource attributes are: ").append(sourceAttributeNames);
             builder.append("\nCompare attributes are: ").append(consideredAttributes);
-            log.warn(builder.toString());
+            LOGGER.warn(builder.toString());
             compareAttributes.retainAll(sourceAttributeNames);
         }
-        log.info("Attributes being compared at field level are: " + Joiner.on(", ").join(compareAttributes));
+        LOGGER.info("Attributes being compared at field level are: " + Joiner.on(", ").join(compareAttributes));
 
         assertCopyConstructor(compareAttributes);
         assertDeepCopy();
@@ -98,10 +98,10 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
 
     private void assertDeepCopy() {
         if (!verifyDeepCopy) {
-            log.debug("Not checking deep-copy, disabled by configuration");
+            LOGGER.debug("Not checking deep-copy, disabled by configuration");
             return;
         }
-        log.info("Verifying deep-copy, ignoring properties: {}" + verifyDeepCopyIgnore);
+        LOGGER.info("Verifying deep-copy, ignoring properties: {}" + verifyDeepCopyIgnore);
 
         final var all = instantiator.getRuntimeProperties().getAllAsPropertySupport(true);
 
@@ -208,7 +208,7 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
                 return contract.getInstantiator();
             }
         }
-        log.warn("No fitting ParameterizedInstantiator found, using best-fit");
+        LOGGER.warn("No fitting ParameterizedInstantiator found, using best-fit");
         return existingContracts.getFirst().getInstantiator();
     }
 

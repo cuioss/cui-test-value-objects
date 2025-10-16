@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,7 +42,7 @@ public final class GeneratorResolver {
 
     private static final String TYPE_MUST_NOT_BE_NULL = "type must not be null";
 
-    private static final CuiLogger log = new CuiLogger(GeneratorResolver.class);
+    private static final CuiLogger LOGGER = new CuiLogger(GeneratorResolver.class);
 
     /**
      * Central method for finding / accessing a concrete {@link TypedGenerator} for
@@ -58,52 +58,52 @@ public final class GeneratorResolver {
      */
     public static <T> TypedGenerator<T> resolveGenerator(final Class<T> type) {
         requireNonNull(type, TYPE_MUST_NOT_BE_NULL);
-        log.debug("resolving generator for {}", type.getName());
+        LOGGER.debug("resolving generator for %s", type.getName());
 
         Optional<TypedGenerator<T>> found = TypedGeneratorRegistry.getGenerator(type);
         if (found.isPresent()) {
-            log.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
+            LOGGER.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
             return found.get();
         }
         found = Generators.enumValuesIfAvailable(type);
         if (found.isPresent()) {
             TypedGeneratorRegistry.registerGenerator(found.get());
-            log.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
+            LOGGER.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
             return found.get();
         }
         found = ArraysGenerator.getGeneratorForType(type);
         if (found.isPresent()) {
             TypedGeneratorRegistry.registerGenerator(found.get());
-            log.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
+            LOGGER.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
             return found.get();
         }
         found = resolveCollectionGenerator(type);
         if (found.isPresent()) {
             TypedGeneratorRegistry.registerGenerator(found.get());
-            log.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
+            LOGGER.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
             return found.get();
         }
         found = ConstructorBasedGenerator.getGeneratorForType(type);
         if (found.isPresent()) {
             TypedGeneratorRegistry.registerGenerator(found.get());
-            log.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
+            LOGGER.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
             return found.get();
         }
         return resolveProxyGenerator(type);
     }
 
     private static <T> TypedGenerator<T> resolveProxyGenerator(final Class<T> type) {
-        log.debug("resolveProxyGenerator for type {}", type.getName());
+        LOGGER.debug("resolveProxyGenerator for type %s", type.getName());
         Optional<TypedGenerator<T>> found = InterfaceProxyGenerator.getGeneratorForType(type);
         if (found.isPresent()) {
             TypedGeneratorRegistry.registerGenerator(found.get());
-            log.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
+            LOGGER.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
             return found.get();
         }
         found = DynamicProxyGenerator.getGeneratorForType(type);
         if (found.isPresent()) {
             TypedGeneratorRegistry.registerGenerator(found.get());
-            log.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
+            LOGGER.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
             return found.get();
         }
         throw new IllegalArgumentException("Unable to determine generator for type=" + type);

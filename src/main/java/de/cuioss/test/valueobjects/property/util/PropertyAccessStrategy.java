@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,7 +45,6 @@ public enum PropertyAccessStrategy {
      * will translate many of the more technical Exceptions to corresponding
      * {@link AssertionError}
      *
-     * @author Oliver Wolff
      */
     BEAN_PROPERTY {
         @Override
@@ -54,7 +53,7 @@ public enum PropertyAccessStrategy {
             assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
             assertNotNull(target, PROPERTY_METADATA_MUST_NOT_BE_NULL);
             try {
-                PropertyUtil.writeProperty(target, propertyMetadata.getName(), propertyValue);
+                PropertyUtil.setProperty(target, propertyMetadata.getName(), propertyValue);
                 return target;
             } catch (IllegalArgumentException | IllegalStateException e) {
                 throw new AssertionError(UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
@@ -116,7 +115,6 @@ public enum PropertyAccessStrategy {
      * bean.
      * </p>
      *
-     * @author Oliver Wolff
      */
     BUILDER_COLLECTION_AND_SINGLE_ELEMENT {
         @Override
@@ -183,7 +181,6 @@ public enum PropertyAccessStrategy {
      * {@link PropertyAccessStrategy#BEAN_PROPERTY} because it can not be read from
      * an actual builder but from the later created bean.
      *
-     * @author Oliver Wolff
      */
     BUILDER_DIRECT {
         @Override

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @RequiredArgsConstructor
 public class BeanInstantiator<T> implements ParameterizedInstantiator<T> {
 
-    private static final CuiLogger log = new CuiLogger(BeanInstantiator.class);
+    private static final CuiLogger LOGGER = new CuiLogger(BeanInstantiator.class);
 
     @NonNull
     private final ObjectInstantiator<T> instantiator;
@@ -56,8 +56,8 @@ public class BeanInstantiator<T> implements ParameterizedInstantiator<T> {
         }
         for (final PropertySupport propertySupport : properties) {
             if (!propertySupport.getPropertyMetadata().getPropertyReadWrite().isWriteable()) {
-                log.warn(
-                    "Trying to apply a property '{}' which is not writable. Please check usage and configuration of @VerifyBeanProperty, maybe add the property to 'exclude' list.",
+                LOGGER.warn(
+                    "Trying to apply a property '%s' which is not writable. Please check usage and configuration of @VerifyBeanProperty, maybe add the property to 'exclude' list.",
                     propertySupport.getName());
             }
             propertySupport.apply(instance);

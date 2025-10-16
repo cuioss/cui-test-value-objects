@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,12 +39,13 @@ import static java.util.Objects.requireNonNull;
  *
  * @author Oliver Wolff
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 @SuppressWarnings("squid:S1118")
 // owolff: lombok generated
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class PropertyHelper {
 
-    private static final CuiLogger log = new CuiLogger(PropertyHelper.class);
+    private static final CuiLogger LOGGER = new CuiLogger(PropertyHelper.class);
 
     /**
      * Ensure that the result of property scanning is logged only once.
@@ -72,7 +73,7 @@ public class PropertyHelper {
             Collections.sort(elements);
             messageBuilder.append(Joiner.on("\n").join(elements));
 
-            log.info(messageBuilder.toString());
+            /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info(messageBuilder.toString());
             synchronized (PropertyHelper.class) {
                 propertyInformationLogged = true;
             }
@@ -94,7 +95,7 @@ public class PropertyHelper {
             Collections.sort(elements);
             messageBuilder.append(Joiner.on("\n").join(elements));
 
-            log.info(messageBuilder.toString());
+            /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info(messageBuilder.toString());
             synchronized (PropertyHelper.class) {
                 propertyTargetInformationLogged = true;
             }

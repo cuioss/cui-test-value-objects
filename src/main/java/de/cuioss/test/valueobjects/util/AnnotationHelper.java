@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,13 +42,14 @@ import static java.util.Objects.requireNonNull;
  *
  * @author Oliver Wolff
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 @UtilityClass
 public final class AnnotationHelper {
 
     private static final String NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL = "No properties given: Is this intentional?";
     static final String UNABLE_TO_INSTANTIATE_GENERATOR = "Unable to instantiate generator, You must provide a no-arg public constructor: ";
 
-    private static final CuiLogger log = new CuiLogger(AnnotationHelper.class);
+    private static final CuiLogger LOGGER = new CuiLogger(AnnotationHelper.class);
 
     /**
      * Creates a {@link List} of {@link PropertyMetadata} according to the given
@@ -185,7 +186,7 @@ public final class AnnotationHelper {
         requireNonNull(givenMetadata);
 
         if (givenMetadata.isEmpty()) {
-            log.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
+            /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
             return givenMetadata;
         }
 
@@ -235,7 +236,7 @@ public final class AnnotationHelper {
         requireNonNull(givenMetadata);
 
         if (givenMetadata.isEmpty()) {
-            log.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
+            /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
             return givenMetadata;
         }
 
@@ -294,7 +295,7 @@ public final class AnnotationHelper {
         requireNonNull(givenMetadata);
 
         if (givenMetadata.isEmpty()) {
-            log.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
+            /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
             return givenMetadata;
         }
 
