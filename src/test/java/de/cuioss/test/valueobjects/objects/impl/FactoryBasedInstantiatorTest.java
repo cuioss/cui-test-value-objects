@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FactoryBasedInstantiatorTest {
 
-    private static final CuiLogger log = new CuiLogger(FactoryBasedInstantiatorTest.class);
+    private static final CuiLogger LOGGER = new CuiLogger(FactoryBasedInstantiatorTest.class);
 
     private static final RuntimeProperties EMPTY_INFORMATION = new RuntimeProperties(Collections.emptyList());
 
@@ -35,7 +35,7 @@ class FactoryBasedInstantiatorTest {
     void shouldInstantiateWithNoArgsConstructor() {
         var instantiaor = new FactoryBasedInstantiator<>(TwoFactoryBean.class, EMPTY_INFORMATION, TwoFactoryBean.class,
             TwoFactoryBean.CREATE_METHOD_NAME);
-        log.info(instantiaor.toString());
+        LOGGER.info(instantiaor.toString());
         assertNotNull(instantiaor.newInstanceMinimal());
         assertNotNull(instantiaor.newInstanceFull());
         assertNotNull(instantiaor.newInstance(Collections.emptyList()));
@@ -45,7 +45,7 @@ class FactoryBasedInstantiatorTest {
     void shouldInstantiateWithSingleArgsConstructor() {
         var instantiaor = new FactoryBasedInstantiator<>(TwoFactoryBean.class, TwoFactoryBean.INFORMATION,
             TwoFactoryBean.class, TwoFactoryBean.CREATE_METHOD_NAME);
-        log.info(instantiaor.toString());
+        LOGGER.info(instantiaor.toString());
         assertNotNull(instantiaor.newInstanceMinimal());
         assertNull(instantiaor.newInstanceMinimal().getAttribute());
         assertNotNull(instantiaor.newInstanceFull());

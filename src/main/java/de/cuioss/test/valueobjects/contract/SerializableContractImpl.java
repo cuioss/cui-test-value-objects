@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,17 +39,18 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Oliver Wolff
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 @RequiredArgsConstructor
 public class SerializableContractImpl implements ObjectTestContract {
 
-    private static final CuiLogger log = new CuiLogger(SerializableContractImpl.class);
+    private static final CuiLogger LOGGER = new CuiLogger(SerializableContractImpl.class);
 
     @Override
     public void assertContract(final ParameterizedInstantiator<?> instantiator,
         final ObjectTestConfig objectTestConfig) {
         requireNonNull(instantiator);
 
-        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator);
+        LOGGER.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator);
 
         var shouldUseEquals = checkForEqualsComparison(objectTestConfig);
 
@@ -124,7 +125,7 @@ public class SerializableContractImpl implements ObjectTestContract {
         try (var oas = new ObjectOutputStream(baos)) {
             oas.writeObject(object);
             oas.flush();
-        } catch (final Exception e) {
+        } catch (final IOException e) {
             throw new AssertionError(
                 "Unable to serialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
         }
@@ -142,7 +143,7 @@ public class SerializableContractImpl implements ObjectTestContract {
         final var bais = new ByteArrayInputStream(bytes);
         try (var ois = new ObjectInputStream(bais)) {
             return ois.readObject();
-        } catch (final Exception e) {
+        } catch (final IOException | ClassNotFoundException e) {
             throw new AssertionError(
                 "Unable to deserialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
         }

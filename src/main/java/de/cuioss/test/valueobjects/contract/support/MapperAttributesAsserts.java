@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ToString
 public class MapperAttributesAsserts {
 
-    private static final CuiLogger log = new CuiLogger(MapperAttributesAsserts.class);
+    private static final CuiLogger LOGGER = new CuiLogger(MapperAttributesAsserts.class);
 
     private static final String PROPERTY_MAPPING_INCOMPLETE = """
         Caution: you have unmapped {}-properties: {} you can adapt this behavior by either:\
@@ -79,7 +79,7 @@ public class MapperAttributesAsserts {
 
     private void logConfigurationStatus(RuntimeProperties targetProperties, RuntimeProperties sourceProperties) {
         if (sourceAsserts.isEmpty()) {
-            log.warn(
+            LOGGER.warn(
                 "No attribute specific mapping found. use @VerifyMapperConfiguration(equals(\"name:firstName\")) or @VerifyMapperConfiguration(notNull(\"name:lastName\")) in order to activate");
         }
         Set<String> sourceMappingNames = sourceAsserts.stream().map(a -> a.getMappingTuple().getSource())
@@ -92,14 +92,14 @@ public class MapperAttributesAsserts {
         sourceTypeProperties.removeAll(sourceMappingNames);
         targetTypeProperties.removeAll(targetMappingNames);
         if (sourceTypeProperties.isEmpty()) {
-            log.info("All source-properties are covered.");
+            LOGGER.info("All source-properties are covered.");
         } else {
-            log.warn(PROPERTY_MAPPING_INCOMPLETE, "source", sourceTypeProperties);
+            LOGGER.warn(PROPERTY_MAPPING_INCOMPLETE, "source", sourceTypeProperties);
         }
         if (targetTypeProperties.isEmpty()) {
-            log.info("All target-properties are covered.");
+            LOGGER.info("All target-properties are covered.");
         } else {
-            log.warn(PROPERTY_MAPPING_INCOMPLETE, "target", targetTypeProperties);
+            LOGGER.warn(PROPERTY_MAPPING_INCOMPLETE, "target", targetTypeProperties);
         }
     }
 
@@ -116,7 +116,7 @@ public class MapperAttributesAsserts {
         for (String name : sourceAttributes) {
             var concreteAsserts = sourceAsserts.stream().filter(a -> a.isResponsibleForSource(name)).toList();
             if (concreteAsserts.isEmpty()) {
-                log.info("Checked property '{}' is not configured to be asserted, ist this intentional?", name);
+                LOGGER.info("Checked property '%s' is not configured to be asserted, ist this intentional?", name);
             } else {
                 asserts.put(name, concreteAsserts);
             }
@@ -134,12 +134,12 @@ public class MapperAttributesAsserts {
 
         // Now do the actual checks
         for (Entry<String, List<AssertTuple>> entry : asserts.entrySet()) {
-            log.debug("Asserting attribute {}", entry.getKey());
+            LOGGER.debug("Asserting attribute %s", entry.getKey());
             entry.getValue().forEach(a -> a.assertContract(source, target));
         }
         // All not affected elements that provide no default should be null / empty
         for (AssertTuple nullAssert : nullAsserts) {
-            log.debug("Asserting attribute to be null / not set {}", nullAssert.getTargetSupport().getName());
+            LOGGER.debug("Asserting attribute to be null / not set %s", nullAssert.getTargetSupport().getName());
             MappingAssertStrategy.NULL_OR_DEFAULT.assertMapping(nullAssert.getSourceSupport(), source,
                 nullAssert.getTargetSupport(), target);
         }

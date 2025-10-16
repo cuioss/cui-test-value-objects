@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +32,7 @@ import static java.util.Objects.requireNonNull;
  */
 @EqualsAndHashCode
 @ToString
-@RequiredArgsConstructor(access = AccessLevel.MODULE)
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class BuilderMetadata implements PropertyMetadata {
 
     @Delegate

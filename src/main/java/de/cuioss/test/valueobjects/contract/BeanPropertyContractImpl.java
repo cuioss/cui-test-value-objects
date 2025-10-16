@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,10 +42,11 @@ import static java.util.Objects.requireNonNull;
  * @author Oliver Wolff
  * @param <T> Rule does not apply to annotations: There is no inheritance
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 @RequiredArgsConstructor
 public class BeanPropertyContractImpl<T> implements TestContract<T> {
 
-    private static final CuiLogger log = new CuiLogger(BeanPropertyContractImpl.class);
+    private static final CuiLogger LOGGER = new CuiLogger(BeanPropertyContractImpl.class);
 
     @Getter
     @NonNull
@@ -53,7 +54,7 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
 
     @Override
     public void assertContract() {
-        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + getInstantiator());
+        LOGGER.info("Verifying " + getClass().getName() + "\nWith configuration: " + getInstantiator());
 
         checkGetterAndSetterContract();
         checkDefaultContract();
@@ -64,10 +65,10 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
             .filter(p -> PropertyReadWrite.READ_WRITE.equals(p.getPropertyReadWrite())).toList();
 
         if (readWriteProperties.isEmpty()) {
-            log.warn(
+            LOGGER.warn(
                 "There are no properties defined that are readable and writable. Consider your configuration and/or the base class for your test.");
         } else {
-            log.info("Verifying properties that are Read and Write: "
+            LOGGER.info("Verifying properties that are Read and Write: "
                 + RuntimeProperties.extractNames(readWriteProperties));
 
             final var supportList = readWriteProperties.stream().map(PropertySupport::new).toList();
@@ -86,7 +87,7 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
     private void checkDefaultContract() {
         final var defaultProperties = getInstantiator().getRuntimeProperties().getDefaultProperties();
         if (defaultProperties.isEmpty()) {
-            log.debug("No default properties configured");
+            LOGGER.debug("No default properties configured");
         } else {
             final var defaultPropertySupport = defaultProperties.stream().map(PropertySupport::new).toList();
             final Object target = getInstantiator().newInstanceMinimal();
@@ -128,11 +129,11 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
         requireNonNull(initialPropertyMetadata, "initialPropertyMetadata must not be null");
 
         if (!annotated.isAnnotationPresent(VerifyBeanProperty.class)) {
-            log.debug("No annotation of type BeanPropertyTestContract available on class: " + annotated);
+            LOGGER.debug("No annotation of type BeanPropertyTestContract available on class: " + annotated);
             return Optional.empty();
         }
         if (initialPropertyMetadata.isEmpty()) {
-            log.warn("No configured properties found to be tested, offending class: " + annotated);
+            LOGGER.warn("No configured properties found to be tested, offending class: " + annotated);
             return Optional.empty();
         }
         final var instantiator = new DefaultInstantiator<>(beanType);

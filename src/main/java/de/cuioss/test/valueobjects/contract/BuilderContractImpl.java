@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,9 +44,10 @@ import static java.util.Objects.requireNonNull;
  * @author Oliver Wolff
  * @param <T> identifying the type of objects to be tested
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 public class BuilderContractImpl<T> implements TestContract<T> {
 
-    private static final CuiLogger log = new CuiLogger(BuilderContractImpl.class);
+    private static final CuiLogger LOGGER = new CuiLogger(BuilderContractImpl.class);
 
     private final BuilderInstantiator<T> builderInstantiator;
 
@@ -70,7 +71,7 @@ public class BuilderContractImpl<T> implements TestContract<T> {
     @Override
     public void assertContract() {
 
-        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + builderInstantiator.toString());
+        LOGGER.info("Verifying " + getClass().getName() + "\nWith configuration: " + builderInstantiator.toString());
         setAndVerifyProperties(runtimeProperties.getRequiredProperties());
         setAndVerifyProperties(runtimeProperties.getAllProperties());
         shouldFailOnMissingRequiredAttributes();
@@ -150,7 +151,7 @@ public class BuilderContractImpl<T> implements TestContract<T> {
         final Optional<VerifyBuilder> config = MoreReflection.extractAnnotation(annotated, VerifyBuilder.class);
 
         if (config.isEmpty()) {
-            log.debug("No annotation of type BuilderTestContract available on class: " + annotated);
+            LOGGER.debug("No annotation of type BuilderTestContract available on class: " + annotated);
             return Optional.empty();
         }
         final var metadata = AnnotationHelper.handleMetadataForBuilderTest(annotated, initialPropertyMetadata);

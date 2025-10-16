@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,13 +32,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @RequiredArgsConstructor
 public class ToStringContractImpl implements ObjectTestContract {
 
-    private static final CuiLogger log = new CuiLogger(ToStringContractImpl.class);
+    private static final CuiLogger LOGGER = new CuiLogger(ToStringContractImpl.class);
 
     @Override
     public void assertContract(final ParameterizedInstantiator<?> instantiator,
         final ObjectTestConfig objectTestConfig) {
 
-        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator.toString());
+        LOGGER.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator.toString());
         Object target;
 
         if (shouldUseMinimal(objectTestConfig)

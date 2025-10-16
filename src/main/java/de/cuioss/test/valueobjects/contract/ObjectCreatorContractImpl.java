@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,10 +45,11 @@ import static java.util.Objects.requireNonNull;
  * @author Oliver Wolff
  * @param <T> identifying the objects to be tested.
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 @RequiredArgsConstructor
 public class ObjectCreatorContractImpl<T> implements TestContract<T> {
 
-    private static final CuiLogger log = new CuiLogger(ObjectCreatorContractImpl.class);
+    private static final CuiLogger LOGGER = new CuiLogger(ObjectCreatorContractImpl.class);
 
     @Getter
     @NonNull
@@ -56,7 +57,7 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
 
     @Override
     public void assertContract() {
-        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator);
+        LOGGER.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator);
 
         shouldPersistAllParameter();
         shouldHandleRequiredAndDefaults();

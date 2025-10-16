@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,10 +34,11 @@ import java.util.function.Function;
  * @param <S> Source: The type of the source-Objects to be mapped from
  * @param <T> Target: The type of the source-Objects to be mapped to
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 @RequiredArgsConstructor
 public class MapperContractImpl<S, T> {
 
-    private static final CuiLogger log = new CuiLogger(MapperContractImpl.class);
+    private static final CuiLogger LOGGER = new CuiLogger(MapperContractImpl.class);
 
     @NonNull
     private final VerifyMapperConfiguration config;
@@ -59,16 +60,16 @@ public class MapperContractImpl<S, T> {
         String builder = "Verifying " + getClass().getName() + "\nWith source-configuration: " +
             sourceInstantiator.getRuntimeProperties().toString() +
             "\nWith target-configuration: " + targetMetadata;
-        log.info(builder);
+        LOGGER.info(builder);
         var asserter = new MapperAttributesAsserts(config, targetMetadata, sourceInstantiator.getRuntimeProperties());
         handleSimpleMapping(asserter);
     }
 
     private void handleSimpleMapping(MapperAttributesAsserts asserter) {
-        log.info("Testing mimimal Mapping for mapper-class {}", mapper.getClass());
+        LOGGER.info("Testing mimimal Mapping for mapper-class %s", mapper.getClass());
         verifyMapping(asserter, sourceInstantiator.getRuntimeProperties().getRequiredAsPropertySupport(true),
             "minimal-instance");
-        log.info("Testing full Mapping for mapper-class {}", mapper.getClass());
+        LOGGER.info("Testing full Mapping for mapper-class %s", mapper.getClass());
         verifyMapping(asserter, sourceInstantiator.getRuntimeProperties().getWritableAsPropertySupport(true),
             "full-instance");
     }
@@ -77,7 +78,7 @@ public class MapperContractImpl<S, T> {
         S source = sourceInstantiator.newInstance(properties, false);
         var target = mapper.apply(source);
         var names = properties.stream().map(PropertySupport::getName).toList();
-        log.debug("Verifying mapper in context of {} with attributes {}", context, names);
+        LOGGER.debug("Verifying mapper in context of %s with attributes %s", context, names);
         asserter.assertMappingForSourceAttributes(names, source, target);
     }
 

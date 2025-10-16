@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
 
     private static final Integer DEFAULT_INT_VALUE = 0;
 
-    private static final CuiLogger log = new CuiLogger(EqualsAndHashcodeContractImpl.class);
+    private static final CuiLogger LOGGER = new CuiLogger(EqualsAndHashcodeContractImpl.class);
 
     @Override
     public void assertContract(final ParameterizedInstantiator<?> instantiator,
@@ -47,7 +47,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
 
         requireNonNull(instantiator, "parameterizedInstantiator must not be null");
 
-        log.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator);
+        LOGGER.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator);
 
         final Object target = instantiator.newInstanceMinimal();
         assertBasicContractOnEquals(target);
@@ -57,7 +57,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
         if (shouldTestPropertyContract(objectTestConfig)) {
             executePropertyTests(instantiator, objectTestConfig);
         } else {
-            log.info("Only checking basic contract of equals() and hasCode()");
+            LOGGER.info("Only checking basic contract of equals() and hasCode()");
         }
 
     }
@@ -85,9 +85,9 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
             }
         }
         if (consideredAttributes.isEmpty()) {
-            log.debug("No configured properties to be tested. Is this intentional?");
+            LOGGER.debug("No configured properties to be tested. Is this intentional?");
         } else {
-            log.info("Configured attributes found for equalsAndHashCode-testing: " + consideredAttributes);
+            LOGGER.info("Configured attributes found for equalsAndHashCode-testing: " + consideredAttributes);
             assertEqualsAndHashCodeWithVariants(instantiator, consideredAttributes);
         }
     }
@@ -174,7 +174,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
 
         final var upperBound = Math.min(nonDefaultProperties.size(), consideredAttributes.size()) - 2;
         if (additionalProperties.isEmpty()) {
-            log.info("Only required or default properties found, therefore no further testing");
+            LOGGER.info("Only required or default properties found, therefore no further testing");
         } else {
             final Object minimalObject = instantiator.newInstance(requiredProperties, false);
             final Object fullObject = instantiator.newInstance(allWritableProperties, false);

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,12 +36,13 @@ import static java.util.Objects.requireNonNull;
  * @author Oliver Wolff
  * @param <T> identifying the type of the {@link Object} created by the builder
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 @ToString
 public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T> {
 
     private static final String UNABLE_TO_ACCESS_METHOD = "Unable to access method %s on type %s, due to %s";
 
-    private static final CuiLogger log = new CuiLogger(BuilderFactoryBasedInstantiator.class);
+    private static final CuiLogger LOGGER = new CuiLogger(BuilderFactoryBasedInstantiator.class);
 
     private final Method builderFactoryMethod;
     private final Method builderMethod;
@@ -90,7 +91,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderFactoryMethodName, enclosingType.getName(),
                 extractCauseMessageFromThrowable(e));
-            log.error(message, e);
+            LOGGER.error(e, message);
             throw new AssertionError(message, e);
         }
 
@@ -100,7 +101,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderMethodName, builderClass,
                 extractCauseMessageFromThrowable(e));
-            log.error(message, e);
+            LOGGER.error(e, message);
             throw new AssertionError(message, e);
         }
 
@@ -113,7 +114,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderFactoryMethod.getName(), targetClass,
                 extractCauseMessageFromThrowable(e));
-            log.error(message, e);
+            LOGGER.error(e, message);
             throw new AssertionError(message, e);
         }
     }
@@ -126,7 +127,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         } catch (IllegalAccessException | InvocationTargetException | RuntimeException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderMethod.getName(), builderClass.getName(),
                 extractCauseMessageFromThrowable(e));
-            log.debug(message, e);
+            LOGGER.debug(message, e);
             throw new AssertionError(message, e);
         }
     }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,6 +39,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * @author Oliver Wolff
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 @UtilityClass
 public final class ReflectionHelper {
 
@@ -48,7 +49,7 @@ public final class ReflectionHelper {
     @SuppressWarnings("squid:S2386") // owolff: False positive -> is immutable
     public static final Set<String> PROPERTY_IGNORE_SET = immutableSet("class");
 
-    private static final CuiLogger log = new CuiLogger(ReflectionHelper.class);
+    private static final CuiLogger LOGGER = new CuiLogger(ReflectionHelper.class);
 
     /**
      * One stop method for the deriving of configured metadata
@@ -147,12 +148,12 @@ public final class ReflectionHelper {
         for (Method method : MoreReflection.retrieveAccessMethods(beanType)) {
             var attributeName = MoreReflection.computePropertyNameFromMethodName(method.getName());
             if (filter.contains(attributeName)) {
-                log.debug("Filtering attribute '%s' for type '%s' as configured", attributeName, beanType);
+                LOGGER.debug("Filtering attribute '%s' for type '%s' as configured", attributeName, beanType);
                 continue;
             }
             var holder = PropertyHolder.from(beanType, attributeName);
             if (holder.isEmpty()) {
-                log.info("Unable to extract metadata for type '%s' and method '%s'", beanType, method.getName());
+                LOGGER.info("Unable to extract metadata for type '%s' and method '%s'", beanType, method.getName());
             } else {
                 builder.add(holder.get());
             }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,11 +32,12 @@ import java.util.Optional;
  * @author Oliver Wolff
  * @param <T> the type of objects to be generated
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 @ToString(of = "wrappedGenerator")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class DynamicProxyGenerator<T> implements TypedGenerator<T> {
 
-    private static final CuiLogger log = new CuiLogger(DynamicProxyGenerator.class);
+    private static final CuiLogger LOGGER = new CuiLogger(DynamicProxyGenerator.class);
 
     @NonNull
     private final Class<T> type;
@@ -76,7 +77,7 @@ public class DynamicProxyGenerator<T> implements TypedGenerator<T> {
         if (constructorGenerator.isPresent()) {
             return Optional.of(new DynamicProxyGenerator<>(type, constructorGenerator.get()));
         }
-        log.warn("Unable to determine generator for type " + type);
+        LOGGER.warn("Unable to determine generator for type %s", type);
         return Optional.empty();
     }
 

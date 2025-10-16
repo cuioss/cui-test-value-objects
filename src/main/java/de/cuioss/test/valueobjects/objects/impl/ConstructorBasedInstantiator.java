@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,11 +36,12 @@ import static java.util.Objects.requireNonNull;
  *
  * @author Oliver Wolff
  */
+// cui-rewrite:disable CuiLogRecordPatternRecipe
 public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstantiator<T> {
 
     private final Constructor<T> constructor;
 
-    private static final CuiLogger log = new CuiLogger(ConstructorBasedInstantiator.class);
+    private static final CuiLogger LOGGER = new CuiLogger(ConstructorBasedInstantiator.class);
 
     /**
      * Constructor.
@@ -68,12 +69,12 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = "Unable to find a constructor with signature " + parameter +
                 ", for type " + type.getName();
-            log.error(message, e);
+            LOGGER.error(e, message);
             for (Constructor<?> tempConstructor : type.getConstructors()) {
-                log.error("Found constructor: {}", tempConstructor.toGenericString());
+                LOGGER.error("Found constructor: %s", tempConstructor.toGenericString());
             }
             if (0 == type.getConstructors().length) {
-                log.error("No public constructor found!");
+                LOGGER.error("No public constructor found!");
             }
             throw new AssertionError(message);
         }
