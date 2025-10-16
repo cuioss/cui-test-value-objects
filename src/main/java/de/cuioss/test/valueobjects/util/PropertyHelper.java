@@ -73,7 +73,7 @@ public class PropertyHelper {
             Collections.sort(elements);
             messageBuilder.append(Joiner.on("\n").join(elements));
 
-            /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info(messageBuilder.toString());
+            LOGGER.info(messageBuilder.toString());
             synchronized (PropertyHelper.class) {
                 propertyInformationLogged = true;
             }
@@ -95,7 +95,7 @@ public class PropertyHelper {
             Collections.sort(elements);
             messageBuilder.append(Joiner.on("\n").join(elements));
 
-            /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info(messageBuilder.toString());
+            LOGGER.info(messageBuilder.toString());
             synchronized (PropertyHelper.class) {
                 propertyTargetInformationLogged = true;
             }

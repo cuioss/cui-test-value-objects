@@ -186,7 +186,7 @@ public final class AnnotationHelper {
         requireNonNull(givenMetadata);
 
         if (givenMetadata.isEmpty()) {
-            /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
+            LOGGER.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
             return givenMetadata;
         }
 
@@ -236,7 +236,7 @@ public final class AnnotationHelper {
         requireNonNull(givenMetadata);
 
         if (givenMetadata.isEmpty()) {
-            /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
+            LOGGER.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
             return givenMetadata;
         }
 
@@ -295,7 +295,7 @@ public final class AnnotationHelper {
         requireNonNull(givenMetadata);
 
         if (givenMetadata.isEmpty()) {
-            /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
+            LOGGER.warn(NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL);
             return givenMetadata;
         }
 

@@ -60,16 +60,16 @@ public class MapperContractImpl<S, T> {
         String builder = "Verifying " + getClass().getName() + "\nWith source-configuration: " +
             sourceInstantiator.getRuntimeProperties().toString() +
             "\nWith target-configuration: " + targetMetadata;
-        /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info(builder);
+        LOGGER.info(builder);
         var asserter = new MapperAttributesAsserts(config, targetMetadata, sourceInstantiator.getRuntimeProperties());
         handleSimpleMapping(asserter);
     }
 
     private void handleSimpleMapping(MapperAttributesAsserts asserter) {
-        /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info("Testing mimimal Mapping for mapper-class %s", mapper.getClass());
+        LOGGER.info("Testing mimimal Mapping for mapper-class %s", mapper.getClass());
         verifyMapping(asserter, sourceInstantiator.getRuntimeProperties().getRequiredAsPropertySupport(true),
             "minimal-instance");
-        /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info("Testing full Mapping for mapper-class %s", mapper.getClass());
+        LOGGER.info("Testing full Mapping for mapper-class %s", mapper.getClass());
         verifyMapping(asserter, sourceInstantiator.getRuntimeProperties().getWritableAsPropertySupport(true),
             "full-instance");
     }

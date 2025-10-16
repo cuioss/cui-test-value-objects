@@ -57,7 +57,7 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
 
     @Override
     public void assertContract() {
-        /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator);
+        LOGGER.info("Verifying " + getClass().getName() + "\nWith configuration: " + instantiator);
 
         shouldPersistAllParameter();
         shouldHandleRequiredAndDefaults();

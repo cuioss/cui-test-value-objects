@@ -91,7 +91,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderFactoryMethodName, enclosingType.getName(),
                 extractCauseMessageFromThrowable(e));
-            /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.error(e, message);
+            LOGGER.error(e, message);
             throw new AssertionError(message, e);
         }
 
@@ -101,7 +101,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderMethodName, builderClass,
                 extractCauseMessageFromThrowable(e));
-            /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.error(e, message);
+            LOGGER.error(e, message);
             throw new AssertionError(message, e);
         }
 
@@ -114,7 +114,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderFactoryMethod.getName(), targetClass,
                 extractCauseMessageFromThrowable(e));
-            /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.error(e, message);
+            LOGGER.error(e, message);
             throw new AssertionError(message, e);
         }
     }

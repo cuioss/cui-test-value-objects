@@ -69,12 +69,12 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = "Unable to find a constructor with signature " + parameter +
                 ", for type " + type.getName();
-            /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.error(e, message);
+            LOGGER.error(e, message);
             for (Constructor<?> tempConstructor : type.getConstructors()) {
-                /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.error("Found constructor: %s", tempConstructor.toGenericString());
+                LOGGER.error("Found constructor: %s", tempConstructor.toGenericString());
             }
             if (0 == type.getConstructors().length) {
-                /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.error("No public constructor found!");
+                LOGGER.error("No public constructor found!");
             }
             throw new AssertionError(message);
         }

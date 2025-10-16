@@ -153,7 +153,7 @@ public final class ReflectionHelper {
             }
             var holder = PropertyHolder.from(beanType, attributeName);
             if (holder.isEmpty()) {
-                /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info("Unable to extract metadata for type '%s' and method '%s'", beanType, method.getName());
+                LOGGER.info("Unable to extract metadata for type '%s' and method '%s'", beanType, method.getName());
             } else {
                 builder.add(holder.get());
             }

@@ -152,7 +152,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
         if (!filteredConstructors.isEmpty()) {
             return findFittingConstructor(type, filteredConstructors);
         }
-        /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn("Unable to determine constructor for class %s ", type);
+        LOGGER.warn("Unable to determine constructor for class %s ", type);
         return Optional.empty();
     }
 

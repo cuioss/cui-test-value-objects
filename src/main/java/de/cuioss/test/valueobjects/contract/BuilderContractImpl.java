@@ -71,7 +71,7 @@ public class BuilderContractImpl<T> implements TestContract<T> {
     @Override
     public void assertContract() {
 
-        /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.info("Verifying " + getClass().getName() + "\nWith configuration: " + builderInstantiator.toString());
+        LOGGER.info("Verifying " + getClass().getName() + "\nWith configuration: " + builderInstantiator.toString());
         setAndVerifyProperties(runtimeProperties.getRequiredProperties());
         setAndVerifyProperties(runtimeProperties.getAllProperties());
         shouldFailOnMissingRequiredAttributes();
