@@ -125,7 +125,7 @@ public class SerializableContractImpl implements ObjectTestContract {
         try (var oas = new ObjectOutputStream(baos)) {
             oas.writeObject(object);
             oas.flush();
-        } /*~~(TODO: Catch specific not Exception. Suppress: // cui-rewrite:disable InvalidExceptionUsageRecipe)~~>*/catch (final Exception e) {
+        } catch (final IOException e) {
             throw new AssertionError(
                 "Unable to serialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
         }
@@ -143,7 +143,7 @@ public class SerializableContractImpl implements ObjectTestContract {
         final var bais = new ByteArrayInputStream(bytes);
         try (var ois = new ObjectInputStream(bais)) {
             return ois.readObject();
-        } /*~~(TODO: Catch specific not Exception. Suppress: // cui-rewrite:disable InvalidExceptionUsageRecipe)~~>*/catch (final Exception e) {
+        } catch (final IOException | ClassNotFoundException e) {
             throw new AssertionError(
                 "Unable to deserialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
         }

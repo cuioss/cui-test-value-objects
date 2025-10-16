@@ -77,7 +77,7 @@ public class DynamicProxyGenerator<T> implements TypedGenerator<T> {
         if (constructorGenerator.isPresent()) {
             return Optional.of(new DynamicProxyGenerator<>(type, constructorGenerator.get()));
         }
-        /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/LOGGER.warn("Unable to determine generator for type " + type);
+        LOGGER.warn("Unable to determine generator for type %s", type);
         return Optional.empty();
     }
 
