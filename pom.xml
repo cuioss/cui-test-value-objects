@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.cuioss</groupId>
         <artifactId>cui-java-parent</artifactId>
-        <version>1.4.1</version>
+        <version>1.4.3</version>
         <relativePath />
     </parent>
     <groupId>de.cuioss.test</groupId>
@@ -32,6 +32,7 @@
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
         <version.javassist>3.30.2-GA</version.javassist>
+        <version.cui.test.generator>3.0.2</version.cui.test.generator>
         <maven.jar.plugin.automatic.module.name>de.cuioss.test.valueobjects</maven.jar.plugin.automatic.module.name>
     </properties>
     <dependencyManagement>
