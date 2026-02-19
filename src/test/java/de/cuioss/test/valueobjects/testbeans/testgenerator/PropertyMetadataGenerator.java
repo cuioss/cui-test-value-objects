@@ -15,19 +15,17 @@
  */
 package de.cuioss.test.valueobjects.testbeans.testgenerator;
 
+import de.cuioss.test.generator.Generators;
 import de.cuioss.test.generator.TypedGenerator;
-import de.cuioss.test.generator.internal.net.java.quickcheck.Generator;
-import de.cuioss.test.generator.internal.net.java.quickcheck.generator.support.FixedValuesGenerator;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 
 import static de.cuioss.test.valueobjects.testbeans.testgenerator.PropertyMetadataTestDataGenerator.*;
-import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
 
 public class PropertyMetadataGenerator implements TypedGenerator<PropertyMetadata> {
 
-    private static final Generator<PropertyMetadataTestDataGenerator> GENERATOR_GENERATOR = new FixedValuesGenerator<>(
-        immutableList(ATTRIBUTE_NAME, ATTRIBUTE_DEFAULT_VALUE, ATTRIBUTE_REQUIRED, ATTRIBUTE_ACCESS_STRATEGY,
-            ATTRIBUTE_COLLECTION_WRAPPER, ATTRIBUTE_MEMBER_INFO));
+    private static final TypedGenerator<PropertyMetadataTestDataGenerator> GENERATOR_GENERATOR = Generators.fixedValues(
+        ATTRIBUTE_NAME, ATTRIBUTE_DEFAULT_VALUE, ATTRIBUTE_REQUIRED, ATTRIBUTE_ACCESS_STRATEGY,
+        ATTRIBUTE_COLLECTION_WRAPPER, ATTRIBUTE_MEMBER_INFO);
 
     @Override
     public PropertyMetadata next() {
