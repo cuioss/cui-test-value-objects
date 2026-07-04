@@ -39,6 +39,7 @@ public interface ShouldImplementToString<T> extends TestObjectProvider<T> {
     @Test
     default void shouldImplementToString() {
         var underTest = getUnderTest();
+        assertNotNull(underTest, "getUnderTest() must not return null");
         ReflectionUtil.assertToStringMethodIsOverriden(underTest.getClass());
         assertNotNull(underTest.toString(), "toString must not return 'null'");
     }

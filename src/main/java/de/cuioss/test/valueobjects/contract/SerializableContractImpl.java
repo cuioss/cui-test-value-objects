@@ -127,7 +127,7 @@ public class SerializableContractImpl implements ObjectTestContract {
             oas.flush();
         } catch (final IOException e) {
             throw new AssertionError(
-                "Unable to serialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
+                "Unable to serialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e), e);
         }
         return baos.toByteArray();
     }
@@ -145,7 +145,7 @@ public class SerializableContractImpl implements ObjectTestContract {
             return ois.readObject();
         } catch (final IOException | ClassNotFoundException e) {
             throw new AssertionError(
-                "Unable to deserialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e));
+                "Unable to deserialize, due to " + ExceptionHelper.extractCauseMessageFromThrowable(e), e);
         }
     }
 
