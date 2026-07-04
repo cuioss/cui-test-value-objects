@@ -284,10 +284,12 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
      *
      * @param underTest object under test
      */
-    @SuppressWarnings({"squid:S2159", "squid:S1764"}) // Sonar complains that the x.equals(x) is
-    // always true. This is
-    // only the case if implemented correctly, what is checked
-    // within this test
+    // squid:S2159 / squid:S1764 / PMD.EqualsNull: the x.equals(x), x.equals(null) and
+    // x.equals(new Object()) calls are intentional — verifying the equals contract requires
+    // invoking the object's own equals implementation directly (JUnit's assertNotEquals would
+    // short-circuit and never call it). These hold only when equals is implemented correctly,
+    // which is exactly what this method checks.
+    @SuppressWarnings({"squid:S2159", "squid:S1764", "PMD.EqualsNull"})
     public static void assertBasicContractOnEquals(final Object underTest) {
 
         ReflectionUtil.assertEqualsMethodIsOverriden(underTest.getClass());
