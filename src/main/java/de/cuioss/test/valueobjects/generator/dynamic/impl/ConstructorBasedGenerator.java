@@ -97,7 +97,8 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
     private static String logUsedValuesForConstructor(final ArrayList<Object> parameter) {
         final List<String> parameterInfo = new ArrayList<>();
         for (final Object object : parameter) {
-            parameterInfo.add("[" + object.getClass().getSimpleName() + " " + object + "]");
+            final var simpleName = null == object ? "null" : object.getClass().getSimpleName();
+            parameterInfo.add("[" + simpleName + " " + object + "]");
         }
         return Joiner.on(", ").skipNulls().join(parameterInfo);
     }
@@ -192,7 +193,10 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
                 LOGGER.debug("Skipping copy constructor...");
                 continue;
             }
-            return createForConstructor(type, con);
+            final Optional<TypedGenerator<T>> generator = createForConstructor(type, con);
+            if (generator.isPresent()) {
+                return generator;
+            }
         }
         throw new IllegalStateException("No matching constructor found for class " + type);
     }
