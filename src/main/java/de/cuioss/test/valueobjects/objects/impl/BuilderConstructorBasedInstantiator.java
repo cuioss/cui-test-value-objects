@@ -17,6 +17,7 @@ package de.cuioss.test.valueobjects.objects.impl;
 
 import de.cuioss.test.valueobjects.contract.BuilderContractImpl;
 import de.cuioss.test.valueobjects.objects.BuilderInstantiator;
+import de.cuioss.test.valueobjects.objects.ObjectInstantiationException;
 import de.cuioss.test.valueobjects.objects.ObjectInstantiator;
 import lombok.Getter;
 import lombok.ToString;
@@ -79,13 +80,27 @@ public class BuilderConstructorBasedInstantiator<T> implements BuilderInstantiat
         builderInstantiator = new DefaultInstantiator<>(builderType);
 
         try {
-            builderMethod = builderInstantiator.getTargetClass().getDeclaredMethod(buildMethodName);
+            builderMethod = resolveBuildMethod(builderInstantiator.getTargetClass(), buildMethodName);
             targetClass = (Class<T>) builderMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
             throw new AssertionError("Unable to access method " + buildMethodName + " on type " + builderType.getName()
                 + ", due to " + extractCauseMessageFromThrowable(e), e);
         }
 
+    }
+
+    /**
+     * Resolves the build method. It first tries the methods declared on the given
+     * type and falls back to {@link Class#getMethod(String, Class...)} in order to
+     * also find methods inherited from a (potentially abstract) superclass.
+     */
+    private static Method resolveBuildMethod(final Class<?> builderClass, final String buildMethodName)
+        throws NoSuchMethodException {
+        try {
+            return builderClass.getDeclaredMethod(buildMethodName);
+        } catch (NoSuchMethodException e) {
+            return builderClass.getMethod(buildMethodName);
+        }
     }
 
     @Override
@@ -99,7 +114,7 @@ public class BuilderConstructorBasedInstantiator<T> implements BuilderInstantiat
         try {
             return (T) builderMethod.invoke(builder);
         } catch (IllegalAccessException | InvocationTargetException | RuntimeException e) {
-            throw new AssertionError("Unable to access method " + builderMethod.getName() + " on type "
+            throw new ObjectInstantiationException("Unable to access method " + builderMethod.getName() + " on type "
                 + getBuilderClass().getName() + ", due to " + extractCauseMessageFromThrowable(e), e);
         }
     }

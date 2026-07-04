@@ -17,6 +17,7 @@ package de.cuioss.test.valueobjects.objects.impl;
 
 import de.cuioss.test.valueobjects.contract.BuilderContractImpl;
 import de.cuioss.test.valueobjects.objects.BuilderInstantiator;
+import de.cuioss.test.valueobjects.objects.ObjectInstantiationException;
 import de.cuioss.tools.logging.CuiLogger;
 import lombok.Getter;
 import lombok.ToString;
@@ -46,6 +47,8 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
 
     private final Method builderFactoryMethod;
     private final Method builderMethod;
+
+    private final Class<?> enclosingType;
 
     @Getter
     private final Class<T> targetClass;
@@ -85,8 +88,10 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         requireNonNull(builderMethodName, "builderMethodName must not be null");
         requireNonNull(builderFactoryMethodName, "builderFactoryMethodName must not be null");
 
+        this.enclosingType = enclosingType;
+
         try {
-            builderFactoryMethod = enclosingType.getDeclaredMethod(builderFactoryMethodName);
+            builderFactoryMethod = resolveMethod(enclosingType, builderFactoryMethodName);
             builderClass = builderFactoryMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderFactoryMethodName, enclosingType.getName(),
@@ -96,7 +101,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
         }
 
         try {
-            builderMethod = builderClass.getDeclaredMethod(builderMethodName);
+            builderMethod = resolveMethod(builderClass, builderMethodName);
             targetClass = (Class<T>) builderMethod.getReturnType();
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderMethodName, builderClass,
@@ -107,13 +112,27 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
 
     }
 
+    /**
+     * Resolves a parameter-free method. It first tries the methods declared on the
+     * given type and falls back to {@link Class#getMethod(String, Class...)} in
+     * order to also find methods inherited from a (potentially abstract)
+     * superclass.
+     */
+    private static Method resolveMethod(final Class<?> owner, final String methodName) throws NoSuchMethodException {
+        try {
+            return owner.getDeclaredMethod(methodName);
+        } catch (NoSuchMethodException e) {
+            return owner.getMethod(methodName);
+        }
+    }
+
     @Override
     public Object newBuilderInstance() {
         try {
             return builderFactoryMethod.invoke(null);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderFactoryMethod.getName(), targetClass,
-                extractCauseMessageFromThrowable(e));
+            final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderFactoryMethod.getName(),
+                enclosingType.getName(), extractCauseMessageFromThrowable(e));
             LOGGER.error(e, message);
             throw new AssertionError(message, e);
         }
@@ -128,7 +147,7 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderMethod.getName(), builderClass.getName(),
                 extractCauseMessageFromThrowable(e));
             LOGGER.debug(message, e);
-            throw new AssertionError(message, e);
+            throw new ObjectInstantiationException(message, e);
         }
     }
 }

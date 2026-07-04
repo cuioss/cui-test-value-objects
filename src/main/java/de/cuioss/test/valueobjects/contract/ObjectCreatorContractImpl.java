@@ -20,6 +20,7 @@ import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructors;
 import de.cuioss.test.valueobjects.api.contracts.VerifyFactoryMethod;
 import de.cuioss.test.valueobjects.api.contracts.VerifyFactoryMethods;
+import de.cuioss.test.valueobjects.objects.ObjectInstantiationException;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.objects.impl.ConstructorBasedInstantiator;
@@ -73,14 +74,14 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
                 final List<PropertySupport> iterating = new ArrayList<>(required);
                 iterating.remove(support);
                 iterating.add(support.createCopy(false));
-                var failed = false;
+                var constructorAccepted = false;
                 try {
                     getInstantiator().newInstance(iterating, false);
-                    failed = true;
-                } catch (final AssertionError e) {
-                    // expected
+                    constructorAccepted = true;
+                } catch (final ObjectInstantiationException e) {
+                    // Expected: the object under test correctly rejected the missing required attribute
                 }
-                if (failed) {
+                if (constructorAccepted) {
                     throw new AssertionError("Object Should not build due to missing required attribute " + support);
                 }
             }
@@ -150,6 +151,7 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
         final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata) {
 
         requireNonNull(beanType, "beantype must not be null");
+        requireNonNull(annotated, "annotated must not be null");
         requireNonNull(initialPropertyMetadata, "initialPropertyMetadata must not be null");
 
         final var builder = new CollectionBuilder<ObjectCreatorContractImpl<T>>();
