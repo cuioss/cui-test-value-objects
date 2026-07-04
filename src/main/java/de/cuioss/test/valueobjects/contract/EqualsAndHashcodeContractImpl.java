@@ -37,9 +37,14 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
 
-    private static final Integer DEFAULT_INT_VALUE = 0;
-
     private static final CuiLogger LOGGER = new CuiLogger(EqualsAndHashcodeContractImpl.class);
+
+    /**
+     * The two most recently added properties are the ones deliberately mutated to an unequal
+     * value while iterating; the remainder is used to build the variant objects. This offset
+     * captures that "keep the last two out of the growing prefix" intent.
+     */
+    private static final int UNEQUAL_VARIANT_OFFSET = 2;
 
     @Override
     public void assertContract(final ParameterizedInstantiator<?> instantiator,
@@ -172,64 +177,39 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
         final var additionalProperties = nonDefaultProperties.stream().filter(property -> !property.isRequired())
             .toList();
 
-        final var upperBound = Math.min(nonDefaultProperties.size(), consideredAttributes.size()) - 2;
+        final var upperBound = Math.max(0,
+            Math.min(nonDefaultProperties.size(), consideredAttributes.size()) - UNEQUAL_VARIANT_OFFSET);
         if (additionalProperties.isEmpty()) {
             LOGGER.info("Only required or default properties found, therefore no further testing");
         } else {
             final Object minimalObject = instantiator.newInstance(requiredProperties, false);
             final Object fullObject = instantiator.newInstance(allWritableProperties, false);
-            List<PropertySupport> iteratingProperties = new ArrayList<>(requiredProperties);
             // Common Order of properties
-            verifyProperties(instantiator, additionalProperties, upperBound, minimalObject, fullObject, iteratingProperties);
+            verifyProperties(instantiator, additionalProperties, upperBound, minimalObject, fullObject,
+                new ArrayList<>(requiredProperties));
             // reverse Order of additional properties
-            iteratingProperties = new ArrayList<>(requiredProperties);
-            verifyPropertiesInReverse(instantiator, additionalProperties, upperBound, minimalObject, fullObject, iteratingProperties);
+            verifyProperties(instantiator, additionalProperties.reversed(), upperBound, minimalObject, fullObject,
+                new ArrayList<>(requiredProperties));
         }
 
     }
 
     /**
-     * Verifies properties by iterating through additional properties in normal order.
+     * Verifies properties by iterating through the given (already ordered) additional
+     * properties. Callers control the iteration direction by passing the list in the
+     * desired order (e.g. {@link List#reversed()} for reverse iteration).
      *
      * @param instantiator the instantiator used to create test objects
-     * @param additionalProperties the list of additional properties to verify
+     * @param additionalProperties the list of additional properties to verify, in iteration order
      * @param upperBound the upper bound for the number of properties to add
      * @param minimalObject the minimal object for comparison
      * @param fullObject the full object for comparison
      * @param iteratingProperties the list of properties being iterated
      */
-    private static void verifyProperties(ParameterizedInstantiator<?> instantiator, List<PropertySupport> additionalProperties, int upperBound, Object minimalObject, Object fullObject, List<PropertySupport> iteratingProperties) {
+    private static void verifyProperties(ParameterizedInstantiator<?> instantiator,
+        List<PropertySupport> additionalProperties, int upperBound, Object minimalObject, Object fullObject,
+        List<PropertySupport> iteratingProperties) {
         for (final PropertySupport support : additionalProperties) {
-            if (iteratingProperties.size() < upperBound) {
-                iteratingProperties.add(support);
-            } else {
-                // Special case for the last property to be set but the objects
-                // still need to be unequal. For this last property to be iterated the value
-                // will be set to an explicit unequal value:
-                iteratingProperties.add(support.createCopyWithNonEqualValue());
-            }
-            final Object iterating = instantiator.newInstance(iteratingProperties, false);
-            final var current = support.getName();
-            assertEqualObjectAreNotEqual(minimalObject, iterating, current);
-            assertEqualObjectAreNotEqual(fullObject, iterating, current);
-            assertBasicContractOnHashCode(iterating);
-        }
-    }
-
-    /**
-     * Verifies properties by iterating through additional properties in reverse order.
-     *
-     * @param instantiator the instantiator used to create test objects
-     * @param additionalProperties the list of additional properties to verify
-     * @param upperBound the upper bound for the number of properties to add
-     * @param minimalObject the minimal object for comparison
-     * @param fullObject the full object for comparison
-     * @param iteratingProperties the list of properties being iterated
-     */
-    private static void verifyPropertiesInReverse(ParameterizedInstantiator<?> instantiator, List<PropertySupport> additionalProperties, int upperBound, Object minimalObject, Object fullObject, List<PropertySupport> iteratingProperties) {
-        // Iterate in reverse order without creating a copy
-        for (int i = additionalProperties.size() - 1; i >= 0; i--) {
-            final PropertySupport support = additionalProperties.get(i);
             if (iteratingProperties.size() < upperBound) {
                 iteratingProperties.add(support);
             } else {
@@ -267,10 +247,8 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
             final Object actual = instantiator.newInstance(new ArrayList<>(current.values()), false);
             assertEqualObjectAreNotEqual(expected, actual, name);
         }
-        // Now reverse order - iterate backwards without creating a copy
-        final String[] attributesArray = consideredAttributes.toArray(new String[0]);
-        for (int i = attributesArray.length - 1; i >= 0; i--) {
-            final String name = attributesArray[i];
+        // Now reverse order, using the SequencedCollection#reversed() view (Java 21)
+        for (final String name : consideredAttributes.reversed()) {
             final Map<String, PropertySupport> current = new HashMap<>(allWritableProperties);
             assertTrue(current.containsKey(name), "Invalid configuration found: " + name + " not defined as property.");
             current.put(name, current.get(name).createCopyWithNonEqualValue());
@@ -318,12 +296,15 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
         final var msgNotEqualsNull = "Expected result for equals(null) will be 'false'. Class was : "
             + underTest.getClass();
 
-        assertNotEquals(null, underTest, msgNotEqualsNull);
+        // Note: the argument order matters. assertNotEquals(null, underTest) / assertNotEquals(new Object(),
+        // underTest) would short-circuit on the JUnit side and never invoke underTest.equals(...), so a broken
+        // equals would pass. We therefore assert directly on underTest.equals(...).
+        assertFalse(underTest.equals(null), msgNotEqualsNull);
 
         final var msgNotEqualsObject = "Expected result for equals(new Object()) will be 'false'. Class was : "
             + underTest.getClass();
 
-        assertNotEquals(new Object(), underTest, msgNotEqualsObject);
+        assertFalse(underTest.equals(new Object()), msgNotEqualsObject);
 
         final var msgEqualsToSelf = "Expected result for equals(underTest) will be 'true'. Class was : "
             + underTest.getClass();
@@ -333,15 +314,22 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
     }
 
     /**
-     * Verify object has implemented {@link Object#hashCode()} method.
+     * Verify object has implemented {@link Object#hashCode()} method. In addition, it
+     * checks the basic self-consistency requirement of {@link Object#hashCode()}: repeated
+     * invocations on the same object must yield the same result. A {@code hashCode()} of
+     * {@code 0} is perfectly legal (e.g. an object with all-null fields under
+     * {@link java.util.Objects#hash(Object...)}) and must therefore not be rejected.
      *
      * @param underTest object under test
      */
     public static void assertBasicContractOnHashCode(final Object underTest) {
 
-        // basic checks to hashCode implementation
-        assertNotEquals(DEFAULT_INT_VALUE, underTest.hashCode(),
-            "Expected result of hashCode method is not '0'. Class was : " + underTest.getClass());
+        // basic checks to hashCode implementation: it must be consistent across invocations.
+        // A value of 0 is a valid hashCode per the Object#hashCode contract and must not fail.
+        final var firstResult = underTest.hashCode();
+        assertEquals(firstResult, underTest.hashCode(),
+            "hashCode() must consistently return the same value on repeated invocations. Class was : "
+                + underTest.getClass());
     }
 
 }
