@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static de.cuioss.test.valueobjects.objects.impl.AbstractInlineInstantiator.PROPERTIES_MUST_NOT_BE_NULL;
+import static de.cuioss.test.valueobjects.objects.impl.InstantiatorConstants.PROPERTIES_MUST_NOT_BE_NULL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
@@ -76,7 +76,8 @@ public class BuilderParameterizedInstantiator<T> implements ParameterizedInstant
 
     @Override
     public String toString() {
-        return getClass().getName() + "\nInstantiator: " + instantiator + runtimeProperties;
+        return getClass().getName() + "\nInstantiator: " + instantiator
+            + "\nProperty Configuration: " + runtimeProperties;
     }
 
 }
