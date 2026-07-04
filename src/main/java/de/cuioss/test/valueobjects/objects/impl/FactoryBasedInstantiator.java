@@ -15,12 +15,14 @@
  */
 package de.cuioss.test.valueobjects.objects.impl;
 
+import de.cuioss.test.valueobjects.objects.ObjectInstantiationException;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.tools.logging.CuiLogger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,6 @@ import static de.cuioss.test.valueobjects.objects.impl.ExceptionHelper.extractCa
 import static de.cuioss.tools.base.Preconditions.checkArgument;
 import static de.cuioss.tools.string.MoreStrings.isEmpty;
 import static java.util.Objects.requireNonNull;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -69,21 +70,34 @@ public class FactoryBasedInstantiator<T> extends AbstractOrderedArgsInstantiator
         final List<Class<?>> parameter = new ArrayList<>();
         runtimeProperties.getAllProperties().forEach(meta -> parameter.add(meta.resolveActualClass()));
         try {
-            if (parameter.isEmpty()) {
-                factoryMethod = enclosingType.getDeclaredMethod(factoryMethodName);
-            } else {
-                factoryMethod = enclosingType.getDeclaredMethod(factoryMethodName, toClassArray(parameter));
-            }
-            assertNotNull(
-
-                factoryMethod,
-                "Unable to find a factory method with signature " + parameter + " and name " + factoryMethodName);
+            factoryMethod = resolveFactoryMethod(enclosingType, factoryMethodName, toClassArray(parameter));
             assertTrue(type.isAssignableFrom(factoryMethod.getReturnType()),
                 "Invalid type found on factory method: " + factoryMethod.getReturnType());
+            checkArgument(Modifier.isStatic(factoryMethod.getModifiers()),
+                "Factory method '" + factoryMethodName + "' on " + enclosingType.getName()
+                    + " must be static in order to be usable as a factory method");
         } catch (NoSuchMethodException | SecurityException e) {
-            final var message = "Unable to find a constructor with signature " + parameter;
+            final var message = "Unable to find factory method '" + factoryMethodName + "' on "
+                + enclosingType.getName() + " with signature " + parameter;
             LOGGER.error(e, message);
-            throw new AssertionError(message);
+            throw new AssertionError(message, e);
+        }
+    }
+
+    /**
+     * Resolves the factory method. It first tries the methods declared on the
+     * given type and falls back to {@link Class#getMethod(String, Class...)} in
+     * order to also find methods inherited from a (potentially abstract)
+     * superclass.
+     */
+    private static Method resolveFactoryMethod(final Class<?> enclosingType, final String factoryMethodName,
+        final Class<?>[] parameterTypes) throws NoSuchMethodException {
+        try {
+            return enclosingType.getDeclaredMethod(factoryMethodName, parameterTypes);
+        } catch (NoSuchMethodException e) {
+            LOGGER.debug(e, "No declared method '%s' found, falling back to inherited public methods",
+                factoryMethodName);
+            return enclosingType.getMethod(factoryMethodName, parameterTypes);
         }
     }
 
@@ -93,9 +107,9 @@ public class FactoryBasedInstantiator<T> extends AbstractOrderedArgsInstantiator
         try {
             return (T) factoryMethod.invoke(null, args);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            final var message = "Unable to invoke constructor " + ", due to " +
+            final var message = "Unable to invoke factory method, due to " +
                 extractCauseMessageFromThrowable(e);
-            throw new AssertionError(message, e);
+            throw new ObjectInstantiationException(message, e);
         }
     }
 

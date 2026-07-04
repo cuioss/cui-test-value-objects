@@ -15,6 +15,7 @@
  */
 package de.cuioss.test.valueobjects.objects.impl;
 
+import de.cuioss.test.valueobjects.objects.ObjectInstantiationException;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.tools.logging.CuiLogger;
@@ -65,7 +66,6 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
             } else {
                 constructor = type.getConstructor(toClassArray(parameter));
             }
-            requireNonNull(constructor, "Unable to find a constructor with signature " + parameter);
         } catch (NoSuchMethodException | SecurityException e) {
             final var message = "Unable to find a constructor with signature " + parameter +
                 ", for type " + type.getName();
@@ -76,7 +76,7 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
             if (0 == type.getConstructors().length) {
                 LOGGER.error("No public constructor found!");
             }
-            throw new AssertionError(message);
+            throw new AssertionError(message, e);
         }
     }
 
@@ -86,9 +86,9 @@ public class ConstructorBasedInstantiator<T> extends AbstractOrderedArgsInstanti
             return constructor.newInstance(args);
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
             | InvocationTargetException e) {
-            final var message = "Unable to invoke constructor " + ", due to " +
+            final var message = "Unable to invoke constructor, due to " +
                 extractCauseMessageFromThrowable(e);
-            throw new AssertionError(message, e);
+            throw new ObjectInstantiationException(message, e);
         }
     }
 
