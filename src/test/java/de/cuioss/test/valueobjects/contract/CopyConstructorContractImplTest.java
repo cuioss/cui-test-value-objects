@@ -65,7 +65,7 @@ class CopyConstructorContractImplTest {
     @SuppressWarnings("java:S5778")
     // owolff Collections.emptyList() considered unproblematic
     void shouldFailToDetermineContractOnEmptyInstantiatorList() {
-        assertThrows(AssertionError.class, () ->
+        assertThrows(IllegalArgumentException.class, () ->
             createTestContract(OneRequiredFieldCopyConstructor.class, OneRequiredFieldCopyConstructor.class,
                 OneRequiredFieldCopyConstructor.ATTRIBUTE_LIST, Collections.emptyList()));
     }

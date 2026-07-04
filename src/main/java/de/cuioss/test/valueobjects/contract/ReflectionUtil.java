@@ -97,17 +97,13 @@ public final class ReflectionUtil {
      */
     private static Method getMethodFromClass(final Class<?> clazz, final String methodName, final Class<?>[] args1) {
         assertNotNull(clazz, "Target for test is null");
-        Method result = null;
         try {
             if (null != args1) {
-                result = clazz.getMethod(methodName, args1);
-            } else {
-                result = clazz.getMethod(methodName);
+                return clazz.getMethod(methodName, args1);
             }
+            return clazz.getMethod(methodName);
         } catch (final SecurityException | NoSuchMethodException e) {
             throw new AssertionError(e);
         }
-        assertNotNull(result, "Method " + methodName + " does not exist on " + clazz);
-        return result;
     }
 }

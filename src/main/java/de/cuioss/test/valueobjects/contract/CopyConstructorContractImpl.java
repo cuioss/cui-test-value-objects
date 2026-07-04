@@ -38,10 +38,10 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 
+import static de.cuioss.tools.base.Preconditions.checkArgument;
 import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * TestContract for dealing Constructor and factories, {@link VerifyConstructor}
@@ -101,7 +101,7 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
             LOGGER.debug("Not checking deep-copy, disabled by configuration");
             return;
         }
-        LOGGER.info("Verifying deep-copy, ignoring properties: {}" + verifyDeepCopyIgnore);
+        LOGGER.info("Verifying deep-copy, ignoring properties: {}", verifyDeepCopyIgnore);
 
         final var all = instantiator.getRuntimeProperties().getAllAsPropertySupport(true);
 
@@ -170,7 +170,7 @@ public class CopyConstructorContractImpl<T> implements TestContract<T> {
         requireNonNull(beanType, "beantype must not be null");
         requireNonNull(initialPropertyMetadata, "initialPropertyMetadata must not be null");
         requireNonNull(existingContracts, "existingContracts must not be null");
-        assertFalse(existingContracts.isEmpty(), "There must be at least one VerifyContract defined");
+        checkArgument(!existingContracts.isEmpty(), "There must be at least one VerifyContract defined");
 
         final var config = configOption.get();
 

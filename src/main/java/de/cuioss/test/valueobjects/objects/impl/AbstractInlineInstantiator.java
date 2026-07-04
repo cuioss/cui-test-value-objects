@@ -34,9 +34,6 @@ import java.util.List;
  */
 public abstract class AbstractInlineInstantiator<T> implements ParameterizedInstantiator<T> {
 
-    /** "Properties must not be null, but may be empty". */
-    public static final String PROPERTIES_MUST_NOT_BE_NULL = "Properties must not be null, but may be empty";
-
     @Override
     public T newInstance(final List<PropertySupport> properties, final boolean generatePropertyValues) {
         return any();

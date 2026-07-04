@@ -18,6 +18,7 @@ package de.cuioss.test.valueobjects.contract;
 import de.cuioss.test.valueobjects.api.TestContract;
 import de.cuioss.test.valueobjects.api.contracts.VerifyBuilder;
 import de.cuioss.test.valueobjects.objects.BuilderInstantiator;
+import de.cuioss.test.valueobjects.objects.ObjectInstantiationException;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.objects.impl.BuilderConstructorBasedInstantiator;
@@ -102,14 +103,14 @@ public class BuilderContractImpl<T> implements TestContract<T> {
         for (final PropertyMetadata property : runtimeProperties.getRequiredProperties()) {
             final List<PropertyMetadata> requiredMinusOne = mutableList(runtimeProperties.getRequiredProperties());
             requiredMinusOne.remove(property);
-            var failed = false;
+            var builderAccepted = false;
             try {
                 setAndVerifyProperties(requiredMinusOne);
-                failed = true;
-            } catch (final AssertionError e) {
-                // Expected: Should have been thrown
+                builderAccepted = true;
+            } catch (final ObjectInstantiationException e) {
+                // Expected: the builder correctly rejected the missing required attribute
             }
-            if (failed) {
+            if (builderAccepted) {
                 throw new AssertionError("Property is marked as required but the builder accepts if it is missing: "
                     + property.toString());
             }
