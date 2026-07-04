@@ -83,6 +83,33 @@ class EqualsAndHashcodeContractImplTest {
         assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
     }
 
+    /**
+     * Regression test for the equals no-op: {@code equals(null)} must actually be invoked on the
+     * object under test. A bean whose {@code equals(null)} wrongly returns {@code true} passed the
+     * contract before the fix (because {@code assertNotEquals(null, underTest)} short-circuited).
+     */
+    @Test
+    void shouldFailOnBadObjectThatEqualsNull() {
+        var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBeanEqualsNull.class),
+            EMPTY_RUNTIME_INFORMATION);
+        var contract = new EqualsAndHashcodeContractImpl();
+        assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
+    }
+
+    /**
+     * Regression test for the equals no-op: {@code equals(new Object())} must actually be invoked on
+     * the object under test. A bean whose {@code equals(<foreign type>)} wrongly returns {@code true}
+     * passed the contract before the fix (because {@code assertNotEquals(new Object(), underTest)}
+     * only exercised {@code Object.equals}).
+     */
+    @Test
+    void shouldFailOnBadObjectThatEqualsForeignType() {
+        var instantiator = new BeanInstantiator<>(new DefaultInstantiator<>(BadObjectBeanEqualsForeign.class),
+            EMPTY_RUNTIME_INFORMATION);
+        var contract = new EqualsAndHashcodeContractImpl();
+        assertThrows(AssertionError.class, () -> contract.assertContract(instantiator, null));
+    }
+
     @Test
     void shouldHandleComplexBean() {
         TypedGeneratorRegistry.registerBasicTypes();

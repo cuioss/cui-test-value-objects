@@ -15,32 +15,26 @@
  */
 package de.cuioss.test.valueobjects.testbeans.objectcontract;
 
-import java.io.Serializable;
-
 /**
- * Bad bean that neither implements {@link Serializable} nor overrides
- * {@link Object#hashCode()} correctly: its {@code hashCode()} is not consistent across
- * invocations, violating the {@link Object#hashCode()} contract.
+ * Bad bean whose {@link Object#equals(Object)} wrongly returns {@code true} for a
+ * foreign-type argument. This reproduces the historic no-op in
+ * {@code assertBasicContractOnEquals}, where {@code assertNotEquals(new Object(), underTest)}
+ * only invoked {@code Object.equals} (identity) and never {@code underTest.equals(new Object())}:
+ * prior to the fix this bean passed the contract, afterwards it must fail.
  *
  * @author Oliver Wolff
  */
-public class BadObjectBeanWithInvalidHashCode {
-
-    private int counter;
+public class BadObjectBeanEqualsForeign {
 
     @Override
     public boolean equals(final Object obj) {
-        if (null == obj) {
-            return false;
-        }
-        return this == obj;
+        // Broken by design: equals(<foreign type>) must be false, this returns true for any
+        // non-null argument.
+        return null != obj;
     }
 
     @Override
     public int hashCode() {
-        // Bad Boy: violates the consistency requirement of Object#hashCode by returning a
-        // different value on every invocation. (A constant hashCode such as 0 would be perfectly
-        // legal, so it is no longer treated as a contract violation.)
-        return counter++;
+        return 42;
     }
 }

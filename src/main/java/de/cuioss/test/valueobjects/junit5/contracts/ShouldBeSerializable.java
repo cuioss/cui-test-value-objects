@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import java.io.Serializable;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Simple check whether the returned {@link TestObjectProvider#getUnderTest()}
@@ -41,6 +42,7 @@ public interface ShouldBeSerializable<T> extends TestObjectProvider<T> {
     @Test
     default void shouldImplementSerializable() {
         var underTest = getUnderTest();
+        assertNotNull(underTest, "getUnderTest() must not return null");
         assertInstanceOf(Serializable.class, underTest, underTest.getClass().getName() + " does not implement java.io.Serializable");
         SerializableContractImpl.serializeAndDeserialize(underTest);
     }
