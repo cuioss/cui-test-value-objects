@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 import java.io.Serializable;
 import java.util.List;
 
-import static de.cuioss.test.valueobjects.objects.impl.AbstractInlineInstantiator.PROPERTIES_MUST_NOT_BE_NULL;
+import static de.cuioss.test.valueobjects.objects.impl.InstantiatorConstants.PROPERTIES_MUST_NOT_BE_NULL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
@@ -43,8 +43,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @RequiredArgsConstructor
 public class InjectedBeanInstantiator<T> implements ParameterizedInstantiator<T> {
 
+    @NonNull
     private final TestObjectProvider<T> objectProvider;
 
+    @NonNull
     private final ConfigurationCallBackHandler<T> callbackHandler;
 
     @Getter
@@ -68,7 +70,7 @@ public class InjectedBeanInstantiator<T> implements ParameterizedInstantiator<T>
 
     @Override
     public T newInstanceFull() {
-        return newInstance(runtimeProperties.getAdditionalProperties());
+        return newInstance(runtimeProperties.getWritableProperties());
     }
 
     @Override
