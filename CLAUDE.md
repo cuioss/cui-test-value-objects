@@ -22,25 +22,13 @@ Always use `./mvnw` (or `./mvnw.cmd` on Windows) instead of `mvn` to ensure cons
 ### Java Version Requirements
 - Primary development: Java 21
 - CI/CD tests against: Java 21 and 25
-- Minimum release target: Configurable via `-Dmaven.compiler.release=<version>`
+- Minimum release target: Configurable via `-Dmaven.compiler-plugin.release=<version>` (the property the parent POM actually reads)
 
 ### Quality and Deployment
 - **SonarCloud analysis**: `./mvnw -B verify -Psonar sonar:sonar` (requires SONAR_TOKEN)
 - **Deploy snapshot**: `./mvnw -B -Prelease-snapshot deploy -Dmaven.test.skip=true`
 - **Generate Javadoc**: `./mvnw -Prelease-snapshot javadoc:aggregate`
 
-
-## Git Workflow
-
-This repository has branch protection on `main`. Direct pushes to `main` are never allowed. Always use this workflow:
-
-1. Create a feature branch: `git checkout -b <branch-name>`
-2. Commit changes: `git add <files> && git commit -m "<message>"`
-3. Push the branch: `git push -u origin <branch-name>`
-4. Create a PR: `gh pr create --head <branch-name> --base main --title "<title>" --body "<body>"`
-5. Enable auto-merge: `gh pr merge --auto --squash --delete-branch`
-6. Wait for merge (check every ~60s): `while gh pr view --json state -q '.state' | grep -q OPEN; do sleep 60; done`
-7. Return to main: `git checkout main && git pull`
 
 ## Architecture Overview
 
@@ -119,7 +107,7 @@ class MyValueObjectTest extends ValueObjectTest<MyValueObject> {
 
 ## Dependencies
 
-Key dependencies defined in parent POM (`cui-java-parent:1.3.3`):
+Key dependencies defined in parent POM (`cui-java-parent`; see the `<parent>` version in `pom.xml`):
 - **JUnit Jupiter**: Test framework (compile scope - this is a testing library)
 - **Lombok**: Annotations for boilerplate reduction
 - **cui-java-tools**: CUI utility library
@@ -149,12 +137,21 @@ Use `@VetoObjectTestContract` to skip specific contracts.
 
 ## CI/CD Pipeline
 
-The project uses GitHub Actions (`.github/workflows/maven.yml`):
-1. **Build job**: Tests against Java 21 and 25
-2. **Sonar-build job**: Runs SonarCloud analysis
-3. **Deploy-snapshot job**: Deploys snapshots to Maven Central (main branch only)
+The project uses GitHub Actions (`.github/workflows/maven.yml`). Rather than defining
+jobs in-repo, the workflow delegates to the organization-wide **reusable workflow**
+`cuioss/cuioss-organization/.github/workflows/reusable-maven-build.yml` (pinned by
+commit SHA to a tagged release). The local workflow only:
+- Declares the trigger events (`push` to `main`/`feature|fix|chore|release/*`/`dependabot/**`,
+  `pull_request` against `main`, and `workflow_dispatch`).
+- Passes through the required secrets (`SONAR_TOKEN`, `OSS_SONATYPE_USERNAME`,
+  `OSS_SONATYPE_PASSWORD`, `GPG_PRIVATE_KEY`, `GPG_PASSPHRASE`).
 
-All jobs use Maven wrapper and the Temurin JDK distribution.
+Build behavior (build/test, SonarCloud analysis, snapshot/release deployment, GitHub Pages)
+is configured declaratively via `.github/project.yml` (e.g. `sonar.project-key`,
+`release.*`, `pages.*`, `github-automation.*`) and executed by the reusable workflow.
+To change the JDK matrix, Sonar setup, or deployment steps, update the reusable workflow
+in `cuioss/cuioss-organization` and/or the `.github/project.yml` configuration — not this
+repository's `maven.yml`.
 
 ## Documentation
 
