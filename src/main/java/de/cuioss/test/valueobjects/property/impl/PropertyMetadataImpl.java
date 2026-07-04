@@ -270,6 +270,20 @@ public class PropertyMetadataImpl implements PropertyMetadata {
         return builder;
     }
 
+    /**
+     * The natural ordering is defined solely by the property {@link #getName()
+     * name}. This is intentional: within a given bean a property name is unique,
+     * therefore ordering (and the resulting {@link java.util.SortedSet}
+     * de-duplication) by name is the desired behaviour and prevents
+     * differently-configured metadata for the <em>same</em> property name from
+     * co-existing in a single property set.
+     * <p>
+     * As a consequence the natural ordering is deliberately <em>inconsistent with
+     * equals</em> (see {@link Comparable}): the Lombok-generated
+     * {@link #equals(Object)} compares all fields (except the generator), whereas
+     * {@code compareTo} only considers the name. Callers relying on full-field
+     * equality must not depend on {@code compareTo == 0} implying {@code equals}.
+     */
     @Override
     public int compareTo(final PropertyMetadata other) {
         return name.compareTo(other.getName());

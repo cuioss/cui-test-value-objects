@@ -21,6 +21,8 @@ import de.cuioss.test.valueobjects.property.util.CollectionAsserts;
 import de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy;
 import lombok.*;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -141,6 +143,12 @@ public class PropertySupport {
 
         if (AssertionStrategy.COLLECTION_IGNORE_ORDER.equals(propertyMetadata.getAssertionStrategy())) {
             CollectionAsserts.assertListsAreEqualIgnoringOrder(propertyMetadata.getName(), expected, actual);
+        } else if (null != expected && expected.getClass().isArray()) {
+            // arrays only provide reference equality via equals, therefore compare by
+            // value. Objects.deepEquals handles Object[] as well as all primitive array
+            // types, including nested arrays.
+            assertTrue(Objects.deepEquals(expected, actual), "Invalid content found for property "
+                + propertyMetadata.getName() + ", expected=" + expected + ", actual=" + actual);
         } else {
             assertEquals(expected, actual, "Invalid content found for property " + propertyMetadata.getName()
                 + ", expected=" + expected + ", actual=" + actual);
@@ -152,7 +160,7 @@ public class PropertySupport {
      * Reads and returns the read property from the given target
      *
      * @param target to be read from, must not be null
-     * @return he read Property, may be {@code null}
+     * @return the read property, may be {@code null}
      */
     public Object readProperty(Object target) {
         assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
@@ -164,7 +172,8 @@ public class PropertySupport {
      *
      * @param target        to be written to, must not be null
      * @param propertyValue to be written
-     * @return he read Property, may be {@code null}
+     * @return the modified target object as returned by the configured
+     *         {@link PropertyAccessStrategy}, may be {@code null}
      */
     public Object writeProperty(Object target, Object propertyValue) {
         assertNotNull(target, TARGET_MUST_NOT_BE_NULL);

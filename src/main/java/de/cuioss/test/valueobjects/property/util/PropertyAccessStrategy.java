@@ -51,7 +51,7 @@ public enum PropertyAccessStrategy {
         public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
             final Object propertyValue) {
             assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
-            assertNotNull(target, PROPERTY_METADATA_MUST_NOT_BE_NULL);
+            assertNotNull(propertyMetadata, PROPERTY_METADATA_MUST_NOT_BE_NULL);
             try {
                 PropertyUtil.setProperty(target, propertyMetadata.getName(), propertyValue);
                 return target;
@@ -65,7 +65,7 @@ public enum PropertyAccessStrategy {
         @Override
         public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
             assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
-            assertNotNull(target, PROPERTY_METADATA_MUST_NOT_BE_NULL);
+            assertNotNull(propertyMetadata, PROPERTY_METADATA_MUST_NOT_BE_NULL);
             try {
                 return PropertyUtil.readProperty(target, propertyMetadata.getName());
             } catch (IllegalArgumentException | IllegalStateException e) {
