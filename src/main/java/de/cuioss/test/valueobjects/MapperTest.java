@@ -16,12 +16,14 @@
 package de.cuioss.test.valueobjects;
 
 import de.cuioss.test.generator.TypedGenerator;
+import de.cuioss.test.generator.junit.GeneratorControllerExtension;
 import de.cuioss.test.valueobjects.api.VerifyMapperConfiguration;
 import de.cuioss.test.valueobjects.api.property.PropertyConfig;
 import de.cuioss.test.valueobjects.api.property.PropertyConfigs;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.test.valueobjects.contract.MapperContractImpl;
 import de.cuioss.test.valueobjects.generator.dynamic.GeneratorResolver;
+import de.cuioss.test.valueobjects.junit5.extension.GeneratorRegistryController;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.objects.TestObjectProvider;
@@ -36,14 +38,23 @@ import de.cuioss.tools.reflect.MoreReflection;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.function.Function;
 
-import static de.cuioss.test.valueobjects.util.ReflectionHelper.*;
+import static de.cuioss.test.valueobjects.util.ReflectionHelper.handlePostProcessConfig;
+import static de.cuioss.test.valueobjects.util.ReflectionHelper.handlePropertyMetadata;
+import static de.cuioss.test.valueobjects.util.ReflectionHelper.scanBeanTypeForProperties;
+import static de.cuioss.test.valueobjects.util.ReflectionHelper.shouldScanClass;
 import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Allows to test a mapper implementing a {@link Function} to map a (pseudo-)DTO
@@ -80,6 +91,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @param <T> Target: The type of the source-Objects to be mapped to
  */
 @SuppressWarnings("squid:S2187") // Base class for tests
+@ExtendWith({GeneratorControllerExtension.class, GeneratorRegistryController.class})
 public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegistry, TestObjectProvider<M> {
 
     @Getter(AccessLevel.PROTECTED)
@@ -97,24 +109,31 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      * once
      */
     @SuppressWarnings({"unchecked"})
-    protected void intializeTypeInformation() {
+    protected void initializeTypeInformation() {
         if (null == mapperClass) {
             var parameterized = MoreReflection.extractParameterizedType(getClass()).orElseThrow(
-                () -> new IllegalArgumentException("Given type defines no generic Type: " + getClass()));
+                () -> new AssertionError("Given type defines no generic Type: " + getClass()));
             List<Type> types = immutableList(parameterized.getActualTypeArguments());
             Preconditions.checkArgument(3 == types.size(), "Super Class must provide 3 generic types in order to work");
             mapperClass = (Class<M>) MoreReflection.extractGenericTypeCovariantly(types.getFirst())
-                .orElseThrow(() -> new AssertionError("Unable to determine mapperClass from type" + getClass()));
-            assertNotNull(mapperClass, "Unable to determine mapperClass");
+                .orElseThrow(() -> new AssertionError("Unable to determine mapperClass from type " + getClass()));
             assertFalse(mapperClass.isInterface(),
                 "This type only works with concrete implementations, but was the interface " + mapperClass);
             sourceClass = (Class<S>) MoreReflection.extractGenericTypeCovariantly(types.get(1))
-                .orElseThrow(() -> new AssertionError("Unable to determine sourceClass from type" + getClass()));
-            assertNotNull(sourceClass, "Unable to determine sourceClass");
+                .orElseThrow(() -> new AssertionError("Unable to determine sourceClass from type " + getClass()));
             targetClass = (Class<T>) MoreReflection.extractGenericTypeCovariantly(types.get(2))
-                .orElseThrow(() -> new AssertionError("Unable to determine targetClass from type" + getClass()));
-            assertNotNull(targetClass, "Unable to determine targetClass");
+                .orElseThrow(() -> new AssertionError("Unable to determine targetClass from type " + getClass()));
         }
+    }
+
+    /**
+     * @deprecated misspelled method name, use {@link #initializeTypeInformation()}
+     *             instead. Retained for backwards compatibility with subclasses and
+     *             tests that call it directly.
+     */
+    @Deprecated
+    protected void intializeTypeInformation() {
+        initializeTypeInformation();
     }
 
     /**
@@ -132,7 +151,7 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      * @param targetConfig providing configuration, may be null
      */
     public void verifyMapper(PropertyReflectionConfig targetConfig) {
-        intializeTypeInformation();
+        initializeTypeInformation();
         Optional<VerifyMapperConfiguration> config = MoreReflection.extractAnnotation(getClass(),
             VerifyMapperConfiguration.class);
 
@@ -153,7 +172,7 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
 
     @Override
     public M getUnderTest() {
-        intializeTypeInformation();
+        initializeTypeInformation();
         return new DefaultInstantiator<>(mapperClass).newInstance();
     }
 
@@ -166,7 +185,7 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      *         the configured attributes
      */
     public List<PropertyMetadata> resolveSourcePropertyMetadata() {
-        intializeTypeInformation();
+        initializeTypeInformation();
         return handlePropertyMetadata(getClass(), getSourceClass());
     }
 
@@ -180,11 +199,11 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      *         the configured attributes
      */
     public List<PropertyMetadata> resolveTargetPropertyMetadata(PropertyReflectionConfig config) {
-        intializeTypeInformation();
+        initializeTypeInformation();
         final List<PropertyMetadata> builder = new ArrayList<>();
-        if (shouldScanClass(getClass())) {
+        if (shouldScanClass(config)) {
             final SortedSet<PropertyMetadata> scanned = new TreeSet<>(
-                scanBeanTypeForProperties(anyTargetObject().getClass(), config));
+                scanBeanTypeForProperties(targetClass, config));
             builder.addAll(handlePostProcessConfig(config, scanned));
         }
         final var handled = PropertyHelper.handlePrimitiveAsDefaults(PropertyHelper.toMapView(builder).values());
@@ -200,7 +219,7 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      *         {@link TypedGenerator}, see {@link GeneratorRegistry}
      */
     public T anyTargetObject() {
-        intializeTypeInformation();
+        initializeTypeInformation();
         return GeneratorResolver.resolveGenerator(targetClass).next();
     }
 
@@ -213,7 +232,7 @@ public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegi
      */
     @SuppressWarnings("java:S1452") // owolff: using wildcards here is the only way
     public ParameterizedInstantiator<? extends S> getSourceInstantiator(RuntimeProperties runtimeProperties) {
-        intializeTypeInformation();
+        initializeTypeInformation();
         return new BeanInstantiator<>(new DefaultInstantiator<>(getSourceClass()), runtimeProperties);
     }
 }

@@ -24,6 +24,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @VerifyMapperConfiguration(equals = {"firstname:nameFirst", "lastname:nameLast", "attributeList:listOfAttributes"})
 class BaseMapperTestTest extends MapperTest<SimpleMapper, SimpleSourceBean, SimpleTargetBean> {
@@ -46,6 +48,30 @@ class BaseMapperTestTest extends MapperTest<SimpleMapper, SimpleSourceBean, Simp
     void shouldDetermineTargetMetadata() {
         assertNotNull(super.resolveTargetPropertyMetadata(null));
         assertEquals(3, super.resolveTargetPropertyMetadata(null).size());
+    }
+
+    @Test
+    void shouldProvideAnyTargetObject() {
+        var target = super.anyTargetObject();
+        assertNotNull(target);
+        assertEquals(SimpleTargetBean.class, target.getClass());
+    }
+
+    @Test
+    void shouldFailForMissingGenericType() {
+        var error = assertThrows(AssertionError.class, new RawMapper()::triggerTypeInformation);
+        assertTrue(error.getMessage().contains("no generic Type"), error.getMessage());
+    }
+
+    /**
+     * Raw (non-parameterized) subclass used to exercise the guard that fails when
+     * the generic type arguments of {@link MapperTest} can not be resolved.
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    static class RawMapper extends MapperTest {
+        void triggerTypeInformation() {
+            initializeTypeInformation();
+        }
     }
 
 }
