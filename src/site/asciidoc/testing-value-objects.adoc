@@ -65,9 +65,36 @@ The annotation `@VerifyConstructor` provides some attributes for fine-tuning the
  class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
 ----
 
-This will test the two distinct factory-methods defined by the type `SomeBean`. The tests will instantiate and check whether the property is available on the created instance. In the case of `required` it will test passing `null` as parameter and expecting an exception to be thrown. In case of an attribute not being required it will as well pass `null` but no exception should occur. 
+This will test the two distinct factory-methods defined by the type `SomeBean`. The tests will instantiate and check whether the property is available on the created instance. In the case of `required` it will test passing `null` as parameter and expecting an exception to be thrown. In case of an attribute not being required it will as well pass `null` but no exception should occur.
 
 The annotation `@VerifyFactoryMethod` provides some attributes for fine-tuning the tests.
+
+==== Testing Copy Constructors
+
+`@VerifyCopyConstructor` verifies a copy-constructor, i.e. a constructor that takes an instance of the same type (or a compatible super-type / interface) and creates a copy of it. It can only be used in combination with at least one other verification contract (e.g. `@VerifyConstructor`, `@VerifyBuilder`), because the framework needs an existing way to create the source instance that is passed to the copy-constructor.
+
+[source,java]
+----
+ @VerifyConstructor(of = "attribute", required = "attribute")
+ @VerifyCopyConstructor
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
+
+For each generated source object the framework calls the copy-constructor and asserts that the individual properties are copied correctly. By default it additionally checks `Object#equals(Object)` between the source and the copy; this can be turned off with `useObjectEquals()`.
+
+The annotation provides several attributes for fine-tuning:
+
+* `of()` / `exclude()`: white-list / black-list of properties (by name) that are considered for the test.
+* `argumentType()`: the declared parameter type of the copy-constructor, if it differs from the type under test (e.g. the constructor accepts an interface or `Serializable` instead of the concrete type).
+* `useObjectEquals()`: whether the copy is additionally compared to the source via `equals` (default `true`).
+* `verifyDeepCopy()`: whether to additionally verify that the copy is a deep copy rather than a shallow one (default `false`). Use `verifyDeepCopyIgnore()` to exclude specific properties from that deep-copy check.
+
+[source,java]
+----
+ @VerifyBuilder
+ @VerifyCopyConstructor(verifyDeepCopy = true, verifyDeepCopyIgnore = "immutableReference")
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
 
 == Canonical Object Methods
 
@@ -91,6 +118,18 @@ This is done by adding the `@VetoObjectTestContract` annotation:
  @VetoObjectTestContract(ObjectTestContracts.TO_STRING)
  class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
 ----
+
+=== Opting in to canonical method testing
+
+`@VetoObjectTestContract` is the right tool when running the full `ValueObjectTest` and you want to exclude a contract. In contrast, `@VerifyObjectTestContract` is the *opt-in* counterpart: it is meant for cases where you do not run all contracts by default but want to explicitly request the canonical object-method checks. When the annotation is present all `ObjectTestContracts` are executed, but you can still veto individual contracts via its `veto()` attribute.
+
+[source,java]
+----
+ @VerifyObjectTestContract(veto = ObjectTestContracts.SERIALIZABLE)
+ class SomeBeanTest extends ValueObjectTest<SomeBean>{...}
+----
+
+The annotation is `@Repeatable`, so multiple declarations can be combined if needed.
 
 === Tweaking Canonical Method Testing
 
@@ -116,7 +155,7 @@ Required properties: -
 Additional properties: country, streetName, city, use, postalCode, houseNumber, id, state, unstructuredAddress, type, contentForFormatterSupport, empty
 Default valued properties: empty
 Writable properties: country, streetName, city, use, postalCode, houseNumber, id, state, unstructuredAddress, type
-Okt 14, 2020 5:38:24 PM de.cuioss.test.valueobjects.contract.EqualsAndHashcodeContractImpl executePropertyTests
+INFO: de.cuioss.test.valueobjects.contract.EqualsAndHashcodeContractImpl executePropertyTests
 INFO: Configured attributes found for equalsAndHashCode-testing: [city, country, houseNumber, id, postalCode, state, streetName, type, unstructuredAddress, use]
 ----
 
