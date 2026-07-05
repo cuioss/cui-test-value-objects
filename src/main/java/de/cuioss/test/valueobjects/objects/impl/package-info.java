@@ -13,30 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.cuioss.test.valueobjects.util;
-
-import de.cuioss.test.generator.TypedGenerator;
-import lombok.RequiredArgsConstructor;
-
 /**
- * Hard-core implementation for reflection based corner-cases.
- *
- * @author Oliver Wolff
+ * Concrete {@link de.cuioss.test.valueobjects.objects.ParameterizedInstantiator}
+ * implementations for creating instances via constructors, factory-methods and
+ * builders.
  */
-@RequiredArgsConstructor
-class WildcardDecoratorGenerator implements TypedGenerator<Object> {
-
-    private final Class<?> type;
-    private final TypedGenerator<?> generator;
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public Class<Object> getType() {
-        return (Class<Object>) type;
-    }
-
-    @Override
-    public Object next() {
-        return generator.next();
-    }
-}
+package de.cuioss.test.valueobjects.objects.impl;

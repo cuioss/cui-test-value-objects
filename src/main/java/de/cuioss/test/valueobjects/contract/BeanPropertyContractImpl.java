@@ -121,7 +121,7 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
      *         requirements for the parameters are correct, otherwise it will return
      *         {@link Optional#empty()}
      */
-    public static final <T> Optional<TestContract<T>> createBeanPropertyTestContract(final Class<T> beanType,
+    public static <T> Optional<TestContract<T>> createBeanPropertyTestContract(final Class<T> beanType,
         final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata) {
 
         requireNonNull(beanType, "beantype must not be null");

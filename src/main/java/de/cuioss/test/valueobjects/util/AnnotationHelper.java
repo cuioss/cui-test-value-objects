@@ -47,7 +47,6 @@ import static java.util.Objects.requireNonNull;
 public final class AnnotationHelper {
 
     private static final String NO_PROPERTIES_GIVEN_IS_THIS_INTENTIONAL = "No properties given: Is this intentional?";
-    static final String UNABLE_TO_INSTANTIATE_GENERATOR = "Unable to instantiate generator, You must provide a no-arg public constructor: ";
 
     private static final CuiLogger LOGGER = new CuiLogger(AnnotationHelper.class);
 
@@ -65,25 +64,40 @@ public final class AnnotationHelper {
         final Collection<PropertyMetadata> givenMetadata) {
 
         requireNonNull(config);
+        return configToPropertyMetadata(config.of(), givenMetadata, config.allRequired(), config.defaultValued(),
+            config.readOnly(), config.required(), config.transientProperties(), config.writeOnly(),
+            config.assertUnorderedCollection());
+    }
+
+    /**
+     * Shared implementation for {@link #constructorConfigToPropertyMetadata(VerifyConstructor, Collection)}
+     * and {@link #factoryConfigToPropertyMetadata(VerifyFactoryMethod, Collection)}: both configurations
+     * are structurally identical, only the annotation type and the {@code allRequired} flag differ.
+     */
+    private static List<PropertyMetadata> configToPropertyMetadata(final String[] of,
+        final Collection<PropertyMetadata> givenMetadata, final boolean allRequired, final String[] defaultValued,
+        final String[] readOnly, final String[] required, final String[] transientProperties, final String[] writeOnly,
+        final String[] unorderedCollection) {
+
         requireNonNull(givenMetadata);
 
         final Map<String, PropertyMetadata> map = new HashMap<>();
-        final List<String> ofAsList = Arrays.asList(config.of());
+        final List<String> ofAsList = Arrays.asList(of);
 
         givenMetadata.stream().filter(p -> ofAsList.contains(p.getName()))
             .forEach(meta -> map.put(meta.getName(), meta));
 
-        for (final String name : config.of()) {
+        for (final String name : of) {
             PropertyHelper.assertPropertyExists(name, map);
-            modifyPropertyMetadata(map, config.defaultValued(), config.readOnly(), config.required(),
-                config.transientProperties(), config.writeOnly(), config.assertUnorderedCollection());
         }
+        modifyPropertyMetadata(map, defaultValued, readOnly, required, transientProperties, writeOnly,
+            unorderedCollection);
 
-        if (config.allRequired()) {
+        if (allRequired) {
             map.replaceAll((k, v) -> PropertyMetadataImpl.builder(v).required(true).build());
         }
 
-        return orderPropertyMetadata(config.of(), handleWritableAttributes(map));
+        return orderPropertyMetadata(of, handleWritableAttributes(map));
     }
 
     private static List<PropertyMetadata> handleWritableAttributes(final Map<String, PropertyMetadata> map) {
@@ -116,21 +130,8 @@ public final class AnnotationHelper {
         final Collection<PropertyMetadata> givenMetadata) {
 
         requireNonNull(config);
-        requireNonNull(givenMetadata);
-
-        final Map<String, PropertyMetadata> map = new HashMap<>();
-        final List<String> ofAsList = Arrays.asList(config.of());
-
-        givenMetadata.stream().filter(p -> ofAsList.contains(p.getName()))
-            .forEach(meta -> map.put(meta.getName(), meta));
-
-        for (final String name : config.of()) {
-            PropertyHelper.assertPropertyExists(name, map);
-            modifyPropertyMetadata(map, config.defaultValued(), config.readOnly(), config.required(),
-                config.transientProperties(), config.writeOnly(), config.assertUnorderedCollection());
-        }
-
-        return orderPropertyMetadata(config.of(), handleWritableAttributes(map));
+        return configToPropertyMetadata(config.of(), givenMetadata, false, config.defaultValued(), config.readOnly(),
+            config.required(), config.transientProperties(), config.writeOnly(), config.assertUnorderedCollection());
     }
 
     /**
@@ -369,17 +370,19 @@ public final class AnnotationHelper {
      * @param unorderedCollection must not be null, see
      *                            {@link PropertyReflectionConfig#assertUnorderedCollection()}
      * @return the filtered map
+     * @deprecated without a production caller; use the {@code String[]}-based
+     *             {@link #modifyPropertyMetadata(Map, String[], String[], String[], String[], String[], String[])}
+     *             overload instead.
      */
+    @Deprecated
     public static Map<String, PropertyMetadata> modifyPropertyMetadata(final Map<String, PropertyMetadata> map,
         final List<String> defaultValued, final List<String> readOnly, final List<String> required,
         final List<String> transientProperties, final List<String> writeOnly,
         final List<String> unorderedCollection) {
 
-        return modifyPropertyMetadata(map, defaultValued.toArray(new String[defaultValued.size()]),
-            readOnly.toArray(new String[readOnly.size()]), required.toArray(new String[required.size()]),
-            transientProperties.toArray(new String[transientProperties.size()]),
-            writeOnly.toArray(new String[writeOnly.size()]),
-            unorderedCollection.toArray(new String[unorderedCollection.size()]));
+        return modifyPropertyMetadata(map, defaultValued.toArray(new String[0]), readOnly.toArray(new String[0]),
+            required.toArray(new String[0]), transientProperties.toArray(new String[0]),
+            writeOnly.toArray(new String[0]), unorderedCollection.toArray(new String[0]));
     }
 
 }

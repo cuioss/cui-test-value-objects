@@ -118,7 +118,7 @@ public class ConstructorBasedGenerator<T> implements TypedGenerator<T> {
      * @return an {@link Optional} on the corresponding {@link TypedGenerator} if a
      *         constructor can be found
      */
-    public static final <T> Optional<TypedGenerator<T>> getGeneratorForType(final Class<T> type) {
+    public static <T> Optional<TypedGenerator<T>> getGeneratorForType(final Class<T> type) {
         if (!isReponsibleForType(type)) {
             return Optional.empty();
         }

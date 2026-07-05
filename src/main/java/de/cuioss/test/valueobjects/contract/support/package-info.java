@@ -13,30 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.cuioss.test.valueobjects.util;
-
-import de.cuioss.test.generator.TypedGenerator;
-import lombok.RequiredArgsConstructor;
-
 /**
- * Hard-core implementation for reflection based corner-cases.
- *
- * @author Oliver Wolff
+ * Support types for the mapper-contract assertions, e.g. the mapping tuples and
+ * assertion strategies used by the mapper verification.
  */
-@RequiredArgsConstructor
-class WildcardDecoratorGenerator implements TypedGenerator<Object> {
-
-    private final Class<?> type;
-    private final TypedGenerator<?> generator;
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public Class<Object> getType() {
-        return (Class<Object>) type;
-    }
-
-    @Override
-    public Object next() {
-        return generator.next();
-    }
-}
+package de.cuioss.test.valueobjects.contract.support;

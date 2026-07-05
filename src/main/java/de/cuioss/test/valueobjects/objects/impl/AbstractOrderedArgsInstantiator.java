@@ -64,11 +64,7 @@ public abstract class AbstractOrderedArgsInstantiator<T> implements Parameterize
         if (null == parameter || parameter.isEmpty()) {
             return new Class<?>[0];
         }
-        final var parameterArray = new Class<?>[parameter.size()];
-        for (var i = 0; i < parameterArray.length; i++) {
-            parameterArray[i] = parameter.get(i);
-        }
-        return parameterArray;
+        return parameter.toArray(new Class<?>[0]);
     }
 
     @Override
