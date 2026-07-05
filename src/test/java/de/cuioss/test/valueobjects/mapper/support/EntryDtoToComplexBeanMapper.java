@@ -15,6 +15,8 @@
  */
 package de.cuioss.test.valueobjects.mapper.support;
 
+import de.cuioss.test.valueobjects.testbeans.ComplexBean;
+
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;

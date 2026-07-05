@@ -17,6 +17,7 @@ package de.cuioss.test.valueobjects.junit5.testbeans;
 
 import de.cuioss.test.generator.Generators;
 import de.cuioss.test.valueobjects.api.TestContract;
+import de.cuioss.test.valueobjects.contract.MockTestContract;
 import de.cuioss.test.valueobjects.api.contracts.VerifyCopyConstructor;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.objects.impl.ConstructorBasedInstantiator;

@@ -13,22 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.cuioss.test.valueobjects.junit5.testbeans;
+package de.cuioss.test.valueobjects.generator.impl;
 
-import de.cuioss.test.valueobjects.api.TestContract;
-import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Test;
 
-@RequiredArgsConstructor
-public class MockTestContract<T> implements TestContract<T> {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-    @Getter
-    private final ParameterizedInstantiator<T> instantiator;
+class DummyGeneratorTest {
 
-    @Override
-    public void assertContract() {
-        // Noop, for testing
+    @Test
+    void shouldProvideConfiguredTypeAndNullValues() {
+        final var generator = new DummyGenerator<>(String.class);
+        assertEquals(String.class, generator.getType());
+        // The dummy generator deliberately never provides an actual value
+        assertNull(generator.next());
     }
-
 }

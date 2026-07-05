@@ -21,6 +21,6 @@ import de.cuioss.test.valueobjects.junit5.testbeans.BeanWithMultipleConstructorA
 
 @VerifyConstructor(of = "name")
 @VerifyConstructor(of = {"name", "propertyMemberInfo"})
-public class ValueObjectTestConstructorTest extends ValueObjectTest<BeanWithMultipleConstructorAnnotation> {
+class ValueObjectTestConstructorTest extends ValueObjectTest<BeanWithMultipleConstructorAnnotation> {
 
 }
