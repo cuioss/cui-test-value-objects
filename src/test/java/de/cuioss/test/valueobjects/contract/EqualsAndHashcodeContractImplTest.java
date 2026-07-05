@@ -131,6 +131,12 @@ class EqualsAndHashcodeContractImplTest {
     }
 
     @Test
+    void shouldOnlyCheckBasicContractWhenConfigured() {
+        final var config = EqualsAndHashcodeBasicOnly.class.getAnnotation(ObjectTestConfig.class);
+        new EqualsAndHashcodeContractImpl().assertContract(FULL_BEAN_INSTANIATOR, config);
+    }
+
+    @Test
     void shouldHandleExclude() {
         TypedGeneratorRegistry.registerBasicTypes();
         final List<PropertyMetadata> meta = ReflectionHelper.handlePropertyMetadata(EqualsAndHashcodeWithExlude.class,

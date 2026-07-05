@@ -22,8 +22,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * Simple check whether the {@link TestObjectProvider#getUnderTest()} implements
- * {@link Object#equals(Object)} and {@link Object#hashCode()}
+ * Simple check whether the {@link TestObjectProvider#getUnderTest()} overrides
+ * {@link Object#toString()}
  *
  * @author Oliver Wolff
  * @param <T> identifying the type to be tested is usually but not necessarily
@@ -33,8 +33,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public interface ShouldImplementToString<T> extends TestObjectProvider<T> {
 
     /**
-     * Simple check whether the {@link TestObjectProvider#getUnderTest()} implements
-     * {@link Object#equals(Object)} and {@link Object#hashCode()}
+     * Simple check whether the {@link TestObjectProvider#getUnderTest()} overrides
+     * {@link Object#toString()}
      */
     @Test
     default void shouldImplementToString() {

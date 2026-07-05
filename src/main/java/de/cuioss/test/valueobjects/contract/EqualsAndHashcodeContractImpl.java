@@ -62,7 +62,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
         if (shouldTestPropertyContract(objectTestConfig)) {
             executePropertyTests(instantiator, objectTestConfig);
         } else {
-            LOGGER.info("Only checking basic contract of equals() and hasCode()");
+            LOGGER.info("Only checking basic contract of equals() and hashCode()");
         }
 
     }

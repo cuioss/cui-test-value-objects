@@ -94,7 +94,10 @@ public class RuntimeProperties {
     }
 
     /**
-     * @param properties
+     * Constructor.
+     *
+     * @param properties the sorted set of {@link PropertyMetadata} to be
+     *                   aggregated, may be null
      */
     public RuntimeProperties(final SortedSet<PropertyMetadata> properties) {
         this(immutableList(properties));
@@ -145,7 +148,7 @@ public class RuntimeProperties {
      *                          created element
      * @param filter            containing the names to be filtered, must not be
      *                          null
-     * @return the newly created mutable {@link List}
+     * @return an unmodifiable {@link List} with the filtered elements
      */
     public List<PropertySupport> getAllAsPropertySupport(final boolean generateTestValue,
         final Collection<String> filter) {
@@ -176,7 +179,7 @@ public class RuntimeProperties {
      *                          created element
      * @param filter            containing the names to be filtered, must not be
      *                          null
-     * @return the newly created mutable {@link List}
+     * @return an unmodifiable {@link List} with the filtered elements
      */
     public List<PropertySupport> getRequiredAsPropertySupport(final boolean generateTestValue,
         final Collection<String> filter) {
@@ -208,7 +211,7 @@ public class RuntimeProperties {
      *                          created element
      * @param filter            containing the names to be filtered, must not be
      *                          null
-     * @return the newly created mutable {@link List}
+     * @return an unmodifiable {@link List} with the filtered elements
      */
     public List<PropertySupport> getDefaultAsPropertySupport(final boolean generateTestValue,
         final Collection<String> filter) {
@@ -239,7 +242,7 @@ public class RuntimeProperties {
      *                          created element
      * @param filter            containing the names to be filtered, must not be
      *                          null
-     * @return the newly created mutable {@link List}
+     * @return an unmodifiable {@link List} with the filtered elements
      */
     public List<PropertySupport> getAdditionalAsPropertySupport(final boolean generateTestValue,
         final Collection<String> filter) {
@@ -270,7 +273,7 @@ public class RuntimeProperties {
      *                          created element
      * @param filter            containing the names to be filtered, must not be
      *                          null
-     * @return the newly created mutable {@link List}
+     * @return an unmodifiable {@link List} with the filtered elements
      */
     public List<PropertySupport> getWritableAsPropertySupport(final boolean generateTestValue,
         final Collection<String> filter) {

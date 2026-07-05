@@ -33,8 +33,8 @@ public final class ExceptionHelper {
      * Extracts a message from a given throwable in a safe manner. It specially
      * handles {@link InvocationTargetException}
      *
-     * @param throwable
-     * @return the extract message;
+     * @param throwable the throwable to extract the message from, may be null
+     * @return the extracted message
      */
     public static String extractMessageFromThrowable(final Throwable throwable) {
         if (null == throwable) {
@@ -47,8 +47,8 @@ public final class ExceptionHelper {
      * Extracts a message from a given throwable in a safe manner. It specially
      * handles {@link InvocationTargetException}
      *
-     * @param throwable
-     * @return the extract message;
+     * @param throwable the throwable to extract the message from, may be null
+     * @return the extracted message
      */
     public static String extractCauseMessageFromThrowable(final Throwable throwable) {
         if (null == throwable) {

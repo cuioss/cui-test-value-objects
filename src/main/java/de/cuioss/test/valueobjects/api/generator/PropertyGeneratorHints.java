@@ -22,7 +22,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Wraps a number of {@link PropertyGenerator} elements.
+ * Wraps a number of {@link PropertyGeneratorHint} elements.
  *
  * @author Oliver Wolff
  */
@@ -31,7 +31,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface PropertyGeneratorHints {
 
     /**
-     * @return an array of {@link PropertyGenerator}
+     * @return an array of {@link PropertyGeneratorHint}
      */
     PropertyGeneratorHint[] value();
 }

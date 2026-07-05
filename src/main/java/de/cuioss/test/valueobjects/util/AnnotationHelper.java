@@ -177,7 +177,7 @@ public final class AnnotationHelper {
      * @param annotated     must not be null and must be annotated with
      *                      {@link VerifyBeanProperty}
      * @param givenMetadata must not be null
-     * @return a {@link SortedSet} providing the property configuration derived by
+     * @return a {@link List} providing the property configuration derived by
      *         the given properties and the annotated {@link VerifyBeanProperty}
      */
     public static List<PropertyMetadata> handleMetadataForPropertyTest(final Class<?> annotated,
@@ -224,9 +224,9 @@ public final class AnnotationHelper {
 
     /**
      * @param annotated     must not be null and must be annotated with
-     *                      {@link VerifyBeanProperty}
+     *                      {@link VerifyBuilder}
      * @param givenMetadata must not be null
-     * @return a {@link SortedSet} providing the property configuration derived by
+     * @return a {@link List} providing the property configuration derived by
      *         the given properties and the annotated {@link VerifyBuilder}
      */
     public static List<PropertyMetadata> handleMetadataForBuilderTest(final Class<?> annotated,
@@ -284,7 +284,7 @@ public final class AnnotationHelper {
      * @param verifyMapper  must not be null and must be annotated with
      *                      {@link VerifyMapperConfiguration}
      * @param givenMetadata must not be null
-     * @return a {@link SortedSet} providing the property configuration derived by
+     * @return a {@link List} providing the property configuration derived by
      *         the given properties and the annotated
      *         {@link VerifyMapperConfiguration}
      */

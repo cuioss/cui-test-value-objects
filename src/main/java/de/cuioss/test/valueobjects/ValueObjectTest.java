@@ -59,7 +59,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * {@link PropertyMetadata} and {@link TypedGenerator}
  * </p>
  * Usage examples can be found at the package-documentation:
- * {@link de.cuioss.test.valueobjects.junit5}
+ * {@link de.cuioss.test.valueobjects}
  *
  * @param <T> identifying the type to be tested is usually but not necessarily
  *            at least {@link Serializable}.
@@ -101,8 +101,10 @@ public class ValueObjectTest<T> extends PropertyAwareTest<T> implements ObjectCo
      * Resolves the concrete {@link TestContract}s to be tested. They are derived by
      * the corresponding annotations
      *
-     * @param initialMetadata
-     * @return
+     * @param initialMetadata the initially resolved {@link PropertyMetadata} to be
+     *                        used as base for the individual contracts
+     * @return the list of {@link TestContract}s derived from the annotations found
+     *         on the concrete test-class
      */
     protected List<TestContract<T>> resolveTestContracts(final List<PropertyMetadata> initialMetadata) {
         return ContractRegistry.resolveTestContracts(getTargetBeanClass(), getClass(), initialMetadata);

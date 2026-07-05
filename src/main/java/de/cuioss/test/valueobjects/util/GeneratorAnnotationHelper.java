@@ -16,7 +16,6 @@
 package de.cuioss.test.valueobjects.util;
 
 import de.cuioss.test.generator.TypedGenerator;
-import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
 import de.cuioss.test.valueobjects.api.generator.PropertyGenerator;
 import de.cuioss.test.valueobjects.api.generator.PropertyGeneratorHint;
 import de.cuioss.test.valueobjects.api.generator.PropertyGeneratorHints;
@@ -43,7 +42,10 @@ import static java.util.Objects.requireNonNull;
 @UtilityClass
 public final class GeneratorAnnotationHelper {
 
-    /**  */
+    /**
+     * Message used when a configured generator can not be instantiated because it
+     * does not provide a public no-arg constructor.
+     */
     public static final String UNABLE_TO_INSTANTIATE_GENERATOR = "Unable to instantiate generator, You must provide a no-arg public constructor: ";
 
     /**
@@ -55,8 +57,9 @@ public final class GeneratorAnnotationHelper {
      * {@link #handleGeneratorHints(Class)} in case there are additionalGenerator
      * given they will be registered as well
      *
-     * @param testClass           must not null
-     * @param additionalGenerator
+     * @param testClass           must not be null
+     * @param additionalGenerator additional {@link TypedGenerator}s to be
+     *                            registered, may be null
      */
     public static void handleGeneratorsForTestClass(final Object testClass,
         final List<TypedGenerator<?>> additionalGenerator) {
@@ -126,7 +129,7 @@ public final class GeneratorAnnotationHelper {
      *
      * @param annotated the class that may or may not provide the annotations, must
      *                  not be null
-     * @return a {@link Set} of {@link VerifyConstructor} extracted from the
+     * @return a {@link Set} of {@link PropertyGeneratorHint} extracted from the
      *         annotations of the given type. May be empty but never null
      */
     public static Set<PropertyGeneratorHint> extractConfiguredGeneratorHints(final Class<?> annotated) {

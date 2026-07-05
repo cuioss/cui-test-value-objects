@@ -65,7 +65,7 @@ public @interface VerifyFactoryMethod {
     /**
      * @return an array of properties, identified by their names that are to be
      *         treated as required properties, see
-     *         {@link PropertyMetadata#isRequired()}. it is used
+     *         {@link PropertyMetadata#isRequired()}
      */
     String[] required() default {};
 

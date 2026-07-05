@@ -38,7 +38,8 @@ public class ContractRegistry {
      *
      * @param targetBeanClass  The actual class underTest
      * @param unitTestClass    The test-class
-     * @param propertyMetadata
+     * @param propertyMetadata the initially resolved {@link PropertyMetadata} used
+     *                         as base for the individual contracts
      * @return a list of configured {@link TestContract}s
      */
     public static <T> List<TestContract<T>> resolveTestContracts(Class<T> targetBeanClass, Class<?> unitTestClass,
