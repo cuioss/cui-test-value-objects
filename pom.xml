@@ -30,21 +30,9 @@
         <system>GitHub Issues</system>
     </issueManagement>
     <properties>
-        <maven.compiler.release>21</maven.compiler.release>
         <version.javassist>3.32.0-GA</version.javassist>
-        <version.cui.test.generator>3.0.2</version.cui.test.generator>
         <maven.jar.plugin.automatic.module.name>de.cuioss.test.valueobjects</maven.jar.plugin.automatic.module.name>
     </properties>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.javassist</groupId>
-                <artifactId>javassist</artifactId>
-                <version>${version.javassist}</version>
-                <scope>compile</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <dependencies>
         <!-- Provided -->
         <dependency>
@@ -69,6 +57,7 @@
         <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
+            <version>${version.javassist}</version>
         </dependency>
         <!-- Unit testing -->
         <dependency>
