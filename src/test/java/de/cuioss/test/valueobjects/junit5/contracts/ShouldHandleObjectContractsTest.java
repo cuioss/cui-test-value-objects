@@ -15,7 +15,7 @@
  */
 package de.cuioss.test.valueobjects.junit5.contracts;
 
-import de.cuioss.test.valueobjects.junit5.testbeans.ComplexBean;
+import de.cuioss.test.valueobjects.testbeans.ComplexBean;
 
 class ShouldHandleObjectContractsTest implements ShouldHandleObjectContracts<ComplexBean> {
 

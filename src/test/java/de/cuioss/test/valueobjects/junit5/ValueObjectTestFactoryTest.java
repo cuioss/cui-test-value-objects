@@ -21,6 +21,6 @@ import de.cuioss.test.valueobjects.junit5.testbeans.TwoFactoryBean;
 
 @VerifyFactoryMethod(factoryMethodName = "create", of = "attribute")
 @VerifyFactoryMethod(factoryMethodName = "create", of = {})
-public class ValueObjectTestFactoryTest extends ValueObjectTest<TwoFactoryBean> {
+class ValueObjectTestFactoryTest extends ValueObjectTest<TwoFactoryBean> {
 
 }

@@ -20,7 +20,7 @@ import de.cuioss.test.valueobjects.api.VerifyMapperConfiguration;
 import de.cuioss.test.valueobjects.api.property.PropertyConfig;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
-import de.cuioss.test.valueobjects.mapper.support.ComplexBean;
+import de.cuioss.test.valueobjects.testbeans.ComplexBean;
 import de.cuioss.test.valueobjects.mapper.support.EntryDto;
 import de.cuioss.test.valueobjects.mapper.support.EntryDtoToComplexBeanMapper;
 import de.cuioss.test.valueobjects.mapper.support.MapEntryGenerator;
