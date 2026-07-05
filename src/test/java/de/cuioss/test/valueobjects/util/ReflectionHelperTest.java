@@ -176,6 +176,14 @@ class ReflectionHelperTest {
     }
 
     @Test
+    void shouldFailOnRawCollection() {
+        final var exception = assertThrows(IllegalStateException.class,
+            () -> scanBeanTypeForProperties(BeanWithRawCollection.class, null));
+        assertTrue(exception.getMessage().contains("Unable to determine generic-type"),
+            "Should provide a descriptive message, but was: " + exception.getMessage());
+    }
+
+    @Test
     @SuppressWarnings("java:S2699")
     // owolff not throwing an exception is the actual test
     void shouldSkipNestedGenerics() {
