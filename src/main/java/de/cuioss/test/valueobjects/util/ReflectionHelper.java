@@ -189,8 +189,7 @@ public final class ReflectionHelper {
                 if (CollectionType.ARRAY_MARKER.equals(collectionType)) {
                     propertyType = field.get().getType().getComponentType();
                 } else {
-                    propertyType = extractParameterizedType(field.get(),
-                        (ParameterizedType) field.get().getGenericType());
+                    propertyType = extractParameterizedType(field.get());
                 }
             }
         }
@@ -208,17 +207,26 @@ public final class ReflectionHelper {
             .generator(GeneratorResolver.resolveGenerator(propertyType)).build();
     }
 
-    private static Class<?> extractParameterizedType(final Field field, final ParameterizedType parameterizedType) {
+    private static Class<?> extractParameterizedType(final Field field) {
+        final var genericType = field.getGenericType();
+        if (!(genericType instanceof ParameterizedType parameterizedType)) {
+            // raw (non-generic) collection field, e.g. 'private List names;'
+            throw unableToDetermineGenericType(field, null);
+        }
         try {
             return (Class<?>) parameterizedType.getActualTypeArguments()[0];
         } catch (final ClassCastException e) {
-            throw new IllegalStateException("""
-                Unable to determine generic-type for %s, ususally this is the case with nested generics. \
-
-                You need to provide a custom @PropertyConfig for this field and exclude it from scanning\
-                , by using PropertyReflectionConfig#exclude.
-                See package-javadoc of de.cuioss.test.valueobjects for samples.""".formatted(field.toString()), e);
+            throw unableToDetermineGenericType(field, e);
         }
+    }
+
+    private static IllegalStateException unableToDetermineGenericType(final Field field, final Throwable cause) {
+        return new IllegalStateException("""
+            Unable to determine generic-type for %s, ususally this is the case with nested generics. \
+
+            You need to provide a custom @PropertyConfig for this field and exclude it from scanning\
+            , by using PropertyReflectionConfig#exclude.
+            See package-javadoc of de.cuioss.test.valueobjects for samples.""".formatted(field.toString()), cause);
     }
 
     /**

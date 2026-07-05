@@ -101,4 +101,14 @@ class CollectionAssertsTest {
         final List<String> list2 = immutableList("a", "b", "c");
         assertThrows(AssertionError.class, () -> assertListsAreEqualIgnoringOrder("propertyName", list2, list1));
     }
+
+    @Test
+    void shouldRespectElementFrequency() {
+        // Same size and same distinct elements, but different multiplicities:
+        // [a, a, b] must NOT be equal-ignoring-order to [a, b, b].
+        final List<String> list1 = immutableList("a", "a", "b");
+        final List<String> list2 = immutableList("a", "b", "b");
+        assertThrows(AssertionError.class, () -> assertListsAreEqualIgnoringOrder("propertyName", list1, list2));
+        assertThrows(AssertionError.class, () -> assertListsAreEqualIgnoringOrder("propertyName", list2, list1));
+    }
 }
