@@ -64,6 +64,73 @@ class DeepCopyTestHelperTest {
         assertThrows(AssertionError.class, () -> DeepCopyTestHelper.verifyDeepCopy(a, a));
     }
 
+    @Test
+    void shouldTreatPrimitiveWrappersAsImmutable() {
+        // Wrapper values are immutable, therefore the copy is allowed to share
+        // the (potentially cached) instances with the source. This exercises the
+        // isPrimitiveWrapper short-cut for every wrapper type. Values are chosen
+        // outside the auto-box cache range to make the point that no reference
+        // identity is required.
+        var source = new WrapperBean(Boolean.TRUE, (byte) 100, 'x', (short) 200, 1000, 100_000L, 1.5f, 2.5d);
+        var copy = new WrapperBean(Boolean.TRUE, (byte) 100, 'x', (short) 200, 1000, 100_000L, 1.5f, 2.5d);
+        DeepCopyTestHelper.verifyDeepCopy(source, copy);
+        DeepCopyTestHelper.verifyDeepCopy(copy, source);
+    }
+
+    @Test
+    void shouldFailWhenAccessMethodThrows() {
+        assertThrows(AssertionError.class,
+            () -> DeepCopyTestHelper.verifyDeepCopy(new ThrowingGetterBean(), new ThrowingGetterBean()));
+    }
+
+    static class ThrowingGetterBean {
+
+        @SuppressWarnings("unused") // invoked reflectively by the deep-copy helper
+        public String getValue() {
+            throw new IllegalStateException("boom");
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            return obj instanceof ThrowingGetterBean;
+        }
+
+        @Override
+        public int hashCode() {
+            return 31;
+        }
+    }
+
+    @AllArgsConstructor
+    @ToString
+    @EqualsAndHashCode
+    static class WrapperBean {
+
+        @Getter
+        private final Boolean booleanValue;
+
+        @Getter
+        private final Byte byteValue;
+
+        @Getter
+        private final Character characterValue;
+
+        @Getter
+        private final Short shortValue;
+
+        @Getter
+        private final Integer integerValue;
+
+        @Getter
+        private final Long longValue;
+
+        @Getter
+        private final Float floatValue;
+
+        @Getter
+        private final Double doubleValue;
+    }
+
     @AllArgsConstructor
     @ToString
     @EqualsAndHashCode

@@ -2,7 +2,7 @@
 
 === Concepts
 
-The link:managing-metadata.adoc[Metadata-System] for link:testing-value-objects.adoc[Value-Object-Testing] relies heavily on the reflection system. Internally it uses a number of features directly from the JRE, some code inspired by Google Guavas TypeToken, some own tricks, implemented at `cui-java-util` and an internal meta-model, documented at link:managing-metadata.adoc[Managing Metadata].
+The link:managing-metadata.adoc[Metadata-System] for link:testing-value-objects.adoc[Value-Object-Testing] relies heavily on the reflection system. Internally it uses a number of features directly from the JRE, some code inspired by Google Guavas TypeToken, some own tricks, implemented at `cui-java-tools` and an internal meta-model, documented at link:managing-metadata.adoc[Managing Metadata].
 
 === Tweaking the system
 

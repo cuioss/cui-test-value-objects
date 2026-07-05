@@ -85,9 +85,9 @@ public class DeepCopyTestHelper {
                 var resultCopy = accessMethod.invoke(copy);
 
                 // check for null
-                // No sense in checking Strings, primitives and enums
+                // No sense in checking Strings, primitive-wrappers and enums
                 if (!checkNullContract(resultSource, resultCopy, currentPropertyString, propertyName)
-                    || resultSource.getClass().isPrimitive() || resultSource.getClass().isEnum()
+                    || isPrimitiveWrapper(resultSource.getClass()) || resultSource.getClass().isEnum()
                     || String.class.equals(resultSource.getClass())) {
                     continue;
                 }
@@ -103,7 +103,7 @@ public class DeepCopyTestHelper {
                         Collections.emptyList());
                 }
             } catch (IllegalAccessException | InvocationTargetException e) {
-                fail("invoke method " + accessMethod.getName() + "failed: "
+                fail("invoke method " + accessMethod.getName() + " failed: "
                     + ExceptionHelper.extractCauseMessageFromThrowable(e));
             }
 
@@ -131,12 +131,22 @@ public class DeepCopyTestHelper {
         if (!(resultSource instanceof List<?> resultSourceList)) {
             return false;
         }
+        assertInstanceOf(List.class, resultCopy, "property " + currentPropertyString + propertyName
+            + " is a List on the source but not on the copy: " + resultCopy);
+        final var resultCopyList = (List<?>) resultCopy;
+        assertEquals(resultSourceList.size(), resultCopyList.size(), "property " + currentPropertyString + propertyName
+            + " differs in size: " + resultSourceList.size() + " != " + resultCopyList.size());
         for (var i = 0; i < resultSourceList.size(); i++) {
-            testDeepCopy(resultSourceList.get(i), ((List<?>) resultCopy).get(i),
+            testDeepCopy(resultSourceList.get(i), resultCopyList.get(i),
                 currentPropertyString + propertyName + "[" + i + "]", Collections.emptyList());
         }
         return true;
 
+    }
+
+    private static boolean isPrimitiveWrapper(Class<?> type) {
+        return Boolean.class == type || Byte.class == type || Character.class == type || Short.class == type
+            || Integer.class == type || Long.class == type || Float.class == type || Double.class == type;
     }
 
     private static String determinePropertyString(String propertyString) {

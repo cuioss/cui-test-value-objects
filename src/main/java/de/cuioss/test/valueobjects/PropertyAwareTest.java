@@ -24,6 +24,7 @@ import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.util.GeneratorRegistry;
 import de.cuioss.test.valueobjects.util.ReflectionHelper;
 import de.cuioss.tools.reflect.MoreReflection;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,8 +60,18 @@ import java.util.SortedSet;
 @ExtendWith({GeneratorControllerExtension.class, GeneratorRegistryController.class})
 public class PropertyAwareTest<T> implements GeneratorRegistry {
 
+    /**
+     * The runtime class of the generic type {@code T}. It is resolved from the
+     * generic super type in {@link #initializePropertiesAndGenerators()} before
+     * each test. The setter is restricted to {@code protected} on purpose: the
+     * value is (re)computed and overwritten by
+     * {@link #initializePropertiesAndGenerators()} on every test invocation, so
+     * overwriting it externally would desync from the resolved
+     * {@link #propertyMetadata}. It is exposed to subclasses only for the rare
+     * cases where the generic type can not be derived by reflection.
+     */
     @Getter
-    @Setter
+    @Setter(AccessLevel.PROTECTED)
     private Class<T> targetBeanClass;
 
     @Getter
