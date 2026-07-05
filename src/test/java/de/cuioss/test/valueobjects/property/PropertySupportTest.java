@@ -24,9 +24,12 @@ import de.cuioss.test.valueobjects.api.property.PropertyConfig;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.test.valueobjects.objects.impl.DefaultInstantiator;
 import de.cuioss.test.valueobjects.property.impl.PropertyMetadataImpl;
+import de.cuioss.test.valueobjects.property.util.CollectionType;
 import de.cuioss.test.valueobjects.testbeans.ComplexBean;
+import de.cuioss.test.valueobjects.testbeans.beanproperty.BeanWithDefensiveArrayCopy;
 import org.junit.jupiter.api.Test;
 
+import static de.cuioss.test.generator.Generators.nonEmptyStrings;
 import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.BOOLEANS;
 import static de.cuioss.test.valueobjects.generator.JavaTypesGenerator.STRINGS;
 import static de.cuioss.test.valueobjects.testbeans.ComplexBean.*;
@@ -98,6 +101,31 @@ class PropertySupportTest extends ValueObjectTest<PropertySupport> {
         // Revert Boolean
         target.setBooleanPrimitive(!target.isBooleanPrimitive());
         assertThrows(AssertionError.class, () -> propertySupport.assertValueSet(target));
+    }
+
+    @Test
+    void shouldCompareArrayPropertiesByValue() {
+        final PropertyMetadata arrayProperty = PropertyMetadataImpl.builder().name("array")
+            .generator(nonEmptyStrings()).collectionType(CollectionType.ARRAY_MARKER).build();
+        final var propertySupport = new PropertySupport(arrayProperty);
+        final var target = new BeanWithDefensiveArrayCopy();
+        final var expected = new String[]{"a", "b", "c"};
+        target.setArray(expected);
+        // the getter returns a defensive copy, therefore the value is equal but not
+        // reference-identical -> only value based comparison can succeed
+        assertNotSame(expected, target.getArray());
+        propertySupport.assertValueSet(target, expected);
+    }
+
+    @Test
+    void shouldDetectDifferingArrayContent() {
+        final PropertyMetadata arrayProperty = PropertyMetadataImpl.builder().name("array")
+            .generator(nonEmptyStrings()).collectionType(CollectionType.ARRAY_MARKER).build();
+        final var propertySupport = new PropertySupport(arrayProperty);
+        final var target = new BeanWithDefensiveArrayCopy();
+        target.setArray(new String[]{"a", "b", "c"});
+        final var wrongExpected = new String[]{"a", "b", "different"};
+        assertThrows(AssertionError.class, () -> propertySupport.assertValueSet(target, wrongExpected));
     }
 
     @Test

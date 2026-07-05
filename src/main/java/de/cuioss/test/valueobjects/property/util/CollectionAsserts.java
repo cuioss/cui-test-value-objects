@@ -18,6 +18,8 @@ package de.cuioss.test.valueobjects.property.util;
 import lombok.experimental.UtilityClass;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Helper class for asserts on Collection level
@@ -38,8 +40,9 @@ public final class CollectionAsserts {
      *
      * @param propertyName the name of the property, used for creating the
      *                     error-message, must not be null
-     * @param expected
-     * @param actual
+     * @param expected     the expected collection content, may be {@code null}
+     * @param actual       the actual collection content to be compared against
+     *                     {@code expected}, may be {@code null}
      */
     public static void assertListsAreEqualIgnoringOrder(final String propertyName, final Object expected,
         final Object actual) {
@@ -51,7 +54,7 @@ public final class CollectionAsserts {
         if (expected == null || actual == null) {
             fail(NOT_EQUAL, propertyName, expected, actual);
         } else {
-            if (!(expected instanceof Iterable) || !(actual instanceof Iterable)) {
+            if (!(expected instanceof Collection) || !(actual instanceof Collection)) {
                 fail(NO_COLLECTION, propertyName, expected, actual);
             }
             handleAssert(propertyName, expected, actual);
@@ -59,25 +62,28 @@ public final class CollectionAsserts {
     }
 
     private static void handleAssert(final String propertyName, final Object expected, final Object actual) {
-        final Collection<?> expectedIterable = (Collection<?>) expected;
-        final Collection<?> actualIterable = (Collection<?>) actual;
+        final Collection<?> expectedCollection = (Collection<?>) expected;
+        final Collection<?> actualCollection = (Collection<?>) actual;
 
-        if (expectedIterable.size() != actualIterable.size()) {
+        if (expectedCollection.size() != actualCollection.size()) {
             fail(DIFFERENT_SIZES, propertyName, expected, actual);
         }
-        if (expectedIterable.isEmpty()) {
+        if (expectedCollection.isEmpty()) {
             return;
         }
-        for (final Object object : expectedIterable) {
-            if (!actualIterable.contains(object)) {
-                fail(NOT_EQUAL, propertyName, expected, actual);
-            }
+        // Compare element frequencies so that multiplicity is respected, e.g.
+        // [a, a, b] must not be treated as equal to [a, b, b].
+        if (!frequencyMap(expectedCollection).equals(frequencyMap(actualCollection))) {
+            fail(NOT_EQUAL, propertyName, expected, actual);
         }
-        for (final Object object : actualIterable) {
-            if (!expectedIterable.contains(object)) {
-                fail(NOT_EQUAL, propertyName, expected, actual);
-            }
+    }
+
+    private static Map<Object, Long> frequencyMap(final Collection<?> collection) {
+        final Map<Object, Long> counts = new HashMap<>();
+        for (final Object element : collection) {
+            counts.merge(element, 1L, Long::sum);
         }
+        return counts;
     }
 
     private static void fail(final String template, final String propertyName, final Object expected,
