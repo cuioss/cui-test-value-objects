@@ -95,7 +95,47 @@ class GeneratorResolverTest {
     }
 
     @Test
+    void shouldHandleMutuallyRecursiveTypes() {
+        TypedGeneratorRegistry.registerBasicTypes();
+        // RecursiveA references RecursiveB and vice versa. Without the re-entry guard
+        // this would run into a StackOverflowError. The guard returns a DummyGenerator
+        // for the type that is currently being resolved, breaking the cycle.
+        final TypedGenerator<RecursiveA> generator = assertDoesNotThrow(() -> resolveGenerator(RecursiveA.class));
+        assertNotNull(generator);
+        // next() exercises the non-public constructor logging path, including the
+        // null-value produced by the DummyGenerator that broke the cycle.
+        final RecursiveA instance = assertDoesNotThrow(generator::next);
+        assertNotNull(instance);
+    }
+
+    @Test
     void shouldFailToHandleAnnotations() {
         assertThrows(IllegalArgumentException.class, () -> resolveGenerator(VetoObjectTestContract.class));
+    }
+
+    /**
+     * Fixture forming a mutually recursive type-pair with {@link RecursiveB}. The
+     * package-private constructor additionally exercises the non-public constructor
+     * logging path of the {@code ConstructorBasedGenerator}.
+     */
+    static class RecursiveA {
+
+        final RecursiveB other;
+
+        RecursiveA(final RecursiveB other) {
+            this.other = other;
+        }
+    }
+
+    /**
+     * Counterpart of {@link RecursiveA}, closing the resolution cycle.
+     */
+    static class RecursiveB {
+
+        final RecursiveA other;
+
+        RecursiveB(final RecursiveA other) {
+            this.other = other;
+        }
     }
 }

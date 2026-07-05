@@ -19,14 +19,17 @@ import de.cuioss.test.generator.Generators;
 import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
 import de.cuioss.test.valueobjects.generator.dynamic.impl.*;
+import de.cuioss.test.valueobjects.generator.impl.DummyGenerator;
 import de.cuioss.test.valueobjects.property.util.CollectionType;
 import de.cuioss.tools.logging.CuiLogger;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
@@ -43,6 +46,14 @@ public final class GeneratorResolver {
     private static final String TYPE_MUST_NOT_BE_NULL = "type must not be null";
 
     private static final CuiLogger LOGGER = new CuiLogger(GeneratorResolver.class);
+
+    /**
+     * Tracks the types that are currently being resolved on the calling thread. It
+     * is used to break cycles between mutually recursive types (e.g. {@code A}
+     * referencing {@code B} and {@code B} referencing {@code A}) that would
+     * otherwise result in a {@link StackOverflowError}.
+     */
+    private static final ThreadLocal<Set<Class<?>>> IN_PROGRESS_TYPES = ThreadLocal.withInitial(HashSet::new);
 
     /**
      * Central method for finding / accessing a concrete {@link TypedGenerator} for
@@ -65,7 +76,26 @@ public final class GeneratorResolver {
             LOGGER.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
             return found.get();
         }
-        found = Generators.enumValuesIfAvailable(type);
+        final var inProgress = IN_PROGRESS_TYPES.get();
+        if (!inProgress.add(type)) {
+            // Re-entrant resolution of the same type: this happens for mutually
+            // recursive types (A -> B -> A). Returning a DummyGenerator breaks the
+            // cycle cleanly instead of running into a StackOverflowError.
+            LOGGER.debug("Detected recursive resolution for type %s, returning DummyGenerator", type.getName());
+            return new DummyGenerator<>(type);
+        }
+        try {
+            return resolveGeneratorInternal(type);
+        } finally {
+            inProgress.remove(type);
+            if (inProgress.isEmpty()) {
+                IN_PROGRESS_TYPES.remove();
+            }
+        }
+    }
+
+    private static <T> TypedGenerator<T> resolveGeneratorInternal(final Class<T> type) {
+        Optional<TypedGenerator<T>> found = Generators.enumValuesIfAvailable(type);
         if (found.isPresent()) {
             TypedGeneratorRegistry.registerGenerator(found.get());
             LOGGER.trace(FOUND_GENERATOR_FOR_TYPE, found.get().getClass().getName(), type.getName());
@@ -114,8 +144,8 @@ public final class GeneratorResolver {
      * {@link Collection} or {@link Map}s for given interfaces
      *
      * @param type to be checked
-     * @return an {@link TypedGenerator} if applicable or or <code>not
-     *         {@link Optional#isPresent()}</code>
+     * @return an {@link TypedGenerator} if applicable or {@link Optional#empty()}
+     *         otherwise
      */
     @SuppressWarnings("unchecked") // Checked beforehand
     public static <T> Optional<TypedGenerator<T>> resolveCollectionGenerator(final Class<T> type) {

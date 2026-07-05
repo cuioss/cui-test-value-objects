@@ -23,6 +23,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import java.lang.reflect.Modifier;
 import java.util.Optional;
 
 /**
@@ -64,14 +65,20 @@ public class DynamicProxyGenerator<T> implements TypedGenerator<T> {
      *         the given type is applicable, otherwise {@link Optional#empty()}
      */
     public static final <T> Optional<TypedGenerator<T>> getGeneratorForType(final Class<T> type) {
-        if (null == type || type.isAnnotation() || type.isInterface() || type.isEnum()) {
+        if (null == type || type.isAnnotation() || type.isInterface() || type.isEnum()
+            || Modifier.isFinal(type.getModifiers())) {
+            // final classes cannot be subclassed by javassist, so a proxy cannot be created
             return Optional.empty();
         }
-        final var proxyFactory = new ProxyFactory();
-        proxyFactory.setSuperclass(type);
-        proxyFactory.setFilter(m -> "equals".equals(m.getName()));
-
-        Class<?> createClassType = proxyFactory.createClass();
+        final Class<?> createClassType;
+        try {
+            final var proxyFactory = new ProxyFactory();
+            proxyFactory.setSuperclass(type);
+            createClassType = proxyFactory.createClass();
+        } catch (final RuntimeException e) {
+            LOGGER.warn(e, "Unable to create javassist proxy for type %s", type);
+            return Optional.empty();
+        }
         @SuppressWarnings("unchecked") final Optional<TypedGenerator<T>> constructorGenerator = ConstructorBasedGenerator
             .getGeneratorForType((Class<T>) createClassType);
         if (constructorGenerator.isPresent()) {

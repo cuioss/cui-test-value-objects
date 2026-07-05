@@ -51,6 +51,20 @@ class InterfaceProxyGeneratorTest {
     }
 
     @Test
+    void shouldCreateNonEqualProxiesOnSubsequentNextCalls() {
+        final var generator = getGeneratorForType(SortedSet.class).get();
+        final var first = generator.next();
+        final var second = generator.next();
+        assertNotNull(first);
+        assertNotNull(second);
+        // Each proxy must have its own InvocationHandler; otherwise all proxies of an
+        // interface would be mutually equal, breaking createCopyWithNonEqualValue().
+        assertNotEquals(first, second);
+        assertNotEquals(first.hashCode(), second.hashCode());
+        assertEquals(first, first);
+    }
+
+    @Test
     void shouldNotHandleInvalidTypes() {
         assertFalse(getGeneratorForType(null).isPresent());
         assertFalse(getGeneratorForType(PropertyMemberInfo.class).isPresent());

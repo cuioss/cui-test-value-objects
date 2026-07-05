@@ -17,6 +17,7 @@ package de.cuioss.test.valueobjects.generator.dynamic.impl;
 
 import de.cuioss.test.valueobjects.api.object.VetoObjectTestContract;
 import de.cuioss.tools.property.PropertyMemberInfo;
+import javassist.util.proxy.ProxyFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
@@ -56,5 +57,23 @@ class DynamicProxyGeneratorTest {
         assertFalse(getGeneratorForType(PropertyMemberInfo.class).isPresent());
         assertFalse(getGeneratorForType(Serializable.class).isPresent());
         assertFalse(getGeneratorForType(VetoObjectTestContract.class).isPresent());
+    }
+
+    @Test
+    void shouldNotHandleFinalClasses() {
+        // final classes cannot be subclassed by javassist, so no proxy can be created
+        assertFalse(getGeneratorForType(String.class).isPresent());
+        assertFalse(getGeneratorForType(Integer.class).isPresent());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenProxyCreationFails() {
+        // A javassist proxy class already declares the setHandler() method. Asking
+        // javassist to subclass such a proxy class again fails with a RuntimeException,
+        // which must be caught, resulting in an empty Optional instead of propagating.
+        final var factory = new ProxyFactory();
+        factory.setSuperclass(ArrayList.class);
+        final Class<?> alreadyProxied = factory.createClass();
+        assertFalse(getGeneratorForType(alreadyProxied).isPresent());
     }
 }

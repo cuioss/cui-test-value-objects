@@ -20,7 +20,6 @@ import de.cuioss.tools.reflect.MoreReflection;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
-import java.lang.reflect.InvocationHandler;
 import java.util.Optional;
 
 /**
@@ -33,13 +32,15 @@ import java.util.Optional;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class InterfaceProxyGenerator<T> implements TypedGenerator<T> {
 
-    private static final InvocationHandler DEFAULT_HANDLER = new DefaultInvocationHandler();
-
     private final Class<T> type;
 
     @Override
     public T next() {
-        return MoreReflection.newProxy(type, DEFAULT_HANDLER);
+        // A fresh handler must be created for each proxy: DefaultInvocationHandler
+        // compares proxies by handler identity, so sharing a single static handler
+        // would make all generated proxies of an interface mutually equal and share
+        // their hashCode, exhausting PropertySupport.createCopyWithNonEqualValue().
+        return MoreReflection.newProxy(type, new DefaultInvocationHandler());
     }
 
     @Override

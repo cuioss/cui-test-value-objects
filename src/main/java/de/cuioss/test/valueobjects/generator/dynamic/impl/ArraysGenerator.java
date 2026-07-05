@@ -61,7 +61,7 @@ public class ArraysGenerator<T, C> implements TypedGenerator<T> {
     /**
      * Factory method for creating an instance of {@link ArraysGenerator}.
      *
-     * @param type to be, must not be an array type: {@link Class#isArray()}
+     * @param type to be checked, must be an array type: {@link Class#isArray()}
      * @return an {@link Optional} on the corresponding {@link ArraysGenerator} if
      *         the requirements are met, {@link Optional#empty()} otherwise
      */

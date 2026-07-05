@@ -60,10 +60,7 @@ public final class TypedGeneratorRegistry {
     @SuppressWarnings("unchecked")
     public static <T> Optional<TypedGenerator<T>> getGenerator(final Class<T> type) {
         requireNonNull(type, TYPE_MUST_NOT_BE_NULL);
-        if (!REGISTRY.containsKey(type)) {
-            return Optional.empty();
-        }
-        return Optional.of((TypedGenerator<T>) REGISTRY.get(type));
+        return Optional.ofNullable((TypedGenerator<T>) REGISTRY.get(type));
     }
 
     /**
