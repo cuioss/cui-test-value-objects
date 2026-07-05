@@ -66,7 +66,7 @@ public class MapperContractImpl<S, T> {
     }
 
     private void handleSimpleMapping(MapperAttributesAsserts asserter) {
-        LOGGER.info("Testing mimimal Mapping for mapper-class %s", mapper.getClass());
+        LOGGER.info("Testing minimal Mapping for mapper-class %s", mapper.getClass());
         verifyMapping(asserter, sourceInstantiator.getRuntimeProperties().getRequiredAsPropertySupport(true),
             "minimal-instance");
         LOGGER.info("Testing full Mapping for mapper-class %s", mapper.getClass());

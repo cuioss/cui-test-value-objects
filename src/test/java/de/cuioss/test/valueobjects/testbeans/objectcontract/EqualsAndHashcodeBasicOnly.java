@@ -13,26 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.cuioss.test.valueobjects.api.object;
+package de.cuioss.test.valueobjects.testbeans.objectcontract;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
+import lombok.Data;
 
 /**
- * This Veto is used to exclude specific object types from tests using class
- * path scanning.
- *
- * @author Matthias Walliczek
+ * @author Oliver Wolff
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface VetoType {
+@Data
+@ObjectTestConfig(equalsAndHashCodeBasicOnly = true)
+public class EqualsAndHashcodeBasicOnly {
 
-    /**
-     * @return Array of classes that are to be excluded from the class-path
-     *         scanning based testing.
-     */
-    Class<?>[] value();
+    private String name;
+    private Integer number;
+
 }

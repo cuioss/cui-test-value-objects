@@ -50,7 +50,7 @@ public enum ObjectTestContracts {
 
     /**
      * Tests whether the object under test is {@link Serializable} by first checking
-     * whether the object implements {@link Serializable} and than actually
+     * whether the object implements {@link Serializable} and then actually
      * serializing and deserializing it.
      */
     SERIALIZABLE(SerializableContractImpl.class);

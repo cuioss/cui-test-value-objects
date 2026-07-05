@@ -28,6 +28,13 @@ import java.util.List;
 import static de.cuioss.tools.string.MoreStrings.isEmpty;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Provides utility methods for verifying that a copy function actually produces
+ * a deep copy: an object that is equal to its source but independent from it,
+ * i.e. does not share mutable references with the source.
+ *
+ * @author Oliver Wolff
+ */
 @UtilityClass
 public class DeepCopyTestHelper {
 

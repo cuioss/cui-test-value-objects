@@ -60,7 +60,7 @@ public @interface VerifyCopyConstructor {
 
     /**
      * @return boolean indicating whether to implicitly check whether the copy is a
-     *         deep instead of a shallow copy, defaults to {@code true}. See
+     *         deep instead of a shallow copy, defaults to {@code false}. See
      *         {@link #verifyDeepCopyIgnore()} as well
      */
     boolean verifyDeepCopy() default false;

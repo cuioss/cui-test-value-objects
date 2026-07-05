@@ -138,7 +138,7 @@ public class BuilderContractImpl<T> implements TestContract<T> {
      *                                will be filtered by using the attributes
      *                                defined within {@link VerifyBuilder}. Must not
      *                                be null.
-     * @return an instance Of {@link BeanPropertyContractImpl} in case all
+     * @return an {@link Optional} of {@link BuilderContractImpl} in case all
      *         requirements for the parameters are correct, otherwise it will return
      *         {@link Optional#empty()}
      */

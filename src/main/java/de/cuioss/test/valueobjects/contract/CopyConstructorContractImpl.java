@@ -16,9 +16,7 @@
 package de.cuioss.test.valueobjects.contract;
 
 import de.cuioss.test.valueobjects.api.TestContract;
-import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
 import de.cuioss.test.valueobjects.api.contracts.VerifyCopyConstructor;
-import de.cuioss.test.valueobjects.api.contracts.VerifyFactoryMethod;
 import de.cuioss.test.valueobjects.generator.impl.DummyGenerator;
 import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
@@ -44,11 +42,13 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * TestContract for dealing Constructor and factories, {@link VerifyConstructor}
- * and {@link VerifyFactoryMethod} respectively
+ * TestContract for verifying copy-constructors, configured by
+ * {@link VerifyCopyConstructor}. Depending on its configuration it checks the
+ * individual properties to be copied correctly and optionally whether the copy
+ * is a deep instead of a shallow copy.
  *
  * @author Oliver Wolff
- * @param <T> identifying the of objects to be tested.
+ * @param <T> identifying the type of objects to be tested.
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CopyConstructorContractImpl<T> implements TestContract<T> {

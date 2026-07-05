@@ -65,7 +65,7 @@ public class FactoryBasedInstantiator<T> extends AbstractOrderedArgsInstantiator
         requireNonNull(type, "type must not be null");
         requireNonNull(enclosingType, "enclosingType must not be null");
         requireNonNull(factoryMethodName);
-        checkArgument(!isEmpty(factoryMethodName), "factoryMethodName msut not be null nor empty");
+        checkArgument(!isEmpty(factoryMethodName), "factoryMethodName must not be null nor empty");
 
         final List<Class<?>> parameter = new ArrayList<>();
         runtimeProperties.getAllProperties().forEach(meta -> parameter.add(meta.resolveActualClass()));

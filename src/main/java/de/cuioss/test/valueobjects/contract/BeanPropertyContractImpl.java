@@ -106,7 +106,7 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
      *                                constructor
      * @param annotated               the annotated unit-test-class. It is expected
      *                                to be annotated with
-     *                                {@link BeanPropertyContractImpl}, otherwise
+     *                                {@link VerifyBeanProperty}, otherwise
      *                                the method will return
      *                                {@link Optional#empty()}
      * @param initialPropertyMetadata identifying the complete set of
@@ -114,7 +114,7 @@ public class BeanPropertyContractImpl<T> implements TestContract<T> {
      *                                {@link PropertyMetadata} for the bean tests
      *                                will be filtered by using the attributes
      *                                defined within
-     *                                {@link BeanPropertyContractImpl}. Must not be
+     *                                {@link VerifyBeanProperty}. Must not be
      *                                null. If it is empty the method will return
      *                                {@link Optional#empty()}
      * @return an instance Of {@link BeanPropertyContractImpl} in case all

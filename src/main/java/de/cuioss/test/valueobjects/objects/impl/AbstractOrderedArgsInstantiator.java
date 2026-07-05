@@ -34,7 +34,7 @@ import static java.util.Objects.requireNonNull;
  * {@link ParameterizedInstantiator}.
  *
  * @author Oliver Wolff
- * @param <T>
+ * @param <T> identifying the type of objects to be created
  */
 public abstract class AbstractOrderedArgsInstantiator<T> implements ParameterizedInstantiator<T> {
 

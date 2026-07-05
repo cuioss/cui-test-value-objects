@@ -32,7 +32,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.SortedSet;
 
 /**
  * Base class for dynamically testing properties. It provides the handling of
@@ -49,7 +48,7 @@ import java.util.SortedSet;
  * documentation</li>
  * </ul>
  * Usage examples can be found at the package-documentation:
- * {@link de.cuioss.test.valueobjects.junit5}
+ * {@link de.cuioss.test.valueobjects}
  *
  * @param <T> identifying the type to be tested is usually but not necessarily
  *            at least {@link Serializable}.
@@ -91,7 +90,7 @@ public class PropertyAwareTest<T> implements GeneratorRegistry {
      * Resolves the {@link PropertyMetadata} by using reflections and the
      * annotations {@link PropertyConfig} and / {@link PropertyConfigs} if provided
      *
-     * @return a {@link SortedSet} of {@link PropertyMetadata} defining the base
+     * @return a {@link List} of {@link PropertyMetadata} defining the base
      *         line for the configured attributes
      */
     protected List<PropertyMetadata> resolvePropertyMetadata() {
