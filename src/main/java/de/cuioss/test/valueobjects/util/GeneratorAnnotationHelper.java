@@ -45,7 +45,10 @@ public final class GeneratorAnnotationHelper {
     /**
      * Message used when a configured generator can not be instantiated because it
      * does not provide a public no-arg constructor.
+     *
+     * @deprecated unused; retained for binary compatibility and scheduled for removal.
      */
+    @Deprecated
     public static final String UNABLE_TO_INSTANTIATE_GENERATOR = "Unable to instantiate generator, You must provide a no-arg public constructor: ";
 
     /**

@@ -15,9 +15,9 @@
  */
 package de.cuioss.test.valueobjects.util;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 /**
  * An {@link IdentityResourceBundle} is helpful for tests where you want to
@@ -36,7 +36,7 @@ public class IdentityResourceBundle extends ResourceBundle {
 
     @Override
     public Enumeration<String> getKeys() {
-        return new Vector<String>().elements();
+        return Collections.emptyEnumeration();
     }
 
     @Override

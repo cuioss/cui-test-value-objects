@@ -301,11 +301,11 @@ public class RuntimeProperties {
      * @param metadata if it is null or empty an empty {@link Set} will be returned
      * @return a set of the extracted names.
      */
-    public static final Set<String> extractNames(final Collection<PropertyMetadata> metadata) {
-        if (null == metadata || metadata.isEmpty()) {
-            return Collections.emptySet();
-        }
+    public static Set<String> extractNames(final Collection<PropertyMetadata> metadata) {
         final Set<String> builder = new HashSet<>();
+        if (null == metadata || metadata.isEmpty()) {
+            return builder;
+        }
         metadata.forEach(m -> builder.add(m.getName()));
         return builder;
     }

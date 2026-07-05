@@ -27,22 +27,24 @@ import de.cuioss.tools.collect.CollectionBuilder;
 import de.cuioss.tools.logging.CuiLogger;
 import de.cuioss.tools.reflect.MoreReflection;
 import de.cuioss.tools.string.Joiner;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.util.Objects.requireNonNull;
 
 /**
- * Provides utility methods for dealing with {@link PropertyMetadata}
+ * Provides utility methods for dealing with {@link PropertyMetadata}.
+ * <p>
+ * This class holds process-wide static state (the "log once" flags below) and is
+ * therefore intended to be used within a single-threaded test-execution context.
+ * Running tests that trigger these methods in parallel is not supported.
  *
  * @author Oliver Wolff
  */
 // cui-rewrite:disable CuiLogRecordPatternRecipe
-@SuppressWarnings("squid:S1118")
-// owolff: lombok generated
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public class PropertyHelper {
 
     private static final CuiLogger LOGGER = new CuiLogger(PropertyHelper.class);
@@ -50,12 +52,12 @@ public class PropertyHelper {
     /**
      * Ensure that the result of property scanning is logged only once.
      */
-    private static boolean propertyInformationLogged = false;
+    private static final AtomicBoolean PROPERTY_INFORMATION_LOGGED = new AtomicBoolean(false);
 
     /**
      * Ensure that the result of property scanning is logged only once.
      */
-    private static boolean propertyTargetInformationLogged = false;
+    private static final AtomicBoolean PROPERTY_TARGET_INFORMATION_LOGGED = new AtomicBoolean(false);
 
     /**
      * Simple helper method that creates a sensible information message for logging
@@ -65,7 +67,7 @@ public class PropertyHelper {
      * @param handled to be logged
      */
     public static void logMessageForPropertyMetadata(final Collection<? extends PropertyMetadata> handled) {
-        if (!propertyInformationLogged) {
+        if (PROPERTY_INFORMATION_LOGGED.compareAndSet(false, true)) {
             final var messageBuilder = new StringBuilder(
                 "Properties detected by using reflection and PropertyConfig-annotation: ").append("\n");
             final List<String> elements = new ArrayList<>();
@@ -74,9 +76,6 @@ public class PropertyHelper {
             messageBuilder.append(Joiner.on("\n").join(elements));
 
             LOGGER.info(messageBuilder.toString());
-            synchronized (PropertyHelper.class) {
-                propertyInformationLogged = true;
-            }
         }
     }
 
@@ -88,7 +87,7 @@ public class PropertyHelper {
      * @param handled to be logged
      */
     public static void logMessageForTargetPropertyMetadata(final Collection<? extends PropertyMetadata> handled) {
-        if (!propertyTargetInformationLogged) {
+        if (PROPERTY_TARGET_INFORMATION_LOGGED.compareAndSet(false, true)) {
             final var messageBuilder = new StringBuilder("Properties detected for targetType: ").append("\n");
             final List<String> elements = new ArrayList<>();
             handled.forEach(data -> elements.add("-" + data.toString()));
@@ -96,9 +95,6 @@ public class PropertyHelper {
             messageBuilder.append(Joiner.on("\n").join(elements));
 
             LOGGER.info(messageBuilder.toString());
-            synchronized (PropertyHelper.class) {
-                propertyTargetInformationLogged = true;
-            }
         }
     }
 
@@ -111,7 +107,7 @@ public class PropertyHelper {
      * @param metadata must not be null
      * @return an immutable list with {@link PropertyMetadata}
      */
-    public static final Collection<PropertyMetadata> handlePrimitiveAsDefaults(
+    public static Collection<PropertyMetadata> handlePrimitiveAsDefaults(
         final Collection<PropertyMetadata> metadata) {
         requireNonNull(metadata);
         if (metadata.isEmpty()) {
@@ -139,7 +135,7 @@ public class PropertyHelper {
      * @return immutable set of found {@link PropertyMetadata} elements derived by
      *         the annotations.
      */
-    public static final Set<PropertyMetadata> handlePropertyConfigAnnotations(final Class<?> annotated) {
+    public static Set<PropertyMetadata> handlePropertyConfigAnnotations(final Class<?> annotated) {
         requireNonNull(annotated);
         return handlePropertyConfigAnnotations(extractConfiguredPropertyConfigs(annotated));
     }
@@ -153,7 +149,7 @@ public class PropertyHelper {
      * @return immutable set of found {@link PropertyMetadata} elements derived by
      *         the annotations.
      */
-    public static final Set<PropertyMetadata> handlePropertyConfigAnnotations(final Collection<PropertyConfig> config) {
+    public static Set<PropertyMetadata> handlePropertyConfigAnnotations(final Collection<PropertyConfig> config) {
         final var builder = new CollectionBuilder<PropertyMetadata>();
 
         config.forEach(conf -> builder.add(propertyConfigToPropertyMetadata(conf)));
@@ -170,7 +166,7 @@ public class PropertyHelper {
      * @return a {@link Set} of {@link PropertyConfig} extract from the annotations
      *         of the given type. May be empty but never null
      */
-    public static final Set<PropertyConfig> extractConfiguredPropertyConfigs(final Class<?> annotated) {
+    public static Set<PropertyConfig> extractConfiguredPropertyConfigs(final Class<?> annotated) {
         requireNonNull(annotated);
         final var builder = new CollectionBuilder<PropertyConfig>();
 
@@ -204,7 +200,7 @@ public class PropertyHelper {
      * @param metadata if it is null or empty an empty {@link Map} will be returned.
      * @return a map with with name as key for the given {@link PropertyMetadata}
      */
-    public static final Map<String, PropertyMetadata> toMapView(final Collection<PropertyMetadata> metadata) {
+    public static Map<String, PropertyMetadata> toMapView(final Collection<PropertyMetadata> metadata) {
         final Map<String, PropertyMetadata> map = new HashMap<>();
         if (null == metadata) {
             return map;

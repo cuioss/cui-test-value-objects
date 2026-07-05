@@ -65,7 +65,7 @@ public class ArraysGenerator<T, C> implements TypedGenerator<T> {
      * @return an {@link Optional} on the corresponding {@link ArraysGenerator} if
      *         the requirements are met, {@link Optional#empty()} otherwise
      */
-    public static final <T> Optional<TypedGenerator<T>> getGeneratorForType(final Class<T> type) {
+    public static <T> Optional<TypedGenerator<T>> getGeneratorForType(final Class<T> type) {
         if (null == type || !type.isArray()) {
             return Optional.empty();
         }

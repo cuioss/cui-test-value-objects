@@ -27,7 +27,12 @@ import java.util.Collections;
 
 /**
  * This extension handles the test-generator handling, see
- * {@link GeneratorRegistry} for details
+ * {@link GeneratorRegistry} for details.
+ * <p>
+ * The controller mutates the process-wide {@link TypedGeneratorRegistry} (clearing
+ * and re-populating it around each test class). It is therefore only safe for
+ * single-threaded / sequential test execution; running tests that rely on the
+ * generator framework in parallel is not supported.
  *
  * @author Oliver Wolff
  *
@@ -45,8 +50,8 @@ public class GeneratorRegistryController implements TestInstancePostProcessor, A
                 + "' is of type de.cuioss.test.valueobjects.util.GeneratorRegistry, initializing Generator framework");
             GeneratorAnnotationHelper.handleGeneratorsForTestClass(registry, registry.registerAdditionalGenerators());
         } else {
-            LOGGER.debug(() -> "Test-class '{" + testInstance.getClass()
-                + "}' is NOT of type de.cuioss.test.valueobjects.util.GeneratorRegistry, initializing Generator framework without local Generator");
+            LOGGER.debug(() -> "Test-class '" + testInstance.getClass()
+                + "' is NOT of type de.cuioss.test.valueobjects.util.GeneratorRegistry, initializing Generator framework without local Generator");
             GeneratorAnnotationHelper.handleGeneratorsForTestClass(testInstance, Collections.emptyList());
         }
 

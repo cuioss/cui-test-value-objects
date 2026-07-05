@@ -184,7 +184,7 @@ public enum CollectionType {
      * @param type to be checked
      * @return {@link Optional} of the type
      */
-    public static final Optional<CollectionType> findResponsibleCollectionType(final Class<?> type) {
+    public static Optional<CollectionType> findResponsibleCollectionType(final Class<?> type) {
         if (null == type || type.isEnum()) {
             return Optional.empty();
         }

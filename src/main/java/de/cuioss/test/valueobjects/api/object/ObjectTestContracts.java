@@ -18,12 +18,12 @@ package de.cuioss.test.valueobjects.api.object;
 import de.cuioss.test.valueobjects.contract.EqualsAndHashcodeContractImpl;
 import de.cuioss.test.valueobjects.contract.SerializableContractImpl;
 import de.cuioss.test.valueobjects.contract.ToStringContractImpl;
-import de.cuioss.test.valueobjects.objects.impl.DefaultInstantiator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
 
@@ -40,29 +40,31 @@ public enum ObjectTestContracts {
      * {@link Object#equals(Object)} and {@link Object#hashCode()} at the level of
      * the concrete Object.
      */
-    EQUALS_AND_HASHCODE(EqualsAndHashcodeContractImpl.class),
+    EQUALS_AND_HASHCODE(EqualsAndHashcodeContractImpl.class, EqualsAndHashcodeContractImpl::new),
 
     /**
      * Tests the existence and correct implementation of {@link Object#toString()}
      * at the level of the concrete Object.
      */
-    TO_STRING(ToStringContractImpl.class),
+    TO_STRING(ToStringContractImpl.class, ToStringContractImpl::new),
 
     /**
      * Tests whether the object under test is {@link Serializable} by first checking
      * whether the object implements {@link Serializable} and then actually
      * serializing and deserializing it.
      */
-    SERIALIZABLE(SerializableContractImpl.class);
+    SERIALIZABLE(SerializableContractImpl.class, SerializableContractImpl::new);
 
     @Getter
     private final Class<? extends ObjectTestContract> implementationClass;
+
+    private final Supplier<ObjectTestContract> instanceSupplier;
 
     /**
      * @return a new instance of a {@link ObjectTestContract}.
      */
     public ObjectTestContract newObjectTestInstance() {
-        return new DefaultInstantiator<>(implementationClass).newInstance();
+        return instanceSupplier.get();
     }
 
     /** Identifies the contract that are specific to Object contracts. */
