@@ -116,4 +116,68 @@ class ConstructorBasedGeneratorTest {
         assertFalse(getGeneratorForType(AbstractList.class).isPresent());
         assertFalse(getGeneratorForType(VetoObjectTestContract.class).isPresent());
     }
+
+    @Test
+    void shouldResolveViaLastResortConstructorLoop() {
+        // Multiple constructors, none of whose parameter types have a pre-registered
+        // generator (CustomDependency is not a basic type). This forces the resolution
+        // to fall through into the last-resort loop that tries each constructor until
+        // one yields a generator.
+        final var optional = getGeneratorForType(BeanWithMultipleUnregisteredConstructors.class);
+        assertTrue(optional.isPresent());
+        final var next = optional.get().next();
+        assertNotNull(next);
+        assertEquals(BeanWithMultipleUnregisteredConstructors.class, next.getClass());
+    }
+
+    /**
+     * Fixture whose parameter type is not a registered basic type.
+     */
+    public static class CustomDependency {
+
+        public CustomDependency() {
+        }
+    }
+
+    /**
+     * Fixture with more than one public constructor, none of which can be satisfied
+     * from already registered generators, forcing the last-resort constructor loop.
+     */
+    public static class BeanWithMultipleUnregisteredConstructors {
+
+        public BeanWithMultipleUnregisteredConstructors(final CustomDependency dependency) {
+        }
+
+        public BeanWithMultipleUnregisteredConstructors(final CustomDependency dependency,
+            final CustomDependency other) {
+        }
+    }
+
+    @Test
+    void shouldSkipNonResolvableConstructorInLastResortLoop() {
+        // In the last-resort loop the first (multi-argument) constructor references the
+        // type itself and therefore yields no generator; the loop must skip it and pick
+        // the next resolvable constructor instead of failing.
+        final var optional = getGeneratorForType(BeanWithSelfReferencingConstructor.class);
+        assertTrue(optional.isPresent());
+        final var next = optional.get().next();
+        assertNotNull(next);
+        assertEquals(BeanWithSelfReferencingConstructor.class, next.getClass());
+    }
+
+    /**
+     * Fixture forcing the last-resort loop where the first candidate constructor
+     * references the type itself (yielding an empty generator that must be skipped)
+     * while a later constructor is resolvable.
+     */
+    public static class BeanWithSelfReferencingConstructor {
+
+        public BeanWithSelfReferencingConstructor(final BeanWithSelfReferencingConstructor self,
+            final CustomDependency dependency) {
+        }
+
+        public BeanWithSelfReferencingConstructor(final CustomDependency first, final CustomDependency second,
+            final CustomDependency third) {
+        }
+    }
 }
