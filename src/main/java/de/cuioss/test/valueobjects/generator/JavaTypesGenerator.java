@@ -46,8 +46,6 @@ import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
  */
 public final class JavaTypesGenerator<T> {
 
-    private static final List<TypedGenerator<?>> GENERATORS = new ArrayList<>();
-
     /**
      * Creates an instance of {@link PropertyMetadata} for {@link Boolean}.
      */
@@ -257,6 +255,20 @@ public final class JavaTypesGenerator<T> {
     public static final JavaTypesGenerator<ZonedDateTime> ZONED_DATE_TIME = new JavaTypesGenerator<>(zonedDateTimes(),
         null);
 
+    /**
+     * All {@link TypedGenerator}s wrapped by the constants of this class, in
+     * declaration order.
+     */
+    private static final List<TypedGenerator<?>> GENERATORS = List.<TypedGenerator<?>>of(BOOLEANS.generator, BOOLEANS_PRIMITIVE.generator,
+        BYTES.generator, BYTES_PRIMITIVE.generator, CHARACTERS.generator, CHARACTERS_PRIMITIVE.generator, CLASS.generator,
+        DOUBLES.generator, DOUBLES_PRIMITIVE.generator, FLOATS.generator, FLOATS_PRIMITIVE.generator, INTEGERS.generator,
+        INTEGER_DAYS.generator, INTEGER_MONTHS.generator, INTEGER_YEARS.generator, INTEGERS_PRIMITIVE.generator,
+        LOCALES.generator, LONGS.generator, LONGS_PRIMITIVE.generator, NUMBERS.generator, RUNTIME_EXCEPTIONS.generator,
+        SERIALIZABLES.generator, SHORTS.generator, SHORTS_PRIMITIVE.generator, STRINGS.generator, STRINGS_LETTER.generator,
+        THROWABLES.generator, TIME_ZONES.generator, LOCAL_DATES.generator, LOCAL_TIMES.generator,
+        LOCAL_DATE_TIMES.generator, DATE.generator, TEMPORAL.generator, URLS.generator, ZONE_IDS.generator,
+        ZONE_OFFSETS.generator, ZONED_DATE_TIME.generator);
+
     /** The concrete type of the object created by the generator. */
     private final Class<T> propertyType;
 
@@ -273,8 +285,6 @@ public final class JavaTypesGenerator<T> {
         propertyType = typedGenerator.getType();
         generator = typedGenerator;
         this.defaultValue = defaultValue;
-
-        GENERATORS.add(typedGenerator);
     }
 
     /**

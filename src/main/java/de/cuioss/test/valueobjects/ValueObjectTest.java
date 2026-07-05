@@ -34,7 +34,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -93,8 +92,7 @@ public class ValueObjectTest<T> extends PropertyAwareTest<T> implements ObjectCo
 
         testContracts = resolveTestContracts(getPropertyMetadata());
 
-        objectContractInstantiator = new ArrayList<>();
-        testContracts.forEach(contract -> objectContractInstantiator.add(contract.getInstantiator()));
+        objectContractInstantiator = testContracts.stream().map(TestContract::getInstantiator).toList();
     }
 
     /**

@@ -34,7 +34,12 @@ import java.util.Set;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Provides strategies for creating objects dynamically
+ * Provides strategies for creating objects dynamically.
+ * <p>
+ * Resolution relies on the shared, mutable
+ * {@link de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry} and therefore
+ * assumes single-threaded / sequential test execution. Running tests that trigger
+ * generator resolution in parallel is not supported.
  *
  * @author Oliver Wolff
  */

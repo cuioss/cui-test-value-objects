@@ -142,7 +142,7 @@ public class BuilderContractImpl<T> implements TestContract<T> {
      *         requirements for the parameters are correct, otherwise it will return
      *         {@link Optional#empty()}
      */
-    public static final <T> Optional<BuilderContractImpl<T>> createBuilderTestContract(final Class<T> beanType,
+    public static <T> Optional<BuilderContractImpl<T>> createBuilderTestContract(final Class<T> beanType,
         final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata) {
 
         requireNonNull(beanType, "beantype must not be null");

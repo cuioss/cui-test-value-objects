@@ -27,7 +27,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Registry for instances of {@link TypedGenerator}
+ * Registry for instances of {@link TypedGenerator}.
+ * <p>
+ * The registry is backed by a single process-wide static map that is cleared and
+ * re-populated per test class (see the JUnit-5 extension controlling it). Because
+ * of this shared mutable state and the {@code clear()} lifecycle, the generator
+ * framework is designed for single-threaded / sequential test execution only.
+ * Running tests that rely on it in parallel is not supported.
  *
  * @author Oliver Wolff
  */

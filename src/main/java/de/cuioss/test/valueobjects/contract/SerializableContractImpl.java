@@ -107,7 +107,7 @@ public class SerializableContractImpl implements ObjectTestContract {
      * @param object to be serialized, must not be null
      * @return the deserialized object.
      */
-    public static final Object serializeAndDeserialize(final Object object) {
+    public static Object serializeAndDeserialize(final Object object) {
         assertNotNull(object, "Given Object must not be null");
         final var serialized = serializeObject(object);
         return deserializeObject(serialized);
@@ -119,7 +119,7 @@ public class SerializableContractImpl implements ObjectTestContract {
      * @param object to be serialized
      * @return the resulting byte array
      */
-    public static final byte[] serializeObject(final Object object) {
+    public static byte[] serializeObject(final Object object) {
         assertNotNull(object, "Given Object must not be null");
         final var baos = new ByteArrayOutputStream(1024);
         try (var oas = new ObjectOutputStream(baos)) {
@@ -138,7 +138,7 @@ public class SerializableContractImpl implements ObjectTestContract {
      * @param bytes to be deserialized
      * @return the deserialized object
      */
-    public static final Object deserializeObject(final byte[] bytes) {
+    public static Object deserializeObject(final byte[] bytes) {
         assertNotNull(bytes, "Given byte-array must not be null");
         final var bais = new ByteArrayInputStream(bytes);
         try (var ois = new ObjectInputStream(bais)) {

@@ -147,7 +147,7 @@ public class ObjectCreatorContractImpl<T> implements TestContract<T> {
      *         case all requirements for the parameters are correct, otherwise it
      *         will return an empty list
      */
-    public static final <T> List<ObjectCreatorContractImpl<T>> createTestContracts(final Class<T> beanType,
+    public static <T> List<ObjectCreatorContractImpl<T>> createTestContracts(final Class<T> beanType,
         final Class<?> annotated, final List<PropertyMetadata> initialPropertyMetadata) {
 
         requireNonNull(beanType, "beantype must not be null");

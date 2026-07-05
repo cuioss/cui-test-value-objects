@@ -18,7 +18,6 @@ package de.cuioss.test.valueobjects.contract.support;
 import de.cuioss.test.valueobjects.api.VerifyMapperConfiguration;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.tools.logging.CuiLogger;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.*;
@@ -34,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Oliver Wolff
  *
  */
-@EqualsAndHashCode
 @ToString
 public class MapperAttributesAsserts {
 
@@ -112,7 +110,7 @@ public class MapperAttributesAsserts {
         if (sourceAsserts.isEmpty()) {
             return;
         }
-        Map<String, List<AssertTuple>> asserts = new HashMap<>();
+        Map<String, List<AssertTuple>> asserts = new LinkedHashMap<>();
         for (String name : sourceAttributes) {
             var concreteAsserts = sourceAsserts.stream().filter(a -> a.isResponsibleForSource(name)).toList();
             if (concreteAsserts.isEmpty()) {

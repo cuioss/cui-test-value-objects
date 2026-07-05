@@ -117,7 +117,7 @@ public class DeepCopyTestHelper {
         }
     }
 
-    private boolean checkNullContract(Object resultSource, Object resultCopy, String currentPropertyString,
+    private static boolean checkNullContract(Object resultSource, Object resultCopy, String currentPropertyString,
         String propertyName) {
         // check for null
         if (null != resultSource) {
@@ -133,7 +133,7 @@ public class DeepCopyTestHelper {
         return true;
     }
 
-    private boolean checkForList(Object resultSource, Object resultCopy, String currentPropertyString,
+    private static boolean checkForList(Object resultSource, Object resultCopy, String currentPropertyString,
         String propertyName) {
         if (!(resultSource instanceof List<?> resultSourceList)) {
             return false;

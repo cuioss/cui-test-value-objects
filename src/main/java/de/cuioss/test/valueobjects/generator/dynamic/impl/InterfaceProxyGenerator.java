@@ -56,7 +56,7 @@ public class InterfaceProxyGenerator<T> implements TypedGenerator<T> {
      * @return an {@link Optional} on the corresponding {@link TypedGenerator} if
      *         the given type is an interfaces, otherwise {@link Optional#empty()}
      */
-    public static final <T> Optional<TypedGenerator<T>> getGeneratorForType(final Class<T> type) {
+    public static <T> Optional<TypedGenerator<T>> getGeneratorForType(final Class<T> type) {
         if (null == type || type.isAnnotation() || !type.isInterface()) {
             return Optional.empty();
         }
