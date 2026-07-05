@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Checks whether the object in hand implements {@link Object#toString()} and
- * calls it will fully populated object.
+ * calls it with a fully populated object.
  *
  * @author Oliver Wolff
  */

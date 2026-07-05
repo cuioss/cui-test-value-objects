@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 
 /**
  * This Veto is used to exclude specific object types from tests using class
- * path scanning, like {@PortalNavigationMenuItemPackageTest}.
+ * path scanning.
  *
  * @author Matthias Walliczek
  */
@@ -31,8 +31,8 @@ import java.lang.annotation.Target;
 public @interface VetoType {
 
     /**
-     * @return Array of classes that belong to classpath entries to make
-     *         discoverable during testing.
+     * @return Array of classes that are to be excluded from the class-path
+     *         scanning based testing.
      */
     Class<?>[] value();
 }

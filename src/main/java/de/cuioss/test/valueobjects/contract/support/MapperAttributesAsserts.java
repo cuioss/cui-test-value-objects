@@ -116,7 +116,7 @@ public class MapperAttributesAsserts {
         for (String name : sourceAttributes) {
             var concreteAsserts = sourceAsserts.stream().filter(a -> a.isResponsibleForSource(name)).toList();
             if (concreteAsserts.isEmpty()) {
-                LOGGER.info("Checked property '%s' is not configured to be asserted, ist this intentional?", name);
+                LOGGER.info("Checked property '%s' is not configured to be asserted, is this intentional?", name);
             } else {
                 asserts.put(name, concreteAsserts);
             }

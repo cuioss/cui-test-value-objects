@@ -39,7 +39,7 @@ public final class ReflectionUtil {
     /**
      * Verify the class implements {@link Object#equals(Object)}
      *
-     * @param clazz class to be checked, msut not be null
+     * @param clazz class to be checked, must not be null
      */
     public static void assertEqualsMethodIsOverriden(final Class<?> clazz) {
         // equals method need an object as parameter
@@ -64,7 +64,7 @@ public final class ReflectionUtil {
     }
 
     /**
-     * Verify the class implements {@link Object#hashCode()}
+     * Verify the class implements {@link Object#toString()}
      *
      * @param clazz class to be checked, must not be null
      */

@@ -19,7 +19,7 @@ import java.lang.annotation.*;
 
 /**
  * In contrast to {@link VetoObjectTestContract} that is designed for cases
- * where the tests run all {@link ObjectTestConfig}, e.g. ValueObjectTest this
+ * where the tests run all {@link ObjectTestContracts}, e.g. ValueObjectTest this
  * annotation is for opt-in cases. As default all {@link ObjectTestContract}s
  * will be run if this annotation is present, but you can Veto the individual
  * contracts

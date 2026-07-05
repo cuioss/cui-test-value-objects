@@ -56,7 +56,7 @@ public final class ReflectionHelper {
      *
      * @param annotated   must not be null
      * @param targetClass must not be null
-     * @return an immutable {@link List} of {@link PropertyMetadata} containing the
+     * @return a mutable {@link List} of {@link PropertyMetadata} containing the
      *         result of the actual scanning with
      *         {@link #scanBeanTypeForProperties(Class, PropertyReflectionConfig)}
      *         and {@link #handlePostProcess(Class, SortedSet)} and
@@ -89,7 +89,7 @@ public final class ReflectionHelper {
      * @param propertyConfig           extracted from the target class, may be empty
      *
      * @param targetClass              must not be null
-     * @return an immutable {@link List} of {@link PropertyMetadata} containing the
+     * @return a mutable {@link List} of {@link PropertyMetadata} containing the
      *         result of the actual scanning with
      *         {@link #scanBeanTypeForProperties(Class, PropertyReflectionConfig)}
      *         and {@link #handlePostProcess(Class, SortedSet)} and
@@ -222,7 +222,7 @@ public final class ReflectionHelper {
 
     private static IllegalStateException unableToDetermineGenericType(final Field field, final Throwable cause) {
         return new IllegalStateException("""
-            Unable to determine generic-type for %s, ususally this is the case with nested generics. \
+            Unable to determine generic-type for %s, usually this is the case with nested generics. \
 
             You need to provide a custom @PropertyConfig for this field and exclude it from scanning\
             , by using PropertyReflectionConfig#exclude.

@@ -43,7 +43,8 @@ public interface BuilderInstantiator<T> {
     /**
      * Actually builds the target object
      *
-     * @param builder
+     * @param builder the builder instance to invoke the build-method on, must not
+     *                be null
      * @return the Object created by the contained builder
      */
     T build(Object builder);

@@ -22,7 +22,7 @@ import de.cuioss.test.valueobjects.objects.impl.DefaultInstantiator;
  * the {@link DefaultInstantiator} uses the Default-Constructor
  *
  * @author Oliver Wolff
- * @param <T>
+ * @param <T> identifying the type of objects to be created
  */
 public interface ObjectInstantiator<T> {
 

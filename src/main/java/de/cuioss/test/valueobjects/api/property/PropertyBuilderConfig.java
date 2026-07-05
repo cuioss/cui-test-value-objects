@@ -55,8 +55,8 @@ public @interface PropertyBuilderConfig {
     /**
      * In case methodPrefix is not set the corresponding build method to be accessed
      * for setting the value is the name of the attribute: propertyName(), in case
-     * it is a concrete value, e.g. 'with' it will taken into account:
-     * withPropertName().
+     * it is a concrete value, e.g. 'with' it will be taken into account:
+     * withPropertyName().
      *
      * @return the method prefix, defaults to empty string
      */

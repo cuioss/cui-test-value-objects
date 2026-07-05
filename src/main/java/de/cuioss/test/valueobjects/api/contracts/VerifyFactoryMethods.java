@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
 public @interface VerifyFactoryMethods {
 
     /**
-     * @return an array of {@link VerifyConstructor}.
+     * @return an array of {@link VerifyFactoryMethod}.
      */
     VerifyFactoryMethod[] value();
 }
