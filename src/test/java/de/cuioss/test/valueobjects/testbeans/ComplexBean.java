@@ -127,7 +127,7 @@ public class ComplexBean implements Serializable {
         metadata.add(STRINGS.metadataBuilder(ATTRIBUTE_TRANSIENT_STRING)
             .propertyMemberInfo(PropertyMemberInfo.TRANSIENT).build());
         metadata.add(STRINGS.metadataBuilder(ATTRIBUTE_NO_OBJECT_IDENTITY_STRING)
-            .propertyMemberInfo(PropertyMemberInfo.NO_IDENTITY).build());
+            .propertyMemberInfo(PropertyMemberInfo.UNDEFINED).build());
         return metadata;
     }
 
