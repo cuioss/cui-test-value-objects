@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +22,7 @@ import de.cuioss.test.valueobjects.testbeans.mapper.SimpleSourceBean;
 import de.cuioss.test.valueobjects.testbeans.mapper.SimpleTargetBean;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @VerifyMapperConfiguration(equals = {"firstname:nameFirst", "lastname:nameLast", "attributeList:listOfAttributes"})
 class BaseMapperTestTest extends MapperTest<SimpleMapper, SimpleSourceBean, SimpleTargetBean> {

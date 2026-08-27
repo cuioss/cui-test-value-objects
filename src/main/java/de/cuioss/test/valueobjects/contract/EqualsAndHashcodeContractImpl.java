@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -306,7 +306,7 @@ public class EqualsAndHashcodeContractImpl implements ObjectTestContract {
         final var msgNotEqualsObject = "Expected result for equals(new Object()) will be 'false'. Class was : "
             + underTest.getClass();
 
-        assertFalse(underTest.equals(new Object()), msgNotEqualsObject);
+        assertNotEquals(underTest, new Object(), msgNotEqualsObject);
 
         final var msgEqualsToSelf = "Expected result for equals(underTest) will be 'true'. Class was : "
             + underTest.getClass();

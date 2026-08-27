@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,33 +47,33 @@ public enum PropertyAccessStrategy {
      *
      */
     BEAN_PROPERTY {
-        @Override
-        public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
-            final Object propertyValue) {
-            assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
-            assertNotNull(propertyMetadata, PROPERTY_METADATA_MUST_NOT_BE_NULL);
-            try {
-                PropertyUtil.setProperty(target, propertyMetadata.getName(), propertyValue);
-                return target;
-            } catch (IllegalArgumentException | IllegalStateException e) {
-                throw new AssertionError(UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
-                    ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
-            }
-
+    @Override
+    public Object writeProperty(final Object target, final PropertyMetadata propertyMetadata,
+        final Object propertyValue) {
+        assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
+        assertNotNull(propertyMetadata, PROPERTY_METADATA_MUST_NOT_BE_NULL);
+        try {
+            PropertyUtil.setProperty(target, propertyMetadata.getName(), propertyValue);
+            return target;
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            throw new AssertionError(UNABLE_TO_SET_PROPERTY.formatted(propertyMetadata.getName(),
+                ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
         }
 
-        @Override
-        public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
-            assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
-            assertNotNull(propertyMetadata, PROPERTY_METADATA_MUST_NOT_BE_NULL);
-            try {
-                return PropertyUtil.readProperty(target, propertyMetadata.getName());
-            } catch (IllegalArgumentException | IllegalStateException e) {
-                throw new AssertionError(UNABLE_TO_READ_PROPERTY.formatted(propertyMetadata.getName(),
-                    ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
-            }
+    }
+
+    @Override
+    public Object readProperty(final Object target, final PropertyMetadata propertyMetadata) {
+        assertNotNull(target, TARGET_MUST_NOT_BE_NULL);
+        assertNotNull(propertyMetadata, PROPERTY_METADATA_MUST_NOT_BE_NULL);
+        try {
+            return PropertyUtil.readProperty(target, propertyMetadata.getName());
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            throw new AssertionError(UNABLE_TO_READ_PROPERTY.formatted(propertyMetadata.getName(),
+                ExceptionHelper.extractCauseMessageFromThrowable(e)), e);
         }
-    },
+    }
+},
     /**
      * In some cases the builder supports multiple ways to fill {@link Collection}
      * based elements, e.g. there is a field with the structure

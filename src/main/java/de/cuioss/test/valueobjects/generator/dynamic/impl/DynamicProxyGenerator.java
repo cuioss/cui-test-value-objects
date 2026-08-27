@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,9 @@ public class DynamicProxyGenerator<T> implements TypedGenerator<T> {
             final var proxyFactory = new ProxyFactory();
             proxyFactory.setSuperclass(type);
             createClassType = proxyFactory.createClass();
-        } catch (final RuntimeException e) {
+        }
+        /*TODO: Catch specific not RuntimeException. Suppress: // cui-rewrite:disable InvalidExceptionUsageRecipe*/
+        catch (final RuntimeException e) {
             LOGGER.warn(e, "Unable to create javassist proxy for type %s", type);
             return Optional.empty();
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,18 +34,18 @@ import static org.junit.jupiter.api.Assertions.*;
 enum MappingAssertStrategy {
 
     EQUALS {
-        @Override
-        public void assertMapping(PropertySupport sourceProperty, Object sourceObject, PropertySupport targetProperty,
-            Object targetObject) {
-            targetProperty.assertValueSet(targetObject, sourceProperty.readProperty(sourceObject));
-        }
+    @Override
+    public void assertMapping(PropertySupport sourceProperty, Object sourceObject, PropertySupport targetProperty,
+        Object targetObject) {
+        targetProperty.assertValueSet(targetObject, sourceProperty.readProperty(sourceObject));
+    }
 
-        @Override
-        public List<MappingTuple> readConfiguration(VerifyMapperConfiguration config) {
-            return mutableList(config.equals()).stream().map(mapping -> new MappingTuple(mapping, this)).toList();
-        }
+    @Override
+    public List<MappingTuple> readConfiguration(VerifyMapperConfiguration config) {
+        return mutableList(config.equals()).stream().map(mapping -> new MappingTuple(mapping, this)).toList();
+    }
 
-    },
+},
     NOT_NULL {
         @Override
         public void assertMapping(PropertySupport sourceProperty, Object sourceObject, PropertySupport targetProperty,

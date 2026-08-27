@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import de.cuioss.test.valueobjects.api.VerifyMapperConfiguration;
 import de.cuioss.test.valueobjects.api.property.PropertyConfig;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.test.valueobjects.generator.TypedGeneratorRegistry;
-import de.cuioss.test.valueobjects.testbeans.ComplexBean;
 import de.cuioss.test.valueobjects.mapper.support.EntryDto;
 import de.cuioss.test.valueobjects.mapper.support.EntryDtoToComplexBeanMapper;
 import de.cuioss.test.valueobjects.mapper.support.MapEntryGenerator;
@@ -28,6 +27,7 @@ import de.cuioss.test.valueobjects.objects.ParameterizedInstantiator;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.objects.impl.ConstructorBasedInstantiator;
 import de.cuioss.test.valueobjects.property.util.CollectionType;
+import de.cuioss.test.valueobjects.testbeans.ComplexBean;
 import de.cuioss.test.valueobjects.util.GeneratorAnnotationHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
