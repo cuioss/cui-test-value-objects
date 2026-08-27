@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ package de.cuioss.test.valueobjects.junit5.testbeans;
 
 import de.cuioss.test.generator.Generators;
 import de.cuioss.test.valueobjects.api.TestContract;
-import de.cuioss.test.valueobjects.contract.MockTestContract;
 import de.cuioss.test.valueobjects.api.contracts.VerifyCopyConstructor;
+import de.cuioss.test.valueobjects.contract.MockTestContract;
 import de.cuioss.test.valueobjects.objects.RuntimeProperties;
 import de.cuioss.test.valueobjects.objects.impl.ConstructorBasedInstantiator;
 import de.cuioss.test.valueobjects.property.PropertyMetadata;

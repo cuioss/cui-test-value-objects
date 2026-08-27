@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Proxy;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DefaultInvocationHandlerTest {
 
@@ -33,7 +29,7 @@ class DefaultInvocationHandlerTest {
 
     private static Sample newProxy(final DefaultInvocationHandler handler) {
         return (Sample) Proxy.newProxyInstance(DefaultInvocationHandlerTest.class.getClassLoader(),
-            new Class<?>[] { Sample.class }, handler);
+            new Class<?>[]{Sample.class}, handler);
     }
 
     @Test
@@ -57,12 +53,12 @@ class DefaultInvocationHandlerTest {
         final var proxy = newProxy(handler);
 
         // reflexive
-        assertTrue(proxy.equals(proxy));
+        assertEquals(proxy, proxy);
         // null-safe
         assertFalse(proxy.equals(null));
         // two proxies backed by the same handler and interfaces are equal
-        assertTrue(proxy.equals(newProxy(handler)));
+        assertEquals(proxy, newProxy(handler));
         // proxies backed by different handlers are not equal
-        assertFalse(proxy.equals(newProxy(new DefaultInvocationHandler())));
+        assertNotEquals(proxy, newProxy(new DefaultInvocationHandler()));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -143,7 +143,9 @@ public class BuilderFactoryBasedInstantiator<T> implements BuilderInstantiator<T
     public T build(final Object builder) {
         try {
             return (T) builderMethod.invoke(builder);
-        } catch (IllegalAccessException | InvocationTargetException | RuntimeException e) {
+        }
+        /*TODO: Catch specific not RuntimeException. Suppress: // cui-rewrite:disable InvalidExceptionUsageRecipe*/
+        catch (IllegalAccessException | InvocationTargetException | RuntimeException e) {
             final var message = UNABLE_TO_ACCESS_METHOD.formatted(builderMethod.getName(), builderClass.getName(),
                 extractCauseMessageFromThrowable(e));
             LOGGER.debug(message, e);

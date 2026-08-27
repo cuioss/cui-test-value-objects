@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,17 +41,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Function;
 
-import static de.cuioss.test.valueobjects.util.ReflectionHelper.handlePostProcessConfig;
-import static de.cuioss.test.valueobjects.util.ReflectionHelper.handlePropertyMetadata;
-import static de.cuioss.test.valueobjects.util.ReflectionHelper.scanBeanTypeForProperties;
-import static de.cuioss.test.valueobjects.util.ReflectionHelper.shouldScanClass;
+import static de.cuioss.test.valueobjects.util.ReflectionHelper.*;
 import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -90,7 +83,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @param <S> Source: The type of the source-Objects to be mapped from
  * @param <T> Target: The type of the source-Objects to be mapped to
  */
-@SuppressWarnings("squid:S2187") // Base class for tests
+@SuppressWarnings("squid:S2187")
+// Base class for tests
 @ExtendWith({GeneratorControllerExtension.class, GeneratorRegistryController.class})
 public class MapperTest<M extends Function<S, T>, S, T> implements GeneratorRegistry, TestObjectProvider<M> {
 
