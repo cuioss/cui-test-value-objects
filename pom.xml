@@ -35,7 +35,7 @@
     </issueManagement>
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
-        <version.javassist>3.32.0-GA</version.javassist>
+        <version.javassist>3.33.0-GA</version.javassist>
         <maven.jar.plugin.automatic.module.name>de.cuioss.test.valueobjects</maven.jar.plugin.automatic.module.name>
     </properties>
     <dependencies>
