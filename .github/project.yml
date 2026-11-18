@@ -6,6 +6,9 @@ release:
   next-version: 2.1-SNAPSHOT
   create-github-release: true
 
+maven-build:
+  java-versions: '["21","25","27"]'
+
 sonar:
   project-key: cuioss_cui-test-value-objects
 
