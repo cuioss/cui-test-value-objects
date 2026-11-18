@@ -17,7 +17,11 @@ package de.cuioss.test.valueobjects.property.impl;
 
 import de.cuioss.test.valueobjects.property.PropertyMetadata;
 import de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Delegate;
 
 import static de.cuioss.tools.string.MoreStrings.emptyToNull;

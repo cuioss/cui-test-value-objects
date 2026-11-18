@@ -17,7 +17,11 @@ package de.cuioss.test.valueobjects.util;
 
 import de.cuioss.test.generator.Generators;
 import de.cuioss.test.generator.impl.CollectionGenerator;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;

@@ -19,7 +19,11 @@ import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.property.util.AssertionStrategy;
 import de.cuioss.test.valueobjects.property.util.CollectionAsserts;
 import de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy;
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Objects;
 
